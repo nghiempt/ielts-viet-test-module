@@ -84,7 +84,7 @@ export default function HomePage() {
           </div>
         </div>
         <div className="w-1/2 flex justify-end items-center">
-          <img src="https://scontent.fsgn2-5.fna.fbcdn.net/v/t39.30808-6/454277669_122159047598053425_7730570542415368807_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHdMr9YCue3Rnbyy45oBsv5OLhPL_JvqOQ4uE8v8m-o5O_vf6w4cnaOEWpRR5EDhP6AE0vLKhtMMYjr2HzqFCk6&_nc_ohc=_OZ-YnnrHGsQ7kNvgH1nbCY&_nc_zt=23&_nc_ht=scontent.fsgn2-5.fna&_nc_gid=Al34xMdshW4viVsthcwcGm3&oh=00_AYAx9ciY1001yilDVgz0XkhVthhDwBGWWSqWlU1dm08h3A&oe=672D8A4C" alt="alt" className="w-5/6 rounded-lg" />
+          <img src="https://res.cloudinary.com/farmcode/image/upload/v1730742319/ielts-viet/wcbfgroi7dyfkhyp6ada.png" alt="alt" className="w-5/6 rounded-lg" />
         </div>
       </div>
       <div className="w-full bg-orange-100 py-8 my-10">
@@ -107,10 +107,10 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      {/* <div className="bg-white py-12">
+      <div className="w-full mb-10">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-800">Lộ trình học IELTS</h2>
-          <p className="text-gray-500 mt-2">
+          <p className="text-gray-500 mt-6 mb-2">
             Được giám khảo chấm thi IELTS xây dựng, đảm bảo tính chính xác, trọng tâm và bám sát với kỳ thi IELTS thực tế
           </p>
         </div>
@@ -122,50 +122,45 @@ export default function HomePage() {
           <button className="px-4 py-2 bg-gray-100 text-gray-800 font-semibold rounded-full">Mục tiêu IELTS 6.5+</button>
           <button className="px-4 py-2 bg-gray-100 text-gray-800 font-semibold rounded-full">Mục tiêu IELTS 7.5+</button>
         </div>
-        <div className="flex flex-wrap justify-center gap-8 mt-8 max-w-5xl mx-auto">
-          <div className="bg-white rounded-lg shadow-md p-6 w-80 relative">
-            <img src="https://via.placeholder.com/300x150" alt="IELTS Foundation" className="w-full rounded-lg mb-4" />
-            <h3 className="text-lg font-bold text-gray-800">IELTS Foundation</h3>
-            <p className="text-orange-500 font-semibold text-lg">9.488.000 VND</p>
-            <p className="text-gray-500 text-sm">36 giờ (8 tuần)</p>
-            <ul className="mt-2 text-gray-700 space-y-1">
-              <li>✔️ Đầu vào: 3.5 - 4.0 | Đầu ra: 4.5+</li>
-              <li>✔️ Có nền tảng tiếng Anh cơ bản</li>
-              <li>✔️ Chưa tự tin sử dụng tiếng Anh trong môi trường học thuật và giao tiếp</li>
-              <li>✔️ Tăng vốn từ và ngữ pháp, luyện phát âm và phản xạ</li>
-            </ul>
-            <button className="mt-4 px-4 py-2 bg-orange-500 text-white font-semibold rounded-full">Tìm hiểu thêm</button>
-            <div className="absolute bottom-4 left-4 text-center">
-              <span className="block text-orange-500 font-bold text-xl">4.5+</span>
-              <span className="text-gray-500 text-sm">Điểm đầu ra</span>
+        <div className="w-full flex justify-center items-center mt-8">
+          <div className="w-3/4 grid grid-cols-2 justify-center items-center gap-6">
+            <div className="w-full bg-white rounded-xl shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-2 relative flex justify-center items-center gap-6">
+              <img src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/448624343_122188562204023936_1427625599855996507_n.jpg?stp=cp6_dst-jpg&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGWgyL0HkvTkE6b6pZ-aiGLAasASobVwvIBqwBKhtXC8sDQqv9e2NyljGq0uvbw75d24nRiqERNrgPmiR8Uj7iX&_nc_ohc=PYWzDGKg5vYQ7kNvgFnTSTk&_nc_zt=23&_nc_ht=scontent.fsgn5-10.fna&_nc_gid=AYP3H2BIy_xH1xoaMOuQuxk&oh=00_AYAsgHkL_ZV8NJhmSqwbtdJragiIaQkEzPd4Obo68iahfA&oe=672ED482" alt="alt" className="w-[320px] h-[380px] rounded-xl" />
+              <div>
+                <h3 className="text-xl font-bold text-gray-800">IELTS Foundation</h3>
+                <div className="flex justify-start items-center gap-4 my-4">
+                  <p className="text-orange-500 font-semibold text-lg">9.488.000 VND</p>
+                  <p className="text-gray-500 text-sm">36 giờ (8 tuần)</p>
+                </div>
+                <ul className="mt-2 text-gray-700 space-y-1">
+                  <li>✔️ Đầu vào: 3.5 - 4.0 | Đầu ra: 4.5+</li>
+                  <li>✔️ Có nền tảng tiếng Anh cơ bản</li>
+                  <li>✔️ Chưa tự tin sử dụng tiếng Anh trong môi trường học thuật và giao tiếp</li>
+                  <li>✔️ Tăng vốn từ và ngữ pháp, luyện phát âm và phản xạ</li>
+                </ul>
+                <button className="mt-8 px-4 py-2 border border-orange-500 text-orange-500 font-semibold rounded-full">Tìm hiểu thêm</button>
+              </div>
             </div>
-            <div className="absolute bottom-4 right-4 text-center">
-              <span className="block text-gray-800 font-bold text-xl">04</span>
-              <span className="text-gray-500 text-sm">Kỹ năng</span>
-            </div>
-          </div>
-          <div className="bg-white rounded-lg shadow-md p-6 w-80 relative">
-            <img src="https://via.placeholder.com/300x150" alt="Pre-IELTS" className="w-full rounded-lg mb-4" />
-            <h3 className="text-lg font-bold text-gray-800">Pre-IELTS</h3>
-            <p className="text-orange-500 font-semibold text-lg">9.889.000 VND</p>
-            <p className="text-gray-500 text-sm">36 giờ (8 tuần)</p>
-            <ul className="mt-2 text-gray-700 space-y-1">
-              <li>✔️ Đầu vào: 4.5 | Đầu ra: 5.0+</li>
-              <li>✔️ Làm quen với các chủ đề cơ bản nhất để nắm được cấu trúc bài thi và cách làm bài thi IELTS</li>
-              <li>✔️ Tăng vốn từ và ngữ pháp, luyện phát âm và phản xạ</li>
-            </ul>
-            <button className="mt-4 px-4 py-2 border border-orange-500 text-orange-500 font-semibold rounded-full">Tìm hiểu thêm</button>
-            <div className="absolute bottom-4 left-4 text-center">
-              <span className="block text-orange-500 font-bold text-xl">5.0+</span>
-              <span className="text-gray-500 text-sm">Điểm đầu ra</span>
-            </div>
-            <div className="absolute bottom-4 right-4 text-center">
-              <span className="block text-gray-800 font-bold text-xl">04</span>
-              <span className="text-gray-500 text-sm">Kỹ năng</span>
+            <div className="w-full bg-white rounded-xl shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-2 relative flex justify-center items-center gap-6">
+              <img src="https://scontent.fsgn5-12.fna.fbcdn.net/v/t39.30808-6/449304507_122190859112023936_8558148362142286384_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGweVW5C00UPj9PSgB17u3VlnqWcoCIG0yWepZygIgbTJ6GY0ZRzMEgyg-0cy0584ma8B5xgIDNlDOCkbggkfjD&_nc_ohc=WH7TiVPN-BgQ7kNvgHD_l4b&_nc_zt=23&_nc_ht=scontent.fsgn5-12.fna&_nc_gid=AfSMt4yeFCo-no9lSYnUNZz&oh=00_AYDTQeD3ZL5IaYfzQh58renPK6m8YWNGaW7PexewAoI7QA&oe=672EC267" alt="alt" className="w-[320px] h-[380px] rounded-xl" />
+              <div>
+                <h3 className="text-xl font-bold text-gray-800">IELTS Foundation</h3>
+                <div className="flex justify-start items-center gap-4 my-4">
+                  <p className="text-orange-500 font-semibold text-lg">9.488.000 VND</p>
+                  <p className="text-gray-500 text-sm">36 giờ (8 tuần)</p>
+                </div>
+                <ul className="mt-2 text-gray-700 space-y-1">
+                  <li>✔️ Đầu vào: 3.5 - 4.0 | Đầu ra: 4.5+</li>
+                  <li>✔️ Có nền tảng tiếng Anh cơ bản</li>
+                  <li>✔️ Chưa tự tin sử dụng tiếng Anh trong môi trường học thuật và giao tiếp</li>
+                  <li>✔️ Tăng vốn từ và ngữ pháp, luyện phát âm và phản xạ</li>
+                </ul>
+                <button className="mt-8 px-4 py-2 border border-orange-500 text-orange-500 font-semibold rounded-full">Tìm hiểu thêm</button>
+              </div>
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
       {/* <div className="bg-white py-12">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-800">Đội ngũ Chuyên gia</h2>
