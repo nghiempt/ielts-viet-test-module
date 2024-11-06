@@ -161,117 +161,96 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      {/* <div className="bg-white py-12">
+      <div className="w-full pt-8 pb-20">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800">Đội ngũ Chuyên gia</h2>
-          <p className="text-gray-500 mt-2">
+          <h2 className="text-3xl font-bold text-gray-800">Đội Ngũ Chuyên Gia</h2>
+          <p className="text-gray-500 mt-4">
             Giảng viên bản ngữ, <span className="text-orange-500">80% là cựu giám khảo IELTS</span>, cùng cố vấn người Việt đạt 8.0+, đem lại phương pháp toàn diện, hiệu quả cho học viên Việt Nam.
           </p>
         </div>
-        <div className="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-80 relative">
-            <img src="https://via.placeholder.com/150" alt="Andy Robertson" className="w-32 h-32 rounded-full mx-auto mb-4" />
-            <img src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_Kingdom.svg" alt="UK Flag" className="w-8 h-8 absolute top-4 left-4 rounded-full" />
-            <h3 className="text-xl font-bold text-gray-800 text-center">Thầy Andy Robertson</h3>
+        <div className="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto mt-10">
+          <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-6 w-80 relative">
+            <img src="https://res.cloudinary.com/farmcode/image/upload/v1730890283/ielts-viet/gkhowebkdnpe6w6xbvgr.png" alt="Andy Robertson" className="w-32 h-32 rounded-full mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-800 text-center">Thầy Trương Hoàng Hậu</h3>
             <ul className="mt-4 text-gray-700 space-y-1 text-center">
-              <li>✔️ Chứng chỉ TEFL (2006)</li>
-              <li>✔️ Cử nhân danh dự - Khoa học Kinh Tế - Đại học Wales, Anh</li>
-              <li>✔️ Thạc sĩ Khoa Học Xã Hội – Đại học Lund, Thụy Điển</li>
-            </ul>
-          </div>
-          <div className="bg-white rounded-lg shadow-lg p-6 w-80 relative">
-            <img src="https://via.placeholder.com/150" alt="Denise Thomson" className="w-32 h-32 rounded-full mx-auto mb-4" />
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_Australia_%28converted%29.svg" alt="Australia Flag" className="w-8 h-8 absolute top-4 left-4 rounded-full" />
-            <h3 className="text-xl font-bold text-gray-800 text-center">Cô Denise Thomson</h3>
-            <ul className="mt-4 text-gray-700 space-y-1 text-center">
-              <li>✔️ Chứng chỉ TEFL (2006)</li>
-              <li>✔️ Cử nhân Giáo dục - Đại học Auckland (1988)</li>
-              <li>✔️ Nghiên cứu Giảng dạy nâng cao - Đại học Sư phạm Auckland (1989)</li>
-            </ul>
-          </div>
-          <div className="bg-white rounded-lg shadow-lg p-6 w-80 relative">
-            <img src="https://via.placeholder.com/150" alt="Hamish McNair-Wilson" className="w-32 h-32 rounded-full mx-auto mb-4" />
-            <img src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_Kingdom.svg" alt="UK Flag" className="w-8 h-8 absolute top-4 left-4 rounded-full" />
-            <h3 className="text-xl font-bold text-gray-800 text-center">Thầy Hamish McNair-Wilson</h3>
-            <ul className="mt-4 text-gray-700 space-y-1 text-center">
-              <li>✔️ Chứng chỉ CELTA (2009)</li>
-              <li>✔️ Cử nhân Lịch Sử và Chính Trị - Đại học Durham, Anh</li>
-              <li>✔️ Chứng chỉ TKT band 4 (2015)</li>
+              <li>✔️ Chứng chỉ</li>
+              <li>✔️ Cử nhân</li>
+              <li>✔️ Thạc sĩ</li>
             </ul>
           </div>
         </div>
-      </div> */}
-      {/* <div className="bg-white py-12">
+      </div>
+      <div className="w-full flex flex-col justify-center items-center pb-20">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800">Đặc quyền của học viên KTDC</h2>
+          <h2 className="text-3xl font-bold text-gray-800">Đặc quyền của học viên Ielts Việt</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          <div className="bg-yellow-50 p-6 rounded-lg shadow-md">
+        <div className="w-3/4 grid grid-cols-2 gap-6">
+          <div className="bg-orange-50 p-6 rounded-lg shadow-md">
             <h3 className="text-lg font-bold text-gray-800">Phương pháp Total Immersion</h3>
             <p className="mt-2 text-gray-600">
               Chúng tôi tạo môi trường học tập 100% tiếng Anh với phương pháp độc quyền, giúp học viên tiến bộ nhanh hơn 40% so với cách học truyền thống. Không chỉ hướng đến điểm số, chúng tôi tập trung vào khả năng ứng dụng kiến thức thực tế của học viên.
             </p>
           </div>
-          <div className="bg-yellow-50 p-6 rounded-lg shadow-md">
+          <div className="bg-orange-50 p-6 rounded-lg shadow-md">
             <h3 className="text-lg font-bold text-gray-800">Đội ngũ giảng viên đầu ngành</h3>
             <p className="mt-2 text-gray-600">
               Được dẫn dắt bởi các cựu giám khảo IELTS, giảng viên với chứng chỉ CELTA, DELTA và nhiều năm kinh nghiệm, học viên nhận được sự hỗ trợ 1:1 cho Speaking và Writing. Giảng viên điều chỉnh phương pháp giảng dạy phù hợp với từng học viên.
             </p>
           </div>
-          <div className="bg-yellow-50 p-6 rounded-lg shadow-md">
+          <div className="bg-orange-50 p-6 rounded-lg shadow-md">
             <h3 className="text-lg font-bold text-gray-800">Công nghệ AI tiên tiến</h3>
             <p className="mt-2 text-gray-600">
-              KTDC là đơn vị đầu tiên tại Việt Nam ứng dụng AI để luyện tập đủ 4 kỹ năng IELTS. Hệ thống cung cấp phản hồi chi tiết theo tiêu chuẩn IELTS, kết hợp nền tảng LMS hỗ trợ học tập 24/7.
+              Ielts Việt là đơn vị đầu tiên tại Việt Nam ứng dụng AI để luyện tập đủ 4 kỹ năng IELTS. Hệ thống cung cấp phản hồi chi tiết theo tiêu chuẩn IELTS, kết hợp nền tảng LMS hỗ trợ học tập 24/7.
             </p>
           </div>
-          <div className="bg-yellow-50 p-6 rounded-lg shadow-md">
+          <div className="bg-orange-50 p-6 rounded-lg shadow-md">
             <h3 className="text-lg font-bold text-gray-800">Cam kết kết quả</h3>
             <p className="mt-2 text-gray-600">
               Với 15 năm kinh nghiệm đào tạo, chúng tôi cam kết đầu ra hoặc học lại miễn phí. Học viên được hỗ trợ toàn diện, từ kiến thức đến tâm lý trước kỳ thi.
             </p>
           </div>
         </div>
-      </div> */}
-      {/* <div className="bg-white py-12">
+      </div>
+      <div className="w-full pb-20">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800">Cộng đồng Alumni</h2>
-          <p className="text-gray-500 mt-2">
-            KTDC tin rằng với mỗi hành trình đã đi qua, học viên đều có những câu chuyện truyền cảm hứng của riêng mình.
+          <h2 className="text-3xl font-bold text-gray-800">Cộng đồng Ielt Việt</h2>
+          <p className="text-gray-500 mt-4">
+          Ielt Việt tin rằng với mỗi hành trình đã đi qua, học viên đều có những câu chuyện truyền cảm hứng của riêng mình.
           </p>
         </div>
         <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
           <div className="bg-white rounded-lg shadow-md w-80">
-            <img src="https://via.placeholder.com/300x200" alt="Nguyễn Thụy Như Phương" className="w-full h-48 rounded-t-lg" />
+            <img src="https://scontent.fsgn5-8.fna.fbcdn.net/v/t39.30808-6/452104939_122195342294023936_2949067571913687341_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFdBZnW00NPiZwupJWkKYFok54p0mFEJ3yTninSYUQnfNFtP3gUjog3AR2tahduf44z8PoY7LF0Ih_Cq4vGu5Gv&_nc_ohc=HqWIZA6LLPAQ7kNvgGSRFDu&_nc_zt=23&_nc_ht=scontent.fsgn5-8.fna&_nc_gid=Am1niY4-gL4yKSHCh_-2MHe&oh=00_AYA5-8x-FEosgxuOjAdrDNxqSp8TpJ_IQE_Zv5P4DeGXng&oe=67312874" alt="alt" className="w-full rounded-t-lg" />
             <div className="p-4">
               <div className="flex items-center mb-2">
-                <span className="bg-yellow-100 text-orange-500 font-bold text-lg rounded-full px-2 py-1">8.5</span>
-                <h3 className="ml-4 font-bold text-gray-800">Nguyễn Thụy Như Phương</h3>
+                <span className="bg-orange-100 text-orange-500 font-bold text-lg rounded-full px-2 py-2">8.5</span>
+                <h3 className="ml-4 font-bold text-gray-800">Nguyễn Văn A</h3>
               </div>
-              <p className="text-gray-600">THPT Trần Phú</p>
+              <p className="text-gray-600">THPT A</p>
             </div>
           </div>
           <div className="bg-white rounded-lg shadow-md w-80">
-            <img src="https://via.placeholder.com/300x200" alt="Huỳnh Đức Nguyễn Khang" className="w-full h-48 rounded-t-lg" />
+            <img src="https://scontent.fsgn5-8.fna.fbcdn.net/v/t39.30808-6/452104939_122195342294023936_2949067571913687341_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFdBZnW00NPiZwupJWkKYFok54p0mFEJ3yTninSYUQnfNFtP3gUjog3AR2tahduf44z8PoY7LF0Ih_Cq4vGu5Gv&_nc_ohc=HqWIZA6LLPAQ7kNvgGSRFDu&_nc_zt=23&_nc_ht=scontent.fsgn5-8.fna&_nc_gid=Am1niY4-gL4yKSHCh_-2MHe&oh=00_AYA5-8x-FEosgxuOjAdrDNxqSp8TpJ_IQE_Zv5P4DeGXng&oe=67312874" alt="alt" className="w-full rounded-t-lg" />
             <div className="p-4">
               <div className="flex items-center mb-2">
-                <span className="bg-yellow-100 text-orange-500 font-bold text-lg rounded-full px-2 py-1">8.5</span>
-                <h3 className="ml-4 font-bold text-gray-800">Huỳnh Đức Nguyễn Khang</h3>
+                <span className="bg-orange-100 text-orange-500 font-bold text-lg rounded-full px-2 py-2">8.5</span>
+                <h3 className="ml-4 font-bold text-gray-800">Nguyễn Văn A</h3>
               </div>
-              <p className="text-gray-600">THPT Năng Khiếu ĐHQG TPHCM</p>
+              <p className="text-gray-600">THPT A</p>
             </div>
           </div>
           <div className="bg-white rounded-lg shadow-md w-80">
-            <img src="https://via.placeholder.com/300x200" alt="Trần Lê Phương Quỳnh" className="w-full h-48 rounded-t-lg" />
+            <img src="https://scontent.fsgn5-8.fna.fbcdn.net/v/t39.30808-6/452104939_122195342294023936_2949067571913687341_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFdBZnW00NPiZwupJWkKYFok54p0mFEJ3yTninSYUQnfNFtP3gUjog3AR2tahduf44z8PoY7LF0Ih_Cq4vGu5Gv&_nc_ohc=HqWIZA6LLPAQ7kNvgGSRFDu&_nc_zt=23&_nc_ht=scontent.fsgn5-8.fna&_nc_gid=Am1niY4-gL4yKSHCh_-2MHe&oh=00_AYA5-8x-FEosgxuOjAdrDNxqSp8TpJ_IQE_Zv5P4DeGXng&oe=67312874" alt="alt" className="w-full rounded-t-lg" />
             <div className="p-4">
               <div className="flex items-center mb-2">
-                <span className="bg-yellow-100 text-orange-500 font-bold text-lg rounded-full px-2 py-1">8.5</span>
-                <h3 className="ml-4 font-bold text-gray-800">Trần Lê Phương Quỳnh</h3>
+                <span className="bg-orange-100 text-orange-500 font-bold text-lg rounded-full px-2 py-2">8.5</span>
+                <h3 className="ml-4 font-bold text-gray-800">Nguyễn Văn A</h3>
               </div>
-              <p className="text-gray-600">THPT Chuyên Trần Đại Nghĩa</p>
+              <p className="text-gray-600">THPT A</p>
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
       {/* <div className="bg-white py-12">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-800">Học viên nói gì về KTDC</h2>
