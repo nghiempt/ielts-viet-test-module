@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { data } from "./data"
 
 export default function HomePage() {
   return (
@@ -83,28 +84,19 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-        <div className="w-1/2 flex justify-end items-center">
-          <img src="https://res.cloudinary.com/farmcode/image/upload/v1730742319/ielts-viet/wcbfgroi7dyfkhyp6ada.png" alt="alt" className="w-5/6 rounded-lg" />
+        <div className="w-1/2 flex justify-end items-start relative">
+          <img src="https://res.cloudinary.com/farmcode/image/upload/v1731055890/ielts-viet/solffftvy8bkth7b1vhz.png" alt="alt" className="w-5/6 rounded-lg border-[1.5px] border-orange-500" />
+          <img src="https://res.cloudinary.com/farmcode/image/upload/v1730742319/ielts-viet/wcbfgroi7dyfkhyp6ada.png" alt="alt" className="w-5/6 rounded-lg absolute top-6 left-16 border-[1.5px] border-blue-800" />
         </div>
       </div>
-      <div className="w-full bg-orange-100 py-8 my-10">
-        <div className="flex justify-center items-center gap-10">
-          <div className="bg-white p-4 rounded-lg shadow-md w-64 text-center">
-            <h3 className="text-orange-500 font-bold text-lg">Bảo đảm kết quả</h3>
-            <p className="text-gray-600">Yên tâm học hành</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md w-64 text-center">
-            <h3 className="text-orange-500 font-bold text-lg">80% Cựu Giám khảo</h3>
-            <p className="text-gray-600">Dạy giỏi, tận tâm</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md w-64 text-center">
-            <h3 className="text-orange-500 font-bold text-lg">40% Học nhanh hơn</h3>
-            <p className="text-gray-600">Khoa học chứng minh</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md w-64 text-center">
-            <h3 className="text-orange-500 font-bold text-lg">98% Học Viên</h3>
-            <p className="text-gray-600">Hài lòng với chất lượng</p>
-          </div>
+      <div className="w-full bg-orange-100 py-8 my-10 overflow-hidden">
+        <div className="flex justify-center items-center gap-4 animate-marquee whitespace-nowrap">
+          {data.map((item, index) => (
+            <div key={`item-${index}`} className="bg-white px-10 py-2 rounded-lg shadow-md text-center">
+              <h3 className="text-orange-500 font-bold text-lg">{item.title}</h3>
+              <p className="text-gray-600">{item.content}</p>
+            </div>
+          ))}
         </div>
       </div>
       <div className="w-full mb-10">
@@ -215,7 +207,7 @@ export default function HomePage() {
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-800">Cộng đồng Ielt Việt</h2>
           <p className="text-gray-500 mt-4">
-          Ielt Việt tin rằng với mỗi hành trình đã đi qua, học viên đều có những câu chuyện truyền cảm hứng của riêng mình.
+            Ielt Việt tin rằng với mỗi hành trình đã đi qua, học viên đều có những câu chuyện truyền cảm hứng của riêng mình.
           </p>
         </div>
         <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
@@ -251,22 +243,22 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      {/* <div className="bg-white py-12">
+      <div className="w-full flex flex-col justify-center items-center">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800">Học viên nói gì về KTDC</h2>
+          <h2 className="text-3xl font-bold text-gray-800">Học viên nói gì về Ielt Việt</h2>
           <p className="text-gray-500 mt-2">
-            Những chia sẻ từ học viên trong suốt 15 năm qua
+            Những chia sẻ từ học viên trong suốt 4 năm qua
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          <div className="bg-white rounded-lg shadow-md p-6 relative">
+        <div className="w-3/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-6 relative">
             <div className="flex items-center space-x-2 mb-4">
-              <img src="https://via.placeholder.com/50" alt="Avatar" className="w-10 h-10 rounded-full" />
+              <img src="https://cdn-icons-png.flaticon.com/128/149/149071.png" alt="Avatar" className="w-10 h-10 rounded-full" />
               <h3 className="font-bold text-gray-800">Ngọc Anh</h3>
               <span className="text-orange-500 text-2xl font-bold absolute top-4 right-4">“</span>
             </div>
             <p className="text-gray-600 text-sm">
-              Mình chỉ mới bắt đầu học ielts từ hè năm nay, lúc đó kiến thức về tiếng anh của mình chỉ coi là đủ dùng và ở mức 4.5(?). Nhưng sau khi học tại KTDC được 2 tháng và giờ...
+              Mình chỉ mới bắt đầu học ielts từ hè năm nay, lúc đó kiến thức về tiếng anh của mình chỉ coi là đủ dùng và ở mức 4.5(?). Nhưng sau khi học tại Ielt Việt được 2 tháng và giờ...
             </p>
             <div className="flex items-center justify-between mt-4">
               <div className="flex items-center space-x-1 text-gray-500">
@@ -275,9 +267,9 @@ export default function HomePage() {
               <a href="#" className="text-blue-500 text-sm font-semibold">Xem chi tiết</a>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-md p-6 relative">
+          <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-6 relative">
             <div className="flex items-center space-x-2 mb-4">
-              <img src="https://via.placeholder.com/50" alt="Avatar" className="w-10 h-10 rounded-full" />
+              <img src="https://cdn-icons-png.flaticon.com/128/149/149071.png" alt="Avatar" className="w-10 h-10 rounded-full" />
               <h3 className="font-bold text-gray-800">Hồ Nguyên Khang</h3>
               <span className="text-orange-500 text-2xl font-bold absolute top-4 right-4">“</span>
             </div>
@@ -291,9 +283,9 @@ export default function HomePage() {
               <a href="#" className="text-blue-500 text-sm font-semibold">Xem chi tiết</a>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-md p-6 relative">
+          <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-6 relative">
             <div className="flex items-center space-x-2 mb-4">
-              <img src="https://via.placeholder.com/50" alt="Avatar" className="w-10 h-10 rounded-full" />
+              <img src="https://cdn-icons-png.flaticon.com/128/149/149071.png" alt="Avatar" className="w-10 h-10 rounded-full" />
               <h3 className="font-bold text-gray-800">Le Nha Thy</h3>
               <span className="text-orange-500 text-2xl font-bold absolute top-4 right-4">“</span>
             </div>
@@ -307,14 +299,14 @@ export default function HomePage() {
               <a href="#" className="text-blue-500 text-sm font-semibold">Xem chi tiết</a>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-md p-6 relative">
+          <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-6 relative">
             <div className="flex items-center space-x-2 mb-4">
-              <img src="https://via.placeholder.com/50" alt="Avatar" className="w-10 h-10 rounded-full" />
+              <img src="https://cdn-icons-png.flaticon.com/128/149/149071.png" alt="Avatar" className="w-10 h-10 rounded-full" />
               <h3 className="font-bold text-gray-800">Nguyễn Đình Kha</h3>
               <span className="text-orange-500 text-2xl font-bold absolute top-4 right-4">“</span>
             </div>
             <p className="text-gray-600 text-sm">
-              Mình đã có trải nghiệm học IELTS tại KTDC vô cùng tuyệt vời. Ngay từ ban đầu, mình đã được đánh giá chi tiết về trình độ và được tư vấn kỹ càng về...
+              Mình đã có trải nghiệm học IELTS tại Ielt Việt vô cùng tuyệt vời. Ngay từ ban đầu, mình đã được đánh giá chi tiết về trình độ và được tư vấn kỹ càng về...
             </p>
             <div className="flex items-center justify-between mt-4">
               <div className="flex items-center space-x-1 text-gray-500">
@@ -323,14 +315,14 @@ export default function HomePage() {
               <a href="#" className="text-blue-500 text-sm font-semibold">Xem chi tiết</a>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-md p-6 relative">
+          <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-6 relative">
             <div className="flex items-center space-x-2 mb-4">
-              <img src="https://via.placeholder.com/50" alt="Avatar" className="w-10 h-10 rounded-full" />
+              <img src="https://cdn-icons-png.flaticon.com/128/149/149071.png" alt="Avatar" className="w-10 h-10 rounded-full" />
               <h3 className="font-bold text-gray-800">Phương Linh</h3>
               <span className="text-orange-500 text-2xl font-bold absolute top-4 right-4">“</span>
             </div>
             <p className="text-gray-600 text-sm">
-              Mình học ở đây mới tháng thứ 3 nhưng mà trình độ đã cải thiện rất nhiều, tăng band chỉ sau 1 khóa học. Giáo viên siêu nhiệt tình...
+              Mình học ở đây mới tháng thứ 3 nhưng mà trình độ đã cải thiện rất nhiều, tăng band chỉ sau 1 khóa học. Cơ sở vật chất tốt, giáo trình được soạn bởi cựu examiner. Giáo viên siêu nhiệt tình...
             </p>
             <div className="flex items-center justify-between mt-4">
               <div className="flex items-center space-x-1 text-gray-500">
@@ -339,14 +331,14 @@ export default function HomePage() {
               <a href="#" className="text-blue-500 text-sm font-semibold">Xem chi tiết</a>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-md p-6 relative">
+          <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-6 relative">
             <div className="flex items-center space-x-2 mb-4">
-              <img src="https://via.placeholder.com/50" alt="Avatar" className="w-10 h-10 rounded-full" />
+              <img src="https://cdn-icons-png.flaticon.com/128/149/149071.png" alt="Avatar" className="w-10 h-10 rounded-full" />
               <h3 className="font-bold text-gray-800">Lý Vĩnh Quân</h3>
               <span className="text-orange-500 text-2xl font-bold absolute top-4 right-4">“</span>
             </div>
             <p className="text-gray-600 text-sm">
-              Mình đã học xong 2 khoá ở ktdc rồi và trường oke cực. Cơ sở vật chất tốt, giáo trình được soạn bởi cựu examiner của British Councils...
+              Mình đã học xong 2 khoá ở Ielt Việt rồi và trường oke cực. Cơ sở vật chất tốt, giáo trình được soạn bởi cựu examiner của British Councils. Giáo viên siêu nhiệt tình...
             </p>
             <div className="flex items-center justify-between mt-4">
               <div className="flex items-center space-x-1 text-gray-500">
@@ -359,11 +351,11 @@ export default function HomePage() {
         <div className="flex justify-center mt-8">
           <button className="px-6 py-2 bg-orange-500 text-white font-semibold rounded-full" >Xem thêm đánh giá</button>
         </div>
-      </div> */}
-      {/* <div className="bg-white py-12">
-        <div className="max-w-6xl mx-auto flex flex-wrap bg-yellow-50 rounded-lg shadow-lg overflow-hidden">
+      </div>
+      <div className="w-full flex justify-center items-center py-20">
+        <div className="w-3/4 flex flex-wrap bg-orange-50 rounded-xl overflow-hidden">
           <div className="w-full md:w-1/2">
-            <img src="https://via.placeholder.com/600x400" alt="IELTS consultation" className="w-full h-full object-cover rounded-l-lg" />
+            <img src="https://ktdcgroup.vn/wp-content/uploads/2024/06/REGISTRATION-FORM_690X551_Slide-02.png" alt="IELTS consultation" className="w-full h-full object-cover rounded-l-lg" />
           </div>
           <div className="w-full md:w-1/2 p-8">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Miễn phí suất thi thử IELTS</h2>
@@ -388,13 +380,13 @@ export default function HomePage() {
             </form>
           </div>
         </div>
-      </div> */}
-      {/* <div className="bg-white py-12">
+      </div>
+      <div className="w-full flex flex-col justify-center items-center">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800">Bảng tin KTDC</h2>
+          <h2 className="text-3xl font-bold text-gray-800">Bảng Tin Ielt Việt</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="w-3/4 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] overflow-hidden">
             <div className="p-6 flex flex-col items-start">
               <div className="flex items-center space-x-2">
                 <span className="bg-orange-500 text-white px-2 py-1 rounded-full text-sm">Were Hiring</span>
@@ -406,68 +398,55 @@ export default function HomePage() {
             </div>
             <a href="#" className="text-orange-500 text-sm font-semibold p-6 block">Xem thêm tin khác</a>
           </div>
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <img src="https://via.placeholder.com/300x200" alt="Thi IELTS trên máy hay trên giấy?" className="w-full h-48 object-cover" />
+          <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] overflow-hidden">
+            <img src="https://ktdcgroup.vn/wp-content/uploads/2024/08/Thi-IELTS-tren-may-hay-tren-giay-KTDC.jpg" alt="Thi IELTS trên máy hay trên giấy?" className="w-full h-48 object-cover" />
             <div className="p-6">
               <h3 className="text-lg font-bold text-gray-800">Thi IELTS trên máy hay trên giấy? Đâu là hình thức phù hợp?</h3>
               <p className="text-gray-500 text-xs mt-2">19/10/2024 • 4 phút đọc</p>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <img src="https://via.placeholder.com/300x200" alt="Lịch thi IELTS 2025 tại IDP" className="w-full h-48 object-cover" />
+          <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] overflow-hidden">
+            <img src="https://ktdcgroup.vn/wp-content/uploads/2024/11/huong-dan-cach-viet-thu-xin-viec-bang-tieng-Anh.jpg" alt="Lịch thi IELTS 2025 tại IDP" className="w-full h-48 object-cover" />
             <div className="p-6">
               <h3 className="text-lg font-bold text-gray-800">Lịch Thi IELTS 2025: Thông Tin Mới Nhất Và Cách Đăng Ký tại IDP</h3>
               <p className="text-gray-500 text-xs mt-2">12/10/2024 • 4 phút đọc</p>
             </div>
           </div>
         </div>
-      </div> */}
-      {/* <div className="bg-yellow-50 py-12 px-6 rounded-lg shadow-lg max-w-5xl mx-auto">
-        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Đăng ký học cùng <span className="text-orange-500">KTDC</span></h2>
+      </div>
+      <div className="w-full bg-orange-50 py-12 px-6 mt-14 mb-6">
+        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Đăng ký học cùng <span className="text-orange-500">IELTS VIỆT</span></h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-white p-4 rounded-lg shadow flex items-center space-x-4">
-            <img src="https://via.placeholder.com/40" alt="Zalo Logo" className="w-10 h-10" />
+            <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/Icon-float.png" alt="Zalo Logo" className="w-10 h-10" />
             <div>
               <p className="font-semibold text-gray-800">Nhắn tin Zalo</p>
-              <p className="text-gray-500 text-sm">Trung tâm KTDC IELTS</p>
+              <p className="text-gray-500 text-sm">Trung tâm IELTS VIỆT</p>
             </div>
           </div>
           <div className="bg-white p-4 rounded-lg shadow flex items-center space-x-4">
-            <img src="https://via.placeholder.com/40" alt="Messenger Logo" className="w-10 h-10" />
+            <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/Icon-float-1.png" alt="Messenger Logo" className="w-10 h-10" />
             <div>
               <p className="font-semibold text-gray-800">Nhắn tin Messenger</p>
-              <p className="text-gray-500 text-sm">Trung tâm KTDC IELTS</p>
+              <p className="text-gray-500 text-sm">Trung tâm IELTS VIỆT</p>
             </div>
           </div>
           <div className="bg-white p-4 rounded-lg shadow flex items-center space-x-4">
-            <img src="https://via.placeholder.com/40" alt="Phone Icon" className="w-10 h-10" />
+            <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/Icon-float-2.png" alt="Phone Icon" className="w-10 h-10" />
             <div>
               <p className="font-semibold text-gray-800">Gọi hotline</p>
-              <p className="text-gray-500 text-sm">(028) 7309 6990</p>
+              <p className="text-gray-500 text-sm">0939 217 718</p>
             </div>
           </div>
           <div className="bg-white p-4 rounded-lg shadow flex items-center space-x-4">
-            <img src="https://via.placeholder.com/40" alt="Clipboard Icon" className="w-10 h-10" />
+            <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/Icon-float-3.png" alt="Clipboard Icon" className="w-10 h-10" />
             <div>
               <p className="font-semibold text-gray-800">Đăng ký kiểm tra trình độ</p>
               <p className="text-orange-500 text-sm">miễn phí</p>
             </div>
           </div>
         </div>
-        <div className="flex justify-center items-center mt-6 space-x-4">
-          <p className="text-gray-600 font-semibold">Điểm đánh giá</p>
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center bg-yellow-100 px-2 py-1 rounded-full">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Google_Logo.png" alt="Google Logo" className="w-4 h-4 mr-1" />
-              <span className="text-gray-800 font-semibold">4.9/5</span>
-            </div>
-            <div className="flex items-center bg-yellow-100 px-2 py-1 rounded-full">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="Facebook Logo" className="w-4 h-4 mr-1" />
-              <span className="text-gray-800 font-semibold">4.9/5</span>
-            </div>
-          </div>
-        </div>
-      </div> */}
+      </div>
       <footer className="w-full flex flex-col justify-center items-center">
         <div className="w-3/4 grid grid-cols-2 gap-28">
           <div>
