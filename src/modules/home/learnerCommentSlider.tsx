@@ -1,15 +1,16 @@
 "use client";
 
-import React from "react";
+import { useEffect } from "react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { learnerData } from "./learnerCommentData";
+import '../../styles/sliderButton.css'
 
 const LearnerSlider = () => {
-  // Function to chunk data into groups of a specified size (3 cards per slide)
+  // function to chunk data into groups of a specified size (3 cards per slide)
   const chunkData = (data, size) => {
     const chunks = [];
     for (let i = 0; i < data.length; i += size) {
@@ -19,6 +20,8 @@ const LearnerSlider = () => {
   };
 
   const slides = chunkData(learnerData, 3);
+
+
 
   return (
     <section className="w-full">

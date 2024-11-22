@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import { data } from "./data"
-import { teacherData } from "../courses/teacherData"
 import TeacherSlider from "./teacherSlider"
 import LearnerSlider from "./learnerCommentSlider"
 
