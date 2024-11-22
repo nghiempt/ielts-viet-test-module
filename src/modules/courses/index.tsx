@@ -29,12 +29,13 @@ export default function CoursePage() {
   return (
     <div className="w-full flex flex-col items-center">
       <Header />
-      <div className="w-3/4 pb-10 pt-4"><Breadcrumbformat currentPath={currentPath} /></div>
+      <div className="w-3/4 pb-10 pt-4"><Breadcrumbformat currentPath={currentPath}/></div>
       <div className="w-3/4 flex pb-10">
-        <div className="w-1/2 flex flex-col justify-start items-start gap-8 ">
+        <div className="w-1/2 flex flex-col justify-start items-start">
           <h2 className="text-4xl font-bold text-gray-800">
             CHƯƠNG TRÌNH IELTS
           </h2>
+          <Decorbar/>
           <ul className="text-gray-700">
             <li>✔️ Phương pháp độc quyền, tiết kiệm 40% thời gian</li>
             <li>✔️ 80% giảng viên là cựu giám khảo IELTS</li>
