@@ -88,7 +88,7 @@ export default function HomePage() {
         </div>
         <div className="w-1/2 flex justify-end items-start relative">
           {/* <img src="https://res.cloudinary.com/farmcode/image/upload/v1731055890/ielts-viet/solffftvy8bkth7b1vhz.png" alt="alt" className="w-5/6 rounded-lg border-[1.5px] border-orange-500" /> */}
-          <img src="https://res.cloudinary.com/farmcode/image/upload/v1730742319/ielts-viet/wcbfgroi7dyfkhyp6ada.png" alt="alt" className="w-5/6 rounded-lg top-6 left-16 border-[1.5px] border-blue-800" />
+          <img src="https://res.cloudinary.com/farmcode/image/upload/v1730742319/ielts-viet/wcbfgroi7dyfkhyp6ada.png" alt="alt" className="w-5/6 rounded-lg top-6 left-16 " />
         </div>
       </div>
       <div className="w-full bg-orange-100 py-8 my-10 overflow-hidden">
@@ -155,11 +155,11 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      <div className="w-full pt-8 pb-20">
-        <div className="text-center mb-8">
+      <div className="w-full pt-8 pb-20 flex justify-center items-center flex-col">
+        <div className="text-center mb-8 w-3/4">
           <h2 className="text-3xl font-bold text-gray-800">Đội Ngũ Chuyên Gia</h2>
           <p className="text-gray-500 mt-4">
-            Giảng viên bản ngữ, <span className="text-orange-500">80% là cựu giám khảo IELTS</span>, cùng cố vấn người Việt đạt 8.0+, đem lại phương pháp toàn diện, hiệu quả cho học viên Việt Nam.
+            Đội ngũ gồm giảng viên bản ngữ giàu kinh nghiệm và cố vấn người Việt đạt IELTS 8.0+, hiểu rõ nhu cầu học viên Việt Nam. Chúng tôi áp dụng phương pháp giảng dạy toàn diện, kết hợp lý thuyết với thực hành hiệu quả. Phương châm "Học để thành thạo, không chỉ để đạt điểm" giúp học viên tự tin sử dụng tiếng Anh trong mọi tình huống.
           </p>
         </div>
 
