@@ -60,10 +60,11 @@ export default function CoursePage() {
         </div>
       </div>
 
-      <div className="w-full mb-10 flex flex-col gap-10">
+      <div className="w-full mb-10 flex flex-col gap-6 py-24">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-800">Khoá IELTS 4 kỹ năng</h2>
-          <p className="text-gray-500 mt-6 mb-2 text-left w-[900px] justify-self-center">
+          <Decorbar/>
+          <p className="text-gray-500 mb-2 text-left w-[900px] justify-self-center">
             Hệ thống các khóa học IELTS được phân theo cấp độ từ thấp đến cao giúp học viên cải thiện cả 4 kỹ năng Nghe, Nói, Đọc, Viết theo chuẩn format của bài thi IELTS thông qua lượng kiến thức toàn diện.
           </p>
         </div>
@@ -213,10 +214,11 @@ export default function CoursePage() {
           </Carousel>
         </div>
       </div>
-      <div className="w-full mb-10 flex flex-col gap-10 bg-[#eee] py-12">
+      <div className="w-full mb-10 flex flex-col gap-6 bg-[#eee] py-24">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-800">Khoá IELTS 4 kỹ năng</h2>
-          <p className="text-gray-500 mt-6 mb-2 text-left w-[900px] justify-self-center">
+          <Decorbar/>
+          <p className="text-gray-500  mb-2 text-left w-[900px] justify-self-center">
             Hệ thống các khóa học IELTS được phân theo cấp độ từ thấp đến cao giúp học viên cải thiện cả 4 kỹ năng Nghe, Nói, Đọc, Viết theo chuẩn format của bài thi IELTS thông qua lượng kiến thức toàn diện.
           </p>
         </div>
