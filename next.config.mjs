@@ -8,12 +8,6 @@ const nextConfig = {
                 port: '',
                 pathname: '/128/**',
             },
-            {
-                protocol: 'https',
-                hostname: 'ktdcgroup.vn',
-                port: '',
-                pathname: '/wp-content/**',
-            },
         ],
     },
 };
