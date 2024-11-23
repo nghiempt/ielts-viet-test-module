@@ -12,7 +12,6 @@ import { Header } from "@/components/using-ui/header"
 import { Footer } from "@/components/using-ui/footer"
 
 import { Breadcrumbformat } from "@/components/using-ui/breadcrumb-format"
-import { data } from "./data"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
@@ -20,6 +19,7 @@ import { Check, ChevronRight } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { Decorbar } from "@/components/using-ui/decor-bar"
+import { data } from "./data"
 export default function CoursePage() {
     const [currentPath, setCurrentPath] = useState('');
     useEffect(() => {
