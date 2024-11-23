@@ -18,10 +18,6 @@ const config = {
       },
     },
     extend: {
-      spacing: {
-        '100': '28rem',
-        '128': '32rem',
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
