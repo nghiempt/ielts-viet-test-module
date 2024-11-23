@@ -9,18 +9,19 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import Image from "next/image";
 import '../../styles/contact.css'
-import { imageData } from "./imageData";
+import { DATA } from "@/utils/data";
+
+const images = DATA.REAL_IMAGES
 
 export default function RealityImage() {
+
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
 
-  // Function to create slides with 4 images split into left/right parts for both upper and lower sections
   const getFullSlides = (images: any, perSlide = 4) => {
     const result = [];
     const totalImages = images.length;
     let index = 0;
-
     while (result.length < Math.ceil(totalImages / perSlide)) {
       const slide = [];
       for (let i = 0; i < perSlide; i++) {
@@ -29,11 +30,10 @@ export default function RealityImage() {
       }
       result.push(slide);
     }
-
     return result;
   };
 
-  const slides = getFullSlides(imageData);
+  const slides = getFullSlides(images);
 
   useEffect(() => {
     if (isGalleryOpen) {
@@ -72,9 +72,7 @@ export default function RealityImage() {
             {slides.map((slide, index) => (
               <SwiperSlide key={index}>
                 <div className="grid grid-rows-12 gap-2 h-full">
-                  {/* Upper part */}
                   <div className={`grid grid-cols-12 gap-2 ${index % 2 === 0 ? "row-span-6" : "row-span-7"}`}>
-                    {/* Left part */}
                     <div className="col-span-7 flex justify-center items-center relative group"
                       onClick={() => openGallery(slide[0].id - 1)}
                     >
@@ -102,7 +100,6 @@ export default function RealityImage() {
                         </>
                       )}
                     </div>
-                    {/* Right part */}
                     <div className="col-span-5 flex justify-center items-center relative group"
                       onClick={() => openGallery(slide[1].id - 1)}
                     >
@@ -131,9 +128,7 @@ export default function RealityImage() {
                       )}
                     </div>
                   </div>
-                  {/* Lower part */}
                   <div className={`grid grid-cols-12 gap-2 ${index % 2 === 0 ? "row-span-7" : "row-span-6"}`}>
-                    {/* Left part */}
                     <div className="col-span-5 flex justify-center items-center relative group"
                       onClick={() => openGallery(slide[2].id - 1)}
                     >
@@ -161,7 +156,6 @@ export default function RealityImage() {
                         </>
                       )}
                     </div>
-                    {/* Right part */}
                     <div className="col-span-7 flex justify-center items-center relative group"
                       onClick={() => openGallery(slide[3].id - 1)}
                     >
@@ -217,7 +211,7 @@ export default function RealityImage() {
             </svg>
           </button>
           <ImageGallery
-            items={imageData.map((image) => ({
+            items={images.map((image) => ({
               original: `/images/${image.original}`,
               thumbnail: image.thumbnail,
               description: image.description,

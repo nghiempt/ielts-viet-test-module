@@ -1,5 +1,6 @@
 "use client"
 
+import { PhoneCall } from "lucide-react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useEffect } from "react"
@@ -14,12 +15,14 @@ export default function Header() {
                 return 0
             case "/khoa-hoc":
                 return 1
-            case "/giao-vien":
+            case "/giang-vien":
                 return 2
             case "/hoc-vien":
                 return 3
             case "/lien-he":
                 return 4
+            case "/bang-tin":
+                return 5
             default:
                 return 0
         }
@@ -39,13 +42,14 @@ export default function Header() {
                 </a>
                 <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-2 bg-orange-100 px-4 py-2 rounded-full">
+                        <PhoneCall className="w-4 h-4" />
                         <span className="text-gray-700 font-light">Hotline:</span>
                         <span className="font-semibold text-gray-800">093 921 77 18</span>
                     </div>
                     <a href="/" className="bg-orange-500 text-white font-semibold px-4 py-2 rounded-full">Đặt lịch hẹn</a>
                     <div className="flex items-center space-x-2">
-                        <Image src="https://ktdcgroup.vn/wp-content/uploads/flags/english.svg" alt="alt" width={20} height={20} />
-                        <span className="text-gray-700 font-semibold">EN</span>
+                        <Image src="https://cdn-icons-png.flaticon.com/128/197/197473.png" alt="alt" width={20} height={20} />
+                        <span className="text-gray-700 font-semibold">VI</span>
                     </div>
                 </div>
             </div>
@@ -61,10 +65,16 @@ export default function Header() {
                         <a href="/giang-vien" className={`${checkPathName(pathName) === 2 ? 'font-bold text-orange-500' : 'text-gray-800 hover:text-orange-500'}`}>GIẢNG VIÊN</a>
                     </li>
                     <li>
-                        <a href="#" className={`${checkPathName(pathName) === 3 ? 'font-bold text-orange-500' : 'text-gray-800 hover:text-orange-500'}`}>HỌC VIÊN</a>
+                        <a href="/hoc-vien" className={`${checkPathName(pathName) === 3 ? 'font-bold text-orange-500' : 'text-gray-800 hover:text-orange-500'}`}>HỌC VIÊN</a>
                     </li>
                     <li>
                         <a href="/lien-he" className={`${checkPathName(pathName) === 4 ? 'font-bold text-orange-500' : 'text-gray-800 hover:text-orange-500'}`}>LIÊN HỆ</a>
+                    </li>
+                    <li>
+                        <a href="/bang-tin" className={`${checkPathName(pathName) === 5 ? 'font-bold text-orange-500' : 'text-gray-800 hover:text-orange-500'}`}>BẢNG TIN</a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://app.testonline.vn/vi/manage-class/672d7e9e0e00a43c5d0afc95" className={`text-gray-800 hover:text-orange-500`}>TEST ONLINE</a>
                     </li>
                 </ul>
             </div>

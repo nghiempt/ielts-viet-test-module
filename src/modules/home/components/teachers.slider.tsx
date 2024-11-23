@@ -5,8 +5,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { teacherData } from "./teacherData";
-import '../../styles/sliderButton.css'
+import '../../../styles/button.slider.css'
+import { DATA } from "@/utils/data";
 
 type Teacher = {
   id: number;
@@ -15,8 +15,10 @@ type Teacher = {
   qualifications: string[];
 };
 
+const teachers = DATA.TEACHERS as Teacher[];
+
 const TeacherSlider = () => {
-  // function to chunk data into groups of a specified size (3 cards per slide)
+
   const chunkData = (data: Teacher[], size: number): Teacher[][] => {
     const chunks: Teacher[][] = [];
     for (let i = 0; i < data.length; i += size) {
@@ -25,9 +27,7 @@ const TeacherSlider = () => {
     return chunks;
   };
 
-  const slides = chunkData(teacherData, 3);
-
-
+  const slides = chunkData(teachers, 3);
 
   return (
     <section className="w-4/5">

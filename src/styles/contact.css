@@ -6,6 +6,7 @@
 .swiper-button-prev {
   display: none !important;
 }
+
 .image-gallery {
   position: absolute;
   top: 0;
@@ -23,10 +24,12 @@
   z-index: 50;
   padding: 10px;
 }
+
 .image-gallery-thumbnail {
   border: 2px solid transparent;
   transition: border 0.3s ease-in-out;
 }
+
 .image-gallery-thumbnail.active {
   border: 2px solid orange;
 }

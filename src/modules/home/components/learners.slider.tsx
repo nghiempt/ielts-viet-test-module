@@ -5,8 +5,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { learnerData } from "./learnerCommentData";
-import '../../styles/sliderButton.css'
+import { DATA } from "@/utils/data";
+import '../../../styles/button.slider.css'
 
 type Learner = {
   id: number,
@@ -15,8 +15,10 @@ type Learner = {
   cmtSrc: string
 }
 
+const learners = DATA.LEARNERS as Learner[];
+
 const LearnerSlider = () => {
-  // function to chunk data into groups of a specified size (3 cards per slide)
+
   const chunkData = (data: Learner[], size: number): Learner[][] => {
     const chunks: Learner[][] = [];
     for (let i = 0; i < data.length; i += size) {
@@ -25,9 +27,7 @@ const LearnerSlider = () => {
     return chunks;
   };
 
-  const slides = chunkData(learnerData, 3);
-
-
+  const slides = chunkData(learners, 3);
 
   return (
     <section className="w-full">
