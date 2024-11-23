@@ -1,7 +1,7 @@
-import HomePage from "@/modules/home";
+import CoursePage from "@/modules/course";
 
 export default function Home() {
   return (
-    <HomePage />
+    <CoursePage />
   );
 }
