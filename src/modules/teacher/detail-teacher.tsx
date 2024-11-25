@@ -1,10 +1,10 @@
 'use client'
 
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import YouTube from "react-youtube";
 
-const DetailTeacher = ({ teacher, onClose }) => {
+const DetailTeacher = ({ teacher, onClose }: { teacher: any, onClose: any }) => {
   const popupRef = useRef<HTMLDivElement>(null);
 
   const opts = {
@@ -74,7 +74,7 @@ const DetailTeacher = ({ teacher, onClose }) => {
               <p className='mb-4'><strong>Quốc tịch:</strong> {teacher.nationality}</p>
               <p className='mb-2'><strong>Bằng cấp:</strong></p>
               {teacher.diploma.map((dip: any, index: any) => (
-                <p className='mb-2'>
+                <p className='mb-2' key={index}>
                   -{dip}<br></br>
                 </p>
               ))}

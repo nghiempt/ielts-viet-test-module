@@ -41,7 +41,6 @@ export default function TeacherPage() {
     return (
         <div className="w-full flex flex-col items-center">
             <Header />
-            <div className="w-3/4 pb-10 pt-4"><BreadcrumbFormat currentPath={currentPath} /></div>
             <div className="w-3/4 mt-7 rounded-md flex justify-center">
                 <section className="w-full flex flex-col items-center">
                     <h1 className="font-bold text-3xl mb-5">Đội ngũ giảng viên</h1>
@@ -68,9 +67,7 @@ export default function TeacherPage() {
                     ))}
                 </div>
             </div>
-
             <DetailTeacher teacher={selectedTeacher} onClose={closePopup} />
-
             <div className="w-full bg-orange-50 py-12 px-6 mt-14 mb-6">
                 <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Đăng ký học cùng <span className="text-orange-500">IELTS VIỆT</span></h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
