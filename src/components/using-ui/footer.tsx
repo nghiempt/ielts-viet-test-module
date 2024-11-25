@@ -1,9 +1,5 @@
-"use client"
-
-import { MapPin, PhoneCall } from "lucide-react"
 import Image from "next/image"
-
-export default function Footer() {
+export function Footer() {
     return (
         <footer className="w-full flex flex-col justify-center items-center">
             <div className="w-3/4 grid grid-cols-2 gap-28">
@@ -44,7 +40,9 @@ export default function Footer() {
             <div className="w-3/4  box-border grid grid-cols-3 gap-4 text-sm text-gray-300 my-4">
                 <div className="bg-gray-800 p-6 rounded-lg">
                     <div className="flex items-center space-x-2 mb-2">
-                        <MapPin className="w-4 h-4" />
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657A8 8 0 013.515 6.343L12 12l8.485 8.485a8 8 0 01-2.828 2.828z" />
+                        </svg>
                         <p className="font-semibold">Cơ sở 1:</p>
                     </div>
                     <p className="text-orange-500">Khu dân cư Thới Nhựt</p>
@@ -52,15 +50,19 @@ export default function Footer() {
                 </div>
                 <div className="bg-gray-800 p-6 rounded-lg">
                     <div className="flex items-center space-x-2 mb-2">
-                        <MapPin className="w-4 h-4" />
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657A8 8 0 013.515 6.343L12 12l8.485 8.485a8 8 0 01-2.828 2.828z" />
+                        </svg>
                         <p className="font-semibold">Cơ sở 2:</p>
                     </div>
                     <p className="text-orange-500">Khu dân cư Thới Nhựt</p>
-                    <p>172c Nguyễn Tri Phương, P. An Khánh, Q. Ninh Kiều, TP. Cần Thơ</p>
+                    <p>106 Nguyễn Minh Quang, P. An Khánh, Q. Ninh Kiều, TP. Cần Thơ</p>
                 </div>
                 <div className="bg-gray-800 p-6 rounded-lg">
                     <div className="flex items-center space-x-2 mb-2">
-                        <PhoneCall className="w-4 h-4" />
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657A8 8 0 013.515 6.343L12 12l8.485 8.485a8 8 0 01-2.828 2.828z" />
+                        </svg>
                         <p className="font-semibold">Liên hệ:</p>
                     </div>
                     <p className="text-orange-500">Hotline</p>
