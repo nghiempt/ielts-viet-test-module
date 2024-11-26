@@ -10,6 +10,9 @@ export default function Header() {
     const pathName = usePathname()
 
     const checkPathName = (pathName: string) => {
+        if (/^\/hoc-vien\/\d+$/.test(pathName)) {
+            return 3;
+        }
         switch (pathName) {
             case "/":
                 return 0
@@ -18,6 +21,8 @@ export default function Header() {
             case "/giang-vien":
                 return 2
             case "/hoc-vien":
+                return 3
+            case "/hoc-vien/[id]":
                 return 3
             case "/lien-he":
                 return 4
