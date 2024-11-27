@@ -1,7 +1,7 @@
 "use client";
 
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -36,7 +36,9 @@ const StudentSlider = () => {
       <div className="h-full mt-2">
         <Swiper
           navigation
-          pagination={{ type: "bullets", clickable: true }}
+          pagination={{
+            type: "bullets", clickable: true,
+          }}
           autoplay={{ delay: 5000 }}
           loop={true}
           modules={[Autoplay, Navigation, Pagination]}
@@ -54,7 +56,7 @@ const StudentSlider = () => {
                 {slide.map((stu) => (
                   <div
                     key={stu.id}
-                    className="bg-white w-80 overflow-hidden"
+                    className="bg-white w-80 overflow-hidden "
                   >
                     <div className="relative">
                       <Image
@@ -73,9 +75,11 @@ const StudentSlider = () => {
                       </a>
                     </div>
                     <div className="p-4">
-                      <h3 className="text-lg font-semibold text-gray-800 text-center">
-                        {stu.title}
-                      </h3>
+                      <a href={stu.URL} target="_blank">
+                        <h3 className="text-lg font-semibold text-gray-800 text-center cursor-pointer hover:text-orange-500">
+                          {stu.title}
+                        </h3>
+                      </a>
                     </div>
                   </div>
                 ))}

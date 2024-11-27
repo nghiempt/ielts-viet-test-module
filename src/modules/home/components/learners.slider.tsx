@@ -59,7 +59,7 @@ const LearnerSlider = () => {
                     </p>
                     <div className="flex items-center justify-between mt-4">
                       <div className="flex items-center space-x-1 text-gray-500">
-                        <span className="text-xs">{learn.cmtSrc}</span>
+                        <p className="text-xs">{learn.cmtSrc}</p>
                       </div>
                       <a href="#" className="text-blue-500 text-sm font-semibold">Xem chi tiết</a>
                     </div>

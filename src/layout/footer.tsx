@@ -6,7 +6,7 @@ import Image from "next/image"
 export default function Footer() {
     return (
         <footer className="w-full flex flex-col justify-center items-center">
-            <div className="w-3/4 grid grid-cols-2 gap-28">
+            <div className="w-3/4 grid grid-cols-2 gap-20">
                 <div>
                     <Image src="/favicon.ico" alt="alt" width={60} height={60} />
                     <p className="text-lg font-bold text-orange-500 py-2">IELTS VIỆT</p>

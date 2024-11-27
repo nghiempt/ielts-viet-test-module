@@ -1,7 +1,7 @@
 'use client'
 
-import Header from "@/layout/header"
-import Footer from "@/layout/footer"
+import Header from "@/layout/header";
+import Footer from "@/layout/footer";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,16 +9,17 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import Image from "next/image"
-import FB from '../../../../public/images/facebook.png'
-import TW from '../../../../public/images/twitter.png'
-import B from '../../../../public/images/back.png'
+} from "@/components/ui/breadcrumb";
+import Image from "next/image";
+import FB from '../../../../public/images/facebook.png';
+import TW from '../../../../public/images/twitter.png';
+import B from '../../../../public/images/back.png';
 import View from '../../../../public/images/view.png'
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState, useRef } from "react";
 import { DATA } from "@/utils/data";
 import { useParams, usePathname } from "next/navigation"
 import Link from "next/link"
+import DOMPurify from 'dompurify';
 
 interface Students {
   id: number,
@@ -31,10 +32,9 @@ const students = DATA.STUDENTS as Students[]
 
 export default function StudentDetailPage() {
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [maxScroll, setMaxScroll] = useState(0);
-  const mainContentRef = useRef<HTMLDivElement>(null);
-  const imageSectionRef = useRef<HTMLDivElement>(null);
-  const sidebarRef = useRef<HTMLDivElement>(null);
+  const [isAtBottom, setIsAtBottom] = useState(false);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const [student, setStudent] = useState<Students | null>(null);
 
   const params = useParams();
@@ -48,32 +48,39 @@ export default function StudentDetailPage() {
   }, [id]);
 
   useEffect(() => {
-    const updateMaxScroll = () => {
-      if (mainContentRef.current && imageSectionRef.current && sidebarRef.current) {
-        const mainContentHeight = mainContentRef.current.offsetHeight;
-        const imageOffsetTop = imageSectionRef.current.offsetTop;
-        const sidebarHeight = sidebarRef.current.offsetHeight;
-        const maxScrollable = imageOffsetTop - sidebarHeight;
-        setMaxScroll(maxScrollable);
+    const handleScroll = () => {
+      if (gridRef.current && contentRef.current) {
+        const gridElement = gridRef.current;
+        const gridScrollTop = gridElement.scrollTop;
+        const contentHeight = contentRef.current.scrollHeight;
+        const gridHeight = gridElement.clientHeight;
+
+        setScrollPosition(gridScrollTop);
+        console.log("check position: ", scrollPosition)
+
+        if (gridScrollTop + gridHeight >= contentHeight) {
+          setIsAtBottom(true);
+          gridElement.scrollTop = contentHeight - gridHeight;
+        } else {
+          setIsAtBottom(false);
+        }
       }
     };
 
-    const handleScroll = () => {
-      setScrollPosition(window.scrollY);
-    };
-
-    updateMaxScroll();
-    window.addEventListener('resize', updateMaxScroll);
-    window.addEventListener('scroll', handleScroll);
+    const gridElement = gridRef.current;
+    if (gridElement) {
+      gridElement.addEventListener('scroll', handleScroll);
+    }
 
     return () => {
-      window.removeEventListener('resize', updateMaxScroll);
-      window.removeEventListener('scroll', handleScroll);
+      if (gridElement) {
+        gridElement.removeEventListener('scroll', handleScroll);
+      }
     };
   }, []);
 
   const sidebarStyle = {
-    transform: `translateY(${Math.min(scrollPosition, maxScroll)}px)`,
+    transform: `translateY(${scrollPosition}px)`,
     transition: 'transform 0.1s ease-out',
   };
 
@@ -94,37 +101,51 @@ export default function StudentDetailPage() {
         </Breadcrumb>
       </div>
 
-      <div className="grid grid-cols-12 w-3/4">
-        <div className="col-span-2 flex flex-col items-end pr-10 gap-4"
-          ref={sidebarRef}
+      <div
+        ref={gridRef}
+        className="grid grid-cols-12 w-3/4 max-h-[700px] overflow-y-scroll rounded-lg pr-44"
+      >
+        <div
+          className="col-span-3 flex flex-col items-end pr-10 gap-4 pt-5"
           style={sidebarStyle}
         >
-          <div className="rounded-full border object-cover w-10 h-10 flex justify-center items-center">
-            <Image src={FB} alt="" className="" width={30} />
+
+          <div className="relative rounded-full border object-cover w-8 h-8 flex justify-center items-center cursor-pointer group">
+            <Image src={FB} alt="" className="" width={15} />
+            <div className="absolute flex justify-center items-center right-10 transform opacity-0 group-hover:opacity-100 w-max h-10 bg-orange-500 rounded-xl text-white font-semibold px-3 text-sm transition-opacity duration-300">Chia sẻ Facebook</div>
           </div>
-          <div className="rounded-full border object-cover w-10 h-10 flex justify-center items-center">
-            <Image src={TW} alt="" className="" width={30} />
+          <div className="relative rounded-full border object-cover w-8 h-8 flex justify-center items-center cursor-pointer group">
+            <Image src={TW} alt="" className="" width={15} />
+            <div className="absolute flex justify-center items-center right-10 transform opacity-0 group-hover:opacity-100 w-max h-10 bg-orange-500 rounded-xl text-white font-semibold px-3 text-sm transition-opacity duration-300">Chia sẻ Twitter</div>
           </div>
-          <div className="rounded-full border object-cover w-10 h-10 flex justify-center items-center">
+
+          <div className="relative rounded-full border object-cover w-8 h-8 flex justify-center items-center cursor-pointer group">
             <Link href={`/hoc-vien`}>
-              <Image src={B} alt="" className="" width={30} />
+              <Image src={B} alt="" className="" width={15} />
             </Link>
+            <div className="absolute flex justify-center items-center right-10 transform opacity-0 group-hover:opacity-100 w-max h-10 bg-orange-500 rounded-xl text-white font-semibold px-3 text-sm transition-opacity duration-300">Quay lại</div>
           </div>
         </div>
-        <div className="col-span-8" ref={mainContentRef}>
+
+        <div
+          ref={contentRef}
+          className="col-span-9"
+        >
           <h2 className="flex justify-center text-4xl font-bold mb-6">{student?.title}</h2>
           <div className="flex flex-row gap-2 mb-6">
             <Image src={View} alt="" width={22} height={12} />
             <p>20 lượt xem</p>
           </div>
-          <p>
-            {student?.content}
-          </p>
+          <div
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(student?.content || '') }}
+          />
         </div>
-        <div className="col-span-2"></div>
+
+        {/* <div className="col-span-2"></div> */}
       </div>
 
-      <div className="flex justify-center w-full mt-20" ref={imageSectionRef}>
+      <div className="flex justify-center w-full mt-20"
+      >
         <Image src="https://ktdcgroup.vn/wp-content/uploads/2021/05/PT.jpg" alt="" width={1150} height={1150} />
       </div>
 
@@ -161,3 +182,4 @@ export default function StudentDetailPage() {
     </div>
   );
 }
+

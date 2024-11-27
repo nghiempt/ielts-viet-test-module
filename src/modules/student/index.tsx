@@ -19,6 +19,7 @@ import Pagination from "react-bootstrap/Pagination";
 import RealityImage from "../contact/reality-image"
 import StudentSlider from "./components/students.slider"
 import Link from "next/link";
+import DOMPurify from 'dompurify';
 
 interface Students {
     id: number,
@@ -39,7 +40,7 @@ const students = DATA.STUDENTS as Students[]
 const images = DATA.REAL_IMAGES as Images[]
 
 export default function StudentPage() {
-    const [itemPerPage, setItemPerPage] = useState(9);
+    const [itemPerPage, setItemPerPage] = useState(12);
     const [currentPage, setCurrentPage] = useState(1);
 
     const totalResult = students.length;
@@ -108,7 +109,9 @@ export default function StudentPage() {
                                 <Link href={`/hoc-vien/${stu.id}`}>
                                     <p className="font-bold text-xl mb-3 line-clamp-2 hover:text-orange-500 cursor-pointer">{stu.title}</p>
                                 </Link>
-                                <p className="text-justify text-gray-600 line-clamp-3">{stu.content}</p>
+                                <p className="text-justify text-gray-600 line-clamp-3"><div
+                                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(stu?.content || '') }}
+                                /></p>
                             </div>
                         </div>
                     ))}
