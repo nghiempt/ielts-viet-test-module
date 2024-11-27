@@ -57,7 +57,7 @@ export default function TeacherPage() {
                             className="relative shadow-inner overflow-hidden group rounded-lg cursor-pointer"
                             onClick={() => openPopup(tc)}
                         >
-                            <Image className="rounded-lg transform transition-transform duration-500 group-hover:scale-105 object-cover w-full h-full" src={`/images/teachers/${tc.image}`} alt="" width={1000} height={1000} />
+                            <Image className="rounded-lg transform transition-transform duration-500 group-hover:scale-105 object-cover w-full h-full" src={tc.image} alt="" width={1000} height={1000} />
                             <div className="absolute bottom-10 left-10 text-white z-10">
                                 <p>Giảng viên</p>
                                 <p className="text-xl font-bold">{tc.name}</p>
@@ -69,7 +69,7 @@ export default function TeacherPage() {
             </div>
             <DetailTeacher teacher={selectedTeacher} onClose={closePopup} />
             <div className="w-full bg-orange-50 py-12 px-6 mt-14 mb-6">
-                <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Đăng ký học cùng <span className="text-orange-500">IELTS VIỆT</span></h2>
+                <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Đăng ký học cùng <span className="text-[rgb(var(--secondary-rgb))]">IELTS VIỆT</span></h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div className="bg-white p-4 rounded-lg shadow flex items-center space-x-4">
                         <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/Icon-float.png" alt="Zalo Logo" className="w-10 h-10" />
@@ -96,7 +96,7 @@ export default function TeacherPage() {
                         <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/Icon-float-3.png" alt="Clipboard Icon" className="w-10 h-10" />
                         <div className="cursor-pointer" onClick={() => window.open('https://www.facebook.com/profile.php?id=61550718094576', '_blank')}>
                             <p className="font-semibold text-gray-800">Đăng ký kiểm tra trình độ</p>
-                            <p className="text-orange-500 text-sm">miễn phí</p>
+                            <p className="text-[rgb(var(--secondary-rgb))] text-sm">miễn phí</p>
                         </div>
                     </div>
                 </div>

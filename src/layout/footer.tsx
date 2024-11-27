@@ -9,14 +9,14 @@ export default function Footer() {
             <div className="w-3/4 grid grid-cols-2 gap-20">
                 <div>
                     <Image src="/favicon.ico" alt="alt" width={60} height={60} />
-                    <p className="text-lg font-bold text-orange-500 py-2">IELTS VIỆT</p>
+                    <p className="text-lg font-bold text-[rgb(var(--secondary-rgb))] py-2">IELTS VIỆT</p>
                     <p className="text-gray-600">
                         Thông qua IELTS, khai phá tiềm năng người học - Kiến tạo cộng đồng người Việt trẻ biết học hỏi tự chủ.
                     </p>
                 </div>
                 <div className="grid grid-cols-3 gap-4 text-md justify-start items-center">
                     <div>
-                        <h3 className="text-orange-500 font-semibold mb-2">Học tại IELTS VIỆT</h3>
+                        <h3 className="text-[rgb(var(--secondary-rgb))] font-semibold mb-2">Học tại IELTS VIỆT</h3>
                         <ul className="space-y-1">
                             <li><a href="#">Đăng ký học</a></li>
                             <li><a href="#">Lịch khai giảng</a></li>
@@ -24,7 +24,7 @@ export default function Footer() {
                         </ul>
                     </div>
                     <div>
-                        <h3 className="text-orange-500 font-semibold mb-2">Về IELTS VIỆT</h3>
+                        <h3 className="text-[rgb(var(--secondary-rgb))] font-semibold mb-2">Về IELTS VIỆT</h3>
                         <ul className="space-y-1">
                             <li><a href="#">Giới thiệu IELTS VIỆT</a></li>
                             <li><a href="#">Câu hỏi thường gặp</a></li>
@@ -32,7 +32,7 @@ export default function Footer() {
                         </ul>
                     </div>
                     <div>
-                        <h3 className="text-orange-500 font-semibold mb-2">Tài liệu IELTS</h3>
+                        <h3 className="text-[rgb(var(--secondary-rgb))] font-semibold mb-2">Tài liệu IELTS</h3>
                         <ul className="space-y-1">
                             <li><a href="#">Thi thử IELTS</a></li>
                             <li><a href="#">Sự Kiện IELTS</a></li>
@@ -47,7 +47,7 @@ export default function Footer() {
                         <MapPin className="w-4 h-4" />
                         <p className="font-semibold">Cơ sở 1:</p>
                     </div>
-                    <p className="text-orange-500">Khu dân cư Thới Nhựt</p>
+                    <p className="text-[rgb(var(--secondary-rgb))]">Khu dân cư Thới Nhựt</p>
                     <p>106 Nguyễn Minh Quang, P. An Khánh, Q. Ninh Kiều, TP. Cần Thơ</p>
                 </div>
                 <div className="bg-gray-800 p-6 rounded-lg">
@@ -55,7 +55,7 @@ export default function Footer() {
                         <MapPin className="w-4 h-4" />
                         <p className="font-semibold">Cơ sở 2:</p>
                     </div>
-                    <p className="text-orange-500">Khu dân cư Thới Nhựt</p>
+                    <p className="text-[rgb(var(--secondary-rgb))]">Khu dân cư Thới Nhựt</p>
                     <p>172c Nguyễn Tri Phương, P. An Khánh, Q. Ninh Kiều, TP. Cần Thơ</p>
                 </div>
                 <div className="bg-gray-800 p-6 rounded-lg">
@@ -63,7 +63,7 @@ export default function Footer() {
                         <PhoneCall className="w-4 h-4" />
                         <p className="font-semibold">Liên hệ:</p>
                     </div>
-                    <p className="text-orange-500">Hotline</p>
+                    <p className="text-[rgb(var(--secondary-rgb))]">Hotline</p>
                     <p>0939 217 718</p>
                 </div>
             </div>

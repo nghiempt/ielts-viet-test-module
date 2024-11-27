@@ -52,7 +52,7 @@ const LearnerSlider = () => {
                     <div className="flex items-center space-x-2 mb-4">
                       <img src="https://cdn-icons-png.flaticon.com/128/149/149071.png" alt="Avatar" className="w-10 h-10 rounded-full" />
                       <h3 className="font-bold text-gray-800">{learn.name}</h3>
-                      <span className="text-orange-500 text-2xl font-bold absolute top-4 right-4">“</span>
+                      <span className="text-[rgb(var(--secondary-rgb))] text-2xl font-bold absolute top-4 right-4">“</span>
                     </div>
                     <p className="text-gray-600 text-sm">
                       {learn.cmt}

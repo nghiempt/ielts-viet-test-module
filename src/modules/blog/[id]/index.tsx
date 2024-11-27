@@ -4,7 +4,7 @@ import Header from "@/layout/header"
 import Footer from "@/layout/footer"
 import { BreadcrumbFormat } from "@/components/using-ui/breadcrumb-format"
 import { useEffect, useState } from "react";
-import { CalendarDays, Clock } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import { DATA } from "@/utils/data";
 import Link from "next/link";
 import { ROUTES } from "@/utils/route";
@@ -22,63 +22,65 @@ interface Blog {
 const blogs = DATA.BLOG_DATA as Blog[]
 const routes = ROUTES
 
-export default function BlogPage() {
+export default function BlogDetailPage() {
 
+    const [currentData, setCurrentData] = useState<Blog | null>(null);
     const [currentPath, setCurrentPath] = useState('');
 
     useEffect(() => {
         setCurrentPath(window.location.pathname);
-    }, []);
+        const fetchData = async () => {
+            let id = 0;
+            const regex = /\/bang-tin\/(\d+)/;
+            const match = currentPath.match(regex);
+            if (match && match[1]) {
+                id = parseInt(match[1], 10);
+                blogs?.forEach((blog: Blog) => {
+                    if (blog?.id === id) {
+                        setCurrentData(blog);
+                    }
+                });
+            }
+        };
+        fetchData();
+    }, [currentPath]);
 
     return (
         <div className="w-full flex flex-col items-center">
             <Header />
-            <div className="w-3/4 pb-10 pt-6">
-                <BreadcrumbFormat currentPath={currentPath} />
-            </div>
             <div className="w-5/6 flex justify-center items-start py-8">
-                <div className="flex flex-col justify-start r w-3/4 px-12">
-                    <div className="flex justify-start items-center w-full py-6">
-                        <div className="text-3xl font-bold w-3/6">Tất cả bài viết</div>
-                        <div className="w-full h-[2px] bg-gray-300 "></div>
-                    </div>
-                    {blogs?.map((blog: Blog, index: number) => (
-                        <Link
-                            key={index}
-                            href={`${routes.BLOG}/${blog?.id}`}
-                        >
-                            <div className="flex justify-center items-center py-4">
-                                <img className="w-2/6 h-[201px] rounded-sm" src={blog?.image} />
-                                <div className="flex flex-col  px-6">
-                                    <a className="text-center text-2xl font-bold hover:text-orange-400" href="/">{blog?.name}</a>
-                                    <div className="text-center py-4">{blog?.description}</div>
-                                    <div className="flex items-start gap-4">
-                                        <div className="flex justify-center items-center"><CalendarDays className="mr-1" /> {blog?.date}</div>
-                                        <div className="flex justify-center items-center"><Clock className="mr-1" /> {blog?.time}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </Link>
-                    ))}
+                <div className="flex flex-col items-start border-t-2 border-b-2 gap-4 py-6  sticky top-12 l left-12">
+                    <div className="text-sm text-gray-700">Chia sẻ</div>
+                    <a href="#" className=" text-lg font-bold w-14 h-14 flex items-center justify-center rounded-full bg-white border border-gray-200 text-[rgb(var(--secondary-rgb))] hover:bg-[rgb(var(--secondary-rgb))] hover:text-white transition duration-300 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">f</a>
+                    <a href="#" className="text-lg font-bold w-14 h-14 flex items-center justify-center rounded-full bg-white border border-gray-200 text-[rgb(var(--secondary-rgb))] hover:bg-[rgb(var(--secondary-rgb))] hover:text-white transition duration-300 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">x</a>
+                    <a href="#" className="text-lg font-bold w-14 h-14 flex items-center justify-center rounded-full bg-white border border-gray-200 text-[rgb(var(--secondary-rgb))] hover:bg-[rgb(var(--secondary-rgb))] hover:text-white transition duration-300 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">🔗</a>
                 </div>
-                <div className="flex flex-col items-center w-2/6 py-8">
+                <div className="flex flex-col justify-start r w-3/4 px-12 ">
+                    <div className="w-7/8 flex justify-between items-center py-4">
+                        <BreadcrumbFormat currentPath={currentPath} />
+                        <div className="flex items-center "><CalendarDays className="mr-1" /> {currentData?.date}</div>
+                    </div>
+                    <div className="border-b-2">
+                        <div className="text-4xl font-bold py-4">{currentData?.name}</div>
+                        <div className="text-base py-4">{currentData?.content}</div>
+                    </div>
+                    <div></div>
+                </div>
+                <div className="flex flex-col items-center w-2/6 py-6">
                     <img className="w-full" src="https://ktdcgroup.vn/wp-content/uploads/2021/05/banner-PT.jpg" />
-                    <div className="flex justify-around items-center w-full py-4">
-                        <div className="w-2/8 rounded-md border-yellow-300 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] flex flex-col items-center p-3">
-                            <img className="w-[36px] h-[36px] m-2" src="https://cdn-icons-png.flaticon.com/128/733/733547.png" />
-                            <div className="font-semibold">29.063+</div>
-                            <div className="text-sm">Lượt thích</div>
-                        </div>
-                        <div className="w-2/8 rounded-md border-yellow-300 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] flex flex-col items-center p-3">
-                            <img className="w-[36px] h-[36px] m-2" src="https://cdn-icons-png.flaticon.com/128/3938/3938026.png" />
-                            <div className="font-semibold">1.050+</div>
-                            <div className="text-sm">Lượt thích</div>
-                        </div>
-                        <div className="w-2/8 rounded-md border-yellow-300 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] flex flex-col items-center p-3">
-                            <img className="w-[36px] h-[36px] m-2" src="https://cdn-icons-png.flaticon.com/128/2111/2111463.png" />
-                            <div className="font-semibold">1.374+</div>
-                            <div className="text-sm">Lượt thích</div>
-                        </div>
+                    <div className="flex flex-col w-full py-6 sticky top-12">
+                        <div className="text-xl font-bold py-4">Có thể bạn quan tâm</div>
+                        {blogs?.map((blog: Blog, index: number) => (
+                            blog?.id === currentData?.id ?
+                                <></>
+                                :
+                                <Link key={index} href={`${routes.BLOG}/${blog?.id}`}>
+                                    <div className="flex justify-center items-center py-2">
+                                        <img className="w-[200px] h-[65px] rounded-md" src={blog?.image} />
+                                        <div className="px-4 text-base font-bold">{blog?.name}</div>
+                                    </div>
+                                </Link>
+                        ))}
                     </div>
                 </div>
             </div>

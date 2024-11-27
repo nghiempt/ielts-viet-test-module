@@ -20,6 +20,7 @@ import { DATA } from "@/utils/data";
 import { useParams, usePathname } from "next/navigation"
 import Link from "next/link"
 import DOMPurify from 'dompurify';
+import { Facebook } from "lucide-react";
 
 interface Students {
   id: number,
@@ -111,19 +112,21 @@ export default function StudentDetailPage() {
         >
 
           <div className="relative rounded-full border object-cover w-8 h-8 flex justify-center items-center cursor-pointer group">
-            <Image src={FB} alt="" className="" width={15} />
-            <div className="absolute flex justify-center items-center right-10 transform opacity-0 group-hover:opacity-100 w-max h-10 bg-orange-500 rounded-xl text-white font-semibold px-3 text-sm transition-opacity duration-300">Chia sẻ Facebook</div>
+            {/* <Image src={FB} alt="" className="" width={15} /> */}
+            {/* <Facebook /> */}
+            <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M80 299.3V512H196V299.3h86.5l18-97.8H196V166.9c0-51.7 20.3-71.5 72.7-71.5c16.3 0 29.4 .4 37 1.2V7.9C291.4 4 256.4 0 236.2 0C129.3 0 80 50.5 80 159.4v42.1H14v97.8H80z"/></svg>
+            <div className="absolute flex justify-center items-center right-10 transform opacity-0 group-hover:opacity-100 w-max h-10 bg-[rgb(var(--secondary-rgb))] rounded-xl text-white font-semibold px-3 text-sm transition-opacity duration-300">Chia sẻ Facebook</div>
           </div>
           <div className="relative rounded-full border object-cover w-8 h-8 flex justify-center items-center cursor-pointer group">
             <Image src={TW} alt="" className="" width={15} />
-            <div className="absolute flex justify-center items-center right-10 transform opacity-0 group-hover:opacity-100 w-max h-10 bg-orange-500 rounded-xl text-white font-semibold px-3 text-sm transition-opacity duration-300">Chia sẻ Twitter</div>
+            <div className="absolute flex justify-center items-center right-10 transform opacity-0 group-hover:opacity-100 w-max h-10 bg-[rgb(var(--secondary-rgb))] rounded-xl text-white font-semibold px-3 text-sm transition-opacity duration-300">Chia sẻ Twitter</div>
           </div>
 
           <div className="relative rounded-full border object-cover w-8 h-8 flex justify-center items-center cursor-pointer group">
             <Link href={`/hoc-vien`}>
               <Image src={B} alt="" className="" width={15} />
             </Link>
-            <div className="absolute flex justify-center items-center right-10 transform opacity-0 group-hover:opacity-100 w-max h-10 bg-orange-500 rounded-xl text-white font-semibold px-3 text-sm transition-opacity duration-300">Quay lại</div>
+            <div className="absolute flex justify-center items-center right-10 transform opacity-0 group-hover:opacity-100 w-max h-10 bg-[rgb(var(--secondary-rgb))] rounded-xl text-white font-semibold px-3 text-sm transition-opacity duration-300">Quay lại</div>
           </div>
         </div>
 
@@ -170,7 +173,7 @@ export default function StudentDetailPage() {
               </div>
             </Link>
             <Link href={`/hoc-vien/${stu.id}`}>
-              <div className="font-bold text-md mt-5 tracking-wide hover:text-orange-500 cursor-pointer">
+              <div className="font-bold text-md mt-5 tracking-wide hover:text-[rgb(var(--secondary-rgb))] cursor-pointer">
                 {stu.title}
               </div>
             </Link>

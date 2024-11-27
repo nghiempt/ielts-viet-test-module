@@ -38,7 +38,7 @@ const DetailTeacher = ({ teacher, onClose }: { teacher: any, onClose: any }) => 
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div ref={popupRef} className="bg-white rounded-lg py-12 w-3/4 max-w-6xl relative h-5/6 overflow-hidden">
         <button
-          className="absolute top-6 right-8 border bg-white text-black px-2 py-2 rounded-md shadow-lg hover:text-orange-500 transition "
+          className="absolute top-6 right-8 border bg-white text-black px-2 py-2 rounded-md shadow-lg hover:text-[rgb(var(--secondary-rgb))] transition "
           onClick={onClose}
         >
           <svg

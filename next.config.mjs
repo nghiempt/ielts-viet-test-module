@@ -12,6 +12,10 @@ const nextConfig = {
                 protocol: "https",
                 hostname: "ktdcgroup.vn",
             },
+            {
+                protocol: "https",
+                hostname: "res.cloudinary.com",
+            },
         ],
     },
 };

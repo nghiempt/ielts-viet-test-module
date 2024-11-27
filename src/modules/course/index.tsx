@@ -45,7 +45,7 @@ export default function CoursePage() {
                 </div>
             </div>
             <div className="w-full flex justify-center items-center mt-10">
-                <div className="w-3/4 h-[320px] border border-orange-500 p-4 rounded-lg">
+                <div className="w-3/4 h-[320px] border border-[rgb(var(--secondary-rgb))] p-4 rounded-lg">
                 </div>
             </div>
             <div className="w-full mb-10 flex flex-col gap-6 py-24 justify-center items-center">
@@ -90,7 +90,7 @@ export default function CoursePage() {
                                                         <div className="flex justify-self-center "><img src="https://cdn-icons-png.flaticon.com/128/555/555417.png" className="w-4 mr-2" /> Giảng viên Bản Ngữ</div>
                                                         <div className="flex justify-self-center"> <img src="https://cdn-icons-png.flaticon.com/128/555/555515.png" className="w-4 mr-2" />Đội ngũ hỗ trợ IELTS người Việt</div>
                                                     </div>
-                                                    <button className="mt-5 px-4 py-2 bg-orange-500 text-white font-semibold rounded-full">Tìm hiểu thêm</button>
+                                                    <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
                                                 </div>
                                             </div>
                                         </CardContent>
@@ -123,7 +123,7 @@ export default function CoursePage() {
                                                         <div className="flex justify-self-center"><img src="https://cdn-icons-png.flaticon.com/128/555/555417.png" className="w-4 mr-2" /> Giảng viên Bản Ngữ</div>
                                                         <div className="flex justify-self-center"> <img src="https://cdn-icons-png.flaticon.com/128/555/555515.png" className="w-4 mr-2" />Đội ngũ hỗ trợ IELTS người Việt</div>
                                                     </div>
-                                                    <button className="mt-5 px-4 py-2 bg-orange-500 text-white font-semibold rounded-full">Tìm hiểu thêm</button>
+                                                    <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
                                                 </div>
                                             </div>
                                         </CardContent>
@@ -156,7 +156,7 @@ export default function CoursePage() {
                                                         <div className="flex justify-self-center"><img src="https://cdn-icons-png.flaticon.com/128/555/555417.png" className="w-4 mr-2" /> Giảng viên Bản Ngữ</div>
                                                         <div className="flex justify-self-center"> <img src="https://cdn-icons-png.flaticon.com/128/555/555515.png" className="w-4 mr-2" />Đội ngũ hỗ trợ IELTS người Việt</div>
                                                     </div>
-                                                    <button className="mt-5 px-4 py-2 bg-orange-500 text-white font-semibold rounded-full">Tìm hiểu thêm</button>
+                                                    <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
                                                 </div>
                                             </div>
                                         </CardContent>
@@ -189,7 +189,7 @@ export default function CoursePage() {
                                                         <div className="flex justify-self-center"><img src="https://cdn-icons-png.flaticon.com/128/555/555417.png" className="w-4 mr-2" /> Giảng viên Bản Ngữ</div>
                                                         <div className="flex justify-self-center"> <img src="https://cdn-icons-png.flaticon.com/128/555/555515.png" className="w-4 mr-2" /> Đội ngũ hỗ trợ IELTS người Việt</div>
                                                     </div>
-                                                    <button className="mt-5 px-4 py-2 bg-orange-500 text-white font-semibold rounded-full">Tìm hiểu thêm</button>
+                                                    <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
                                                 </div>
                                             </div>
                                         </CardContent>
@@ -237,7 +237,7 @@ export default function CoursePage() {
                                                             <div>Đầu ra: 4.5+</div>
                                                         </div>
                                                     </div>
-                                                    <button className="mt-5 px-4 py-2 bg-orange-500 text-white font-semibold rounded-full">Tìm hiểu thêm</button>
+                                                    <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
                                                 </div>
                                             </div>
                                         </CardContent>
@@ -263,7 +263,7 @@ export default function CoursePage() {
                                                             <div>Đầu ra: 4.5+</div>
                                                         </div>
                                                     </div>
-                                                    <button className="mt-5 px-4 py-2 bg-orange-500 text-white font-semibold rounded-full">Tìm hiểu thêm</button>
+                                                    <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
                                                 </div>
                                             </div>
                                         </CardContent>
@@ -289,7 +289,7 @@ export default function CoursePage() {
                                                             <div>Đầu ra: 4.5+</div>
                                                         </div>
                                                     </div>
-                                                    <button className="mt-5 px-4 py-2 bg-orange-500 text-white font-semibold rounded-full">Tìm hiểu thêm</button>
+                                                    <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
                                                 </div>
                                             </div>
                                         </CardContent>
@@ -315,7 +315,7 @@ export default function CoursePage() {
                                                             <div>Đầu ra: 4.5+</div>
                                                         </div>
                                                     </div>
-                                                    <button className="mt-5 px-4 py-2 bg-orange-500 text-white font-semibold rounded-full">Tìm hiểu thêm</button>
+                                                    <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
                                                 </div>
                                             </div>
                                         </CardContent>
@@ -332,10 +332,10 @@ export default function CoursePage() {
                 style={{ backgroundImage: `url('https://ktdcgroup.vn/wp-content/uploads/2021/10/chuong-trinh-hoc-ielts-ktdc-ielts-6-Copy-min.jpg')` }}>
                 <div className="w-3/4 flex justify-center items-center">
                     <div className="w-full justify-self-center">
-                        <div className="text-3xl text-orange-500 font-bold py-4">TƯ VẤN LỘ TRÌNH HỌC CÁ NHÂN HÓA</div>
+                        <div className="text-3xl text-[rgb(var(--secondary-rgb))] font-bold py-4">TƯ VẤN LỘ TRÌNH HỌC CÁ NHÂN HÓA</div>
                         <div className="text-base text-white py-4 w-[700px]">Mỗi học viên đều có xuất phát điểm và mục tiêu khác nhau. Để thiết kế lộ trình học cá nhân hóa cho riêng bạn, hãy để lại thông tin ở đây ngay bạn nhé!</div>
                         <div className="py-4">
-                            <div className="text-base text-orange-500 font-bold">Hoặc gọi hotline</div>
+                            <div className="text-base text-[rgb(var(--secondary-rgb))] font-bold">Hoặc gọi hotline</div>
                             <div className="text-xl text-white font-bold">093 921 77 18</div>
                         </div>
                     </div>
@@ -349,7 +349,7 @@ export default function CoursePage() {
                         <div className="">
                             <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email" required />
                         </div>
-                        <button className="w-full mt-8 px-4 py-2 bg-orange-500 text-white font-semibold rounded-full">Đăng ký tư vấn</button>
+                        <button className="w-full mt-8 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Đăng ký tư vấn</button>
                     </div>
                 </div>
             </div>
@@ -423,7 +423,7 @@ export default function CoursePage() {
                 </div>
             </div>
             <div className="w-full bg-orange-50 py-12 px-6 mt-14 mb-6">
-                <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Đăng ký học cùng <span className="text-orange-500">IELTS VIỆT</span></h2>
+                <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Đăng ký học cùng <span className="text-[rgb(var(--secondary-rgb))]">IELTS VIỆT</span></h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div className="bg-white p-4 rounded-lg shadow flex items-center space-x-4">
                         <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/Icon-float.png" alt="Zalo Logo" className="w-10 h-10" />
@@ -450,7 +450,7 @@ export default function CoursePage() {
                         <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/Icon-float-3.png" alt="Clipboard Icon" className="w-10 h-10" />
                         <div className="cursor-pointer" onClick={() => window.open('https://www.facebook.com/profile.php?id=61550718094576', '_blank')}>
                             <p className="font-semibold text-gray-800">Đăng ký kiểm tra trình độ</p>
-                            <p className="text-orange-500 text-sm">miễn phí</p>
+                            <p className="text-[rgb(var(--secondary-rgb))] text-sm">miễn phí</p>
                         </div>
                     </div>
                 </div>

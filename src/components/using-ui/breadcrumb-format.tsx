@@ -14,10 +14,10 @@ export function BreadcrumbFormat({ currentPath }: BreadcrumbformatProps) {
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Trang Chủ</BreadcrumbLink>
         </BreadcrumbItem>
-        {pathSegments.map((segment, index) => (
+        {pathSegments?.map((segment: any, index: any) => (
           <BreadcrumbItem key={index}>
             <BreadcrumbSeparator />
-            Khóa học
+            {segment}
           </BreadcrumbItem>
         ))}
       </BreadcrumbList>

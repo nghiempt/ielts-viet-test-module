@@ -602,7 +602,7 @@ const TEACHERS_DATA = [
     {
         id: 1,
         name: 'Tony Giusti',
-        image: 'teacher-01.jpg',
+        image: 'https://res.cloudinary.com/farmcode/image/upload/v1732721035/ielts-viet/Screenshot_2024-11-27_at_22.23.31_k1tdpe.png',
         nationality: 'Mỹ',
         diploma: [
             'Thạc sĩ Quốc Tế Học chuyên ngành An Ninh Con Người, Đại học Concordia, Canada',
@@ -616,7 +616,7 @@ const TEACHERS_DATA = [
     {
         id: 2,
         name: 'Andy Robertson',
-        image: 'teacher-02.jpg',
+        image: 'https://res.cloudinary.com/farmcode/image/upload/v1732720896/ielts-viet/pmywb7afgtphip2epmce.png',
         nationality: 'Anh',
         diploma: [
             'Cử nhân Kinh Tế',
@@ -635,7 +635,7 @@ const TEACHERS_DATA = [
     {
         id: 3,
         name: 'Hamish McNair-Wilson',
-        image: 'teacher-03.jpg',
+        image: '',
         nationality: 'Anh',
         diploma: [
             'Thạc sĩ Quốc Tế Học chuyên ngành An Ninh Con Người, Đại học Concordia, Canada',
@@ -649,7 +649,7 @@ const TEACHERS_DATA = [
     {
         id: 4,
         name: 'Aaron Hedrick',
-        image: 'teacher-04.jpg',
+        image: '',
         nationality: 'Mỹ',
         diploma: [
             'Cử nhân Kinh Tế',
@@ -664,7 +664,7 @@ const TEACHERS_DATA = [
     {
         id: 5,
         name: 'Tony Ahn',
-        image: 'teacher-05.jpg',
+        image: '',
         nationality: 'Mỹ',
         diploma: [
             'Thạc sĩ Quốc Tế Học chuyên ngành An Ninh Con Người, Đại học Concordia, Canada',
@@ -678,7 +678,7 @@ const TEACHERS_DATA = [
     {
         id: 6,
         name: 'Martin Firth',
-        image: 'teacher-06.jpg',
+        image: '',
         nationality: 'Anh',
         diploma: [
             'Thạc sĩ Khoa Học Xã Hội',
@@ -698,35 +698,35 @@ const STUDENTS = [
         title: 'Paragraph Title 1',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>
         `
@@ -737,11 +737,11 @@ const STUDENTS = [
         title: 'Paragraph Title 2',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -751,11 +751,11 @@ const STUDENTS = [
         title: 'Paragraph Title 3',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -765,11 +765,11 @@ const STUDENTS = [
         title: 'Paragraph Title 4',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -779,11 +779,11 @@ const STUDENTS = [
         title: 'Paragraph Title 5',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -793,11 +793,11 @@ const STUDENTS = [
         title: 'Paragraph Title 6',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -807,11 +807,11 @@ const STUDENTS = [
         title: 'Paragraph Title 7',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -821,11 +821,11 @@ const STUDENTS = [
         title: 'Paragraph Title 8',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -835,11 +835,11 @@ const STUDENTS = [
         title: 'Paragraph Title 9',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -849,11 +849,11 @@ const STUDENTS = [
         title: 'Paragraph Title 10',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -863,11 +863,11 @@ const STUDENTS = [
         title: 'Paragraph Title 11',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -877,11 +877,11 @@ const STUDENTS = [
         title: 'Paragraph Title 12',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -891,11 +891,11 @@ const STUDENTS = [
         title: 'Paragraph Title 13',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -905,11 +905,11 @@ const STUDENTS = [
         title: 'Paragraph Title 14',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -919,11 +919,11 @@ const STUDENTS = [
         title: 'Paragraph Title 15',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -933,11 +933,11 @@ const STUDENTS = [
         title: 'Paragraph Title 16',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -947,11 +947,11 @@ const STUDENTS = [
         title: 'Paragraph Title 17',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -961,11 +961,11 @@ const STUDENTS = [
         title: 'Paragraph Title 18',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -975,11 +975,11 @@ const STUDENTS = [
         title: 'Paragraph Title 19',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -989,11 +989,11 @@ const STUDENTS = [
         title: 'Paragraph Title 20',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1003,11 +1003,11 @@ const STUDENTS = [
         title: 'Paragraph Title 21',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1017,11 +1017,11 @@ const STUDENTS = [
         title: 'Paragraph Title 22',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1031,11 +1031,11 @@ const STUDENTS = [
         title: 'Paragraph Title 23',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1045,11 +1045,11 @@ const STUDENTS = [
         title: 'Paragraph Title 24',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1059,11 +1059,11 @@ const STUDENTS = [
         title: 'Paragraph Title 25',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1073,11 +1073,11 @@ const STUDENTS = [
         title: 'Paragraph Title 26',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1087,11 +1087,11 @@ const STUDENTS = [
         title: 'Paragraph Title 27',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1101,11 +1101,11 @@ const STUDENTS = [
         title: 'Paragraph Title 28',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1115,11 +1115,11 @@ const STUDENTS = [
         title: 'Paragraph Title 29',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1129,11 +1129,11 @@ const STUDENTS = [
         title: 'Paragraph Title 30',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1143,11 +1143,11 @@ const STUDENTS = [
         title: 'Paragraph Title 31',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1157,11 +1157,11 @@ const STUDENTS = [
         title: 'Paragraph Title 32',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1171,11 +1171,11 @@ const STUDENTS = [
         title: 'Paragraph Title 33',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1185,11 +1185,11 @@ const STUDENTS = [
         title: 'Paragraph Title 34',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1199,11 +1199,11 @@ const STUDENTS = [
         title: 'Paragraph Title 35',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1213,11 +1213,11 @@ const STUDENTS = [
         title: 'Paragraph Title 36',
         content: `
         <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
         <p className="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
         <p className="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p className="text-orange-500 font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
+        <p className="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p className="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
         <p className="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
     },
@@ -1268,6 +1268,45 @@ const STUDENTS_FEELING = [
     },
 ]
 
+const BLOG_DATA = [
+    {
+        id: 1,
+        name: 'Hướng Dẫn Cách Viết Thư Xin Việc Bằng Tiếng Anh Gây Ấn Tượng Với Nhà Tuyển Dụng',
+        image: 'https://ktdcgroup.vn/wp-content/uploads/2024/11/huong-dan-cach-viet-thu-xin-viec-bang-tieng-Anh.jpg',
+        description: 'Trong môi trường làm việc hiện nay, thư xin việc là công cụ quan trọng giúp bạn thể hiện bản thân và g�...',
+        content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate optio praesentium eveniet ullam ex quasi, architecto sint minima nesciunt illo cupiditate, vero voluptas velit. Modi facere error dolores inventore fuga?',
+        date: '05/11/2024',
+        time: '9 minutes'
+    },
+    {
+        id: 2,
+        name: 'Thi IELTS trên máy tính hay trên giấy? Đâu là hình thức phù hợp?',
+        image: 'https://ktdcgroup.vn/wp-content/uploads/2024/08/Thi-IELTS-tren-may-hay-tren-giay-KTDC.jpg',
+        description: 'Hiện nay, ngoài hình thức thi trên giấy truyền thống, kỳ thi IELTS còn được tổ chức thi trên máy tính. B�...',
+        content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate optio praesentium eveniet ullam ex quasi, architecto sint minima nesciunt illo cupiditate, vero voluptas velit. Modi facere error dolores inventore fuga?',
+        date: '19/10/2024',
+        time: '10 minutes'
+    },
+    {
+        id: 3,
+        name: 'Lịch Thi IELTS 2025: Thông Tin Mới Nhất Và Cách Đăng Ký tại IDP',
+        image: 'https://ktdcgroup.vn/wp-content/uploads/2024/10/lich-thi-ielts-2025.jpg',
+        description: 'Nắm được lịch thi IELTS giúp thí sinh có thể chủ động sắp xếp lộ trình học và dễ dàng chọn thời g...',
+        content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate optio praesentium eveniet ullam ex quasi, architecto sint minima nesciunt illo cupiditate, vero voluptas velit. Modi facere error dolores inventore fuga?',
+        date: '12/10/2024',
+        time: '6 minutes'
+    },
+    {
+        id: 4,
+        name: 'Chuỗi trung tâm Anh ngữ ACET ngừng hoạt động sau hơn 20 năm',
+        image: 'https://ktdcgroup.vn/wp-content/uploads/2024/10/Trung-tam-Anh-ngu-ACET-ngung-hoat-dong.jpg',
+        description: 'Mới đây, trung tâm ngoại ngữ ACET, thuộc Công ty TNHH Giáo dục IDP Việt Nam mới đây đã thông báo sẽ ngừ...',
+        content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate optio praesentium eveniet ullam ex quasi, architecto sint minima nesciunt illo cupiditate, vero voluptas velit. Modi facere error dolores inventore fuga?',
+        date: '03/10/2024',
+        time: '6 minutes'
+    }
+]
+
 export const DATA = {
     SLOGANS,
     LEARNERS,
@@ -1275,5 +1314,6 @@ export const DATA = {
     REAL_IMAGES,
     TEACHERS_DATA,
     STUDENTS,
-    STUDENTS_FEELING
+    STUDENTS_FEELING,
+    BLOG_DATA
 }

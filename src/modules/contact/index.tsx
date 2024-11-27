@@ -18,7 +18,7 @@ export default function ContactPage() {
         </div>
         <div className="flex flex-col justify-center items-center mt-16">
           <h1 className="font-bold text-4xl">IELTS VIET TRAINING CENTER</h1>
-          <div className="w-14 border-b-2 border-orange-500 my-4 rounded"></div>
+          <div className="w-14 border-b-2 border-[rgb(var(--secondary-rgb))] my-4 rounded"></div>
           <div className="text-slate-500 mt-4 font-medium">Liên hệ IELTS Việt để được tư vấn lộ trình học IELTS phù hợp dành cho bạn.</div>
         </div>
         <div className="flex flex-row justify-center items-center mt-16">
@@ -71,7 +71,7 @@ export default function ContactPage() {
               <div>106 Nguyễn Minh Quang, P. An Khánh, Q. Ninh Kiều, TP. Cần Thơ</div>
             </div>
             <Link href="https://maps.app.goo.gl/epTLBiHeZqaKXBWR9" target="_blank">
-              <Button className="text-[16px] rounded-md py-2 px-10 bg-orange-500">Xem bản đồ</Button>
+              <Button className="text-[16px] rounded-md py-2 px-10 bg-[rgb(var(--secondary-rgb))]">Xem bản đồ</Button>
             </Link>
           </div>
         </div>
@@ -93,7 +93,7 @@ export default function ContactPage() {
         <div className="flex justify-center mt-20 w-full">
           <div className="flex flex-col justify-left w-3/4">
             <h1 className="font-bold text-2xl">HÌNH ẢNH THỰC TẾ</h1>
-            <div className="w-14 border-b-2 border-orange-500 my-4 rounded"></div>
+            <div className="w-14 border-b-2 border-[rgb(var(--secondary-rgb))] my-4 rounded"></div>
             <div>
               <RealityImage />
             </div>
@@ -101,7 +101,7 @@ export default function ContactPage() {
         </div>
       </div>
       <div className="w-full bg-orange-50 py-12 px-6 mt-14 mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Đăng ký học cùng <span className="text-orange-500">IELTS VIỆT</span></h2>
+        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Đăng ký học cùng <span className="text-[rgb(var(--secondary-rgb))]">IELTS VIỆT</span></h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-white p-4 rounded-lg shadow flex items-center space-x-4">
             <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/Icon-float.png" alt="Zalo Logo" className="w-10 h-10" />
@@ -128,7 +128,7 @@ export default function ContactPage() {
             <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/Icon-float-3.png" alt="Clipboard Icon" className="w-10 h-10" />
             <div className="cursor-pointer" onClick={() => window.open('https://www.facebook.com/profile.php?id=61550718094576', '_blank')}>
               <p className="font-semibold text-gray-800">Đăng ký kiểm tra trình độ</p>
-              <p className="text-orange-500 text-sm">miễn phí</p>
+              <p className="text-[rgb(var(--secondary-rgb))] text-sm">miễn phí</p>
             </div>
           </div>
         </div>

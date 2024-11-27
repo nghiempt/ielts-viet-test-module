@@ -76,7 +76,7 @@ const StudentSlider = () => {
                     </div>
                     <div className="p-4">
                       <a href={stu.URL} target="_blank">
-                        <h3 className="text-lg font-semibold text-gray-800 text-center cursor-pointer hover:text-orange-500">
+                        <h3 className="text-lg font-semibold text-gray-800 text-center cursor-pointer hover:text-[rgb(var(--secondary-rgb))]">
                           {stu.title}
                         </h3>
                       </a>

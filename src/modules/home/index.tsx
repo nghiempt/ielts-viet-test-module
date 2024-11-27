@@ -7,6 +7,7 @@ import { DATA } from "@/utils/data"
 import { PhoneCall } from "lucide-react"
 import Header from "@/layout/header"
 import Footer from "@/layout/footer"
+import { IMAGES } from "@/utils/images"
 
 export default function HomePage() {
 
@@ -18,7 +19,7 @@ export default function HomePage() {
       <div className="w-3/4 flex justify-center items-center py-8 gap-8">
         <div className="w-1/2 flex flex-col justify-center items-start gap-8">
           <h2 className="text-4xl font-bold text-gray-800">
-            Học <span className="text-orange-500">IELTS</span> cùng các chuyên gia đầu ngành
+            Học <span className="text-[rgb(var(--secondary-rgb))]">IELTS</span> cùng các chuyên gia đầu ngành
           </h2>
           <ul className="text-gray-700">
             <li>✔️ Phương pháp độc quyền, tiết kiệm 40% thời gian</li>
@@ -28,10 +29,10 @@ export default function HomePage() {
             <li>✔️ Cam kết đầu ra – 15 năm uy tín</li>
           </ul>
           <div className="flex gap-4">
-            <button className="bg-orange-500 text-white font-semibold px-4 py-2 rounded-full">
+            <button className="bg-[rgb(var(--secondary-rgb))] text-white font-semibold px-4 py-2 rounded-full">
               Test trình độ IELTS miễn phí
             </button>
-            <button className="border border-orange-500 text-orange-500 font-semibold px-4 py-2 rounded-full">
+            <button className="border border-[rgb(var(--secondary-rgb))] text-[rgb(var(--secondary-rgb))] font-semibold px-4 py-2 rounded-full">
               Xem lịch khai giảng
             </button>
           </div>
@@ -55,8 +56,8 @@ export default function HomePage() {
           </div>
         </div>
         <div className="w-1/2 flex justify-end items-start relative">
-          <div className="w-5/6 border border-orange-500 p-4 rounded-lg">
-            <img src="https://res.cloudinary.com/farmcode/image/upload/v1730742319/ielts-viet/wcbfgroi7dyfkhyp6ada.png" alt="alt" className="w-full rounded-lg" />
+          <div className="w-5/6 border border-[rgb(var(--secondary-rgb))] p-4 rounded-lg">
+            <img src={IMAGES.HOME_BANNER} alt="alt" className="w-full rounded-lg" />
           </div>
         </div>
       </div>
@@ -64,7 +65,7 @@ export default function HomePage() {
         <div className="flex justify-center items-center gap-4 animate-marquee whitespace-nowrap">
           {slogans.map((item: any, index: any) => (
             <div key={`item-${index}`} className="bg-white px-10 py-2 rounded-lg shadow-md text-center">
-              <h3 className="text-orange-500 font-bold text-lg">{item.title}</h3>
+              <h3 className="text-[rgb(var(--secondary-rgb))] font-bold text-lg">{item.title}</h3>
               <p className="text-gray-600">{item.content}</p>
             </div>
           ))}
@@ -78,7 +79,7 @@ export default function HomePage() {
           </p>
         </div>
         <div className="flex justify-center space-x-4 mt-6">
-          <button className="px-4 py-2 bg-orange-500 text-white font-semibold rounded-full">Tất cả</button>
+          <button className="px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tất cả</button>
           <button className="px-4 py-2 bg-gray-100 text-gray-800 font-semibold rounded-full">Mục tiêu IELTS 4.5+</button>
           <button className="px-4 py-2 bg-gray-100 text-gray-800 font-semibold rounded-full">Mục tiêu IELTS 5.0+</button>
           <button className="px-4 py-2 bg-gray-100 text-gray-800 font-semibold rounded-full">Mục tiêu IELTS 5.5+</button>
@@ -92,7 +93,7 @@ export default function HomePage() {
               <div>
                 <h3 className="text-xl font-bold text-gray-800">IELTS Junior</h3>
                 <div className="flex justify-start items-center gap-2 my-4">
-                  <p className="text-orange-500 font-semibold text-lg">6.288.000 VND</p>
+                  <p className="text-[rgb(var(--secondary-rgb))] font-semibold text-lg">6.288.000 VND</p>
                   <p className="text-gray-500 text-sm">24 giờ (6 tuần)</p>
                 </div>
                 <ul className="mt-2 text-gray-700 space-y-1">
@@ -101,7 +102,7 @@ export default function HomePage() {
                   <li>✔️ Luyện nghe qua các chủ đề quen thuộc, tạo nền tảng giao tiếp</li>
                   <li>✔️ Học phương pháp làm bài thi IELTS từng bước</li>
                 </ul>
-                <button className="mt-8 px-4 py-2 border border-orange-500 text-orange-500 font-semibold rounded-full">Tìm hiểu thêm</button>
+                <button className="mt-8 px-4 py-2 border border-[rgb(var(--secondary-rgb))] text-[rgb(var(--secondary-rgb))] font-semibold rounded-full">Tìm hiểu thêm</button>
               </div>
             </div>
             <div className="w-full bg-white rounded-xl shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-2 relative flex justify-center items-center gap-6">
@@ -109,7 +110,7 @@ export default function HomePage() {
               <div>
                 <h3 className="text-xl font-bold text-gray-800">IELTS Advanced</h3>
                 <div className="flex justify-start items-center gap-2 my-4">
-                  <p className="text-orange-500 font-semibold text-lg">9.588.000 VND</p>
+                  <p className="text-[rgb(var(--secondary-rgb))] font-semibold text-lg">9.588.000 VND</p>
                   <p className="text-gray-500 text-sm">40 giờ (10 tuần)</p>
                 </div>
                 <ul className="mt-2 text-gray-700 space-y-1">
@@ -118,7 +119,7 @@ export default function HomePage() {
                   <li>✔️ Đào sâu ngữ pháp và từ vựng học thuật</li>
                   <li>✔️ Luyện nói với các chủ đề thực tiễn</li>
                 </ul>
-                <button className="mt-8 px-4 py-2 border border-orange-500 text-orange-500 font-semibold rounded-full">Tìm hiểu thêm</button>
+                <button className="mt-8 px-4 py-2 border border-[rgb(var(--secondary-rgb))] text-[rgb(var(--secondary-rgb))] font-semibold rounded-full">Tìm hiểu thêm</button>
               </div>
             </div>
           </div>
@@ -178,7 +179,7 @@ export default function HomePage() {
             <img src="https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/452104939_122195342294023936_2949067571913687341_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFdBZnW00NPiZwupJWkKYFok54p0mFEJ3yTninSYUQnfNFtP3gUjog3AR2tahduf44z8PoY7LF0Ih_Cq4vGu5Gv&_nc_ohc=jBFmClVlH60Q7kNvgHgPQpC&_nc_zt=23&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=A2ix8xDro6WPEyl7oEVgzj-&oh=00_AYCW5xYmtKb5lTYdHnJySwJVmwULz_MIR5kIljZvdZjKgA&oe=6745CFF4" alt="alt" className="w-full rounded-t-lg" />
             <div className="p-4">
               <div className="flex items-center mb-2">
-                <span className="bg-orange-100 text-orange-500 font-bold text-2xl rounded-full px-2 py-2">8.0</span>
+                <span className="bg-orange-100 text-[rgb(var(--secondary-rgb))] font-bold text-2xl rounded-full px-2 py-2">8.0</span>
                 <h3 className="ml-4 font-bold text-gray-800">Phạm Phương Linh</h3>
               </div>
               <p className="text-gray-600">Trường THPT Châu Văn Liêm</p>
@@ -188,7 +189,7 @@ export default function HomePage() {
             <img src="https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/452104939_122195342294023936_2949067571913687341_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFdBZnW00NPiZwupJWkKYFok54p0mFEJ3yTninSYUQnfNFtP3gUjog3AR2tahduf44z8PoY7LF0Ih_Cq4vGu5Gv&_nc_ohc=jBFmClVlH60Q7kNvgHgPQpC&_nc_zt=23&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=A2ix8xDro6WPEyl7oEVgzj-&oh=00_AYCW5xYmtKb5lTYdHnJySwJVmwULz_MIR5kIljZvdZjKgA&oe=6745CFF4" alt="alt" className="w-full rounded-t-lg" />
             <div className="p-4">
               <div className="flex items-center mb-2">
-                <span className="bg-orange-100 text-orange-500 font-bold text-2xl rounded-full px-2 py-2">7.5</span>
+                <span className="bg-orange-100 text-[rgb(var(--secondary-rgb))] font-bold text-2xl rounded-full px-2 py-2">7.5</span>
                 <h3 className="ml-4 font-bold text-gray-800">Nguyễn Nhật Nam</h3>
               </div>
               <p className="text-gray-600">Trường THPT Nguyễn Việt Dũng</p>
@@ -198,7 +199,7 @@ export default function HomePage() {
             <img src="https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/452104939_122195342294023936_2949067571913687341_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFdBZnW00NPiZwupJWkKYFok54p0mFEJ3yTninSYUQnfNFtP3gUjog3AR2tahduf44z8PoY7LF0Ih_Cq4vGu5Gv&_nc_ohc=jBFmClVlH60Q7kNvgHgPQpC&_nc_zt=23&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=A2ix8xDro6WPEyl7oEVgzj-&oh=00_AYCW5xYmtKb5lTYdHnJySwJVmwULz_MIR5kIljZvdZjKgA&oe=6745CFF4" alt="alt" className="w-full rounded-t-lg" />
             <div className="p-4">
               <div className="flex items-center mb-2">
-                <span className="bg-orange-100 text-orange-500 font-bold text-2xl rounded-full px-2 py-2">6.5</span>
+                <span className="bg-orange-100 text-[rgb(var(--secondary-rgb))] font-bold text-2xl rounded-full px-2 py-2">6.5</span>
                 <h3 className="ml-4 font-bold text-gray-800">Đặng Thanh Tân</h3>
               </div>
               <p className="text-gray-600">Trường THPT Vĩnh Thạnh</p>
@@ -217,7 +218,7 @@ export default function HomePage() {
           <LearnerSlider />
         </div>
         <div className="flex justify-center mt-8">
-          <button className="px-6 py-2 bg-orange-500 text-white font-semibold rounded-full" >Xem thêm đánh giá</button>
+          <button className="px-6 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full" >Xem thêm đánh giá</button>
         </div>
       </div>
       <div className="w-full flex justify-center items-center py-20">
@@ -227,24 +228,24 @@ export default function HomePage() {
           </div>
           <div className="w-full md:w-1/2 p-8">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Miễn phí suất thi thử IELTS</h2>
-            <h3 className="text-lg font-semibold text-orange-500">Được cựu giám khảo IELTS nhận xét</h3>
+            <h3 className="text-lg font-semibold text-[rgb(var(--secondary-rgb))]">Được cựu giám khảo IELTS nhận xét</h3>
             <p className="text-gray-600 mt-2">
               Trải nghiệm bài thi thử IELTS 4 kỹ năng, mô phỏng thi thật, giúp đánh giá chính xác trình độ IELTS hiện tại.
             </p>
             <form action="#" method="POST" className="mt-6 space-y-4">
               <div>
                 <label className="sr-only">Họ và tên</label>
-                <input type="text" id="name" name="name" placeholder="Họ và tên" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500" />
+                <input type="text" id="name" name="name" placeholder="Họ và tên" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--secondary-rgb))]" />
               </div>
               <div>
                 <label className="sr-only">Số điện thoại</label>
-                <input type="text" id="phone" name="phone" placeholder="Số điện thoại" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500" />
+                <input type="text" id="phone" name="phone" placeholder="Số điện thoại" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--secondary-rgb))]" />
               </div>
               <div>
                 <label className="sr-only">Email</label>
-                <input type="email" id="email" name="email" placeholder="Email" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500" />
+                <input type="email" id="email" name="email" placeholder="Email" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--secondary-rgb))]" />
               </div>
-              <button type="submit" className="w-full bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500">Đăng ký tư vấn</button>
+              <button type="submit" className="w-full bg-[rgb(var(--secondary-rgb))] text-white font-semibold py-3 rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--secondary-rgb))]">Đăng ký tư vấn</button>
             </form>
           </div>
         </div>
@@ -257,14 +258,14 @@ export default function HomePage() {
           <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] overflow-hidden">
             <div className="p-6 flex flex-col items-start">
               <div className="flex items-center space-x-2">
-                <span className="bg-orange-500 text-white px-2 py-1 rounded-full text-sm">Were Hiring</span>
+                <span className="bg-[rgb(var(--secondary-rgb))] text-white px-2 py-1 rounded-full text-sm">Were Hiring</span>
               </div>
               <h3 className="mt-4 text-2xl font-bold text-gray-800">IELTS TEACHER (Vietnamese)</h3>
               <hr className="w-full border-gray-300 my-2" />
               <p className="text-gray-600 text-sm">Recruitment: IELTS TEACHER (Vietnamese)</p>
               <p className="text-gray-500 text-xs mt-2">30/10/2024 • 4 phút đọc</p>
             </div>
-            <a href="#" className="text-orange-500 text-sm font-semibold p-6 block">Xem thêm tin khác</a>
+            <a href="#" className="text-[rgb(var(--secondary-rgb))] text-sm font-semibold p-6 block">Xem thêm tin khác</a>
           </div>
           <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] overflow-hidden">
             <img src="https://ktdcgroup.vn/wp-content/uploads/2024/08/Thi-IELTS-tren-may-hay-tren-giay-KTDC.jpg" alt="Thi IELTS trên máy hay trên giấy?" className="w-full h-48 object-cover" />
@@ -283,7 +284,7 @@ export default function HomePage() {
         </div>
       </div>
       <div className="w-full bg-orange-50 py-12 px-6 mt-14 mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Đăng ký học cùng <span className="text-orange-500">IELTS VIỆT</span></h2>
+        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Đăng ký học cùng <span className="text-[rgb(var(--secondary-rgb))]">IELTS VIỆT</span></h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-white p-4 rounded-lg shadow flex items-center space-x-4">
             <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/Icon-float.png" alt="Zalo Logo" className="w-10 h-10" />
@@ -310,7 +311,7 @@ export default function HomePage() {
             <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/Icon-float-3.png" alt="Clipboard Icon" className="w-10 h-10" />
             <div className="cursor-pointer" onClick={() => window.open('https://www.facebook.com/profile.php?id=61550718094576', '_blank')}>
               <p className="font-semibold text-gray-800">Đăng ký kiểm tra trình độ</p>
-              <p className="text-orange-500 text-sm">miễn phí</p>
+              <p className="text-[rgb(var(--secondary-rgb))] text-sm">miễn phí</p>
             </div>
           </div>
         </div>

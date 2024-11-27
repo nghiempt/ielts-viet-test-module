@@ -192,7 +192,7 @@ export default function RealityImage() {
       ) : (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center">
           <button
-            className="absolute top-4 right-4 bg-orange-500 text-white px-4 py-2 rounded-md shadow-lg hover:bg-orange-500 transition z-50"
+            className="absolute top-4 right-4 bg-[rgb(var(--secondary-rgb))] text-white px-4 py-2 rounded-md shadow-lg hover:bg-[rgb(var(--secondary-rgb))] transition z-50"
             onClick={closeGallery}
           >
             <svg
