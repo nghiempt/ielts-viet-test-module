@@ -82,7 +82,7 @@ export default function RealityImage() {
                           <Image
                             alt={`Photo ${slide[0].id}`}
                             className="w-full h-full rounded-lg shadow-lg brightness-95 transition-transform duration-200 object-cover"
-                            src={`/images/${slide[0].original}`}
+                            src={slide[0].thumbnail}
                             width={200}
                             height={200}
                             sizes="(max-width: 640px) 100vw,
@@ -111,7 +111,7 @@ export default function RealityImage() {
                           <Image
                             alt={`Photo ${slide[1].id}`}
                             className="w-full h-full rounded-lg shadow-lg brightness-95 transition-transform duration-200 object-cover"
-                            src={`/images/${slide[1].original}`}
+                            src={slide[1].thumbnail}
                             width={200}
                             height={200}
                             sizes="(max-width: 640px) 100vw,
@@ -142,7 +142,7 @@ export default function RealityImage() {
                           <Image
                             alt={`Photo ${slide[2].id}`}
                             className="w-full h-full rounded-lg shadow-lg brightness-95 transition-transform duration-200 object-cover"
-                            src={`/images/${slide[2].original}`}
+                            src={slide[2].thumbnail}
                             width={200}
                             height={200}
                             sizes="(max-width: 640px) 100vw,
@@ -171,7 +171,7 @@ export default function RealityImage() {
                           <Image
                             alt={`Photo ${slide[3].id}`}
                             className="w-full h-full rounded-lg shadow-lg brightness-95 transition-transform duration-200 object-cover"
-                            src={`/images/${slide[3].original}`}
+                            src={slide[3].thumbnail}
                             width={200}
                             height={200}
                             sizes="(max-width: 640px) 100vw,
@@ -221,7 +221,7 @@ export default function RealityImage() {
           </button>
           <ImageGallery
             items={images.map((image) => ({
-              original: `/images/${image.original}`,
+              original: `${image.thumbnail}`,
               thumbnail: image.thumbnail,
               description: image.description,
             }))}
