@@ -70,19 +70,19 @@ export default function RealityImage() {
             loop={true}
             resistanceRatio={0}
           >
-            {slides.map((slide, index) => (
+            {slides?.map((slide, index) => (
               <SwiperSlide key={index}>
                 <div className="grid grid-rows-12 gap-2 h-full">
                   <div className={`grid grid-cols-12 gap-2 ${index % 2 === 0 ? "row-span-6" : "row-span-7"}`}>
                     <div className="col-span-7 flex justify-center items-center relative group"
-                      onClick={() => openGallery(slide[0].id - 1)}
+                      onClick={() => openGallery(slide[0]?.id - 1)}
                     >
                       {slide[0] && (
                         <>
                           <Image
-                            alt={`Photo ${slide[0].id}`}
+                            alt={`Photo ${slide[0]?.id}`}
                             className="w-full h-full rounded-lg shadow-lg brightness-95 transition-transform duration-200 object-cover"
-                            src={slide[0].thumbnail}
+                            src={slide[0]?.thumbnail}
                             width={200}
                             height={200}
                             sizes="(max-width: 640px) 100vw,
@@ -104,14 +104,14 @@ export default function RealityImage() {
                       )}
                     </div>
                     <div className="col-span-5 flex justify-center items-center relative group"
-                      onClick={() => openGallery(slide[1].id - 1)}
+                      onClick={() => openGallery(slide[1]?.id - 1)}
                     >
                       {slide[1] && (
                         <>
                           <Image
-                            alt={`Photo ${slide[1].id}`}
+                            alt={`Photo ${slide[1]?.id}`}
                             className="w-full h-full rounded-lg shadow-lg brightness-95 transition-transform duration-200 object-cover"
-                            src={slide[1].thumbnail}
+                            src={slide[1]?.thumbnail}
                             width={200}
                             height={200}
                             sizes="(max-width: 640px) 100vw,
@@ -135,14 +135,14 @@ export default function RealityImage() {
                   </div>
                   <div className={`grid grid-cols-12 gap-2 ${index % 2 === 0 ? "row-span-7" : "row-span-6"}`}>
                     <div className="col-span-5 flex justify-center items-center relative group"
-                      onClick={() => openGallery(slide[2].id - 1)}
+                      onClick={() => openGallery(slide[2]?.id - 1)}
                     >
                       {slide[2] && (
                         <>
                           <Image
-                            alt={`Photo ${slide[2].id}`}
+                            alt={`Photo ${slide[2]?.id}`}
                             className="w-full h-full rounded-lg shadow-lg brightness-95 transition-transform duration-200 object-cover"
-                            src={slide[2].thumbnail}
+                            src={slide[2]?.thumbnail}
                             width={200}
                             height={200}
                             sizes="(max-width: 640px) 100vw,
@@ -164,14 +164,14 @@ export default function RealityImage() {
                       )}
                     </div>
                     <div className="col-span-7 flex justify-center items-center relative group"
-                      onClick={() => openGallery(slide[3].id - 1)}
+                      onClick={() => openGallery(slide[3]?.id - 1)}
                     >
                       {slide[3] && (
                         <>
                           <Image
-                            alt={`Photo ${slide[3].id}`}
+                            alt={`Photo ${slide[3]?.id}`}
                             className="w-full h-full rounded-lg shadow-lg brightness-95 transition-transform duration-200 object-cover"
-                            src={slide[3].thumbnail}
+                            src={slide[3]?.thumbnail}
                             width={200}
                             height={200}
                             sizes="(max-width: 640px) 100vw,
@@ -220,10 +220,10 @@ export default function RealityImage() {
             </svg>
           </button>
           <ImageGallery
-            items={images.map((image) => ({
-              original: `${image.thumbnail}`,
-              thumbnail: image.thumbnail,
-              description: image.description,
+            items={images?.map((image) => ({
+              original: `${image?.thumbnail}`,
+              thumbnail: image?.thumbnail,
+              description: image?.description,
             }))}
             startIndex={startIndex}
             showFullscreenButton={true}

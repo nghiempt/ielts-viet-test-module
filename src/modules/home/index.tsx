@@ -4,10 +4,10 @@ import Image from "next/image"
 import TeacherSlider from "./components/teachers.slider"
 import LearnerSlider from "./components/learners.slider"
 import { DATA } from "@/utils/data"
-import { PhoneCall } from "lucide-react"
 import Header from "@/layout/header"
 import Footer from "@/layout/footer"
 import { IMAGES } from "@/utils/images"
+import SignWithIelts from "@/layout/sign-with-ielts"
 
 export default function HomePage() {
 
@@ -37,17 +37,17 @@ export default function HomePage() {
             </button>
           </div>
           <div className="flex items-center gap-4">
-            <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/hero-image.png" alt="alt" className="w-28 rounded-full" />
+            <Image width={1000} height={1000} src="https://ktdcgroup.vn/wp-content/uploads/2024/10/hero-image.png" alt="alt" className="w-28 rounded-full" />
             <span className="text-gray-700 font-semibold">500+ học viên tại Cần Thơ</span>
           </div>
           <div className="w-full flex justify-between items-center">
             <div className="flex items-center gap-4">
-              <img src="https://ktdcgroup.vn/wp-content/uploads/2024/06/british-council-logo.png" alt="alt" className="w-20" />
-              <img src="https://ktdcgroup.vn/wp-content/uploads/2024/05/logo-idp.svg" alt="alt" className="w-20" />
+              <Image width={1000} height={1000} src="https://ktdcgroup.vn/wp-content/uploads/2024/06/british-council-logo.png" alt="alt" className="w-20" />
+              <Image width={1000} height={1000} src="https://ktdcgroup.vn/wp-content/uploads/2024/05/logo-idp.svg" alt="alt" className="w-20" />
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center bg-orange-100 p-2 rounded-full">
-                <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/google-icon.png" alt="alt" className="w-6 h-6" />
+                <Image width={1000} height={1000} src="https://ktdcgroup.vn/wp-content/uploads/2024/10/google-icon.png" alt="alt" className="w-6 h-6" />
               </div>
               <div className="flex items-center bg-orange-100 p-2 rounded-full">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="alt" className="w-6 h-6" />
@@ -57,7 +57,7 @@ export default function HomePage() {
         </div>
         <div className="w-1/2 flex justify-end items-start relative">
           <div className="w-5/6 border border-[rgb(var(--secondary-rgb))] p-4 rounded-lg">
-            <img src={IMAGES.HOME_BANNER} alt="alt" className="w-full rounded-lg" />
+            <Image width={1000} height={1000} src={IMAGES.HOME_BANNER} alt="alt" className="w-full rounded-lg" />
           </div>
         </div>
       </div>
@@ -268,14 +268,14 @@ export default function HomePage() {
             <a href="#" className="text-[rgb(var(--secondary-rgb))] text-sm font-semibold p-6 block">Xem thêm tin khác</a>
           </div>
           <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] overflow-hidden">
-            <img src="https://ktdcgroup.vn/wp-content/uploads/2024/08/Thi-IELTS-tren-may-hay-tren-giay-KTDC.jpg" alt="Thi IELTS trên máy hay trên giấy?" className="w-full h-48 object-cover" />
+            <Image width={1000} height={1000} src="https://ktdcgroup.vn/wp-content/uploads/2024/08/Thi-IELTS-tren-may-hay-tren-giay-KTDC.jpg" alt="Thi IELTS trên máy hay trên giấy?" className="w-full h-48 object-cover" />
             <div className="p-6">
               <h3 className="text-lg font-bold text-gray-800">Thi IELTS trên máy hay trên giấy? Đâu là hình thức phù hợp?</h3>
               <p className="text-gray-500 text-xs mt-2">19/10/2024 • 4 phút đọc</p>
             </div>
           </div>
           <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] overflow-hidden">
-            <img src="https://ktdcgroup.vn/wp-content/uploads/2024/11/huong-dan-cach-viet-thu-xin-viec-bang-tieng-Anh.jpg" alt="Lịch thi IELTS 2025 tại IDP" className="w-full h-48 object-cover" />
+            <Image width={1000} height={1000} src="https://ktdcgroup.vn/wp-content/uploads/2024/11/huong-dan-cach-viet-thu-xin-viec-bang-tieng-Anh.jpg" alt="Lịch thi IELTS 2025 tại IDP" className="w-full h-48 object-cover" />
             <div className="p-6">
               <h3 className="text-lg font-bold text-gray-800">Lịch Thi IELTS 2025: Thông Tin Mới Nhất Và Cách Đăng Ký tại IDP</h3>
               <p className="text-gray-500 text-xs mt-2">12/10/2024 • 4 phút đọc</p>
@@ -283,39 +283,7 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      <div className="w-full bg-orange-50 py-12 px-6 mt-14 mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Đăng ký học cùng <span className="text-[rgb(var(--secondary-rgb))]">IELTS VIỆT</span></h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-white p-4 rounded-lg shadow flex items-center space-x-4">
-            <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/Icon-float.png" alt="Zalo Logo" className="w-10 h-10" />
-            <div className="cursor-pointer" onClick={() => window.open('https://www.facebook.com/profile.php?id=61550718094576', '_blank')}>
-              <p className="font-semibold text-gray-800">Nhắn tin Zalo</p>
-              <p className="text-gray-500 text-sm">Trung tâm IELTS VIỆT</p>
-            </div>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow flex items-center space-x-4">
-            <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/Icon-float-1.png" alt="Messenger Logo" className="w-10 h-10" />
-            <div className="cursor-pointer" onClick={() => window.open('https://www.facebook.com/profile.php?id=61550718094576', '_blank')}>
-              <p className="font-semibold text-gray-800">Nhắn tin Messenger</p>
-              <p className="text-gray-500 text-sm">Trung tâm IELTS VIỆT</p>
-            </div>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow flex items-center space-x-4">
-            <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/Icon-float-2.png" alt="Phone Icon" className="w-10 h-10" />
-            <div className="cursor-pointer" onClick={() => window.open('https://www.facebook.com/profile.php?id=61550718094576', '_blank')}>
-              <p className="font-semibold text-gray-800">Gọi hotline</p>
-              <p className="text-gray-500 text-sm">0939 217 718</p>
-            </div>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow flex items-center space-x-4">
-            <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/Icon-float-3.png" alt="Clipboard Icon" className="w-10 h-10" />
-            <div className="cursor-pointer" onClick={() => window.open('https://www.facebook.com/profile.php?id=61550718094576', '_blank')}>
-              <p className="font-semibold text-gray-800">Đăng ký kiểm tra trình độ</p>
-              <p className="text-[rgb(var(--secondary-rgb))] text-sm">miễn phí</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <SignWithIelts />
       <Footer />
     </div>
   )

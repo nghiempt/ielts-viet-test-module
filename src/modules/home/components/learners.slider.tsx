@@ -7,6 +7,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { DATA } from "@/utils/data";
 import '../../../styles/button.slider.css'
+import Image from "next/image";
 
 type Learner = {
   id: number,
@@ -41,25 +42,25 @@ const LearnerSlider = () => {
           spaceBetween={20}
           className="w-full"
         >
-          {slides.map((slide, slideIndex) => (
+          {slides?.map((slide, slideIndex) => (
             <SwiperSlide
               key={`slide-${slideIndex}`}
               className="flex justify-center"
             >
               <div className="flex flex-row justify-around gap-6 px-14 py-10">
-                {slide.map((learn) => (
-                  <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-6 relative" key={learn.id}>
+                {slide?.map((learn, index) => (
+                  <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-6 relative" key={index}>
                     <div className="flex items-center space-x-2 mb-4">
-                      <img src="https://cdn-icons-png.flaticon.com/128/149/149071.png" alt="Avatar" className="w-10 h-10 rounded-full" />
-                      <h3 className="font-bold text-gray-800">{learn.name}</h3>
+                      <Image src="https://cdn-icons-png.flaticon.com/128/149/149071.png" alt="Avatar" className="w-10 h-10 rounded-full" width={1000} height={1000} />
+                      <h3 className="font-bold text-gray-800">{learn?.name}</h3>
                       <span className="text-[rgb(var(--secondary-rgb))] text-2xl font-bold absolute top-4 right-4">“</span>
                     </div>
                     <p className="text-gray-600 text-sm">
-                      {learn.cmt}
+                      {learn?.cmt}
                     </p>
                     <div className="flex items-center justify-between mt-4">
                       <div className="flex items-center space-x-1 text-gray-500">
-                        <p className="text-xs">{learn.cmtSrc}</p>
+                        <p className="text-xs">{learn?.cmtSrc}</p>
                       </div>
                       <a href="#" className="text-blue-500 text-sm font-semibold">Xem chi tiết</a>
                     </div>

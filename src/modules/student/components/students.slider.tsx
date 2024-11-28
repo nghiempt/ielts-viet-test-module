@@ -46,21 +46,21 @@ const StudentSlider = () => {
           slidesPerGroup={1}
           className="w-full h-[340px]"
         >
-          {slides.map((slide, slideIndex) => (
+          {slides?.map((slide, slideIndex) => (
             <SwiperSlide
               key={`slide-${slideIndex}`}
               className="flex justify-center"
             >
               <div className="flex flex-row justify-around gap-6 py-10">
-                {slide.map((stu) => (
+                {slide?.map((stu) => (
                   <div
-                    key={stu.id}
+                    key={stu?.id}
                     className="bg-white w-80 overflow-hidden "
                   >
                     <div className="relative">
                       <Image
-                        src={stu.image}
-                        alt={stu.title}
+                        src={stu?.image}
+                        alt={stu?.title}
                         className="w-full object-cover rounded-xl"
                         width={1000}
                         height={1000}
@@ -76,9 +76,9 @@ const StudentSlider = () => {
                       </a>
                     </div>
                     <div className="p-4">
-                      <a href={stu.URL} target="_blank">
+                      <a href={stu?.URL} target="_blank">
                         <h3 className="text-lg font-semibold text-gray-800 text-center cursor-pointer hover:text-[rgb(var(--secondary-rgb))]">
-                          {stu.title}
+                          {stu?.title}
                         </h3>
                       </a>
                     </div>

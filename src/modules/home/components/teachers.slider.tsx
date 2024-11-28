@@ -7,6 +7,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import '../../../styles/button.slider.css'
 import { DATA } from "@/utils/data";
+import Image from "next/image";
 
 type Teacher = {
   id: number;
@@ -41,27 +42,29 @@ const TeacherSlider = () => {
           spaceBetween={20}
           className="w-full"
         >
-          {slides.map((slide, slideIndex) => (
+          {slides?.map((slide, index) => (
             <SwiperSlide
-              key={`slide-${slideIndex}`}
+              key={`slide-${index}`}
               className="flex justify-center"
             >
               <div className="flex flex-row justify-around gap-6 px-14 py-10">
-                {slide.map((teach) => (
+                {slide?.map((teach) => (
                   <div
-                    key={teach.id}
+                    key={teach?.id}
                     className="bg-white rounded-lg shadow-lg p-6 w-80"
                   >
-                    <img
-                      src={teach.img}
-                      alt={teach.name}
+                    <Image
+                      src={teach?.img}
+                      alt={teach?.name}
                       className="w-32 h-32 rounded-full mx-auto mb-4"
+                      width={1000}
+                      height={1000}
                     />
                     <h3 className="text-xl font-bold text-gray-800 text-center">
-                      {teach.name}
+                      {teach?.name}
                     </h3>
                     <ul className="mt-4 text-gray-700 space-y-1 text-center text-base">
-                      {teach.qualifications.map((qual, index) => (
+                      {teach?.qualifications.map((qual, index) => (
                         <li key={index}>✔️ {qual}</li>
                       ))}
                     </ul>
