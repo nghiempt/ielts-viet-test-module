@@ -1,5 +1,6 @@
 "use client"
 
+import { ROUTES } from "@/utils/route"
 import { PhoneCall } from "lucide-react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
@@ -10,23 +11,23 @@ export default function Header() {
     const pathName = usePathname()
 
     const checkPathName = (pathName: string) => {
-        if (/^\/hoc-vien\/\d+$/.test(pathName)) {
+        if (new RegExp(`^${ROUTES.STUDENT}/\\d+$`).test(pathName)) {
             return 3;
         }
         switch (pathName) {
-            case "/":
+            case `${ROUTES.HOME}`:
                 return 0
-            case "/khoa-hoc":
+            case `${ROUTES.COURSE}`:
                 return 1
-            case "/giang-vien":
+            case `${ROUTES.TEACHER}`:
                 return 2
-            case "/hoc-vien":
+            case `${ROUTES.STUDENT}`:
                 return 3
-            case "/hoc-vien/[id]":
+            case `${ROUTES.STUDENT}/[id]`:
                 return 3
-            case "/lien-he":
+            case `${ROUTES.CONTACT}`:
                 return 4
-            case "/bang-tin":
+            case `${ROUTES.BLOG}`:
                 return 5
             default:
                 return 0
@@ -61,22 +62,22 @@ export default function Header() {
             <div className="w-3/4 flex justify-center items-center border-b border-t border-gray-200 bg-white py-4">
                 <ul className="flex justify-center items-center gap-20">
                     <li>
-                        <a href="/" className={`${checkPathName(pathName) === 0 ? 'font-bold text-[rgb(var(--secondary-rgb))]' : 'text-gray-800 hover:text-[rgb(var(--secondary-rgb))]'}`}>TRANG CHỦ</a>
+                        <a href={ROUTES.HOME} className={`${checkPathName(pathName) === 0 ? 'font-bold text-[rgb(var(--secondary-rgb))]' : 'text-gray-800 hover:text-[rgb(var(--secondary-rgb))]'}`}>TRANG CHỦ</a>
                     </li>
                     <li>
-                        <a href="/khoa-hoc" className={`${checkPathName(pathName) === 1 ? 'font-bold text-[rgb(var(--secondary-rgb))]' : 'text-gray-800 hover:text-[rgb(var(--secondary-rgb))]'}`}>KHOÁ HỌC</a>
+                        <a href={ROUTES.COURSE} className={`${checkPathName(pathName) === 1 ? 'font-bold text-[rgb(var(--secondary-rgb))]' : 'text-gray-800 hover:text-[rgb(var(--secondary-rgb))]'}`}>KHOÁ HỌC</a>
                     </li>
                     <li>
-                        <a href="/giang-vien" className={`${checkPathName(pathName) === 2 ? 'font-bold text-[rgb(var(--secondary-rgb))]' : 'text-gray-800 hover:text-[rgb(var(--secondary-rgb))]'}`}>GIẢNG VIÊN</a>
+                        <a href={ROUTES.TEACHER} className={`${checkPathName(pathName) === 2 ? 'font-bold text-[rgb(var(--secondary-rgb))]' : 'text-gray-800 hover:text-[rgb(var(--secondary-rgb))]'}`}>GIẢNG VIÊN</a>
                     </li>
                     <li>
-                        <a href="/hoc-vien" className={`${checkPathName(pathName) === 3 ? 'font-bold text-[rgb(var(--secondary-rgb))]' : 'text-gray-800 hover:text-[rgb(var(--secondary-rgb))]'}`}>HỌC VIÊN</a>
+                        <a href={ROUTES.STUDENT} className={`${checkPathName(pathName) === 3 ? 'font-bold text-[rgb(var(--secondary-rgb))]' : 'text-gray-800 hover:text-[rgb(var(--secondary-rgb))]'}`}>HỌC VIÊN</a>
                     </li>
                     <li>
-                        <a href="/lien-he" className={`${checkPathName(pathName) === 4 ? 'font-bold text-[rgb(var(--secondary-rgb))]' : 'text-gray-800 hover:text-[rgb(var(--secondary-rgb))]'}`}>LIÊN HỆ</a>
+                        <a href={ROUTES.CONTACT} className={`${checkPathName(pathName) === 4 ? 'font-bold text-[rgb(var(--secondary-rgb))]' : 'text-gray-800 hover:text-[rgb(var(--secondary-rgb))]'}`}>LIÊN HỆ</a>
                     </li>
                     <li>
-                        <a href="/bang-tin" className={`${checkPathName(pathName) === 5 ? 'font-bold text-[rgb(var(--secondary-rgb))]' : 'text-gray-800 hover:text-[rgb(var(--secondary-rgb))]'}`}>BẢNG TIN</a>
+                        <a href={ROUTES.BLOG} className={`${checkPathName(pathName) === 5 ? 'font-bold text-[rgb(var(--secondary-rgb))]' : 'text-gray-800 hover:text-[rgb(var(--secondary-rgb))]'}`}>BẢNG TIN</a>
                     </li>
                     <li>
                         <a target="_blank" href="https://app.testonline.vn/vi/manage-class/672d7e9e0e00a43c5d0afc95" className={`text-gray-800 hover:text-[rgb(var(--secondary-rgb))]`}>TEST ONLINE</a>

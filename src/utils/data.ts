@@ -503,97 +503,97 @@ const REAL_IMAGES = [
     {
         id: 1,
         original: "ceremony-01.jpg",
-        thumbnail: "/images/ceremony-01.jpg",
+        thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1732774540/view/ceremony-01_hjazpk.jpg",
         description: "img-1"
     },
     {
         id: 2,
         original: "ceremony-02.jpg",
-        thumbnail: "/images/ceremony-02.jpg",
+        thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1732774557/view/ceremony-02_yp0plf.jpg",
         description: "img-2"
     },
     {
         id: 3,
         original: "ceremony-03.jpg",
-        thumbnail: "/images/ceremony-03.jpg",
+        thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1732774576/view/ceremony-03_otpxp7.jpg",
         description: "img-3"
     },
     {
         id: 4,
         original: "ceremony-04.jpg",
-        thumbnail: "/images/ceremony-04.jpg",
+        thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1732774592/view/ceremony-04_xvihrp.jpg",
         description: "img-4"
     },
     {
         id: 5,
         original: "ceremony-05.jpg",
-        thumbnail: "/images/ceremony-05.jpg",
+        thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1732774710/view/ceremony-05_k2lmuq.jpg",
         description: "img-5"
     },
     {
         id: 6,
         original: "ceremony-06.jpg",
-        thumbnail: "/images/ceremony-06.jpg",
+        thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1732774726/view/ceremony-06_xgmcit.jpg",
         description: "img-6"
     },
     {
         id: 7,
         original: "ceremony-07.jpg",
-        thumbnail: "/images/ceremony-07.jpg",
+        thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1732774739/view/ceremony-07_qgtgb7.jpg",
         description: "img-7"
     },
     {
         id: 8,
         original: "learning-01.jpg",
-        thumbnail: "/images/learning-01.jpg",
+        thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1732774775/view/learning-01_l8tzar.jpg",
         description: "img-8"
     },
     {
         id: 9,
         original: "learning-02.jpg",
-        thumbnail: "/images/learning-02.jpg",
+        thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1732774804/view/learning-02_y3e9b3.jpg",
         description: "img-9"
     },
     {
         id: 10,
         original: "speaking-practise-01.jpg",
-        thumbnail: "/images/speaking-practise-01.jpg",
+        thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1732774831/view/speaking-practise-01_dpqwm4.jpg",
         description: "img-10"
     },
     {
         id: 11,
         original: "speaking-practise-02.jpg",
-        thumbnail: "/images/speaking-practise-02.jpg",
+        thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1732774852/view/speaking-practise-02_yv1bpq.jpg",
         description: "img-11"
     },
     {
         id: 12,
         original: "speaking-practise-02-copy.jpg",
-        thumbnail: "/images/speaking-practise-02-copy.jpg",
+        thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1732774852/view/speaking-practise-02_yv1bpq.jpg",
         description: "img-12"
     },
     {
         id: 13,
         original: "learning-02.jpg",
-        thumbnail: "/images/learning-02.jpg",
+        thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1732774804/view/learning-02_y3e9b3.jpg",
         description: "img-9"
     },
     {
         id: 14,
         original: "speaking-practise-01.jpg",
-        thumbnail: "/images/speaking-practise-01.jpg",
+        thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1732774831/view/speaking-practise-01_dpqwm4.jpg",
         description: "img-10"
     },
     {
         id: 15,
         original: "speaking-practise-02.jpg",
-        thumbnail: "/images/speaking-practise-02.jpg",
+        thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1732774852/view/speaking-practise-02_yv1bpq.jpg",
         description: "img-11"
     },
     {
         id: 16,
         original: "speaking-practise-02-copy.jpg",
-        thumbnail: "/images/speaking-practise-02-copy.jpg",
+        thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1732774852/view/speaking-practise-02_yv1bpq.jpg",
         description: "img-12"
     },
 ]
@@ -635,7 +635,7 @@ const TEACHERS_DATA = [
     {
         id: 3,
         name: 'Hamish McNair-Wilson',
-        image: '',
+        image: 'https://res.cloudinary.com/farmcode/image/upload/v1732774349/view/teacher-03_vminrf.jpg',
         nationality: 'Anh',
         diploma: [
             'Thạc sĩ Quốc Tế Học chuyên ngành An Ninh Con Người, Đại học Concordia, Canada',
@@ -649,7 +649,7 @@ const TEACHERS_DATA = [
     {
         id: 4,
         name: 'Aaron Hedrick',
-        image: '',
+        image: 'https://res.cloudinary.com/farmcode/image/upload/v1732774376/view/teacher-04_ttodr2.jpg',
         nationality: 'Mỹ',
         diploma: [
             'Cử nhân Kinh Tế',
@@ -664,7 +664,7 @@ const TEACHERS_DATA = [
     {
         id: 5,
         name: 'Tony Ahn',
-        image: '',
+        image: 'https://res.cloudinary.com/farmcode/image/upload/v1732774392/view/teacher-05_l6oydk.jpg',
         nationality: 'Mỹ',
         diploma: [
             'Thạc sĩ Quốc Tế Học chuyên ngành An Ninh Con Người, Đại học Concordia, Canada',
@@ -678,7 +678,7 @@ const TEACHERS_DATA = [
     {
         id: 6,
         name: 'Martin Firth',
-        image: '',
+        image: 'https://res.cloudinary.com/farmcode/image/upload/v1732774409/view/teacher-06_b7bu1s.jpg',
         nationality: 'Anh',
         diploma: [
             'Thạc sĩ Khoa Học Xã Hội',

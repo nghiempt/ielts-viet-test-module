@@ -4,7 +4,7 @@ import Image from "next/image";
 export function DecorBar() {
     return (
         <>
-            <div className="inline-block my-8 align-bottom">
+            <div className="inline-block my-4 align-bottom">
                 <Image
                     width={43}
                     height={4}

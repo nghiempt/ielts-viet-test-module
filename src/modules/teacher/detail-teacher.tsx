@@ -61,7 +61,7 @@ const DetailTeacher = ({ teacher, onClose }: { teacher: any, onClose: any }) => 
             <div className="col-span-5 flex justify-center">
               <div>
                 <Image
-                  src={`/images/teachers/${teacher.image}`}
+                  src={teacher.image}
                   alt=""
                   className='rounded-xl'
                   width={370}
@@ -75,7 +75,7 @@ const DetailTeacher = ({ teacher, onClose }: { teacher: any, onClose: any }) => 
               <p className='mb-2'><strong>Bằng cấp:</strong></p>
               {teacher.diploma.map((dip: any, index: any) => (
                 <p className='mb-2' key={index}>
-                  -{dip}<br></br>
+                  - {dip}<br></br>
                 </p>
               ))}
               {teacher.experience &&
