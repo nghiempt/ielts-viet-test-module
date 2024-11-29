@@ -10,6 +10,7 @@ import Link from "next/link"
 import DOMPurify from 'dompurify';
 import { IMAGES } from "@/utils/images";
 import { ROUTES } from "@/utils/route";
+import { slugifyURL } from "@/utils/slugify";
 
 interface Students {
   id: number,
@@ -21,19 +22,34 @@ interface Students {
 const students = DATA.STUDENTS as Students[]
 
 export default function StudentDetailPage() {
-  const [student, setStudent] = useState<Students | null>(null);
 
-  const params = useParams();
-  const id = params.id;
+  const { slug } = useParams<{ slug: string }>()
+
+  const [student, setStudent] = useState<Students | null>(null)
+  const [idStu, setIdStu] = useState<number | null>(null);
 
   useEffect(() => {
-    if (typeof id === "string") {
-      const studentData = students.find((stu) => stu.id === parseInt(id, 10));
-      setStudent(studentData || null);
+    if (slug && typeof slug === 'string') {
+      const slugParts = slug.split('-')
+      const id = parseInt(slugParts[slugParts.length - 1])
+
+      setIdStu(id);
+
+      // console.log("check id", idStu)
+      // console.log("check slug", slug)
+      // console.log(slugifyURL("Lập trình & phát triển ứng dụng !@#$%"));
+      // console.log(slugifyURL("Học lập trình với các khóa học !@#$%"));
+      // console.log(slugifyURL("Ồ ạ ố ỉ ộ ỏ !@#$%"));
+
+      const foundStudent = students.find(stu => stu.id === id)
+
+      if (foundStudent && slug === slugifyURL(foundStudent.title) + `-${foundStudent.id}`) {
+        setStudent(foundStudent)
+      } else {
+        setStudent(null)
+      }
     }
-  }, [id]);
-
-
+  }, [slug, idStu])
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -89,17 +105,17 @@ export default function StudentDetailPage() {
       </div>
       <div className="grid grid-cols-4 w-3/4 gap-4 mb-20">
         {students?.filter((stu) => {
-          if (Array.isArray(id)) return false;
-          return stu?.id !== parseInt(id, 10);
+          if (Array.isArray(idStu)) return false;
+          return stu?.id !== idStu;
         })?.slice(0, 4)?.map((stu) => (
           <div key={stu?.id}>
-            <Link href={`${ROUTES.STUDENT}/${stu?.id}`}>
+            <Link href={`${ROUTES.STUDENT}/${slugifyURL(stu.title)}-${stu.id}`}>
               <div className="relative">
                 <Image className="rounded-lg cursor-pointer " src={stu?.image} alt="" width={1000} height={1000} />
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-300 bg-opacity-0 cursor-pointer duration-500 hover:bg-opacity-50"></div>
               </div>
             </Link>
-            <Link href={`${ROUTES.STUDENT}/${stu?.id}`}>
+            <Link href={`${ROUTES.STUDENT}/${slugifyURL(stu.title)}-${stu.id}`}>
               <div className="font-bold text-md mt-5 tracking-wide hover:text-orange-500 cursor-pointer">
                 {stu.title}
               </div>

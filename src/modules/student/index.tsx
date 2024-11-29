@@ -13,6 +13,7 @@ import Link from "next/link";
 import DOMPurify from 'dompurify';
 import { ROUTES } from "@/utils/route"
 import SignWithIelts from "@/layout/sign-with-ielts"
+import { slugifyURL } from "@/utils/slugify"
 
 interface Students {
     id: number,
@@ -35,6 +36,7 @@ const images = DATA.REAL_IMAGES as Images[]
 export default function StudentPage() {
     const [itemPerPage, setItemPerPage] = useState(12);
     const [currentPage, setCurrentPage] = useState(1);
+    const Option = { lower: true, locale: 'vi', trim: true };
 
     const totalResult = students.length;
     const totalPages = Math.ceil(totalResult / itemPerPage);
@@ -81,12 +83,12 @@ export default function StudentPage() {
                     {pagedResult.map((stu, index) => (
                         <div key={index} className="group rounded-xl shadow-lg shadow-slate-200 overflow-hidden">
                             <div className="relative overflow-hidden rounded-t-xl">
-                                <Link href={`${ROUTES.STUDENT}/${stu.id}`}>
+                                <Link href={`${ROUTES.STUDENT}/${slugifyURL(stu.title)}-${stu.id}`}>
                                     <Image className="transform transition-transform duration-500 group-hover:scale-105 object-cover w-full h-full" src={stu.image} alt="" width={1000} height={1000} />
                                 </Link>
                             </div>
                             <div className="mx-5 my-5">
-                                <Link href={`${ROUTES.STUDENT}/${stu.id}`}>
+                                <Link href={`${ROUTES.STUDENT}/${slugifyURL(stu.title)}-${stu.id}`}>
                                     <p className="font-bold text-xl mb-3 line-clamp-2 hover:text-[rgb(var(--secondary-rgb))] cursor-pointer">{stu.title}</p>
                                 </Link>
                                 <p className="text-justify text-gray-600 line-clamp-3"><div

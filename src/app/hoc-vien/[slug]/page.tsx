@@ -1,4 +1,4 @@
-import StudentDetailPage from "@/modules/student/[id]";
+import StudentDetailPage from "@/modules/student/[slug]";
 
 export default function StudentDetail() {
   return (
