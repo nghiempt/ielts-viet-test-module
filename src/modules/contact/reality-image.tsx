@@ -91,10 +91,12 @@ export default function RealityImage() {
                           />
                           <div className="absolute inset-0 bg-gray-800 bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg"></div>
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                            <img
+                            <Image
                               src="/images/favicon.ico"
                               alt="Overlay Icon"
                               className="w-32 h-32"
+                              width={128}
+                              height={128}
                             />
                           </div>
                         </>
@@ -118,10 +120,12 @@ export default function RealityImage() {
                           />
                           <div className="absolute inset-0 bg-gray-800 bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg"></div>
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                            <img
+                            <Image
                               src="/images/favicon.ico"
                               alt="Overlay Icon"
                               className="w-32 h-32"
+                              width={128}
+                              height={128}
                             />
                           </div>
                         </>
@@ -147,10 +151,12 @@ export default function RealityImage() {
                           />
                           <div className="absolute inset-0 bg-gray-800 bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg"></div>
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                            <img
+                            <Image
                               src="/images/favicon.ico"
                               alt="Overlay Icon"
                               className="w-32 h-32"
+                              width={128}
+                              height={128}
                             />
                           </div>
                         </>
@@ -174,10 +180,12 @@ export default function RealityImage() {
                           />
                           <div className="absolute inset-0 bg-gray-800 bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg"></div>
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                            <img
+                            <Image
                               src="/images/favicon.ico"
                               alt="Overlay Icon"
                               className="w-32 h-32"
+                              width={128}
+                              height={128}
                             />
                           </div>
                         </>

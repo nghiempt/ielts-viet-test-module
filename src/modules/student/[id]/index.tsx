@@ -20,7 +20,7 @@ import { DATA } from "@/utils/data";
 import { useParams, usePathname } from "next/navigation"
 import Link from "next/link"
 import DOMPurify from 'dompurify';
-import { Facebook } from "lucide-react";
+
 
 interface Students {
   id: number,
@@ -78,7 +78,7 @@ export default function StudentDetailPage() {
         gridElement.removeEventListener('scroll', handleScroll);
       }
     };
-  }, []);
+  }, [scrollPosition]);
 
   const sidebarStyle = {
     transform: `translateY(${scrollPosition}px)`,
@@ -118,13 +118,13 @@ export default function StudentDetailPage() {
             <div className="absolute flex justify-center items-center right-10 transform opacity-0 group-hover:opacity-100 w-max h-10 bg-[rgb(var(--secondary-rgb))] rounded-xl text-white font-semibold px-3 text-sm transition-opacity duration-300">Chia sẻ Facebook</div>
           </div>
           <div className="relative rounded-full border object-cover w-8 h-8 flex justify-center items-center cursor-pointer group">
-            <Image src={TW} alt="" className="" width={15} />
+            <Image src={TW} alt="" className="" width={15} height={100}/>
             <div className="absolute flex justify-center items-center right-10 transform opacity-0 group-hover:opacity-100 w-max h-10 bg-[rgb(var(--secondary-rgb))] rounded-xl text-white font-semibold px-3 text-sm transition-opacity duration-300">Chia sẻ Twitter</div>
           </div>
 
           <div className="relative rounded-full border object-cover w-8 h-8 flex justify-center items-center cursor-pointer group">
             <Link href={`/hoc-vien`}>
-              <Image src={B} alt="" className="" width={15} />
+              <Image src={B} alt="" className="" width={15} height={100}/>
             </Link>
             <div className="absolute flex justify-center items-center right-10 transform opacity-0 group-hover:opacity-100 w-max h-10 bg-[rgb(var(--secondary-rgb))] rounded-xl text-white font-semibold px-3 text-sm transition-opacity duration-300">Quay lại</div>
           </div>

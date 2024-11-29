@@ -16,6 +16,14 @@ const nextConfig = {
                 protocol: "https",
                 hostname: "res.cloudinary.com",
             },
+            {
+                protocol: "https",
+                hostname: "upload.wikimedia.org",
+            },
+            {
+                protocol: "https",
+                hostname: "scontent.fsgn8-4.fna.fbcdn.net",
+            },
         ],
     },
 };
