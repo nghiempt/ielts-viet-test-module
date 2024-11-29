@@ -50,7 +50,7 @@ export default function HomePage() {
                 <Image width={1000} height={1000} src="https://ktdcgroup.vn/wp-content/uploads/2024/10/google-icon.png" alt="alt" className="w-6 h-6" />
               </div>
               <div className="flex items-center bg-orange-100 p-2 rounded-full">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="alt" className="w-6 h-6" />
+                <Image width={1000} height={1000} src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="alt" className="w-6 h-6" />
               </div>
             </div>
           </div>
