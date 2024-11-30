@@ -8,8 +8,8 @@ const DetailTeacher = ({ teacher, onClose }: { teacher: any, onClose: any }) => 
   const popupRef = useRef<HTMLDivElement>(null);
 
   const opts = {
-    height: "290",
-    width: "460",
+    height: "300",
+    width: "500",
     playerVars: {
       autoplay: 0,
     },
