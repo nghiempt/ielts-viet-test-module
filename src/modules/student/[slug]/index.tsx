@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { DATA } from "@/utils/data";
 import { useParams } from "next/navigation"
 import Link from "next/link"
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 import { IMAGES } from "@/utils/images";
 import { ROUTES } from "@/utils/route";
 import { slugifyURL } from "@/utils/slugify";
@@ -34,12 +34,6 @@ export default function StudentDetailPage() {
       const id = parseInt(slugParts[slugParts.length - 1])
 
       setIdStu(id);
-
-      // console.log("check id", idStu)
-      // console.log("check slug", slug)
-      // console.log(slugifyURL("Lập trình & phát triển ứng dụng !@#$%"));
-      // console.log(slugifyURL("Học lập trình với các khóa học !@#$%"));
-      // console.log(slugifyURL("Ồ ạ ố ỉ ộ ỏ !@#$%"));
 
       const foundStudent = students.find(stu => stu.id === id)
 
@@ -84,12 +78,12 @@ export default function StudentDetailPage() {
           </div>
         </div>
         <div className="">
-          <h2 className="flex justify-center text-4xl font-bold mb-6">{student?.title}</h2>
-          <div className="flex flex-row gap-2 mb-6">
+          <h2 className="flex justify-center text-3xl text-center font-bold leading-relaxed mb-6 px-0.5">{student?.title}</h2>
+          <div className="flex flex-row gap-2 mb-10">
             <Image src={IMAGES.VIEW_ICON} alt="" width={22} height={12} />
             <p>20 lượt xem</p>
           </div>
-          <div className="text-justify" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(student?.content || '') }} />
+          <div className="text-justify" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(student?.content || '', { ALLOWED_ATTR: ['class'], USE_PROFILES: { html: true } }) }} />
         </div>
         <div className="min-w-44"></div>
       </div>

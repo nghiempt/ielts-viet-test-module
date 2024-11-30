@@ -2,13 +2,14 @@
 
 import { MapPin, PhoneCall } from "lucide-react"
 import Image from "next/image"
+import FAVICON from '../app/favicon.ico'
 
 export default function Footer() {
     return (
         <footer className="w-full flex flex-col justify-center items-center">
             <div className="w-3/4 grid grid-cols-2 gap-20">
                 <div>
-                    <Image src="/favicon.ico" alt="alt" width={60} height={60} />
+                    <Image src={FAVICON} alt="alt" width={60} height={60} />
                     <p className="text-lg font-bold text-[rgb(var(--secondary-rgb))] py-2">IELTS VIỆT</p>
                     <p className="text-gray-600">
                         Thông qua IELTS, khai phá tiềm năng người học - Kiến tạo cộng đồng người Việt trẻ biết học hỏi tự chủ.
@@ -73,8 +74,8 @@ export default function Footer() {
                     <div className="flex items-center space-x-4 mt-4 md:mt-0">
                         <span>Kết nối với chúng tôi</span>
                         <span className="border-l border-gray-600 h-4 mx-2"></span>
-                        <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/google-icon.png" alt="alt" className="w-4 h-4" />
-                        <img src="https://ktdcgroup.vn/wp-content/uploads/2024/10/facebook-icon.png" alt="alt" className="w-4 h-4" />
+                        <Image width={1000} height={1000} src="https://ktdcgroup.vn/wp-content/uploads/2024/10/google-icon.png" alt="alt" className="w-4 h-4" />
+                        <Image width={1000} height={1000} src="https://ktdcgroup.vn/wp-content/uploads/2024/10/facebook-icon.png" alt="alt" className="w-4 h-4" />
                     </div>
                 </div>
             </div>

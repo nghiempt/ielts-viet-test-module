@@ -10,7 +10,7 @@ import Pagination from "react-bootstrap/Pagination";
 import RealityImage from "../contact/reality-image"
 import StudentSlider from "./components/students.slider"
 import Link from "next/link";
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 import { ROUTES } from "@/utils/route"
 import SignWithIelts from "@/layout/sign-with-ielts"
 import { slugifyURL } from "@/utils/slugify"
@@ -91,9 +91,11 @@ export default function StudentPage() {
                                 <Link href={`${ROUTES.STUDENT}/${slugifyURL(stu.title)}-${stu.id}`}>
                                     <p className="font-bold text-xl mb-3 line-clamp-2 hover:text-[rgb(var(--secondary-rgb))] cursor-pointer">{stu.title}</p>
                                 </Link>
-                                <p className="text-justify text-gray-600 line-clamp-3"><div
-                                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(stu?.content || '') }}
-                                /></p>
+                                <div className="text-justify text-gray-600 line-clamp-3">
+                                    <div
+                                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(stu?.content || '', { USE_PROFILES: { html: false } }) }}
+                                    />
+                                </div>
                             </div>
                         </div>
                     ))}

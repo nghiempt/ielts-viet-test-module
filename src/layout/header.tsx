@@ -5,6 +5,7 @@ import { PhoneCall } from "lucide-react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useEffect } from "react"
+import FAVICON from '../app/favicon.ico'
 
 export default function Header() {
 
@@ -38,7 +39,7 @@ export default function Header() {
         <div className="w-full flex flex-col justify-center items-center">
             <div className="w-3/4 flex items-center justify-between py-4">
                 <a href="/" className="flex items-center space-x-2 cursor-pointer">
-                    <Image src="/favicon.ico" alt="alt" width={48} height={48} />
+                    <Image src={FAVICON} alt="alt" width={48} height={48} />
                     <div className="flex flex-col">
                         <span className="font-bold text-2xl text-gray-800">Ielts Việt</span>
                         <span className="text-sm font-medium text-[rgb(var(--secondary-rgb))]">English Center</span>
