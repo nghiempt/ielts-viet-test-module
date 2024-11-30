@@ -48,6 +48,7 @@ export default function StudentDetailPage() {
   return (
     <div className="w-full flex flex-col items-center">
       <Header />
+
       <div className="flex flex-row justify-center items-start w-3/4 rounded-lg mt-16">
         <div className="flex flex-col items-end pr-10 gap-4 pt-5 sticky top-60 left-12 min-w-44" >
           <div className="relative rounded-full border object-cover w-8 h-8 flex justify-center items-center cursor-pointer group">
@@ -83,7 +84,14 @@ export default function StudentDetailPage() {
             <Image src={IMAGES.VIEW_ICON} alt="" width={22} height={12} />
             <p>20 lượt xem</p>
           </div>
-          <div className="text-justify" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(student?.content || '', { ALLOWED_ATTR: ['class'], USE_PROFILES: { html: true } }) }} />
+          <div className="text-justify" dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(student?.content || '', {
+              ALLOWED_ATTR: ['*'],
+              ALLOWED_TAGS: ['*'],
+              ADD_ATTR: ['target'],
+              USE_PROFILES: { html: true }
+            })
+          }} />
         </div>
         <div className="min-w-44"></div>
       </div>

@@ -770,7 +770,15 @@ const STUDENTS = [
         <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
         <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
         <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>
+        <img class="transform transition-transform duration-500 group-hover:scale-105 object-cover w-full h-full mb-5" src="https://ktdcgroup.vn/wp-content/uploads/2024/08/KTDC-Idol-2022-1-1.jpg" alt=""/>
+        <div class="mb-5"><a class="text-red-700" href="/giang-vien">Chuyên gia IELTS tại KTDC</a> là <a class="text-red-700" href="https://translate.google.com/?hl=vi" target="_blank">những người có chuyên môn sâu về kỳ thi IELTS</a>, có thể giúp học viên đạt được kết quả cao nhất nhờ:</div>
+        <ul class="list-disc pl-10 text-lg mb-4">
+          <li class="mb-4">Kiến thức chuyên sâu về IELTS: Hiểu rõ cấu trúc đề thi, các dạng bài tập, tiêu chí chấm điểm của từng kỹ năng.</li>
+          <li class="mb-4">Kinh nghiệm giảng dạy: Đã từng giảng dạy IELTS cho nhiều đối tượng học viên khác nhau, từ người mới bắt đầu đến những bạn muốn nâng cao điểm số.</li>
+          <li class="mb-4">Phương pháp giảng dạy hiệu quả: Biết cách truyền đạt kiến thức một cách dễ hiểu, tạo hứng thú cho học viên, và giúp học viên khắc phục những điểm yếu của bản thân.</li>
+        </ul>
+        `,
   },
   {
     id: 4,
