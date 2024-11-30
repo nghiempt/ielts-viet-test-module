@@ -11,6 +11,7 @@ import Image from "next/image";
 import '../../styles/contact.css'
 import { DATA } from "@/utils/data";
 import { IMAGES } from "@/utils/images";
+import FAVICON from '../../app/favicon.ico'
 
 const images = DATA.REAL_IMAGES
 
@@ -93,7 +94,7 @@ export default function RealityImage() {
                           <div className="absolute inset-0 bg-gray-800 bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg"></div>
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                             <Image
-                              src={IMAGES.FAVICON}
+                              src={FAVICON}
                               alt="Overlay Icon"
                               className="w-32 h-32"
                               width={1000}
@@ -122,7 +123,7 @@ export default function RealityImage() {
                           <div className="absolute inset-0 bg-gray-800 bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg"></div>
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                             <Image
-                              src={IMAGES.FAVICON}
+                              src={FAVICON}
                               alt="Overlay Icon"
                               className="w-32 h-32"
                               width={1000}
@@ -153,7 +154,7 @@ export default function RealityImage() {
                           <div className="absolute inset-0 bg-gray-800 bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg"></div>
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                             <Image
-                              src={IMAGES.FAVICON}
+                              src={FAVICON}
                               alt="Overlay Icon"
                               className="w-32 h-32"
                               width={1000}
@@ -182,7 +183,7 @@ export default function RealityImage() {
                           <div className="absolute inset-0 bg-gray-800 bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg"></div>
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                             <Image
-                              src={IMAGES.FAVICON}
+                              src={FAVICON}
                               alt="Overlay Icon"
                               className="w-32 h-32"
                               width={1000}
