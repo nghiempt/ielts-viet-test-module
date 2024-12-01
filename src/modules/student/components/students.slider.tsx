@@ -1,13 +1,14 @@
 "use client";
 
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
-import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import '../../../styles/button.slider.css'
 import { DATA } from "@/utils/data";
 import Image from "next/image";
+import { useState } from "react";
 
 interface Students {
   id: number,
@@ -30,32 +31,45 @@ const StudentSlider = () => {
 
   const slides = chunkData(students, 1);
 
+  const [swiperInstance, setSwiperInstance] = useState<any>(null);
+
+  const handleSwiper = (swiper: any) => {
+    setSwiperInstance(swiper);
+  };
+
   return (
-    <section className="w-4/5 mb-20">
-      <div className="h-full mt-2">
+    <section className="grid grid-cols-12 items-center w-11/12 mb-20">
+      <div className="flex justify-center items-center col-span-1 mx-auto mb-20">
+        <button onClick={() => swiperInstance?.slidePrev()}>
+          <svg className="w-10 h-10 bg-[rgb(var(--secondary-rgb))] p-3 rounded-full opacity-65 hover:opacity-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="white">
+            <path d="M380.6 81.7c7.9 15.8 1.5 35-14.3 42.9L103.6 256 366.3 387.4c15.8 7.9 22.2 27.1 14.3 42.9s-27.1 22.2-42.9 14.3l-320-160C6.8 279.2 0 268.1 0 256s6.8-23.2 17.7-28.6l320-160c15.8-7.9 35-1.5 42.9 14.3z" />
+          </svg>
+        </button>
+      </div>
+      <div className="col-span-10 h-full mt-2">
         <Swiper
-          navigation
-          pagination={{
-            type: "bullets", clickable: true,
-          }}
-          autoplay={{ delay: 5000 }}
-          loop={true}
           modules={[Autoplay, Navigation, Pagination]}
+          navigation
+          pagination={{ type: "bullets", clickable: true }}
+          autoplay={{ delay: 5000 }}
+          speed={800}
+          loop={true}
           spaceBetween={20}
           slidesPerView={4}
           slidesPerGroup={1}
-          className="w-full h-[340px]"
+          onSwiper={handleSwiper}
+          className="w-full h-[330px]"
         >
           {slides?.map((slide, slideIndex) => (
             <SwiperSlide
-              key={`slide-${slideIndex}`}
+              key={`slides-${slideIndex}`}
               className="flex justify-center"
             >
               <div className="flex flex-row justify-around gap-6 py-10">
                 {slide?.map((stu) => (
                   <div
                     key={stu?.id}
-                    className="bg-white w-80 overflow-hidden "
+                    className="bg-white w-80"
                   >
                     <div className="relative">
                       <Image
@@ -88,6 +102,13 @@ const StudentSlider = () => {
             </SwiperSlide>
           ))}
         </Swiper>
+      </div>
+      <div className="flex justify-center items-center col-span-1 mx-auto mb-20 ">
+        <button onClick={() => swiperInstance?.slideNext()}>
+          <svg className="w-10 h-10 bg-[rgb(var(--secondary-rgb))] p-3 rounded-full opacity-65 hover:opacity-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="white">
+            <path d="M3.4 81.7c-7.9 15.8-1.5 35 14.3 42.9L280.5 256 17.7 387.4C1.9 395.3-4.5 414.5 3.4 430.3s27.1 22.2 42.9 14.3l320-160c10.8-5.4 17.7-16.5 17.7-28.6s-6.8-23.2-17.7-28.6l-320-160c-15.8-7.9-35-1.5-42.9 14.3z" />
+          </svg>
+        </button>
       </div>
     </section>
   );
