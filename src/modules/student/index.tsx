@@ -182,6 +182,6 @@ export default function StudentPage() {
             </div>
             <SignWithIelts />
             <Footer />
-        </div>
+        </div >
     )
 }

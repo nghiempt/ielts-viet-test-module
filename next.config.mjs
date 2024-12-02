@@ -16,6 +16,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "scontent.fsgn8-4.fna.fbcdn.net",
+      },
+      {
+        protocol: "https",
         hostname: "ktdcgroup.vn",
       },
       {

@@ -74,8 +74,8 @@ export default function Footer() {
                     <div className="flex items-center space-x-4 mt-4 md:mt-0">
                         <span>Kết nối với chúng tôi</span>
                         <span className="border-l border-gray-600 h-4 mx-2"></span>
-                        <Image width={1000} height={1000} src="https://ktdcgroup.vn/wp-content/uploads/2024/10/google-icon.png" alt="alt" className="w-4 h-4" />
-                        <Image width={1000} height={1000} src="https://ktdcgroup.vn/wp-content/uploads/2024/10/facebook-icon.png" alt="alt" className="w-4 h-4" />
+                        <Image src="https://ktdcgroup.vn/wp-content/uploads/2024/10/google-icon.png" alt="alt" className="w-4 h-4" width={16} height={16} />
+                        <Image src="https://ktdcgroup.vn/wp-content/uploads/2024/10/facebook-icon.png" alt="alt" className="w-4 h-4" width={16} height={16} />
                     </div>
                 </div>
             </div>

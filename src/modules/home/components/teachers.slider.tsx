@@ -57,8 +57,8 @@ const TeacherSlider = () => {
                       src={teach?.img}
                       alt={teach?.name}
                       className="w-32 h-32 rounded-full mx-auto mb-4"
-                      width={1000}
-                      height={1000}
+                      width={128}
+                      height={128}
                     />
                     <h3 className="text-xl font-bold text-gray-800 text-center">
                       {teach?.name}

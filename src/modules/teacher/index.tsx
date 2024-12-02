@@ -60,10 +60,7 @@ export default function TeacherPage() {
                         >
                             <Image
                                 className="rounded-lg transform transition-transform duration-500 group-hover:scale-105 object-cover w-full h-full"
-                                src={tc.image}
-                                alt=""
-                                width={1000}
-                                height={1000} />
+                                src={tc.image} alt="" width={361.125} height={436.837} />
                             <div className="absolute bottom-10 left-10 text-white z-10">
                                 <p>Giảng viên</p>
                                 <p className="text-xl font-bold">{tc.name}</p>
@@ -76,6 +73,6 @@ export default function TeacherPage() {
             <DetailTeacher teacher={selectedTeacher} onClose={closePopup} />
             <SignWithIelts />
             <Footer />
-        </div>
+        </div >
     )
 }

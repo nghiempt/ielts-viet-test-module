@@ -118,7 +118,7 @@ export default function StudentDetailPage() {
               </div>
             </Link>
             <Link href={`${ROUTES.STUDENT}/${slugifyURL(stu.title)}-${stu.id}`}>
-              <div className="font-bold text-md mt-5 tracking-wide hover:text-orange-500 cursor-pointer">
+              <div className="font-bold text-md mt-5 tracking-wide hover:text-[rgb(var(--secondary-rgb))] cursor-pointer">
                 {stu.title}
               </div>
             </Link>
