@@ -72,7 +72,7 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      <div className="w-full bg-orange-100 py-8 my-10 overflow-hidden">
+      <div className="w-full bg-[rgb(var(--quaternary-rgb))] py-8 my-10 overflow-hidden">
         <div className="flex justify-center items-center gap-4 animate-marquee whitespace-nowrap">
           {slogans.map((item: any, index: any) => (
             <div key={`item-${index}`} className="bg-white px-10 py-2 rounded-lg shadow-md text-center">
@@ -101,11 +101,11 @@ export default function HomePage() {
           <div className="w-3/4 grid grid-cols-2 justify-center items-center gap-6">
             <div className="w-full bg-white rounded-xl shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-2 relative flex justify-center items-center gap-6">
               <Image
-                src="https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/449119200_122189638346023936_6551073348505590426_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHZMmif2qtj3Ra370VhK429mUdAunPVox2ZR0C6c9WjHanwTSxRDo1d1hh91xcjWA20Truwrx48ZbwCBsPUIX1D&_nc_ohc=52jNGgEIB-wQ7kNvgHyZqHu&_nc_zt=23&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=A30d-raQheoSQqZj1ssYmdZ&oh=00_AYCq5ZCMQDsbZABRUY10LdUfduCYRkEKgvQ4v4u4bnHiJA&oe=6745CF48"
+                src="https://res.cloudinary.com/dx1ejni0o/image/upload/v1733115958/ielts-viet/qgaxpawpuaza5dh8yost.jpg"
                 alt="IELTS Junior"
-                className="w-[320px] h-[380px] rounded-xl"
-                width={320}
-                height={380}
+                className="w-[320px] h-[460px] rounded-xl"
+                width={1000}
+                height={1000}
               />
               <div>
                 <h3 className="text-xl font-bold text-gray-800">IELTS Junior</h3>
@@ -124,11 +124,11 @@ export default function HomePage() {
             </div>
             <div className="w-full bg-white rounded-xl shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-2 relative flex justify-center items-center gap-6">
               <Image
-                src="https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/441305340_122179098392023936_4070585415963112049_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGmpj4r2j-DgGS0jL_bjG-A0uM_zHoShb_S4z_MehKFv8N39qJnAPgUlycsZNV-WTxRBk9gqijmaEs9HF0LINs-&_nc_ohc=LA7pQ2lgAoEQ7kNvgFujTWh&_nc_zt=23&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=AaAWyhA-t-mjSlCbzgMCH80&oh=00_AYDegDv7O0s4Ix4znr7G6WVMFaw4ii2TVLmAI1w_d8g5Jw&oe=6745C5D8"
+                src="https://res.cloudinary.com/dx1ejni0o/image/upload/v1733115810/ielts-viet/pqhjng9xwohibhasduek.jpg"
                 alt="IELTS Advanced"
-                className="w-[320px] h-[380px] rounded-xl"
-                width={320}
-                height={380}
+                className="w-[320px] h-[460px] rounded-xl"
+                width={1000}
+                height={1000}
               />
               <div>
                 <h3 className="text-xl font-bold text-gray-800">IELTS Advanced</h3>
@@ -200,10 +200,10 @@ export default function HomePage() {
         <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
           <div className="bg-white rounded-lg shadow-md w-80">
             <Image
-              src="https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/452104939_122195342294023936_2949067571913687341_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFdBZnW00NPiZwupJWkKYFok54p0mFEJ3yTninSYUQnfNFtP3gUjog3AR2tahduf44z8PoY7LF0Ih_Cq4vGu5Gv&_nc_ohc=jBFmClVlH60Q7kNvgHgPQpC&_nc_zt=23&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=A2ix8xDro6WPEyl7oEVgzj-&oh=00_AYCW5xYmtKb5lTYdHnJySwJVmwULz_MIR5kIljZvdZjKgA&oe=6745CFF4"
+              src="https://res.cloudinary.com/dx1ejni0o/image/upload/v1733115661/ielts-viet/i7o6t8sr9nzqykp4e7gn.jpg"
               alt="alt" className="w-full rounded-t-lg"
-              width={100}
-              height={100}
+              width={1000}
+              height={1000}
             />
             <div className="p-4">
               <div className="flex items-center mb-2">
@@ -215,11 +215,11 @@ export default function HomePage() {
           </div>
           <div className="bg-white rounded-lg shadow-md w-80">
             <Image
-              src="https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/452104939_122195342294023936_2949067571913687341_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFdBZnW00NPiZwupJWkKYFok54p0mFEJ3yTninSYUQnfNFtP3gUjog3AR2tahduf44z8PoY7LF0Ih_Cq4vGu5Gv&_nc_ohc=jBFmClVlH60Q7kNvgHgPQpC&_nc_zt=23&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=A2ix8xDro6WPEyl7oEVgzj-&oh=00_AYCW5xYmtKb5lTYdHnJySwJVmwULz_MIR5kIljZvdZjKgA&oe=6745CFF4"
+              src="https://res.cloudinary.com/dx1ejni0o/image/upload/v1733115661/ielts-viet/i7o6t8sr9nzqykp4e7gn.jpg"
               alt="alt"
               className="w-full rounded-t-lg"
-              width={100}
-              height={100}
+              width={1000}
+              height={1000}
             />
             <div className="p-4">
               <div className="flex items-center mb-2">
@@ -231,11 +231,11 @@ export default function HomePage() {
           </div>
           <div className="bg-white rounded-lg shadow-md w-80">
             <Image
-              src="https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/452104939_122195342294023936_2949067571913687341_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFdBZnW00NPiZwupJWkKYFok54p0mFEJ3yTninSYUQnfNFtP3gUjog3AR2tahduf44z8PoY7LF0Ih_Cq4vGu5Gv&_nc_ohc=jBFmClVlH60Q7kNvgHgPQpC&_nc_zt=23&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=A2ix8xDro6WPEyl7oEVgzj-&oh=00_AYCW5xYmtKb5lTYdHnJySwJVmwULz_MIR5kIljZvdZjKgA&oe=6745CFF4"
+              src="https://res.cloudinary.com/dx1ejni0o/image/upload/v1733115661/ielts-viet/i7o6t8sr9nzqykp4e7gn.jpg"
               alt="alt"
               className="w-full rounded-t-lg"
-              width={100}
-              height={100}
+              width={1000}
+              height={1000}
             />
             <div className="p-4">
               <div className="flex items-center mb-2">
@@ -265,11 +265,11 @@ export default function HomePage() {
         <div className="w-3/4 flex flex-wrap bg-orange-50 rounded-xl overflow-hidden">
           <div className="w-full md:w-1/2">
             <Image
-              src="https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/450668484_122193529334023936_1712936787192780696_n.jpg?stp=cp6_dst-jpg&_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFw7gWSyhQf10gubITwNTnn6jwLss66BnLqPAuyzroGcpUMA_3ZRPzSXP0p8m7WlUYl0Sjkvld2XLnGtQDTOKnU&_nc_ohc=y4UUSI2z1H4Q7kNvgHMq6uP&_nc_zt=23&_nc_ht=scontent.fsgn8-4.fna&_nc_gid=A2jvxKeplKKXaOEHOGvwW9n&oh=00_AYDjdOcxamfD4JjAXPy3o4PwA5L7j_-ekcJaPTS1zFuPHQ&oe=6745F144"
+              src="https://res.cloudinary.com/dx1ejni0o/image/upload/v1733115306/ielts-viet/wq4dmkopbvqtc9vs9n7h.jpg"
               alt="IELTS consultation"
               className="w-full h-full object-cover rounded-l-lg"
-              width={100}
-              height={100}
+              width={1000}
+              height={1000}
             />
           </div>
           <div className="w-full md:w-1/2 p-8">
@@ -318,8 +318,8 @@ export default function HomePage() {
               src="https://ktdcgroup.vn/wp-content/uploads/2024/08/Thi-IELTS-tren-may-hay-tren-giay-KTDC.jpg"
               alt="Thi IELTS trên máy hay trên giấy?"
               className="w-full h-48 object-cover"
-              width={100}
-              height={192}
+              width={1000}
+              height={1000}
             />
             <div className="p-6">
               <h3 className="text-lg font-bold text-gray-800">Thi IELTS trên máy hay trên giấy? Đâu là hình thức phù hợp?</h3>
@@ -331,8 +331,8 @@ export default function HomePage() {
               src="https://ktdcgroup.vn/wp-content/uploads/2024/11/huong-dan-cach-viet-thu-xin-viec-bang-tieng-Anh.jpg"
               alt="Lịch thi IELTS 2025 tại IDP"
               className="w-full h-48 object-cover"
-              width={100}
-              height={192}
+              width={1000}
+              height={1000}
             />
             <div className="p-6">
               <h3 className="text-lg font-bold text-gray-800">Lịch Thi IELTS 2025: Thông Tin Mới Nhất Và Cách Đăng Ký tại IDP</h3>

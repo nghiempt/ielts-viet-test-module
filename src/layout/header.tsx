@@ -14,6 +14,8 @@ export default function Header() {
     const checkPathName = (pathName: string) => {
         if (new RegExp(`^${ROUTES.STUDENT}/[a-z0-9-]+$`).test(pathName)) {
             return 3;
+        } else if (new RegExp(`^${ROUTES.BLOG}/[0-9-]+$`).test(pathName)) {
+            return 5;
         }
         switch (pathName) {
             case `${ROUTES.HOME}`:

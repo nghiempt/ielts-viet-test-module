@@ -53,7 +53,7 @@ export default function CoursePage() {
                     />
                 </div>
             </div>
-            <div className="w-full bg-orange-100 py-8 my-10 overflow-hidden">
+            <div className="w-full bg-[rgb(var(--quaternary-rgb))] py-8 my-14 overflow-hidden">
                 <div className="flex justify-center items-center gap-4 animate-marquee whitespace-nowrap">
                     {slogans.map((item: any, index: any) => (
                         <div key={`item-${index}`} className="bg-white px-10 py-2 rounded-lg shadow-md text-center">
@@ -63,7 +63,7 @@ export default function CoursePage() {
                     ))}
                 </div>
             </div>
-            <div className="w-full mb-10 flex flex-col gap-6 py-24 justify-center items-center">
+            <div className="w-full mb-10 flex flex-col gap-6 justify-center items-center">
                 <div className="text-center mb-6">
                     <h2 className="text-3xl font-bold text-gray-800">Khoá IELTS 4 kỹ năng</h2>
                     <DecorBar />
@@ -227,7 +227,7 @@ export default function CoursePage() {
                     </Carousel>
                 </div>
             </div>
-            <div className="w-full flex flex-col gap-6 bg-orange-50 py-24 justify-center items-center">
+            <div className="w-full flex flex-col gap-6 bg-orange-50 py-14 justify-center items-center">
                 <div className="text-center mb-6">
                     <h2 className="text-3xl font-bold text-gray-800">Khoá IELTS 4 kỹ năng</h2>
                     <DecorBar />
