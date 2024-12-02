@@ -105,7 +105,7 @@ export default function CoursePage() {
                                                     </div>
 
                                                     <div className="text-sm flex flex-col items-center py-2">
-                                                        <div className="text-orange-400 font-medium flex justify-self-center">★ Cam kết đầu ra</div>
+                                                        <div className="text-[rgb(var(--secondary-rgb))] font-medium flex justify-self-center">★ Cam kết đầu ra</div>
                                                         <div className="flex justify-self-center"><Check className="text-green-500" />Học hiệu quả, nhanh hơn 40%</div>
                                                         <div className="flex justify-self-center "><Image src="https://cdn-icons-png.flaticon.com/128/555/555417.png" className="w-4 mr-2" alt={""} width={16} height={20} /> Giảng viên Bản Ngữ</div>
                                                         <div className="flex justify-self-center"> <Image src="https://cdn-icons-png.flaticon.com/128/555/555515.png" className="w-4 mr-2" alt={""} width={16} height={20} />Đội ngũ hỗ trợ IELTS người Việt</div>
@@ -141,7 +141,7 @@ export default function CoursePage() {
                                                     </div>
 
                                                     <div className="text-sm flex flex-col items-center py-2">
-                                                        <div className="text-orange-400 font-medium flex justify-self-center">★ Cam kết đầu ra</div>
+                                                        <div className="text-[rgb(var(--secondary-rgb))] font-medium flex justify-self-center">★ Cam kết đầu ra</div>
                                                         <div className="flex justify-self-center"><Check className="text-green-500" />Học hiệu quả, nhanh hơn 40%</div>
                                                         <div className="flex justify-self-center"><Image src="https://cdn-icons-png.flaticon.com/128/555/555417.png" className="w-4 mr-2" alt={""} width={16} height={20} /> Giảng viên Bản Ngữ</div>
                                                         <div className="flex justify-self-center"> <Image src="https://cdn-icons-png.flaticon.com/128/555/555515.png" className="w-4 mr-2" alt={""} width={16} height={20} />Đội ngũ hỗ trợ IELTS người Việt</div>
@@ -173,9 +173,8 @@ export default function CoursePage() {
                                                             <div>Đầu ra: 4.5+</div>
                                                         </div>
                                                     </div>
-
                                                     <div className="text-sm flex flex-col items-center py-2">
-                                                        <div className="text-orange-400 font-medium flex justify-self-center">★ Cam kết đầu ra</div>
+                                                        <div className="text-[rgb(var(--secondary-rgb))] font-medium flex justify-self-center">★ Cam kết đầu ra</div>
                                                         <div className="flex justify-self-center"><Check className="text-green-500" />Học hiệu quả, nhanh hơn 40%</div>
                                                         <div className="flex justify-self-center"><Image src="https://cdn-icons-png.flaticon.com/128/555/555417.png" className="w-4 mr-2" alt={""} width={16} height={16} /> Giảng viên Bản Ngữ</div>
                                                         <div className="flex justify-self-center"> <Image src="https://cdn-icons-png.flaticon.com/128/555/555515.png" className="w-4 mr-2" alt={""} width={16} height={16} />Đội ngũ hỗ trợ IELTS người Việt</div>
@@ -207,9 +206,8 @@ export default function CoursePage() {
                                                             <div>Đầu ra: 4.5+</div>
                                                         </div>
                                                     </div>
-
                                                     <div className="text-sm flex flex-col items-center py-2">
-                                                        <div className="text-orange-400 font-medium flex justify-self-center">★ Cam kết đầu ra</div>
+                                                        <div className="text-[rgb(var(--secondary-rgb))] font-medium flex justify-self-center">★ Cam kết đầu ra</div>
                                                         <div className="flex justify-self-center"><Check className="text-green-500" />Học hiệu quả, nhanh hơn 40%</div>
                                                         <div className="flex justify-self-center"><Image src="https://cdn-icons-png.flaticon.com/128/555/555417.png" className="w-4 mr-2" alt={""} width={16} height={20} /> Giảng viên Bản Ngữ</div>
                                                         <div className="flex justify-self-center"> <Image src="https://cdn-icons-png.flaticon.com/128/555/555515.png" className="w-4 mr-2" alt={""} width={16} height={20} /> Đội ngũ hỗ trợ IELTS người Việt</div>

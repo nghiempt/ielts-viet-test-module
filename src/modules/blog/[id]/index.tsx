@@ -70,8 +70,8 @@ export default function BlogDetailPage() {
                     <Image
                         className="w-full"
                         src="https://ktdcgroup.vn/wp-content/uploads/2021/05/banner-PT.jpg" alt={""}
-                        width={500}
-                        height={500}
+                        width={1000}
+                        height={1000}
                     />
                     <div className="flex flex-col w-full py-6 sticky top-12">
                         <div className="text-xl font-bold py-4">Có thể bạn quan tâm</div>
@@ -80,9 +80,11 @@ export default function BlogDetailPage() {
                                 <></>
                                 :
                                 <Link key={index} href={`${routes.BLOG}/${blog?.id}`}>
-                                    <div className="flex justify-center items-center py-2">
-                                        <Image className="w-[200px] h-[65px] rounded-md" src={blog?.image} alt={""} width={200} height={65} />
-                                        <div className="px-4 text-base font-bold">{blog?.name}</div>
+                                    <div className="grid grid-cols-12 h-24 items-center py-2">
+                                        <div className="col-span-4 ">
+                                            <Image className="rounded-md" src={blog?.image} alt={""} width={1000} height={1000} />
+                                        </div>
+                                        <div className="col-span-8 pl-4 text-sm font-bold">{blog?.name}</div>
                                     </div>
                                 </Link>
                         ))}

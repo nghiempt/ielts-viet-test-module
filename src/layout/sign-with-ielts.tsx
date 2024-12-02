@@ -4,7 +4,7 @@ import Image from "next/image"
 
 export default function SignWithIelts() {
   return (
-    <div className="w-full bg-orange-50 py-12 px-6 mt-14 mb-6">
+    <div className="w-full bg-[rgb(var(--quaternary-rgb))] py-12 px-6 mt-14 mb-6">
       <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Đăng ký học cùng <span className="text-[rgb(var(--secondary-rgb))]">IELTS VIỆT</span></h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white p-4 rounded-lg shadow flex items-center space-x-4">

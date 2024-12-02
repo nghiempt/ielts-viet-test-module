@@ -87,9 +87,9 @@ export default function RealityImage() {
                             width={200}
                             height={200}
                             sizes="(max-width: 640px) 100vw,
-                                                   (max-width: 1024px) 50vw,
-                                                   (max-width: 1280px) 33vw,
-                                                   25vw"
+                                   (max-width: 1024px) 50vw,
+                                   (max-width: 1280px) 33vw,
+                                   25vw"
                           />
                           <div className="absolute inset-0 bg-gray-800 bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg"></div>
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -116,9 +116,9 @@ export default function RealityImage() {
                             width={200}
                             height={200}
                             sizes="(max-width: 640px) 100vw,
-                                                       (max-width: 1024px) 50vw,
-                                                       (max-width: 1280px) 33vw,
-                                                       25vw"
+                                   (max-width: 1024px) 50vw,
+                                   (max-width: 1280px) 33vw,
+                                   25vw"
                           />
                           <div className="absolute inset-0 bg-gray-800 bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg"></div>
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -147,9 +147,9 @@ export default function RealityImage() {
                             width={200}
                             height={200}
                             sizes="(max-width: 640px) 100vw,
-                                                       (max-width: 1024px) 50vw,
-                                                       (max-width: 1280px) 33vw,
-                                                       25vw"
+                                   (max-width: 1024px) 50vw,
+                                   (max-width: 1280px) 33vw,
+                                   25vw"
                           />
                           <div className="absolute inset-0 bg-gray-800 bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg"></div>
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -176,9 +176,9 @@ export default function RealityImage() {
                             width={200}
                             height={200}
                             sizes="(max-width: 640px) 100vw,
-                                                       (max-width: 1024px) 50vw,
-                                                       (max-width: 1280px) 33vw,
-                                                       25vw"
+                                   (max-width: 1024px) 50vw,
+                                   (max-width: 1280px) 33vw,
+                                   25vw"
                           />
                           <div className="absolute inset-0 bg-gray-800 bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg"></div>
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">

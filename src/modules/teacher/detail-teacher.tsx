@@ -59,38 +59,38 @@ const DetailTeacher = ({ teacher, onClose }: { teacher: any, onClose: any }) => 
         <div className='h-full overflow-y-auto'>
           <div className="grid grid-cols-12">
             <div className="col-span-5 flex justify-center">
-              <div>
+              <div className='w-[370px] h-[370px]'>
                 <Image
-                  src={teacher.image}
+                  src={teacher?.image}
                   alt=""
                   className='rounded-xl'
-                  width={370}
-                  height={370} />
+                  width={1000}
+                  height={1000} />
               </div>
             </div>
             <div className="col-span-6">
               <h3 className='text-xl font-medium mb-4'>Giảng viên</h3>
-              <h1 className='text-4xl font-bold mb-7'>{teacher.name}</h1>
-              <p className='mb-4'><strong>Quốc tịch:</strong> {teacher.nationality}</p>
+              <h1 className='text-4xl font-bold mb-7'>{teacher?.name}</h1>
+              <p className='mb-4'><strong>Quốc tịch:</strong> {teacher?.nationality}</p>
               <p className='mb-2'><strong>Bằng cấp:</strong></p>
-              {teacher.diploma.map((dip: any, index: any) => (
+              {teacher?.diploma?.map((dip: any, index: any) => (
                 <p className='mb-2' key={index}>
                   - {dip}<br></br>
                 </p>
               ))}
-              {teacher.experience &&
-                <p className='mb-4 mt-4'><strong>Kinh nghiệm:</strong> {teacher.experience}</p>
+              {teacher?.experience &&
+                <p className='mb-4 mt-4'><strong>Kinh nghiệm:</strong> {teacher?.experience}</p>
               }
-              {teacher.videoId &&
+              {teacher?.videoId &&
                 <YouTube
-                  videoId={`${teacher.videoId}`}
+                  videoId={`${teacher?.videoId}`}
                   opts={opts}
                   onReady={_onReady}
                   className='mb-10' />
               }
               <p className='mt-4 mb-2'><strong>Giới thiệu:</strong></p>
               <article>
-                {teacher.introduction}
+                {teacher?.introduction}
               </article>
             </div>
           </div>

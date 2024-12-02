@@ -47,7 +47,7 @@ export default function BlogPage() {
                             href={`${routes.BLOG}/${blog?.id}`}
                         >
                             <div className="flex justify-center items-center py-4">
-                                <Image className="w-2/6 h-[201px] rounded-sm" src={blog?.image} alt={""} width={260.962} height={201} />
+                                <Image className="w-2/6 h-[201px] rounded-sm" src={blog?.image} alt={""} width={1000} height={1000} />
                                 <div className="flex flex-col  px-6">
                                     <div className="text-center text-2xl font-bold hover:text-orange-400">{blog?.name}</div>
                                     <div className="text-center py-4">{blog?.description}</div>

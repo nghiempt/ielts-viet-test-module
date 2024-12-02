@@ -65,7 +65,6 @@ export default function StudentPage() {
         setCurrentPage(totalPages);
     };
 
-
     return (
         <div className="w-full flex flex-col items-center">
             <Header />
