@@ -96,7 +96,7 @@ export default function StudentDetailPage() {
         <div className="min-w-44"></div>
       </div>
       <div className="flex justify-center w-full mt-20" >
-        <Image src="https://ktdcgroup.vn/wp-content/uploads/2021/05/PT.jpg" alt="" width={1150} height={1150} />
+        <Image className="w-40 h-40" src="https://cdn-icons-png.flaticon.com/128/6499/6499530.png" alt="" width={1150} height={1150} />
       </div>
       <div className="w-3/4">
         <div className="flex flex-row justify-center items-end mb-20">
@@ -113,7 +113,7 @@ export default function StudentDetailPage() {
           <div key={stu?.id}>
             <Link href={`${ROUTES.STUDENT}/${slugifyURL(stu.title)}-${stu.id}`}>
               <div className="relative">
-                <Image className="rounded-lg cursor-pointer " src={stu?.image} alt="" width={1000} height={1000} />
+                <Image className="w-40 h-40 mx-auto rounded-lg cursor-pointer " src={stu?.image} alt="" width={1000} height={1000} />
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-300 bg-opacity-0 cursor-pointer duration-500 hover:bg-opacity-50"></div>
               </div>
             </Link>

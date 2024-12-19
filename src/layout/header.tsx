@@ -4,12 +4,13 @@ import { ROUTES } from "@/utils/route"
 import { PhoneCall } from "lucide-react"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import FAVICON from '../app/favicon.ico'
 
 export default function Header() {
 
-    const pathName = usePathname()
+    const [isFixed, setIsFixed] = useState(false);
+    const pathName = usePathname();
 
     const checkPathName = (pathName: string) => {
         if (new RegExp(`^${ROUTES.STUDENT}/[a-z0-9-]+$`).test(pathName)) {
@@ -35,15 +36,25 @@ export default function Header() {
         }
     }
 
-    useEffect(() => { }, [pathName])
+    useEffect(() => {
+        const handleScroll = () => {
+            const headerHeight = document.querySelector('.header-top')?.clientHeight || 0;
+            setIsFixed(window.scrollY > headerHeight + 100);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
 
     return (
-        <div className="w-full flex flex-col justify-center items-center">
+        <div className="w-full flex flex-col justify-center items-center mb-10">
             <div className="w-3/4 flex items-center justify-between py-4">
                 <a href="/" className="flex items-center space-x-2 cursor-pointer">
                     <Image src={FAVICON} alt="alt" width={48} height={48} />
                     <div className="flex flex-col">
-                        <span className="font-bold text-2xl text-gray-800">Ielts Việt</span>
+                        <span className="font-bold text-2xl text-gray-800">IELTS Việt</span>
                         <span className="text-sm font-medium text-[rgb(var(--secondary-rgb))]">English Center</span>
                     </div>
                 </a>
@@ -60,7 +71,10 @@ export default function Header() {
                     </div>
                 </div>
             </div>
-            <div className="w-3/4 flex justify-center items-center border-b border-t border-gray-200 bg-white py-4">
+            <div
+                className={`header-bottom w-3/4 flex justify-center items-center border-b border-t border-gray-200 bg-white py-4  ${isFixed ? 'fixed top-0 left-1/2 -translate-x-1/2 z-50 w-full border-none' : ''
+                    }`}
+            >
                 <ul className="flex justify-center items-center gap-20">
                     <li>
                         <a href={ROUTES.HOME} className={`${checkPathName(pathName) === 0 ? 'font-bold text-[rgb(var(--secondary-rgb))]' : 'text-gray-800 hover:text-[rgb(var(--secondary-rgb))]'}`}>TRANG CHỦ</a>

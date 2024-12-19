@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 import YouTube from "react-youtube";
+import '../../styles/button.slider.css'
 
 const DetailTeacher = ({ teacher, onClose }: { teacher: any, onClose: any }) => {
   const popupRef = useRef<HTMLDivElement>(null);
@@ -38,7 +39,7 @@ const DetailTeacher = ({ teacher, onClose }: { teacher: any, onClose: any }) => 
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div ref={popupRef} className="bg-white rounded-lg py-12 w-3/4 max-w-6xl relative h-5/6 overflow-hidden">
         <button
-          className="absolute top-6 right-8 border bg-white text-black px-2 py-2 rounded-md shadow-lg hover:text-[rgb(var(--secondary-rgb))] transition "
+          className="absolute top-6 right-8 text-black px-2 py-2 rounded-md"
           onClick={onClose}
         >
           <svg
@@ -56,7 +57,7 @@ const DetailTeacher = ({ teacher, onClose }: { teacher: any, onClose: any }) => 
             />
           </svg>
         </button>
-        <div className='h-full overflow-y-auto'>
+        <div className='h-full overflow-y-auto scroll-bar-style'>
           <div className="grid grid-cols-12">
             <div className="col-span-5 flex justify-center">
               <div className='w-[370px] h-[370px]'>

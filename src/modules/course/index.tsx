@@ -1,21 +1,14 @@
 "use client"
 
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel"
 import { useEffect, useState } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Check } from "lucide-react"
 import Header from "@/layout/header"
 import Footer from "@/layout/footer"
 import { DecorBar } from "@/components/using-ui/decor-bar"
 import Image from "next/image"
-import SignWithIelts from "@/layout/sign-with-ielts"
+import SignWithIELTS from "@/layout/sign-with-ielts"
 import { DATA } from "@/utils/data"
+import IeltsCourse2 from "./components/ielts-course-2"
+import IeltsCourse4 from "./components/ielts-course-4"
 
 export default function CoursePage() {
     const slogans = DATA.SLOGANS
@@ -24,12 +17,14 @@ export default function CoursePage() {
         setCurrentPath(window.location.pathname);
     }, []);
 
+    const customCard246 = 'border-[rgb(var(--secondary-rgb))] hover:shadow-[rgba(17,_17,_26,_0.2)_0px_0px_20px] transition duration-300'
+
     return (
         <div className="w-full flex flex-col items-center">
             <Header />
-            <div className="w-3/4 pb-10 pt-4"></div>
+            <div className="w-3/4 pb-6"></div>
             <div className="w-3/4 flex pb-10">
-                <div className="w-1/2 flex flex-col justify-start items-start">
+                <div className="w-1/2 flex flex-col justify-center items-start">
                     <h2 className="text-4xl font-bold text-gray-800">
                         CHƯƠNG TRÌNH IELTS
                     </h2>
@@ -48,8 +43,8 @@ export default function CoursePage() {
                         src="https://ktdcgroup.vn/wp-content/uploads/2024/07/Lo-trinh-560x4101-3.png"
                         alt="alt"
                         className="w-7/8 rounded-lg absolute"
-                        width={560}
-                        height={242}
+                        width={1000}
+                        height={1000}
                     />
                 </div>
             </div>
@@ -63,300 +58,14 @@ export default function CoursePage() {
                     ))}
                 </div>
             </div>
-            <div className="w-full mb-10 flex flex-col gap-6 justify-center items-center">
-                <div className="text-center mb-6">
-                    <h2 className="text-3xl font-bold text-gray-800">Khoá IELTS 4 kỹ năng</h2>
-                    <DecorBar />
-                    <p className="text-gray-500 mb-2 text-center w-[900px] justify-self-center">
-                        Hệ thống các khóa học IELTS được phân theo cấp độ từ thấp đến cao giúp học viên cải thiện cả 4 kỹ năng Nghe, Nói, Đọc, Viết theo chuẩn format của bài thi IELTS thông qua lượng kiến thức toàn diện.
-                    </p>
-                </div>
-                <div className="items-center flex flex-col">
-                    <Carousel
-                        opts={{
-                            align: "start",
-                        }}
-                        className="w-full max-w-7xl mx-auto"
-                    >
-                        <CarouselContent>
-                            <CarouselItem className="md:basis-1/2 lg:basis-1/3 ">
-                                <div className="p-1">
-                                    <Card>
-                                        <CardContent className="flex aspect-square flex-col items-center rounded-xl shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
-                                            <div className="text-center">
-                                                <Image
-                                                    src="https://ktdcgroup.vn/wp-content/uploads/2020/07/IELTS-Level-3-460x335.jpg"
-                                                    alt={""}
-                                                    width={358.388}
-                                                    height={260.987}
-                                                />
-                                                <div className="px-8 ">
-                                                    <div className="font-bold py-4 border-b-2 ">Khóa học IELTS 1</div>
 
-                                                    <div className="flex justify-center items-stretch">
-                                                        <div className=" text-sm mt-2 px-2 border-r-2 pr-5 ">
-                                                            <div>36 giờ (8 tuần)</div>
-                                                            <div>Đầu vào: 3.5-4.0</div>
-                                                        </div>
-                                                        <div className=" text-sm mt-2 px-2 pl-5">
-                                                            <div>9.448.000VNĐ</div>
-                                                            <div>Đầu ra: 4.5+</div>
-                                                        </div>
-                                                    </div>
+            <IeltsCourse4 />
 
-                                                    <div className="text-sm flex flex-col items-center py-2">
-                                                        <div className="text-[rgb(var(--secondary-rgb))] font-medium flex justify-self-center">★ Cam kết đầu ra</div>
-                                                        <div className="flex justify-self-center"><Check className="text-green-500" />Học hiệu quả, nhanh hơn 40%</div>
-                                                        <div className="flex justify-self-center "><Image src="https://cdn-icons-png.flaticon.com/128/555/555417.png" className="w-4 mr-2" alt={""} width={16} height={20} /> Giảng viên Bản Ngữ</div>
-                                                        <div className="flex justify-self-center"> <Image src="https://cdn-icons-png.flaticon.com/128/555/555515.png" className="w-4 mr-2" alt={""} width={16} height={20} />Đội ngũ hỗ trợ IELTS người Việt</div>
-                                                    </div>
-                                                    <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            </CarouselItem>
-                            <CarouselItem className="md:basis-1/2 lg:basis-1/3 ">
-                                <div className="p-1">
-                                    <Card>
-                                        <CardContent className="flex aspect-square flex-col items-center rounded-xl shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
-                                            <div className="text-center">
-                                                <Image src="https://ktdcgroup.vn/wp-content/uploads/2020/07/IELTS-Level-3-460x335.jpg"
-                                                    alt={""}
-                                                    width={460}
-                                                    height={335} />
-                                                <div className="px-8 ">
-                                                    <div className="font-bold py-4 border-b-2 ">Khóa học IELTS 1</div>
+            <IeltsCourse2 />
 
-                                                    <div className="flex justify-center items-stretch">
-                                                        <div className=" text-sm mt-2 px-2 border-r-2 pr-5 ">
-                                                            <div>36 giờ (8 tuần)</div>
-                                                            <div>Đầu vào: 3.5-4.0</div>
-                                                        </div>
-                                                        <div className=" text-sm mt-2 px-2 pl-5">
-                                                            <div>9.448.000VNĐ</div>
-                                                            <div>Đầu ra: 4.5+</div>
-                                                        </div>
-                                                    </div>
 
-                                                    <div className="text-sm flex flex-col items-center py-2">
-                                                        <div className="text-[rgb(var(--secondary-rgb))] font-medium flex justify-self-center">★ Cam kết đầu ra</div>
-                                                        <div className="flex justify-self-center"><Check className="text-green-500" />Học hiệu quả, nhanh hơn 40%</div>
-                                                        <div className="flex justify-self-center"><Image src="https://cdn-icons-png.flaticon.com/128/555/555417.png" className="w-4 mr-2" alt={""} width={16} height={20} /> Giảng viên Bản Ngữ</div>
-                                                        <div className="flex justify-self-center"> <Image src="https://cdn-icons-png.flaticon.com/128/555/555515.png" className="w-4 mr-2" alt={""} width={16} height={20} />Đội ngũ hỗ trợ IELTS người Việt</div>
-                                                    </div>
-                                                    <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            </CarouselItem>
-                            <CarouselItem className="md:basis-1/2 lg:basis-1/3 ">
-                                <div className="p-1">
-                                    <Card>
-                                        <CardContent className="flex aspect-square flex-col items-center rounded-xl shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
-                                            <div className="text-center">
-                                                <Image src="https://ktdcgroup.vn/wp-content/uploads/2020/07/IELTS-Level-3-460x335.jpg" alt={""} width={460}
-                                                    height={335} />
-                                                <div className="px-8 ">
-                                                    <div className="font-bold py-4 border-b-2 ">Khóa học IELTS 1</div>
-
-                                                    <div className="flex justify-center items-stretch">
-                                                        <div className=" text-sm mt-2 px-2 border-r-2 pr-5 ">
-                                                            <div>36 giờ (8 tuần)</div>
-                                                            <div>Đầu vào: 3.5-4.0</div>
-                                                        </div>
-                                                        <div className=" text-sm mt-2 px-2 pl-5">
-                                                            <div>9.448.000VNĐ</div>
-                                                            <div>Đầu ra: 4.5+</div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="text-sm flex flex-col items-center py-2">
-                                                        <div className="text-[rgb(var(--secondary-rgb))] font-medium flex justify-self-center">★ Cam kết đầu ra</div>
-                                                        <div className="flex justify-self-center"><Check className="text-green-500" />Học hiệu quả, nhanh hơn 40%</div>
-                                                        <div className="flex justify-self-center"><Image src="https://cdn-icons-png.flaticon.com/128/555/555417.png" className="w-4 mr-2" alt={""} width={16} height={16} /> Giảng viên Bản Ngữ</div>
-                                                        <div className="flex justify-self-center"> <Image src="https://cdn-icons-png.flaticon.com/128/555/555515.png" className="w-4 mr-2" alt={""} width={16} height={16} />Đội ngũ hỗ trợ IELTS người Việt</div>
-                                                    </div>
-                                                    <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            </CarouselItem>
-                            <CarouselItem className="md:basis-1/2 lg:basis-1/3 ">
-                                <div className="p-1">
-                                    <Card>
-                                        <CardContent className="flex aspect-square flex-col items-center rounded-xl shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
-                                            <div className="text-center">
-                                                <Image src="https://ktdcgroup.vn/wp-content/uploads/2020/07/IELTS-Level-3-460x335.jpg" alt={""} width={460}
-                                                    height={335} />
-                                                <div className="px-8 ">
-                                                    <div className="font-bold py-4 border-b-2 ">Khóa học IELTS 1</div>
-
-                                                    <div className="flex justify-center items-stretch">
-                                                        <div className=" text-sm mt-2 px-2 border-r-2 pr-5 ">
-                                                            <div>36 giờ (8 tuần)</div>
-                                                            <div>Đầu vào: 3.5-4.0</div>
-                                                        </div>
-                                                        <div className=" text-sm mt-2 px-2 pl-5">
-                                                            <div>9.448.000VNĐ</div>
-                                                            <div>Đầu ra: 4.5+</div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="text-sm flex flex-col items-center py-2">
-                                                        <div className="text-[rgb(var(--secondary-rgb))] font-medium flex justify-self-center">★ Cam kết đầu ra</div>
-                                                        <div className="flex justify-self-center"><Check className="text-green-500" />Học hiệu quả, nhanh hơn 40%</div>
-                                                        <div className="flex justify-self-center"><Image src="https://cdn-icons-png.flaticon.com/128/555/555417.png" className="w-4 mr-2" alt={""} width={16} height={20} /> Giảng viên Bản Ngữ</div>
-                                                        <div className="flex justify-self-center"> <Image src="https://cdn-icons-png.flaticon.com/128/555/555515.png" className="w-4 mr-2" alt={""} width={16} height={20} /> Đội ngũ hỗ trợ IELTS người Việt</div>
-                                                    </div>
-                                                    <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            </CarouselItem>
-                        </CarouselContent>
-                        <CarouselPrevious />
-                        <CarouselNext />
-                    </Carousel>
-                </div>
-            </div>
-            <div className="w-full flex flex-col gap-6 bg-orange-50 py-14 justify-center items-center">
-                <div className="text-center mb-6">
-                    <h2 className="text-3xl font-bold text-gray-800">Khoá IELTS 4 kỹ năng</h2>
-                    <DecorBar />
-                    <p className="text-gray-500  mb-2 text-center w-[900px] justify-self-center">
-                        Hệ thống các khóa học IELTS được phân theo cấp độ từ thấp đến cao giúp học viên cải thiện cả 4 kỹ năng Nghe, Nói, Đọc, Viết theo chuẩn format của bài thi IELTS thông qua lượng kiến thức toàn diện.
-                    </p>
-                </div>
-                <div className="items-center flex flex-col">
-                    <Carousel
-                        opts={{
-                            align: "start",
-                        }}
-                        className="w-full max-w-7xl mx-auto"
-                    >
-                        <CarouselContent>
-                            <CarouselItem className="md:basis-1/2 lg:basis-1/3 ">
-                                <div className="p-1">
-                                    <Card>
-                                        <CardContent className="flex aspect-square flex-col items-center rounded-xl shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
-                                            <div className="text-center">
-                                                <Image src="https://ktdcgroup.vn/wp-content/uploads/2020/07/IELTS-Level-3-460x335.jpg" alt={""} width={460}
-                                                    height={335} />
-                                                <div className="px-8 ">
-                                                    <div className="font-bold py-4 border-b-2 ">Khóa học IELTS 1</div>
-
-                                                    <div className="flex justify-center items-stretch">
-                                                        <div className=" text-sm mt-2 px-2 border-r-2 pr-5 ">
-                                                            <div>36 giờ (8 tuần)</div>
-                                                            <div>Đầu vào: 3.5-4.0</div>
-                                                        </div>
-                                                        <div className=" text-sm mt-2 px-2 pl-5">
-                                                            <div>9.448.000VNĐ</div>
-                                                            <div>Đầu ra: 4.5+</div>
-                                                        </div>
-                                                    </div>
-                                                    <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            </CarouselItem>
-                            <CarouselItem className="md:basis-1/2 lg:basis-1/3 ">
-                                <div className="p-1">
-                                    <Card>
-                                        <CardContent className="flex aspect-square flex-col items-center rounded-xl shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
-                                            <div className="text-center">
-                                                <Image src="https://ktdcgroup.vn/wp-content/uploads/2020/07/IELTS-Level-3-460x335.jpg" alt={""} width={460}
-                                                    height={335} />
-                                                <div className="px-8 ">
-                                                    <div className="font-bold py-4 border-b-2 ">Khóa học IELTS 1</div>
-
-                                                    <div className="flex justify-center items-stretch">
-                                                        <div className=" text-sm mt-2 px-2 border-r-2 pr-5 ">
-                                                            <div>36 giờ (8 tuần)</div>
-                                                            <div>Đầu vào: 3.5-4.0</div>
-                                                        </div>
-                                                        <div className=" text-sm mt-2 px-2 pl-5">
-                                                            <div>9.448.000VNĐ</div>
-                                                            <div>Đầu ra: 4.5+</div>
-                                                        </div>
-                                                    </div>
-                                                    <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            </CarouselItem>
-                            <CarouselItem className="md:basis-1/2 lg:basis-1/3 ">
-                                <div className="p-1">
-                                    <Card>
-                                        <CardContent className="flex aspect-square flex-col items-center rounded-xl shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
-                                            <div className="text-center">
-                                                <Image src="https://ktdcgroup.vn/wp-content/uploads/2020/07/IELTS-Level-3-460x335.jpg" alt={""} width={460}
-                                                    height={335} />
-                                                <div className="px-8 ">
-                                                    <div className="font-bold py-4 border-b-2 ">Khóa học IELTS 1</div>
-
-                                                    <div className="flex justify-center items-stretch">
-                                                        <div className=" text-sm mt-2 px-2 border-r-2 pr-5 ">
-                                                            <div>36 giờ (8 tuần)</div>
-                                                            <div>Đầu vào: 3.5-4.0</div>
-                                                        </div>
-                                                        <div className=" text-sm mt-2 px-2 pl-5">
-                                                            <div>9.448.000VNĐ</div>
-                                                            <div>Đầu ra: 4.5+</div>
-                                                        </div>
-                                                    </div>
-                                                    <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            </CarouselItem>
-                            <CarouselItem className="md:basis-1/2 lg:basis-1/3 ">
-                                <div className="p-1">
-                                    <Card>
-                                        <CardContent className="flex aspect-square flex-col items-center rounded-xl shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
-                                            <div className="text-center">
-                                                <Image src="https://ktdcgroup.vn/wp-content/uploads/2020/07/IELTS-Level-3-460x335.jpg" alt={""} width={460}
-                                                    height={335} />
-                                                <div className="px-8 ">
-                                                    <div className="font-bold py-4 border-b-2 ">Khóa học IELTS 1</div>
-
-                                                    <div className="flex justify-center items-stretch">
-                                                        <div className=" text-sm mt-2 px-2 border-r-2 pr-5 ">
-                                                            <div>36 giờ (8 tuần)</div>
-                                                            <div>Đầu vào: 3.5-4.0</div>
-                                                        </div>
-                                                        <div className=" text-sm mt-2 px-2 pl-5">
-                                                            <div>9.448.000VNĐ</div>
-                                                            <div>Đầu ra: 4.5+</div>
-                                                        </div>
-                                                    </div>
-                                                    <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            </CarouselItem>
-                        </CarouselContent>
-                        <CarouselPrevious />
-                        <CarouselNext />
-                    </Carousel>
-                </div>
-            </div>
             <div className="bg-cover bg-center h-full w-full flex justify-center items-center py-8"
-                style={{ backgroundImage: `url('https://ktdcgroup.vn/wp-content/uploads/2021/10/chuong-trinh-hoc-ielts-ktdc-ielts-6-Copy-min.jpg')` }}>
+                style={{ backgroundImage: `url('https://res.cloudinary.com/farmcode/image/upload/v1733374676/ielts-viet/chuong-trinh-hoc-ielts-ktdc-ielts-6-Copy-min_eettnm.jpg')` }}>
                 <div className="w-3/4 flex justify-center items-center">
                     <div className="w-full justify-self-center">
                         <div className="text-3xl text-[rgb(var(--secondary-rgb))] font-bold py-4">TƯ VẤN LỘ TRÌNH HỌC CÁ NHÂN HÓA</div>
@@ -387,7 +96,7 @@ export default function CoursePage() {
                         <div className="absolute w-48 h-48 border border-gray-300 rounded-full"></div>
                         <div className="absolute w-32 h-32 border border-gray-400 rounded-full"></div>
                         <Image
-                            className="align-middle rounded-full bg-gray-500 p-4"
+                            className="align-middle rounded-full bg-[rgb(var(--quaternary-rgb))] p-4"
                             src="https://ktdcgroup.vn/wp-content/uploads/2024/07/nativespeakers.png"
                             alt={""}
                             width={78.400} height={80}
@@ -402,7 +111,7 @@ export default function CoursePage() {
                         <div className="absolute w-48 h-48 border border-gray-300 rounded-full"></div>
                         <div className="absolute w-32 h-32 border border-gray-400 rounded-full"></div>
                         <Image
-                            className="align-middle rounded-full bg-gray-500 p-4"
+                            className="align-middle rounded-full bg-[rgb(var(--quaternary-rgb))] p-4"
                             src="https://ktdcgroup.vn/wp-content/uploads/2024/07/learning-group-2.png"
                             alt={""}
                             width={78.400} height={80}
@@ -417,7 +126,7 @@ export default function CoursePage() {
                         <div className="absolute w-48 h-48 border border-gray-300 rounded-full"></div>
                         <div className="absolute w-32 h-32 border border-gray-400 rounded-full"></div>
                         <Image
-                            className="align-middle rounded-full bg-gray-500 p-4"
+                            className="align-middle rounded-full bg-[rgb(var(--quaternary-rgb))] p-4"
                             src="https://ktdcgroup.vn/wp-content/uploads/2024/07/mock-test.png"
                             alt={""}
                             width={78.400} height={80}
@@ -430,7 +139,8 @@ export default function CoursePage() {
             <div className="flex flex-col items-center w-full">
                 <div className="text-3xl font-bold py-10 mt-8">Ưu điểm vượt trội của khóa học</div>
                 <div className="w-3/4 flex justify-center items-center gap-8">
-                    <div className="w-full border-2 rounded-lg p-8 h-100">
+                    {/* CARD 1 */}
+                    <div className="w-full border rounded-lg p-8 h-[420px] hover:shadow-[rgba(17,_17,_26,_0.2)_0px_0px_20px] transition duration-300">
                         <div className="py-2 ">
                             <Image
                                 className="w-[50px] h-[50px]"
@@ -442,7 +152,8 @@ export default function CoursePage() {
                         <div className="text-lg font-bold py-2">80% CỰU GIÁM KHẢO IELTS</div>
                         <div className="  font-medium text-gray-500 ">80% đội ngũ chuyên gia là cựu giám khảo IELTS được British Council đào tạo nghiệp vụ chấm thi chuyên nghiệp. Do đó các chuyên gia hiểu rất rõ bản chất IELTS bao gồm các tiêu chí chấm điểm, yêu cầu về mặt kiến thức, kỹ năng và những lỗi sai phổ biến ứng với mỗi band điểm để hướng dẫn học viên cải thiện nhanh chóng.</div>
                     </div>
-                    <div className="w-full border-2 rounded-lg p-8 h-100">
+                    {/* CARD 2 */}
+                    <div className={`w-full border rounded-lg p-8 h-[420px] ${customCard246}`}>
                         <div className="py-2 ">
                             <Image
                                 className="w-[50px] h-[50px]"
@@ -454,7 +165,8 @@ export default function CoursePage() {
                         <div className="text-lg font-bold py-2">TẬP TRUNG VÀO IELTS</div>
                         <div className="  font-medium text-gray-500">Nhờ hiểu biết sâu sắc về IELTS, đội ngũ chuyên gia tuyệt đối không dạy kiến thức tiếng Anh đại trà. Thay vào đó chỉ tập trung vào những kiến thức trọng tâm dành riêng cho kỳ thi IELTS. Với đội ngũ chuyên gia hàng đầu, KTDC tự tin là một trong những đơn vị uy tín nhất trên thị trường cung cấp kiến thức IELTS chuẩn Cambridge.</div>
                     </div>
-                    <div className="w-full border-2 rounded-lg p-8 h-100">
+                    {/* CARD 3 */}
+                    <div className="w-full border rounded-lg p-8 h-[420px] hover:shadow-[rgba(17,_17,_26,_0.2)_0px_0px_20px] transition duration-300">
                         <div className="py-2 ">
                             <Image
                                 className="w-[50px] h-[50px]"
@@ -467,8 +179,9 @@ export default function CoursePage() {
                         <div className=" font-medium text-gray-500">Không học lý thuyết đơn thuần, học viên được hướng dẫn chủ động suy nghĩ ý tưởng và tự đưa ra câu trả lời. Không học từ vựng một cách cứng nhắc, học viên được hướng dẫn bối cảnh dùng từ để sử dụng từ được tự nhiên nhất. Không học tủ, học vẹt. Học viên được hướng dẫn xây dựng tư duy nhạy bén để ứng phó với mọi dạng đề.</div>
                     </div>
                 </div>
+                {/* CARD 4 */}
                 <div className="w-3/4 flex justify-center items-start py-8 h-1/2 gap-8">
-                    <div className="w-full border-2 rounded-lg p-8 h-128">
+                    <div className={`w-full border rounded-lg p-8 h-[520px] ${customCard246}`}>
                         <div className="py-2 ">
                             <Image
                                 className="w-[50px] h-[50px]"
@@ -480,7 +193,8 @@ export default function CoursePage() {
                         <div className="text-lg font-bold py-2">HỌC TƯ DUY PHẢN BIỆN</div>
                         <div className=" font-medium text-gray-500">Kỹ năng tư duy phản biện (Critical Thinking) được chú trọng lồng ghép trong chương trình học, nhất là trong quá trình luyện tập các dạng bài của Speaking Part 3 và Writing Task 2. Qua đó giúp học viên phát triển khả năng lập luận để ứng phó với mọi dạng đề bằng cách hình thành thói quen đánh giá vấn đề nhạy bén, trình bày quan điểm cá nhân và bảo vệ quan điểm bằng những dẫn chứng, lời giải thích và ví dụ có tính thuyết phục.</div>
                     </div>
-                    <div className="w-full border-2 rounded-lg p-8 h-128">
+                    {/* CARD 5 */}
+                    <div className="w-full border rounded-lg p-8 h-[520px] hover:shadow-[rgba(17,_17,_26,_0.2)_0px_0px_20px] transition duration-300">
                         <div className="py-2 ">
                             <Image
                                 className="w-[50px] h-[50px]"
@@ -492,7 +206,8 @@ export default function CoursePage() {
                         <div className="text-lg font-bold py-2">LỘ TRÌNH CÁ NHÂN HÓA</div>
                         <div className=" font-medium text-gray-500">Sau giờ học cùng chuyên gia, học viên còn được hỗ trợ phát triển kỹ năng toàn diện bởi cộng đồng Alumni năng động (bao gồm các cựu học viên có điểm số cao từ 8.0 đến 8.5+). Riêng học viên khóa Foundation & Pre IELTS sẽ được bố trí cố vấn cá nhân riêng, giúp xây dựng lộ trình học phù hợp với bản thân, giải đáp các vấn đề học thuật, kèm 1:1, lắng nghe, chia sẻ các áp lực tâm lý trong suốt quá trình học để đảm bảo theo đúng lộ trình đề ra.</div>
                     </div>
-                    <div className="w-full border-2 rounded-lg p-8 h-128">
+                    {/* CARD 6 */}
+                    <div className={`w-full border rounded-lg p-8 h-[520px] ${customCard246}`}>
                         <div className="py-2">
                             <Image
                                 className="w-[50px] h-[50px]"
@@ -506,7 +221,7 @@ export default function CoursePage() {
                     </div>
                 </div>
             </div>
-            <SignWithIelts />
+            <SignWithIELTS />
             <Footer />
         </div>
     )

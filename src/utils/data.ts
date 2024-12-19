@@ -1,3 +1,4 @@
+
 const SLOGANS = [
   {
     title: "Bảo đảm kết quả",
@@ -385,11 +386,178 @@ const SLOGANS = [
   },
 ];
 
+const IELTSROADMAP = [
+  {
+    id: 1,
+    cate: 1,
+    title: "IELTS Foundation",
+    price: 6288000,
+    duration: "24 giờ (6 tuần)",
+    target: [
+      "Đầu vào: A2 | Đầu ra: B1+",
+      "Phát triển từ vựng và kỹ năng đọc, viết phù hợp với độ tuổi",
+      "Luyện nghe qua các chủ đề quen thuộc, tạo nền tảng giao tiếp",
+      "Học phương pháp làm bài thi IELTS từng bước",
+    ],
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734506067/ielts-viet/z5912136749938_40bf65345ac75bb2c889dc855ec5c7a1_l8mvqk.jpg",
+  },
+  {
+    id: 2,
+    cate: 2,
+    title: "Pre-IELTS",
+    price: 9889000,
+    duration: "36 giờ (8 tuần)",
+    target: [
+      "Đầu vào: A2 | Đầu ra: B1.1+",
+      "Phát triển từ vựng và kỹ năng đọc, viết phù hợp với độ tuổi",
+      "Luyện nghe qua các chủ đề quen thuộc, tạo nền tảng giao tiếp",
+      "Học phương pháp làm bài thi IELTS từng bước",
+    ],
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507288/ielts-viet/z5912136768018_bfa0e4a0c0f4891008b579614de58119_hjkay2.jpg"
+  },
+  {
+    id: 3,
+    cate: 3,
+    title: "Pre-IELTS 5.5",
+    price: 9889000,
+    duration: "32 giờ (6 tuần)",
+    target: [
+      "Đầu vào: A2 | Đầu ra: B1.2+",
+      "Phát triển từ vựng và kỹ năng đọc, viết phù hợp với độ tuổi",
+      "Luyện nghe qua các chủ đề quen thuộc, tạo nền tảng giao tiếp",
+      "Học phương pháp làm bài thi IELTS từng bước",
+    ],
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734506067/ielts-viet/z5912136749938_40bf65345ac75bb2c889dc855ec5c7a1_l8mvqk.jpg",
+  },
+  {
+    id: 4,
+    cate: 3,
+    title: "Pre-IELTS 5.5-1",
+    price: 7777000,
+    duration: "28 giờ (5 tuần)",
+    target: [
+      "Đầu vào: A2 | Đầu ra: B1.3+",
+      "Phát triển từ vựng và kỹ năng đọc, viết phù hợp với độ tuổi",
+      "Luyện nghe qua các chủ đề quen thuộc, tạo nền tảng giao tiếp",
+      "Học phương pháp làm bài thi IELTS từng bước",
+    ],
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507288/ielts-viet/z5912136768018_bfa0e4a0c0f4891008b579614de58119_hjkay2.jpg",
+  },
+  {
+    id: 5,
+    cate: 4,
+    title: "Pre-IELTS 6.5-1",
+    price: 8888000,
+    duration: "28 giờ (5 tuần)",
+    target: [
+      "Đầu vào: A2 | Đầu ra: B1.4+",
+      "Phát triển từ vựng và kỹ năng đọc, viết phù hợp với độ tuổi",
+      "Luyện nghe qua các chủ đề quen thuộc, tạo nền tảng giao tiếp",
+      "Học phương pháp làm bài thi IELTS từng bước",
+    ],
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734506067/ielts-viet/z5912136749938_40bf65345ac75bb2c889dc855ec5c7a1_l8mvqk.jpg",
+  },
+  {
+    id: 6,
+    cate: 5,
+    title: "Pre-IELTS 7.5-1",
+    price: 1111000,
+    duration: "28 giờ (5 tuần)",
+    target: [
+      "Đầu vào: A2 | Đầu ra: B1.5+",
+      "Phát triển từ vựng và kỹ năng đọc, viết phù hợp với độ tuổi",
+      "Luyện nghe qua các chủ đề quen thuộc, tạo nền tảng giao tiếp",
+      "Học phương pháp làm bài thi IELTS từng bước",
+    ],
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507288/ielts-viet/z5912136768018_bfa0e4a0c0f4891008b579614de58119_hjkay2.jpg",
+  },
+  {
+    id: 7,
+    cate: 5,
+    title: "Pre-IELTS 7.5-2",
+    price: 2222000,
+    duration: "28 giờ (5 tuần)",
+    target: [
+      "Đầu vào: A2 | Đầu ra: B1.6+",
+      "Phát triển từ vựng và kỹ năng đọc, viết phù hợp với độ tuổi",
+      "Luyện nghe qua các chủ đề quen thuộc, tạo nền tảng giao tiếp",
+      "Học phương pháp làm bài thi IELTS từng bước",
+    ],
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734506067/ielts-viet/z5912136749938_40bf65345ac75bb2c889dc855ec5c7a1_l8mvqk.jpg",
+  },
+  {
+    id: 8,
+    cate: 5,
+    title: "Pre-IELTS 7.5-3",
+    price: 3333000,
+    duration: "28 giờ (5 tuần)",
+    target: [
+      "Đầu vào: A2 | Đầu ra: B1.7+",
+      "Phát triển từ vựng và kỹ năng đọc, viết phù hợp với độ tuổi",
+      "Luyện nghe qua các chủ đề quen thuộc, tạo nền tảng giao tiếp",
+      "Học phương pháp làm bài thi IELTS từng bước",
+    ],
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507288/ielts-viet/z5912136768018_bfa0e4a0c0f4891008b579614de58119_hjkay2.jpg",
+  },
+];
+
+const IELTSCOMMUNITY = [
+  {
+    id: 1,
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    name: "Phạm Phương Linh",
+    score: "8.0",
+    school: "Trường THPT Châu Văn Liêm",
+  },
+  {
+    id: 2,
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    name: "Nguyễn Nhật Nam",
+    score: "7.5",
+    school: "Trường THPT Nguyễn Việt Dũng",
+  },
+  {
+    id: 3,
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    name: "Đặng Thanh Tân",
+    score: "6.5",
+    school: "Trường THPT Vĩnh Thạnh",
+  },
+  {
+    id: 4,
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    name: "Phạm Công Khanh",
+    score: "9.0",
+    school: "Trường THPT Thực hành sư phạm",
+  },
+  {
+    id: 5,
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    name: "Nguyễn Nhật Nam 1",
+    score: "8.5",
+    school: "Trường THPT Nguyễn Việt Hồng",
+  },
+  {
+    id: 6,
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    name: "Đặng Thanh Tân 1",
+    score: "7.0",
+    school: "Trường THPT Bình Minh",
+  },
+  {
+    id: 7,
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    name: "Đặng Thanh Tân",
+    score: "6.5",
+    school: "Trường THPT Vĩnh Thạnh",
+  },
+];
+
 const LEARNERS = [
   {
     id: 1,
     name: "Ngọc Anh",
-    cmt: "Mình chỉ mới bắt đầu học ielts từ hè năm nay, lúc đó kiến thức về tiếng anh của mình chỉ coi là đủ dùng và ở mức 4.5(?). Nhưng sau khi học tại Ielt Việt được 2 tháng và giờ...",
+    cmt: "Mình chỉ mới bắt đầu học IELTS từ hè năm nay, lúc đó kiến thức về tiếng anh của mình chỉ coi là đủ dùng và ở mức 4.5(?). Nhưng sau khi học tại Ielt Việt được 2 tháng và giờ...",
     cmtSrc: "Google",
   },
   {
@@ -401,7 +569,7 @@ const LEARNERS = [
   {
     id: 3,
     name: "Le Nha Thy",
-    cmt: "Chương trình học bám sát ielts và cực kỳ hiệu quả, thấy lại chuyên môn cao và cách học giúp học viên luyện tập khả năng chủ động trong học tập...",
+    cmt: "Chương trình học bám sát IELTS và cực kỳ hiệu quả, thấy lại chuyên môn cao và cách học giúp học viên luyện tập khả năng chủ động trong học tập...",
     cmtSrc: "Google",
   },
   {
@@ -427,74 +595,38 @@ const LEARNERS = [
 const TEACHERS = [
   {
     id: 1,
-    name: "Thầy Trương Hoàng Hậu",
-    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/ielts-viet/gkhowebkdnpe6w6xbvgr.png",
+    name: "Thầy Trương Hoàng Hậu 1",
+    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/IELTS-viet/gkhowebkdnpe6w6xbvgr.png",
     qualifications: ["Chứng chỉ", "Cử nhân", "Thạc sĩ"],
   },
   {
     id: 2,
-    name: "Thầy Trương Hoàng Hậu",
-    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/ielts-viet/gkhowebkdnpe6w6xbvgr.png",
+    name: "Thầy Trương Hoàng Hậu 2",
+    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/IELTS-viet/gkhowebkdnpe6w6xbvgr.png",
     qualifications: ["Chứng chỉ", "Cử nhân", "Thạc sĩ"],
   },
   {
     id: 3,
-    name: "Thầy Trương Hoàng Hậu",
-    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/ielts-viet/gkhowebkdnpe6w6xbvgr.png",
+    name: "Thầy Trương Hoàng Hậu 3",
+    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/IELTS-viet/gkhowebkdnpe6w6xbvgr.png",
     qualifications: ["Chứng chỉ", "Cử nhân", "Thạc sĩ"],
   },
   {
     id: 4,
-    name: "Thầy Trương Hoàng Hậu",
-    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/ielts-viet/gkhowebkdnpe6w6xbvgr.png",
+    name: "Thầy Trương Hoàng Hậu 4",
+    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/IELTS-viet/gkhowebkdnpe6w6xbvgr.png",
     qualifications: ["Chứng chỉ", "Cử nhân", "Thạc sĩ"],
   },
   {
     id: 5,
-    name: "Thầy Trương Hoàng Hậu",
-    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/ielts-viet/gkhowebkdnpe6w6xbvgr.png",
+    name: "Thầy Trương Hoàng Hậu 5",
+    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/IELTS-viet/gkhowebkdnpe6w6xbvgr.png",
     qualifications: ["Chứng chỉ", "Cử nhân", "Thạc sĩ"],
   },
   {
     id: 6,
-    name: "Thầy Trương Hoàng Hậu",
-    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/ielts-viet/gkhowebkdnpe6w6xbvgr.png",
-    qualifications: ["Chứng chỉ", "Cử nhân", "Thạc sĩ"],
-  },
-  {
-    id: 7,
-    name: "Thầy Trương Hoàng Hậu",
-    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/ielts-viet/gkhowebkdnpe6w6xbvgr.png",
-    qualifications: ["Chứng chỉ", "Cử nhân", "Thạc sĩ"],
-  },
-  {
-    id: 8,
-    name: "Thầy Trương Hoàng Hậu",
-    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/ielts-viet/gkhowebkdnpe6w6xbvgr.png",
-    qualifications: ["Chứng chỉ", "Cử nhân", "Thạc sĩ"],
-  },
-  {
-    id: 9,
-    name: "Thầy Trương Hoàng Hậu",
-    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/ielts-viet/gkhowebkdnpe6w6xbvgr.png",
-    qualifications: ["Chứng chỉ", "Cử nhân", "Thạc sĩ"],
-  },
-  {
-    id: 10,
-    name: "Thầy Trương Hoàng Hậu",
-    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/ielts-viet/gkhowebkdnpe6w6xbvgr.png",
-    qualifications: ["Chứng chỉ", "Cử nhân", "Thạc sĩ"],
-  },
-  {
-    id: 11,
-    name: "Thầy Trương Hoàng Hậu",
-    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/ielts-viet/gkhowebkdnpe6w6xbvgr.png",
-    qualifications: ["Chứng chỉ", "Cử nhân", "Thạc sĩ"],
-  },
-  {
-    id: 12,
-    name: "Thầy Trương Hoàng Hậu",
-    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/ielts-viet/gkhowebkdnpe6w6xbvgr.png",
+    name: "Thầy Trương Hoàng Hậu 6",
+    img: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/IELTS-viet/gkhowebkdnpe6w6xbvgr.png",
     qualifications: ["Chứng chỉ", "Cử nhân", "Thạc sĩ"],
   },
 ];
@@ -617,10 +749,9 @@ const REAL_IMAGES = [
 const TEACHERS_DATA = [
   {
     id: 1,
-    name: "Tony Giusti",
-    image:
-      "https://res.cloudinary.com/farmcode/image/upload/v1732721035/ielts-viet/Screenshot_2024-11-27_at_22.23.31_k1tdpe.png",
-    nationality: "Mỹ",
+    name: "Thầy Trương Hoàng Hậu 1",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/IELTS-viet/gkhowebkdnpe6w6xbvgr.png",
+    nationality: "Việt Nam",
     diploma: [
       "Thạc sĩ Quốc Tế Học chuyên ngành An Ninh Con Người, Đại học Concordia, Canada",
       "Cử nhân Văn Học Anh tại Đại Học Portland Oregon, Mỹ",
@@ -629,14 +760,13 @@ const TEACHERS_DATA = [
     experience: "12 năm giảng dạy",
     videoId: "",
     introduction:
-      "Thầy Tony Giusti tốt nghiệp Cử nhân Văn học Anh tại Đại Học Portland Oregon. Trong thời gian học tại đây, thầy phụ trách vị trí trợ lý biên tập cho tạp chí văn học The Portland Review. Đồng thời, tham gia làm điều hành viên của Đài phát thanh KPSU.",
+      "Thầy giáo Trương Hoàng Hậu là một trong những giảng viên nổi tiếng trong lĩnh vực luyện thi IELTS tại Việt Nam. Với nhiều năm kinh nghiệm giảng dạy và sự am hiểu sâu sắc về kỳ thi IELTS, thầy đã giúp đỡ hàng nghìn học viên đạt được điểm số cao trong các phần thi. Phương pháp giảng dạy của thầy chú trọng đến việc cải thiện kỹ năng ngôn ngữ một cách toàn diện, từ phát âm, từ vựng đến ngữ pháp, đồng thời giúp học viên làm quen với cấu trúc bài thi để tối ưu hóa kết quả. Thầy còn nổi bật với khả năng truyền cảm hứng, khơi dậy đam mê học tiếng Anh và giúp học viên tự tin hơn khi bước vào kỳ thi IELTS.",
   },
   {
     id: 2,
-    name: "Andy Robertson",
-    image:
-      "https://res.cloudinary.com/farmcode/image/upload/v1732720896/ielts-viet/pmywb7afgtphip2epmce.png",
-    nationality: "Anh",
+    name: "Thầy Trương Hoàng Hậu 2",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/IELTS-viet/gkhowebkdnpe6w6xbvgr.png",
+    nationality: "Việt Nam",
     diploma: [
       "Cử nhân Kinh Tế",
       "Đại học Wales, Anh",
@@ -648,677 +778,372 @@ const TEACHERS_DATA = [
       "Chứng chỉ TEFL – 2006",
     ],
     experience: "15 năm giảng dạy",
-    videoId: "Wpot7cU-9mM",
+    videoId: "HafuyqrOs1w",
     introduction:
-      "Nhắc đến thầy Andy Robertson là nhắc đến “tấm gương” học tập và làm việc không ngừng nghỉ. Không chỉ miệt mài rèn giũa bản thân để nâng cao năng lực chuyên môn, thầy còn tôi luyện ngọn lửa nhiệt huyết bất tận dành cho ngành giáo dục và trở thành cái tên được đông đảo học viên yêu mến. Trước khi gặt hái những thành tựu trong lĩnh vực “trồng người”, thầy đã thành công chinh phục bằng Thạc sĩ Khoa học giáo dục tại Đại học Phoenix, Arizona, Mỹ và bằng Thạc sĩ Chính trị Châu Âu tại Đại học Lund, Thụy Điển – Một trong những trường đại học lâu đời và lớn nhất tại châu Âu với bề dày thành tựu giáo dục và đào tạo đáng nể.",
+      "Thầy giáo Trương Hoàng Hậu là một trong những giảng viên nổi tiếng trong lĩnh vực luyện thi IELTS tại Việt Nam. Với nhiều năm kinh nghiệm giảng dạy và sự am hiểu sâu sắc về kỳ thi IELTS, thầy đã giúp đỡ hàng nghìn học viên đạt được điểm số cao trong các phần thi. Phương pháp giảng dạy của thầy chú trọng đến việc cải thiện kỹ năng ngôn ngữ một cách toàn diện, từ phát âm, từ vựng đến ngữ pháp, đồng thời giúp học viên làm quen với cấu trúc bài thi để tối ưu hóa kết quả. Thầy còn nổi bật với khả năng truyền cảm hứng, khơi dậy đam mê học tiếng Anh và giúp học viên tự tin hơn khi bước vào kỳ thi IELTS.",
   },
   {
     id: 3,
-    name: "Hamish McNair-Wilson",
-    image:
-      "https://res.cloudinary.com/farmcode/image/upload/v1732774349/view/teacher-03_vminrf.jpg",
-    nationality: "Anh",
+    name: "Thầy Trương Hoàng Hậu 3",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1730890283/IELTS-viet/gkhowebkdnpe6w6xbvgr.png",
+    nationality: "Việt Nam",
     diploma: [
       "Thạc sĩ Quốc Tế Học chuyên ngành An Ninh Con Người, Đại học Concordia, Canada",
       "Cử nhân Văn Học Anh tại Đại Học Portland Oregon, Mỹ",
       "Chứng chỉ CELTA – 2009",
     ],
     experience: "15 năm giảng dạy",
-    videoId: "0hvJQh5w7J4",
+    videoId: "HafuyqrOs1w",
     introduction:
-      "Thầy Hamish sinh ra ở Colchester, thành phố cổ nhất nước Anh. Thầy tốt nghiệp Đại học Durham – Một trong những trường uy tín nhất tại Anh Quốc. Năm 2001, với vai trò phóng viên và nhà biên tập, thầy đã tham gia giám sát biên tập cho tạp chí SVI – một tạp chí uy tín về điện tử đã và đang phát triển đến ngày nay. Là một cây viết chuyên nghiệp và nhạy bén, thầy Hamish đã xuất bản rất nhiều ấn phẩm thuộc nhiều lĩnh vực khác nhau, từ thiết kế nội thất cho đến du lịch.",
+      "Thầy giáo Trương Hoàng Hậu là một trong những giảng viên nổi tiếng trong lĩnh vực luyện thi IELTS tại Việt Nam. Với nhiều năm kinh nghiệm giảng dạy và sự am hiểu sâu sắc về kỳ thi IELTS, thầy đã giúp đỡ hàng nghìn học viên đạt được điểm số cao trong các phần thi. Phương pháp giảng dạy của thầy chú trọng đến việc cải thiện kỹ năng ngôn ngữ một cách toàn diện, từ phát âm, từ vựng đến ngữ pháp, đồng thời giúp học viên làm quen với cấu trúc bài thi để tối ưu hóa kết quả. Thầy còn nổi bật với khả năng truyền cảm hứng, khơi dậy đam mê học tiếng Anh và giúp học viên tự tin hơn khi bước vào kỳ thi IELTS.",
+  },
+
+];
+
+const COURSE4SKILLS = [
+  {
+    id: 1,
+    title: "Khóa học IELTS 1",
+    duration: "36 giờ (8 tuần)",
+    entryPoint: "3.5-4.0",
+    outputPoint: "4.5+",
+    price: 9448000,
+    commitment: [
+      "Học hiệu quả, nhanh hơn 40%",
+      "Giảng viên Bản Ngữ",
+      "Đội ngũ hỗ trợ IELTS người Việt",
+    ],
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734506067/ielts-viet/z5912136749938_40bf65345ac75bb2c889dc855ec5c7a1_l8mvqk.jpg",
+  },
+  {
+    id: 2,
+    title: "Khóa học IELTS 2",
+    duration: "42 giờ (9 tuần)",
+    entryPoint: "4.0-5.5",
+    outputPoint: "5.5+",
+    price: 1111000,
+    commitment: [
+      "Học hiệu quả, nhanh hơn 40%",
+      "Giảng viên Bản Ngữ",
+      "Đội ngũ hỗ trợ IELTS người Việt",
+    ],
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734506067/ielts-viet/z5912136749938_40bf65345ac75bb2c889dc855ec5c7a1_l8mvqk.jpg",
+  },
+  {
+    id: 3,
+    title: "Khóa học IELTS 3",
+    duration: "36 giờ (8 tuần)",
+    entryPoint: "5.5-6.0",
+    outputPoint: "6.5+",
+    price: 8888000,
+    commitment: [
+      "Học hiệu quả, nhanh hơn 40%",
+      "Giảng viên Bản Ngữ",
+      "Đội ngũ hỗ trợ IELTS người Việt",
+    ],
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507288/ielts-viet/z5912136768018_bfa0e4a0c0f4891008b579614de58119_hjkay2.jpg",
   },
   {
     id: 4,
-    name: "Aaron Hedrick",
-    image:
-      "https://res.cloudinary.com/farmcode/image/upload/v1732774376/view/teacher-04_ttodr2.jpg",
-    nationality: "Mỹ",
-    diploma: [
-      "Cử nhân Kinh Tế",
-      "Đại học Wales, Anh",
-      "Thạc sĩ Giáo Dục",
-      "Đại học Phoenix, Mỹ",
+    title: "Khóa học IELTS 4",
+    duration: "13 giờ (2 tuần)",
+    entryPoint: "8.0-8.5",
+    outputPoint: "9.0",
+    price: 9999999,
+    commitment: [
+      "Học hiệu quả, nhanh hơn 40%",
+      "Giảng viên Bản Ngữ",
+      "Đội ngũ hỗ trợ IELTS người Việt",
     ],
-    experience: "12 năm giảng dạy",
-    videoId: "PtuITo8J3vc",
-    introduction:
-      "Thầy Aaron Hedrick sinh ra và lớn lên ở Connecticut thuộc bờ Đông nước Mỹ. Thầy tốt nghiệp Cử nhân tiếng Anh trường Đại học Montana – Missoula. Ngôi trường thầy theo học được thành lập từ năm 1893, xếp hạng 5 trong số những trường tư được vinh dự cấp Rhodes Scholars – một giải thưởng cao quý cho phép người nhận học bổng theo học chương trình Thạc sĩ ở Đại học Oxford, Anh. Các nhân vật nổi tiếng từng theo học tại trường có thể kể đến như Jeannette Rankin (Người phụ nữ đầu tiên được bầu vào Quốc hội Mỹ) và Jim Messina (Nguyên Phó tham mưu cho Tổng thống Barack Obama trong năm 2009-2011).",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507288/ielts-viet/z5912136768018_bfa0e4a0c0f4891008b579614de58119_hjkay2.jpg",
+  },
+];
+
+const COURSE2SKILLS = [
+  {
+    id: 1,
+    title: "Khóa học IELTS 1",
+    duration: "36 giờ (8 tuần)",
+    entryPoint: "3.5-4.0",
+    outputPoint: "4.5+",
+    price: 9448000,
+    commitment: [
+      "Học hiệu quả, nhanh hơn 40%",
+      "Giảng viên Bản Ngữ",
+      "Đội ngũ hỗ trợ IELTS người Việt",
+    ],
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734508208/ielts-viet/z5912136421125_02f02b80b4cf179909a2a540d8b37e00_ioo9ki.jpg",
   },
   {
-    id: 5,
-    name: "Tony Ahn",
-    image:
-      "https://res.cloudinary.com/farmcode/image/upload/v1732774392/view/teacher-05_l6oydk.jpg",
-    nationality: "Mỹ",
-    diploma: [
-      "Thạc sĩ Quốc Tế Học chuyên ngành An Ninh Con Người, Đại học Concordia, Canada",
-      "Cử nhân Văn Học Anh tại Đại Học Portland Oregon, Mỹ",
-      "Chứng chỉ CELTA – 2009",
+    id: 2,
+    title: "Khóa học IELTS 2",
+    duration: "42 giờ (9 tuần)",
+    entryPoint: "4.0-5.5",
+    outputPoint: "5.5+",
+    price: 1111000,
+    commitment: [
+      "Học hiệu quả, nhanh hơn 40%",
+      "Giảng viên Bản Ngữ",
+      "Đội ngũ hỗ trợ IELTS người Việt",
     ],
-    experience: "",
-    videoId: "",
-    introduction:
-      "Tốt nghiệp Cử nhân Kinh Tế từ một trong ba ngôi trường đại học lớn nhất tiểu bang California – Mỹ, thầy Tony Ahn từ lâu đã trau dồi cho bản thân khả năng tư duy nhạy bén và thấu hiểu tâm lý khách hàng của một người làm nghiên cứu kinh tế. Sau khi tốt nghiệp đại học San Diego, thầy công tác nhiều năm trong lĩnh vực Marketing tại thành phố Las Vegas trước khi chính thức chuyển về Việt Nam sinh sống. Cũng từ đây, tình yêu dạy học bắt đầu nhen nhóm trong người thầy. Đối với thầy Tony, việc giúp đỡ học viên đạt được mục tiêu mong muốn là phần thưởng quý báu cho người làm nghề giáo.",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734508208/ielts-viet/z5912136421125_02f02b80b4cf179909a2a540d8b37e00_ioo9ki.jpg",
   },
   {
-    id: 6,
-    name: "Martin Firth",
-    image:
-      "https://res.cloudinary.com/farmcode/image/upload/v1732774409/view/teacher-06_b7bu1s.jpg",
-    nationality: "Anh",
-    diploma: [
-      "Thạc sĩ Khoa Học Xã Hội",
-      "Đại học Lund, Thụy Điển",
-      "Giấy phép giảng dạy K9 và K12",
-      "Chứng chỉ TEFL – 2006",
+    id: 3,
+    title: "Khóa học IELTS 3",
+    duration: "36 giờ (8 tuần)",
+    entryPoint: "5.5-6.0",
+    outputPoint: "6.5+",
+    price: 8888000,
+    commitment: [
+      "Học hiệu quả, nhanh hơn 40%",
+      "Giảng viên Bản Ngữ",
+      "Đội ngũ hỗ trợ IELTS người Việt",
     ],
-    experience: "7 năm giảng dạy",
-    videoId: "",
-    introduction:
-      "Thầy Martin sinh ra tại Yorkshire – Vùng đất rộng lớn nhất ở Đông Bắc nước Anh, nhưng thầy dành nhiều năm sống tại Oxford ở phía Nam. Sau khi tốt nghiệp Đại học Warwick (một trong những trường kinh doanh hàng đầu ở Vương quốc Anh), thầy Martin đã có 30 năm sự nghiệp rất thành công trong lĩnh vực tiếp thị và bán hàng Công nghệ Thông tin toàn cầu. Trong thời gian này, thầy đã làm việc ở cấp Giám đốc cho một số Tập đoàn lớn tại Mỹ và các công ty khởi nghiệp ở Châu Á, Châu Mỹ và Châu Âu. Thầy cũng đã có 3,5 năm sống và làm việc tại Bahrain trong Vịnh Ả Rập với vai trò Tổng giám đốc của một nhà phân phối sản phẩm CNTT. Đây là hệ thống quản lý mạng lưới các nhà phân phối CNTT ở 50 quốc gia. Ở đó thầy Martin quản lý việc phát triển và cung cấp các sản phẩm cũng như đào tạo kỹ năng mềm cho nhân viên địa phương.",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507288/ielts-viet/z5912136768018_bfa0e4a0c0f4891008b579614de58119_hjkay2.jpg",
+  },
+  {
+    id: 4,
+    title: "Khóa học IELTS 4",
+    duration: "13 giờ (2 tuần)",
+    entryPoint: "8.0-8.5",
+    outputPoint: "9.0",
+    price: 9999999,
+    commitment: [
+      "Học hiệu quả, nhanh hơn 40%",
+      "Giảng viên Bản Ngữ",
+      "Đội ngũ hỗ trợ IELTS người Việt",
+    ],
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507288/ielts-viet/z5912136768018_bfa0e4a0c0f4891008b579614de58119_hjkay2.jpg",
   },
 ];
 
 const STUDENTS = [
   {
-    id: 1,
-    image: "https://ktdcgroup.vn/wp-content/uploads/2024/11/hai-yen-7.5.jpg",
-    title:
-      "Châu Kiều Hải Yến: 7.5 IELTS giúp cô bạn sinh viên năm cuối tốt nghiệp sớm và nhận cơ hội thực tập tại công ty nước ngoài",
-    content: `
-        <img class="transform transition-transform duration-500 group-hover:scale-105 object-cover w-full h-full mb-5" src="https://ktdcgroup.vn/wp-content/uploads/2024/11/hai-yen-7.5.jpg" alt=""/>
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>
-        `,
+    "id": 1,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    "title": "Chuyến đi IELTS của Lan: Từ bắt đầu đến thành công",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687341_n_w2j7c6.jpg' alt=''/> <p>Theo Vân, kỹ năng Viết khó đạt điểm 9 nhất. IELTS có công thức cho bài Task 1 và Task 2 nhưng để đạt điểm cao còn tùy thuộc vào cách viết của mỗi người. Task 1 có các dạng bài về số liệu, biểu đồ. Để ghi điểm, thí sinh cần so sánh số liệu và các cột mốc với nhau nhiều hơn nhằm làm nổi bật được sự đối nghịch hay xu hướng. Trong khi đó, Task 2 yêu cầu giải thích rõ ràng quan điểm của người viết bằng cách đưa ra dẫn chứng, lý lẽ để chứng minh.</p>"
   },
   {
-    id: 2,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2024/11/trong-nhan-final.jpg",
-    title:
-      "Hồ Trọng Nhân: Chỉ sau một khóa Speaking & Writing Advanced Nhân đã thành công chinh phục 8.5 IELTS",
-    content: `
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mb-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <img class="transform transition-transform duration-500 group-hover:scale-105 object-cover w-full h-full mb-5" src="https://ktdcgroup.vn/wp-content/uploads/2024/11/trong-nhan-2048x1152.jpg" alt=""/>
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5 mb-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <img class="transform transition-transform duration-500 group-hover:scale-105 object-cover w-full h-full mb-5" src="https://ktdcgroup.vn/wp-content/uploads/2024/07/70-Giang-vien-tai-KTDC-la-cuu-giam-khao-IELTS-cua-Hoi-dong-Anh.jpg" alt=""/>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 2,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734513199/ielts-viet/nam-sinh-1733977566-4414-1733979232_o2oyaq.jpg",
+    "title": "Thành công vượt bậc của Minh trong kỳ thi IELTS",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687342_n_w2j7c7.jpg' alt=''/> <p>Trong bốn kỹ năng, cô hầu như đạt 9 Nói và Nghe ở các lần thi. Với Vân, cách cải thiện nhanh nhất là chịu khó nói và có người luyện tập cùng. Khi còn đi học, Vân và em gái tự tạo môi trường bằng cách nói chuyện bằng tiếng Anh hàng ngày với nhau. Thói quen này sau đó được cô duy trì với chồng. Chồng Vân là Đặng Trần Tùng, người đạt điểm tuyệt đối ở cả 4 kỹ năng IELTS.</p>"
   },
   {
-    id: 3,
-    image: "https://ktdcgroup.vn/wp-content/uploads/2024/08/02-2.jpg",
-    title:
-      "Trần Đạt Hào : Từ IELTS 4.5 đến 7.5 nhờ hành trình chinh phục tại KTDC IELTS",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>
-        <img class="transform transition-transform duration-500 group-hover:scale-105 object-cover w-full h-full mb-5" src="https://ktdcgroup.vn/wp-content/uploads/2024/08/KTDC-Idol-2022-1-1.jpg" alt=""/>
-        <div class="mb-5"><a class="text-red-700" href="/giang-vien">Chuyên gia IELTS tại KTDC</a> là <a class="text-red-700" href="https://translate.google.com/?hl=vi" target="_blank">những người có chuyên môn sâu về kỳ thi IELTS</a>, có thể giúp học viên đạt được kết quả cao nhất nhờ:</div>
-        <ul class="list-disc pl-10 text-lg mb-4">
-          <li class="mb-4">Kiến thức chuyên sâu về IELTS: Hiểu rõ cấu trúc đề thi, các dạng bài tập, tiêu chí chấm điểm của từng kỹ năng.</li>
-          <li class="mb-4">Kinh nghiệm giảng dạy: Đã từng giảng dạy IELTS cho nhiều đối tượng học viên khác nhau, từ người mới bắt đầu đến những bạn muốn nâng cao điểm số.</li>
-          <li class="mb-4">Phương pháp giảng dạy hiệu quả: Biết cách truyền đạt kiến thức một cách dễ hiểu, tạo hứng thú cho học viên, và giúp học viên khắc phục những điểm yếu của bản thân.</li>
-        </ul>
-        `,
+    "id": 3,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734513301/ielts-viet/470136967-3568628023282146-921-9300-2575-1734430840_bo1gva.jpg",
+    "title": "Nỗ lực không ngừng của Tú trong hành trình IELTS",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687343_n_w2j7c8.jpg' alt=''/> <p>Dạng True, False, Not Given và chọn tiêu đề cho đoạn văn luôn là thách thức với các thí sinh, ngay cả cô. Các dạng này cần sự tập trung cao và phải đọc đi, đọc lại vì có thể thông tin giúp trả lời lại ở chi tiết rất nhỏ.</p>"
   },
   {
-    id: 4,
-    image: "https://ktdcgroup.vn/wp-content/uploads/2024/08/01.jpg",
-    title: "Paragraph Title 4",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 4,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734513381/ielts-viet/huy1-1449-1733616093_xcwpkz.jpg",
+    "title": "Bí quyết ôn luyện IELTS hiệu quả từ Thảo",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687344_n_w2j7c9.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
-    id: 5,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2024/08/7.5-Nguyen-Ngoc-Phuoc.jpg",
-    title: "Paragraph Title 5",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 5,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734513420/ielts-viet/7-1-JPG-1734359602-7430-1734359811_ylk3et.jpg",
+    "title": "Hành trình IELTS của Ngọc: Kinh nghiệm chia sẻ",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687345_n_w2j7ca.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
-    id: 6,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2024/08/8.0_Phan_Xuan_Yen_Nhi.jpg",
-    title: "Paragraph Title 6",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 6,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734513495/ielts-viet/IMG-2447-1734409633-3059-1734410162_rvhpiv.jpg",
+    "title": "Lý do Kiên đạt điểm cao IELTS: Cách học từ A đến Z",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687346_n_w2j7cb.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
-    id: 7,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/08/DIEUTHUYWEBCOVER.jpg",
-    title: "Paragraph Title 7",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 7,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734513569/ielts-viet/655943c9-9070-4ae8-aeb3-27033b-6139-8981-1734232023_d5q3u0.jpg",
+    "title": "Học viên An: Sự quyết tâm giúp đạt điểm IELTS mơ ước",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687347_n_w2j7cc.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
-    id: 8,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/08/NDTRUNG-coverwebsite.png",
-    title: "Paragraph Title 8",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 8,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734513645/ielts-viet/hoa-4590-1729534830_oasp72.jpg",
+    "title": "Từ zero đến IELTS 7.5: Hành trình của Hà",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687348_n_w2j7cd.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
-    id: 9,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/08/7.0-Nguy%E1%BB%85n-Qu%E1%BB%91c-Lu%C3%A2n.png",
-    title: "Paragraph Title 9",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 9,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734513696/ielts-viet/khai-tru-o-ng-the-english-coac-9818-7035-1720755238_obqwks.jpg",
+    "title": "IELTS và câu chuyện thành công của Duy",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687349_n_w2j7ce.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
-    id: 10,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/08/7.0-Nguy%E1%BB%85n-H%E1%BB%A9a-Gia-B%E1%BA%A3o-1-.png",
-    title: "Paragraph Title 10",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 10,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734513759/ielts-viet/quan-2194-1716198820_ypsuar.jpg",
+    "title": "Khám phá bí mật thành công IELTS của Tuyết",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687350_n_w2j7cf.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
-    id: 11,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/08/LTHPHUC-websitecover.jpg",
-    title: "Paragraph Title 11",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 11,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734513817/ielts-viet/van-7318-1714216106-1714266202-9545-1714266208_ai4pjc.jpg",
+    "title": "Hành trình đầy cảm hứng của Phương với IELTS",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687351_n_w2j7cg.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
-    id: 12,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/07/7.5-NGUYEN-BAO-NGOC.png",
-    title: "Paragraph Title 12",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 12,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    "title": "Từ thất bại đến thành công: IELTS của Linh",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687352_n_w2j7ch.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
-    id: 13,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/08/7.0-Nguy%E1%BB%85n-H%E1%BB%A9a-Gia-B%E1%BA%A3o-1-.png",
-    title: "Paragraph Title 13",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 13,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    "title": "Trí và chiến lược ôn luyện IELTS hiệu quả",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687353_n_w2j7ci.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
-    id: 14,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/08/LTHPHUC-websitecover.jpg",
-    title: "Paragraph Title 14",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 14,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    "title": "Chia sẻ từ học viên Hoàng: Cách học IELTS thông minh",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687354_n_w2j7cj.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
-    id: 15,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/07/7.5-NGUYEN-BAO-NGOC.png",
-    title: "Paragraph Title 15",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 15,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    "title": "Kết quả vượt ngoài mong đợi: IELTS của Nhung",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687355_n_w2j7ck.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
-    id: 16,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/08/7.0-Nguy%E1%BB%85n-H%E1%BB%A9a-Gia-B%E1%BA%A3o-1-.png",
-    title: "Paragraph Title 16",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 16,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    "title": "IELTS của Bích: Con đường chinh phục ngữ pháp",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687356_n_w2j7cl.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
-    id: 17,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/08/LTHPHUC-websitecover.jpg",
-    title: "Paragraph Title 17",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 17,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    "title": "Kinh nghiệm ôn thi IELTS của Dương: Chiến lược học từ chuyên gia",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687357_n_w2j7cm.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
-    id: 18,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/07/7.5-NGUYEN-BAO-NGOC.png",
-    title: "Paragraph Title 18",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 18,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    "title": "Hành trình của Quân: Từ tiếng Anh cơ bản đến IELTS 8.0",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687358_n_w2j7cn.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
-    id: 19,
-    image: "https://ktdcgroup.vn/wp-content/uploads/2024/11/hai-yen-7.5.jpg",
-    title: "Paragraph Title 19",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 19,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    "title": "Đạt điểm IELTS cao nhờ vào phương pháp của Mai",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687359_n_w2j7co.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
-    id: 20,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2024/11/trong-nhan-final.jpg",
-    title: "Paragraph Title 20",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+    "id": 20,
+    "image": "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
+    "title": "Học viên Thiên: Chinh phục IELTS chỉ với 3 tháng ôn luyện",
+    "content": "<img class='transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5' src='https://res.cloudinary.com/farmcode/image/upload/v1734507534/ielts-viet/452104939_122195342294023936_2949067571913687360_n_w2j7cp.jpg' alt=''/> <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>"
   },
   {
     id: 21,
-    image: "https://ktdcgroup.vn/wp-content/uploads/2024/08/02-2.jpg",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
     title: "Paragraph Title 21",
     content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+        <img class="transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5" src="https://cdn-icons-png.flaticon.com/128/6499/6499530.png" alt=""/>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+        <p class="mt-5">“There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. ”</p>
+        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+        <p class="mt-5">Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. </p>
+        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.</p>
+        <p class="mt-5">Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
+        `,
   },
   {
     id: 22,
-    image: "https://ktdcgroup.vn/wp-content/uploads/2024/08/01.jpg",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
     title: "Paragraph Title 22",
     content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+        <img class="transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5" src="https://cdn-icons-png.flaticon.com/128/6499/6499530.png" alt=""/>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+        <p class="mt-5">“There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. ”</p>
+        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+        <p class="mt-5">Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. </p>
+        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.</p>
+        <p class="mt-5">Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
+        `,
   },
   {
     id: 23,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2024/08/7.5-Nguyen-Ngoc-Phuoc.jpg",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
     title: "Paragraph Title 23",
     content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
+        <img class="transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5" src="https://cdn-icons-png.flaticon.com/128/6499/6499530.png" alt=""/>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+        <p class="mt-5">“There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. ”</p>
+        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+        <p class="mt-5">Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. </p>
+        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.</p>
+        <p class="mt-5">Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
+        `,
   },
   {
     id: 24,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2024/08/8.0_Phan_Xuan_Yen_Nhi.jpg",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734507753/ielts-viet/tranphuonglinh_bmqnf0.webp",
     title: "Paragraph Title 24",
     content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
-  },
-  {
-    id: 25,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/08/DIEUTHUYWEBCOVER.jpg",
-    title: "Paragraph Title 25",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
-  },
-  {
-    id: 26,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/08/NDTRUNG-coverwebsite.png",
-    title: "Paragraph Title 26",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
-  },
-  {
-    id: 27,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/08/7.0-Nguy%E1%BB%85n-Qu%E1%BB%91c-Lu%C3%A2n.png",
-    title: "Paragraph Title 27",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
-  },
-  {
-    id: 28,
-    image: "https://ktdcgroup.vn/wp-content/uploads/2024/11/hai-yen-7.5.jpg",
-    title: "Paragraph Title 28",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
-  },
-  {
-    id: 29,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2024/11/trong-nhan-final.jpg",
-    title: "Paragraph Title 29",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
-  },
-  {
-    id: 30,
-    image: "https://ktdcgroup.vn/wp-content/uploads/2024/08/02-2.jpg",
-    title: "Paragraph Title 30",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
-  },
-  {
-    id: 31,
-    image: "https://ktdcgroup.vn/wp-content/uploads/2024/08/01.jpg",
-    title: "Paragraph Title 31",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
-  },
-  {
-    id: 32,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2024/08/7.5-Nguyen-Ngoc-Phuoc.jpg",
-    title: "Paragraph Title 32",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
-  },
-  {
-    id: 33,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2024/08/8.0_Phan_Xuan_Yen_Nhi.jpg",
-    title: "Paragraph Title 33",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
-  },
-  {
-    id: 34,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/08/DIEUTHUYWEBCOVER.jpg",
-    title: "Paragraph Title 34",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
-  },
-  {
-    id: 35,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/08/NDTRUNG-coverwebsite.png",
-    title: "Paragraph Title 35",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
-  },
-  {
-    id: 36,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2023/08/7.0-Nguy%E1%BB%85n-Qu%E1%BB%91c-Lu%C3%A2n.png",
-    title: "Paragraph Title 36",
-    content: `
-        <p>Hải Yến, một cô bạn sinh viên năm cuối của trường Đại học Ngân hàng Tp. Hồ Chí Minh đã xuất sắc chinh phục IELTS 7.5 sau khóa học IELTS Level 2 tại KTDC. </p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Bám sát mục tiêu, mở rộng tư duy ngôn ngữ nhờ việc học cùng giáo viên bản ngữ </p>
-        <p class="mt-5">“Một trong những yếu tố quan trọng giúp mình đạt được band điểm cao như vậy chính là phương pháp giảng dạy hiệu quả của thầy Andy, cựu giám khảo chấm thi IELTS. Thầy không chỉ mang lại cảm giác an tâm mà còn giải đáp những thắc mắc về IELTS một cách tận tình. Hơn thế nữa, thầy mở rộng kiến thức cho mình về các chủ đề văn hóa, kinh tế và xã hội, từ đó giúp mình có thêm nhiều ý tưởng phong phú và sâu sắc cho cả bài thi Viết và Nói.”</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">KTDC giúp bạn giải quyết vấn đề lớn ở kỹ năng Viết</p>
-        <p class="mt-5">Trong quá trình học IELTS, Hải Yến gặp nhiều khó khăn ở kỹ năng Viết. Khi làm bài kiểm tra cuối khóa, điểm của bạn khá thấp vì chưa quản lý thời gian hiệu quả, dẫn đến việc không kịp hoàn thành bài. Thầy Andy đã tận tình động viên, sửa bài chi tiết và hướng dẫn cặn kẽ cách luyện tập thêm ở nhà, cách sắp xếp và quản lý thời gian phù hợp, điều này đã giúp bạn tự tin hơn khi đối mặt với đề thi thực tế.</p>
-        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Lọt mắt xanh của hàng loạt nhà tuyển dụng dù chỉ đang là sinh viên năm cuối</p>
-        <p class="mt-5">Dù chỉ là sinh viên năm cuối, nhưng với chứng chỉ IELTS 7.5 thì CV của Hải Yến đã được rất nhiều nhà tuyển dụng chú ý. Hiện tại, Yến đang hài lòng với bến đỗ thực tập tại một công ty Đức, và bạn tự tin giao tiếp tiếng Anh và làm việc với đồng nghiệp quốc tế.</p>
-        <p class="mt-5">Bạn chắc chắn có thể chinh phục IELTS thành công và chạm đến nhiều cơ hội lớn như Hải Yến. Hãy đăng ký ngay hôm nay để KTDC đồng hành cùng hành trình sắp tới của bạn nhé! </p>`,
-  },
+        <img class="transform transition-transform duration-500 group-hover:scale-105 object-cover w-52 h-52 mb-5" src="https://cdn-icons-png.flaticon.com/128/6499/6499530.png" alt=""/>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+        <p class="mt-5">“There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. ”</p>
+        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+        <p class="mt-5">Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. </p>
+        <p class="text-[rgb(var(--secondary-rgb))] font-bold text-2xl mt-5">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.</p>
+        <p class="mt-5">Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
+        `,
+  }
+  
 ];
 
 const STUDENTS_FEELING = [
   {
     id: 1,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2022/09/Nguy%C3%AAn-Khang-v%C3%A0-th%E1%BA%A7y-Andy-520x320.jpg",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734505607/ielts-viet/z5912131410041_bbb69c18dec15f390ea1b2a07f8936cc_qmlmds.jpg",
     title: "Paragraph Title 1",
-    URL: "https://www.youtube.com/watch?v=nQ2TWXg8pR0",
+    URL: "https://www.youtube.com/watch?v=xtmgLRqDPFs",
   },
   {
     id: 2,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2021/01/cao-thu-ielts-huynh-hung-phat-7-5-1-520x320.jpg",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734505660/ielts-viet/z5912131428167_c4f8758dbae2c5289674da6f2111f463_tda613.jpg",
     title: "Paragraph Title 2",
-    URL: "https://www.youtube.com/watch?v=hNfqKamKKNs",
+    URL: "https://www.youtube.com/watch?v=xtmgLRqDPFs",
   },
   {
     id: 3,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2020/07/KTDC-Cao-th%E1%BB%A7-IELTS-Tr%E1%BA%A7n-L%C3%AA-Ph%C6%B0%C6%A1ng-Qu%E1%BB%B3nh-8-5-520x320.jpg",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734505683/ielts-viet/z5912131444032_f65083489d241b2382456248e56bdae4_pamj8t.jpg",
     title: "Paragraph Title 3",
-    URL: "https://www.youtube.com/watch?v=kaRe02hAWMc",
+    URL: "https://www.youtube.com/watch?v=xtmgLRqDPFs",
   },
   {
     id: 4,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2021/01/cao-thu-ielts-huynh-dang-khoa-520x320.jpg",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734508208/ielts-viet/z5912136421125_02f02b80b4cf179909a2a540d8b37e00_ioo9ki.jpg",
     title: "Paragraph Title 4",
-    URL: "https://www.youtube.com/watch?v=nQ2TWXg8pR0",
+    URL: "https://www.youtube.com/watch?v=xtmgLRqDPFs",
   },
   {
     id: 5,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2020/07/cao-thu-ielts-k%E1%BB%B3-duyen-520x320.jpg",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734508208/ielts-viet/z5912136421125_02f02b80b4cf179909a2a540d8b37e00_ioo9ki.jpg",
     title: "Paragraph Title 5",
-    URL: "https://www.youtube.com/watch?v=hNfqKamKKNs",
+    URL: "https://www.youtube.com/watch?v=xtmgLRqDPFs",
   },
   {
     id: 6,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2020/07/CAO-THU-IELTS-B%E1%BA%A2O-TR%C3%82M-520x320.jpg",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734505683/ielts-viet/z5912131444032_f65083489d241b2382456248e56bdae4_pamj8t.jpg",
     title: "Paragraph Title 6",
     URL: "https://www.youtube.com/watch?v=kaRe02hAWMc",
   },
   {
     id: 7,
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2020/07/cao-th%E1%BB%A7-IELTS-Anh-V%C5%A9-520x320.jpg",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734505660/ielts-viet/z5912131428167_c4f8758dbae2c5289674da6f2111f463_tda613.jpg",
     title: "Paragraph Title 7",
-    URL: "https://www.youtube.com/watch?v=nQ2TWXg8pR0",
+    URL: "https://www.youtube.com/watch?v=xtmgLRqDPFs",
   },
 ];
 
@@ -1326,49 +1151,109 @@ const BLOG_DATA = [
   {
     id: 1,
     name: "Hướng Dẫn Cách Viết Thư Xin Việc Bằng Tiếng Anh Gây Ấn Tượng Với Nhà Tuyển Dụng",
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2024/11/huong-dan-cach-viet-thu-xin-viec-bang-tieng-Anh.jpg",
-    description:
-      "Trong môi trường làm việc hiện nay, thư xin việc là công cụ quan trọng giúp bạn thể hiện bản thân và g�...",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734510903/ielts-viet/1-jpeg-1733824027-6450-1733824214_hpxiuf.jpg",
     content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate optio praesentium eveniet ullam ex quasi, architecto sint minima nesciunt illo cupiditate, vero voluptas velit. Modi facere error dolores inventore fuga?",
+      "Hơn 140 quốc gia chấp nhận IELTS, được dự đoán đứng vững trước các \"làn gió mới\" trong tương lai nhờ uy tín, minh bạch và bảo mật.\n\nHiện các chứng chỉ tiếng Anh chủ yếu phục vụ nhu cầu học tập, làm việc trong nước và quốc tế. Mỗi loại có ưu điểm riêng về thời gian thi, chi phí, mức độ công nhận... Do đó, chọn chứng chỉ phù hợp sẽ phụ thuộc mục tiêu cụ thể của từng cá nhân.\n\nXét mức độ công nhận toàn cầu và khả năng ứng dụng rộng rãi, loạt chứng chỉ lâu đời như IELTS vẫn chiếm ưu thế nhờ tính chính xác, uy tín. Thầy Tú Phạm - nhà sáng lập kiêm giám đốc điều hành nền tảng PREP - nhận định, không đơn thuần là kỳ thi, IELTS còn là công cụ mở ra cơ hội du học, phát triển sự nghiệp toàn cầu và tiếp cận cơ hội mới.\n\n\"Ở tuổi 17-18, thi IELTS có thể là bước ngoặt giúp các em tiến gần cánh cửa đại học quốc tế. Tôi từng chứng kiến nhiều học sinh thay đổi cả tương lai nhờ IELTS\", thầy Tú Phạm nói.",
     date: "05/11/2024",
     time: "9 minutes",
   },
   {
     id: 2,
     name: "Thi IELTS trên máy tính hay trên giấy? Đâu là hình thức phù hợp?",
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2024/08/Thi-IELTS-tren-may-hay-tren-giay-KTDC.jpg",
-    description:
-      "Hiện nay, ngoài hình thức thi trên giấy truyền thống, kỳ thi IELTS còn được tổ chức thi trên máy tính. B�...",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734511123/ielts-viet/ieltsregistration39516-1733555-9531-4884-1733555361_oqus47.jpg",
     content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate optio praesentium eveniet ullam ex quasi, architecto sint minima nesciunt illo cupiditate, vero voluptas velit. Modi facere error dolores inventore fuga?",
+           "Bộ Giáo dục 'buông lỏng quản lý' chứng chỉ ngoại ngữ\nBộ Giáo dục đã buông lỏng quản lý, để nhiều nơi tổ chức thi và cấp chứng chỉ ngoại ngữ khi chưa được phép trong thời gian dài, gây bức xúc dư luận, theo Thanh tra Chính phủ.\n\nNội dung này nằm trong kết luận của Thanh tra Chính phủ về giải quyết thủ tục hành chính, dịch vụ công tại Bộ Giáo dục và Đào tạo, công bố hôm 6/12.\n\nCơ quan này cho biết từ tháng 8/2018 đến tháng 9/2022, nhiều đơn vị liên kết đã tổ chức thi, cấp chứng chỉ ngoại ngữ quốc tế, dù chưa được cấp phép. Là cơ quan quản lý nhà nước, Bộ Giáo dục và Đào tạo đã buông lỏng, chưa có biện pháp ngăn chặn kịp thời sai phạm cũng như chấn chỉnh, xử lý, gây bức xúc trong xã hội.\n\nThanh tra Chính phủ đề nghị Bộ rà soát hoặc kiến nghị cấp có thẩm quyền các biện pháp giải quyết vi phạm, khắc phục hậu quả nếu có, đảm bảo quyền và lợi ích của người thi. Cùng đó, Bộ cần chấn chỉnh việc phê duyệt hoạt động thi chứng chỉ, đảm bảo minh bạch, không để phát sinh tiêu cực và bức xúc.\n\nNghị định 86/2018 của Chính phủ (có hiệu lực tháng 8/2018) quy định việc liên kết đào tạo và tổ chức cấp chứng chỉ ngoại ngữ nước ngoài do Bộ Giáo dục và Đào tạo phê duyệt.\n\nTuy nhiên, đến tháng 7/2022, Bộ mới ra thông tư hướng dẫn, yêu cầu các đơn vị làm đề án, trình Bộ xem xét, hạn trong gần hai tháng. Nhiều bên không kịp nên phải đồng loạt dừng tổ chức thi IELTS, TOEFL (tiếng Anh), HSK (tiếng Trung), TOPIK (tiếng Hàn), NAT-TEST (tiếng Nhật).\n\nNhiều người sốc bởi dịp này trùng với đợt nộp hồ sơ du học Mỹ và châu Âu (chứng chỉ ngoại ngữ là bắt buộc). Ngoài ra, nhiều đại học tuyển sinh bằng chứng chỉ quốc tế kết hợp với học bạ hoặc điểm thi tốt nghiệp THPT, hoặc dùng công nhận chuẩn đầu ra ngoại ngữ cho sinh viên.\n\nIDP - một trong hai đơn vị được tổ chức thi và cấp chứng chỉ IELTS tại Việt Nam sau đó bị Bộ kết luận cấp sai 56.200 chứng chỉ. Hơn 90.000 chứng chỉ Aptis của Hội đồng Anh bị tương tự. Trước phản ứng, Bộ cho biết vẫn công nhận giá trị các chứng chỉ này, thí sinh và các trường được sử dụng bình thường.\n\nThời điểm đó, Cục kiểm tra văn bản của Bộ Tư pháp cho rằng việc Bộ Giáo dục và Đào tạo chậm ban hành thông tư hướng dẫn là nguyên nhân khiến các đơn vị tổ chức liên kết thi cấp chứng chỉ không thể nộp hồ sơ xin cấp phép.",
     date: "19/10/2024",
     time: "10 minutes",
   },
   {
     id: 3,
     name: "Lịch Thi IELTS 2025: Thông Tin Mới Nhất Và Cách Đăng Ký tại IDP",
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2024/10/lich-thi-ielts-2025.jpg",
-    description:
-      "Nắm được lịch thi IELTS giúp thí sinh có thể chủ động sắp xếp lộ trình học và dễ dàng chọn thời g...",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734515016/ielts-viet/i1jpeg706915450493341690964553-8179-2357-1731214088_urxkup.jpg",
     content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate optio praesentium eveniet ullam ex quasi, architecto sint minima nesciunt illo cupiditate, vero voluptas velit. Modi facere error dolores inventore fuga?",
+      " Trong tương lai nhờ uy tín, minh bạch và bảo mật.\n\nHiện các chứng chỉ tiếng Anh chủ yếu phục vụ nhu cầu học tập, làm việc trong nước và quốc tế. Mỗi loại có ưu điểm riêng về thời gian thi, chi phí, mức độ công nhận... Do đó, chọn chứng chỉ phù hợp sẽ phụ thuộc mục tiêu cụ thể của từng cá nhân.\n\nXét mức độ công nhận toàn cầu và khả năng ứng dụng rộng rãi, loạt chứng chỉ lâu đời như IELTS vẫn chiếm ưu thế nhờ tính chính xác, uy tín. Thầy Tú Phạm - nhà sáng lập kiêm giám đốc điều hành nền tảng PREP - nhận định, không đơn thuần là kỳ thi, IELTS còn là công cụ mở ra cơ hội du học, phát triển sự nghiệp toàn cầu và tiếp cận cơ hội mới.\n\n\"Ở tuổi 17-18, thi IELTS có thể là bước ngoặt giúp các em tiến gần cánh cửa đại học quốc tế. Tôi từng chứng kiến nhiều học sinh thay đổi cả tương lai nhờ IELTS\", thầy Tú Phạm nói.",
     date: "12/10/2024",
     time: "6 minutes",
   },
   {
     id: 4,
     name: "Chuỗi trung tâm Anh ngữ ACET ngừng hoạt động sau hơn 20 năm",
-    image:
-      "https://ktdcgroup.vn/wp-content/uploads/2024/10/Trung-tam-Anh-ngu-ACET-ngung-hoat-dong.jpg",
-    description:
-      "Mới đây, trung tâm ngoại ngữ ACET, thuộc Công ty TNHH Giáo dục IDP Việt Nam mới đây đã thông báo sẽ ngừ...",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734511123/ielts-viet/ieltsregistration39516-1733555-9531-4884-1733555361_oqus47.jpg",
     content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate optio praesentium eveniet ullam ex quasi, architecto sint minima nesciunt illo cupiditate, vero voluptas velit. Modi facere error dolores inventore fuga?",
+            "Giáo dụcTin tứcThứ bảy, 7/12/2024, 15:05 (GMT+7)\nBộ Giáo dục 'buông lỏng quản lý' chứng chỉ ngoại ngữ\nBộ Giáo dục đã buông lỏng quản lý, để nhiều nơi tổ chức thi và cấp chứng chỉ ngoại ngữ khi chưa được phép trong thời gian dài, gây bức xúc dư luận, theo Thanh tra Chính phủ.\n\nNội dung này nằm trong kết luận của Thanh tra Chính phủ về giải quyết thủ tục hành chính, dịch vụ công tại Bộ Giáo dục và Đào tạo, công bố hôm 6/12.\n\nCơ quan này cho biết từ tháng 8/2018 đến tháng 9/2022, nhiều đơn vị liên kết đã tổ chức thi, cấp chứng chỉ ngoại ngữ quốc tế, dù chưa được cấp phép. Là cơ quan quản lý nhà nước, Bộ Giáo dục và Đào tạo đã buông lỏng, chưa có biện pháp ngăn chặn kịp thời sai phạm cũng như chấn chỉnh, xử lý, gây bức xúc trong xã hội.\n\nThanh tra Chính phủ đề nghị Bộ rà soát hoặc kiến nghị cấp có thẩm quyền các biện pháp giải quyết vi phạm, khắc phục hậu quả nếu có, đảm bảo quyền và lợi ích của người thi. Cùng đó, Bộ cần chấn chỉnh việc phê duyệt hoạt động thi chứng chỉ, đảm bảo minh bạch, không để phát sinh tiêu cực và bức xúc.\n\nNghị định 86/2018 của Chính phủ (có hiệu lực tháng 8/2018) quy định việc liên kết đào tạo và tổ chức cấp chứng chỉ ngoại ngữ nước ngoài do Bộ Giáo dục và Đào tạo phê duyệt.\n\nTuy nhiên, đến tháng 7/2022, Bộ mới ra thông tư hướng dẫn, yêu cầu các đơn vị làm đề án, trình Bộ xem xét, hạn trong gần hai tháng. Nhiều bên không kịp nên phải đồng loạt dừng tổ chức thi IELTS, TOEFL (tiếng Anh), HSK (tiếng Trung), TOPIK (tiếng Hàn), NAT-TEST (tiếng Nhật).\n\nNhiều người sốc bởi dịp này trùng với đợt nộp hồ sơ du học Mỹ và châu Âu (chứng chỉ ngoại ngữ là bắt buộc). Ngoài ra, nhiều đại học tuyển sinh bằng chứng chỉ quốc tế kết hợp với học bạ hoặc điểm thi tốt nghiệp THPT, hoặc dùng công nhận chuẩn đầu ra ngoại ngữ cho sinh viên.\n\nIDP - một trong hai đơn vị được tổ chức thi và cấp chứng chỉ IELTS tại Việt Nam sau đó bị Bộ kết luận cấp sai 56.200 chứng chỉ. Hơn 90.000 chứng chỉ Aptis của Hội đồng Anh bị tương tự. Trước phản ứng, Bộ cho biết vẫn công nhận giá trị các chứng chỉ này, thí sinh và các trường được sử dụng bình thường.\n\nThời điểm đó, Cục kiểm tra văn bản của Bộ Tư pháp cho rằng việc Bộ Giáo dục và Đào tạo chậm ban hành thông tư hướng dẫn là nguyên nhân khiến các đơn vị tổ chức liên kết thi cấp chứng chỉ không thể nộp hồ sơ xin cấp phép.",
     date: "03/10/2024",
+    time: "6 minutes",
+  },
+  {
+    id: 5,
+    name: "Chuỗi trung tâm Anh ngữ ACET ngừng hoạt động sau hơn 20 năm",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734510903/ielts-viet/1-jpeg-1733824027-6450-1733824214_hpxiuf.jpg",
+    content:
+      "Hơn 140 quốc gia chấp nhận IELTS, được dự đoán đứng vững trước các \"làn gió mới\" trong tương lai nhờ uy tín, minh bạch và bảo mật.\n\nHiện các chứng chỉ tiếng Anh chủ yếu phục vụ nhu cầu học tập, làm việc trong nước và quốc tế. Mỗi loại có ưu điểm riêng về thời gian thi, chi phí, mức độ công nhận... Do đó, chọn chứng chỉ phù hợp sẽ phụ thuộc mục tiêu cụ thể của từng cá nhân.\n\nXét mức độ công nhận toàn cầu và khả năng ứng dụng rộng rãi, loạt chứng chỉ lâu đời như IELTS vẫn chiếm ưu thế nhờ tính chính xác, uy tín. Thầy Tú Phạm - nhà sáng lập kiêm giám đốc điều hành nền tảng PREP - nhận định, không đơn thuần là kỳ thi, IELTS còn là công cụ mở ra cơ hội du học, phát triển sự nghiệp toàn cầu và tiếp cận cơ hội mới.\n\n\"Ở tuổi 17-18, thi IELTS có thể là bước ngoặt giúp các em tiến gần cánh cửa đại học quốc tế. Tôi từng chứng kiến nhiều học sinh thay đổi cả tương lai nhờ IELTS\", thầy Tú Phạm nói.",
+    date: "03/10/2024",
+    time: "6 minutes",
+  },
+  {
+    id: 6,
+    name: "Chuỗi trung tâm Anh ngữ ACET ngừng hoạt động sau hơn 20 năm",
+    image:"https://res.cloudinary.com/farmcode/image/upload/v1734510903/ielts-viet/1-jpeg-1733824027-6450-1733824214_hpxiuf.jpg",
+    content:
+      "Hơn 140 quốc gia chấp nhận IELTS, được dự đoán đứng vững trước các \"làn gió mới\" trong tương lai nhờ uy tín, minh bạch và bảo mật.\n\nHiện các chứng chỉ tiếng Anh chủ yếu phục vụ nhu cầu học tập, làm việc trong nước và quốc tế. Mỗi loại có ưu điểm riêng về thời gian thi, chi phí, mức độ công nhận... Do đó, chọn chứng chỉ phù hợp sẽ phụ thuộc mục tiêu cụ thể của từng cá nhân.\n\nXét mức độ công nhận toàn cầu và khả năng ứng dụng rộng rãi, loạt chứng chỉ lâu đời như IELTS vẫn chiếm ưu thế nhờ tính chính xác, uy tín. Thầy Tú Phạm - nhà sáng lập kiêm giám đốc điều hành nền tảng PREP - nhận định, không đơn thuần là kỳ thi, IELTS còn là công cụ mở ra cơ hội du học, phát triển sự nghiệp toàn cầu và tiếp cận cơ hội mới.\n\n\"Ở tuổi 17-18, thi IELTS có thể là bước ngoặt giúp các em tiến gần cánh cửa đại học quốc tế. Tôi từng chứng kiến nhiều học sinh thay đổi cả tương lai nhờ IELTS\", thầy Tú Phạm nói.",
+    date: "03/10/2024",
+    time: "6 minutes",
+  },
+  {
+    id: 7,
+    name: "Hướng Dẫn Cách Viết Thư Xin Việc Bằng Tiếng Anh Gây Ấn Tượng Với Nhà Tuyển Dụng",
+    image: "https://res.cloudinary.com/farmcode/image/upload/v1734511123/ielts-viet/ieltsregistration39516-1733555-9531-4884-1733555361_oqus47.jpg",
+    content:
+      "Hơn 140 quốc gia chấp nhận IELTS, được dự đoán đứng vững trước các \"làn gió mới\" trong tương lai nhờ uy tín, minh bạch và bảo mật.\n\nHiện các chứng chỉ tiếng Anh chủ yếu phục vụ nhu cầu học tập, làm việc trong nước và quốc tế. Mỗi loại có ưu điểm riêng về thời gian thi, chi phí, mức độ công nhận... Do đó, chọn chứng chỉ phù hợp sẽ phụ thuộc mục tiêu cụ thể của từng cá nhân.\n\nXét mức độ công nhận toàn cầu và khả năng ứng dụng rộng rãi, loạt chứng chỉ lâu đời như IELTS vẫn chiếm ưu thế nhờ tính chính xác, uy tín. Thầy Tú Phạm - nhà sáng lập kiêm giám đốc điều hành nền tảng PREP - nhận định, không đơn thuần là kỳ thi, IELTS còn là công cụ mở ra cơ hội du học, phát triển sự nghiệp toàn cầu và tiếp cận cơ hội mới.\n\n\"Ở tuổi 17-18, thi IELTS có thể là bước ngoặt giúp các em tiến gần cánh cửa đại học quốc tế. Tôi từng chứng kiến nhiều học sinh thay đổi cả tương lai nhờ IELTS\", thầy Tú Phạm nói.",
+    date: "05/11/2024",
+    time: "9 minutes",
+  },
+  {
+    id: 8,
+    name: "Thi IELTS trên máy tính hay trên giấy? Đâu là hình thức phù hợp?",
+    image:  "https://res.cloudinary.com/farmcode/image/upload/v1734511123/ielts-viet/ieltsregistration39516-1733555-9531-4884-1733555361_oqus47.jpg",
+    content:
+      "Hơn 140 quốc gia chấp nhận IELTS, được dự đoán đứng vững trước các \"làn gió mới\" trong tương lai nhờ uy tín, minh bạch và bảo mật.\n\nHiện các chứng chỉ tiếng Anh chủ yếu phục vụ nhu cầu học tập, làm việc trong nước và quốc tế. Mỗi loại có ưu điểm riêng về thời gian thi, chi phí, mức độ công nhận... Do đó, chọn chứng chỉ phù hợp sẽ phụ thuộc mục tiêu cụ thể của từng cá nhân.\n\nXét mức độ công nhận toàn cầu và khả năng ứng dụng rộng rãi, loạt chứng chỉ lâu đời như IELTS vẫn chiếm ưu thế nhờ tính chính xác, uy tín. Thầy Tú Phạm - nhà sáng lập kiêm giám đốc điều hành nền tảng PREP - nhận định, không đơn thuần là kỳ thi, IELTS còn là công cụ mở ra cơ hội du học, phát triển sự nghiệp toàn cầu và tiếp cận cơ hội mới.\n\n\"Ở tuổi 17-18, thi IELTS có thể là bước ngoặt giúp các em tiến gần cánh cửa đại học quốc tế. Tôi từng chứng kiến nhiều học sinh thay đổi cả tương lai nhờ IELTS\", thầy Tú Phạm nói.",
+    date: "19/10/2024",
+    time: "10 minutes",
+  },
+  {
+    id: 9,
+    name: "Lịch Thi IELTS 2025: Thông Tin Mới Nhất Và Cách Đăng Ký tại IDP",
+    image:  "https://res.cloudinary.com/farmcode/image/upload/v1734511123/ielts-viet/ieltsregistration39516-1733555-9531-4884-1733555361_oqus47.jpg",
+    content:
+      "Hơn 140 quốc gia chấp nhận IELTS, được dự đoán đứng vững trước các \"làn gió mới\" trong tương lai nhờ uy tín, minh bạch và bảo mật.\n\nHiện các chứng chỉ tiếng Anh chủ yếu phục vụ nhu cầu học tập, làm việc trong nước và quốc tế. Mỗi loại có ưu điểm riêng về thời gian thi, chi phí, mức độ công nhận... Do đó, chọn chứng chỉ phù hợp sẽ phụ thuộc mục tiêu cụ thể của từng cá nhân.\n\nXét mức độ công nhận toàn cầu và khả năng ứng dụng rộng rãi, loạt chứng chỉ lâu đời như IELTS vẫn chiếm ưu thế nhờ tính chính xác, uy tín. Thầy Tú Phạm - nhà sáng lập kiêm giám đốc điều hành nền tảng PREP - nhận định, không đơn thuần là kỳ thi, IELTS còn là công cụ mở ra cơ hội du học, phát triển sự nghiệp toàn cầu và tiếp cận cơ hội mới.\n\n\"Ở tuổi 17-18, thi IELTS có thể là bước ngoặt giúp các em tiến gần cánh cửa đại học quốc tế. Tôi từng chứng kiến nhiều học sinh thay đổi cả tương lai nhờ IELTS\", thầy Tú Phạm nói.",
+    date: "12/10/2024",
+    time: "6 minutes",
+  },
+  {
+    id: 10,
+    name: "Hướng Dẫn Cách Viết Thư Xin Việc Bằng Tiếng Anh Gây Ấn Tượng Với Nhà Tuyển Dụng",
+    image: "https://cdn-icons-png.flaticon.com/128/6499/6499530.png",
+    content:
+      "Giáo dụcTin tứcThứ bảy, 7/12/2024, 15:05 (GMT+7)\nBộ Giáo dục 'buông lỏng quản lý' chứng chỉ ngoại ngữ\nBộ Giáo dục đã buông lỏng quản lý, để nhiều nơi tổ chức thi và cấp chứng chỉ ngoại ngữ khi chưa được phép trong thời gian dài, gây bức xúc dư luận, theo Thanh tra Chính phủ.\n\nNội dung này nằm trong kết luận của Thanh tra Chính phủ về giải quyết thủ tục hành chính, dịch vụ công tại Bộ Giáo dục và Đào tạo, công bố hôm 6/12.\n\nCơ quan này cho biết từ tháng 8/2018 đến tháng 9/2022, nhiều đơn vị liên kết đã tổ chức thi, cấp chứng chỉ ngoại ngữ quốc tế, dù chưa được cấp phép. Là cơ quan quản lý nhà nước, Bộ Giáo dục và Đào tạo đã buông lỏng, chưa có biện pháp ngăn chặn kịp thời sai phạm cũng như chấn chỉnh, xử lý, gây bức xúc trong xã hội.\n\nThanh tra Chính phủ đề nghị Bộ rà soát hoặc kiến nghị cấp có thẩm quyền các biện pháp giải quyết vi phạm, khắc phục hậu quả nếu có, đảm bảo quyền và lợi ích của người thi. Cùng đó, Bộ cần chấn chỉnh việc phê duyệt hoạt động thi chứng chỉ, đảm bảo minh bạch, không để phát sinh tiêu cực và bức xúc.\n\nNghị định 86/2018 của Chính phủ (có hiệu lực tháng 8/2018) quy định việc liên kết đào tạo và tổ chức cấp chứng chỉ ngoại ngữ nước ngoài do Bộ Giáo dục và Đào tạo phê duyệt.\n\nTuy nhiên, đến tháng 7/2022, Bộ mới ra thông tư hướng dẫn, yêu cầu các đơn vị làm đề án, trình Bộ xem xét, hạn trong gần hai tháng. Nhiều bên không kịp nên phải đồng loạt dừng tổ chức thi IELTS, TOEFL (tiếng Anh), HSK (tiếng Trung), TOPIK (tiếng Hàn), NAT-TEST (tiếng Nhật).\n\nNhiều người sốc bởi dịp này trùng với đợt nộp hồ sơ du học Mỹ và châu Âu (chứng chỉ ngoại ngữ là bắt buộc). Ngoài ra, nhiều đại học tuyển sinh bằng chứng chỉ quốc tế kết hợp với học bạ hoặc điểm thi tốt nghiệp THPT, hoặc dùng công nhận chuẩn đầu ra ngoại ngữ cho sinh viên.\n\nIDP - một trong hai đơn vị được tổ chức thi và cấp chứng chỉ IELTS tại Việt Nam sau đó bị Bộ kết luận cấp sai 56.200 chứng chỉ. Hơn 90.000 chứng chỉ Aptis của Hội đồng Anh bị tương tự. Trước phản ứng, Bộ cho biết vẫn công nhận giá trị các chứng chỉ này, thí sinh và các trường được sử dụng bình thường.\n\nThời điểm đó, Cục kiểm tra văn bản của Bộ Tư pháp cho rằng việc Bộ Giáo dục và Đào tạo chậm ban hành thông tư hướng dẫn là nguyên nhân khiến các đơn vị tổ chức liên kết thi cấp chứng chỉ không thể nộp hồ sơ xin cấp phép.",
+    date: "05/11/2024",
+    time: "9 minutes",
+  },
+  {
+    id: 11,
+    name: "Thi IELTS trên máy tính hay trên giấy? Đâu là hình thức phù hợp?",
+    image: "https://cdn-icons-png.flaticon.com/128/6499/6499530.png",
+    content:
+      "Giáo dụcTin tứcThứ bảy, 7/12/2024, 15:05 (GMT+7)\nBộ Giáo dục 'buông lỏng quản lý' chứng chỉ ngoại ngữ\nBộ Giáo dục đã buông lỏng quản lý, để nhiều nơi tổ chức thi và cấp chứng chỉ ngoại ngữ khi chưa được phép trong thời gian dài, gây bức xúc dư luận, theo Thanh tra Chính phủ.\n\nNội dung này nằm trong kết luận của Thanh tra Chính phủ về giải quyết thủ tục hành chính, dịch vụ công tại Bộ Giáo dục và Đào tạo, công bố hôm 6/12.\n\nCơ quan này cho biết từ tháng 8/2018 đến tháng 9/2022, nhiều đơn vị liên kết đã tổ chức thi, cấp chứng chỉ ngoại ngữ quốc tế, dù chưa được cấp phép. Là cơ quan quản lý nhà nước, Bộ Giáo dục và Đào tạo đã buông lỏng, chưa có biện pháp ngăn chặn kịp thời sai phạm cũng như chấn chỉnh, xử lý, gây bức xúc trong xã hội.\n\nThanh tra Chính phủ đề nghị Bộ rà soát hoặc kiến nghị cấp có thẩm quyền các biện pháp giải quyết vi phạm, khắc phục hậu quả nếu có, đảm bảo quyền và lợi ích của người thi. Cùng đó, Bộ cần chấn chỉnh việc phê duyệt hoạt động thi chứng chỉ, đảm bảo minh bạch, không để phát sinh tiêu cực và bức xúc.\n\nNghị định 86/2018 của Chính phủ (có hiệu lực tháng 8/2018) quy định việc liên kết đào tạo và tổ chức cấp chứng chỉ ngoại ngữ nước ngoài do Bộ Giáo dục và Đào tạo phê duyệt.\n\nTuy nhiên, đến tháng 7/2022, Bộ mới ra thông tư hướng dẫn, yêu cầu các đơn vị làm đề án, trình Bộ xem xét, hạn trong gần hai tháng. Nhiều bên không kịp nên phải đồng loạt dừng tổ chức thi IELTS, TOEFL (tiếng Anh), HSK (tiếng Trung), TOPIK (tiếng Hàn), NAT-TEST (tiếng Nhật).\n\nNhiều người sốc bởi dịp này trùng với đợt nộp hồ sơ du học Mỹ và châu Âu (chứng chỉ ngoại ngữ là bắt buộc). Ngoài ra, nhiều đại học tuyển sinh bằng chứng chỉ quốc tế kết hợp với học bạ hoặc điểm thi tốt nghiệp THPT, hoặc dùng công nhận chuẩn đầu ra ngoại ngữ cho sinh viên.\n\nIDP - một trong hai đơn vị được tổ chức thi và cấp chứng chỉ IELTS tại Việt Nam sau đó bị Bộ kết luận cấp sai 56.200 chứng chỉ. Hơn 90.000 chứng chỉ Aptis của Hội đồng Anh bị tương tự. Trước phản ứng, Bộ cho biết vẫn công nhận giá trị các chứng chỉ này, thí sinh và các trường được sử dụng bình thường.\n\nThời điểm đó, Cục kiểm tra văn bản của Bộ Tư pháp cho rằng việc Bộ Giáo dục và Đào tạo chậm ban hành thông tư hướng dẫn là nguyên nhân khiến các đơn vị tổ chức liên kết thi cấp chứng chỉ không thể nộp hồ sơ xin cấp phép.",
+    date: "19/10/2024",
+    time: "10 minutes",
+  },
+  {
+    id: 12,
+    name: "Lịch Thi IELTS 2025: Thông Tin Mới Nhất Và Cách Đăng Ký tại IDP",
+    image: "https://cdn-icons-png.flaticon.com/128/6499/6499530.png",
+    content:
+       "Giáo dụcTin tứcThứ bảy, 7/12/2024, 15:05 (GMT+7)\nBộ Giáo dục 'buông lỏng quản lý' chứng chỉ ngoại ngữ\nBộ Giáo dục đã buông lỏng quản lý, để nhiều nơi tổ chức thi và cấp chứng chỉ ngoại ngữ khi chưa được phép trong thời gian dài, gây bức xúc dư luận, theo Thanh tra Chính phủ.\n\nNội dung này nằm trong kết luận của Thanh tra Chính phủ về giải quyết thủ tục hành chính, dịch vụ công tại Bộ Giáo dục và Đào tạo, công bố hôm 6/12.\n\nCơ quan này cho biết từ tháng 8/2018 đến tháng 9/2022, nhiều đơn vị liên kết đã tổ chức thi, cấp chứng chỉ ngoại ngữ quốc tế, dù chưa được cấp phép. Là cơ quan quản lý nhà nước, Bộ Giáo dục và Đào tạo đã buông lỏng, chưa có biện pháp ngăn chặn kịp thời sai phạm cũng như chấn chỉnh, xử lý, gây bức xúc trong xã hội.\n\nThanh tra Chính phủ đề nghị Bộ rà soát hoặc kiến nghị cấp có thẩm quyền các biện pháp giải quyết vi phạm, khắc phục hậu quả nếu có, đảm bảo quyền và lợi ích của người thi. Cùng đó, Bộ cần chấn chỉnh việc phê duyệt hoạt động thi chứng chỉ, đảm bảo minh bạch, không để phát sinh tiêu cực và bức xúc.\n\nNghị định 86/2018 của Chính phủ (có hiệu lực tháng 8/2018) quy định việc liên kết đào tạo và tổ chức cấp chứng chỉ ngoại ngữ nước ngoài do Bộ Giáo dục và Đào tạo phê duyệt.\n\nTuy nhiên, đến tháng 7/2022, Bộ mới ra thông tư hướng dẫn, yêu cầu các đơn vị làm đề án, trình Bộ xem xét, hạn trong gần hai tháng. Nhiều bên không kịp nên phải đồng loạt dừng tổ chức thi IELTS, TOEFL (tiếng Anh), HSK (tiếng Trung), TOPIK (tiếng Hàn), NAT-TEST (tiếng Nhật).\n\nNhiều người sốc bởi dịp này trùng với đợt nộp hồ sơ du học Mỹ và châu Âu (chứng chỉ ngoại ngữ là bắt buộc). Ngoài ra, nhiều đại học tuyển sinh bằng chứng chỉ quốc tế kết hợp với học bạ hoặc điểm thi tốt nghiệp THPT, hoặc dùng công nhận chuẩn đầu ra ngoại ngữ cho sinh viên.\n\nIDP - một trong hai đơn vị được tổ chức thi và cấp chứng chỉ IELTS tại Việt Nam sau đó bị Bộ kết luận cấp sai 56.200 chứng chỉ. Hơn 90.000 chứng chỉ Aptis của Hội đồng Anh bị tương tự. Trước phản ứng, Bộ cho biết vẫn công nhận giá trị các chứng chỉ này, thí sinh và các trường được sử dụng bình thường.\n\nThời điểm đó, Cục kiểm tra văn bản của Bộ Tư pháp cho rằng việc Bộ Giáo dục và Đào tạo chậm ban hành thông tư hướng dẫn là nguyên nhân khiến các đơn vị tổ chức liên kết thi cấp chứng chỉ không thể nộp hồ sơ xin cấp phép.",
+    date: "12/10/2024",
     time: "6 minutes",
   },
 ];
@@ -1382,4 +1267,8 @@ export const DATA = {
   STUDENTS,
   STUDENTS_FEELING,
   BLOG_DATA,
+  IELTSROADMAP,
+  COURSE2SKILLS,
+  COURSE4SKILLS,
+  IELTSCOMMUNITY,
 };

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { DATA } from '@/utils/data'
 import Image from "next/image";
 import DetailTeacher from "./detail-teacher";
-import SignWithIelts from "@/layout/sign-with-ielts";
+import SignWithIELTS from "@/layout/sign-with-ielts";
 
 const teacher = DATA.TEACHERS_DATA
 
@@ -42,11 +42,11 @@ export default function TeacherPage() {
     return (
         <div className="w-full flex flex-col items-center">
             <Header />
-            <div className="w-3/4 mt-7 rounded-md flex justify-center">
+            <div className="w-3/4 mt-6 rounded-md flex justify-center">
                 <section className="w-full flex flex-col items-center">
-                    <h1 className="font-bold text-3xl mb-5">Đội ngũ giảng viên</h1>
+                    <h1 className="font-bold text-4xl mb-5">ĐỘI NGŨ GIẢNG VIÊN</h1>
                     <article className="w-4/6 text-center text-base text-gray-600">
-                        Ielts Việt tự hào với <strong>100% giảng viên bản ngữ</strong>, trong đó <strong>80% là cựu giám khảo IELTS</strong> được đào tạo chuyên nghiệp bởi Hội Đồng Anh, kết hợp với các cố vấn học tập người <strong>Việt đạt 8.0+ IELTS</strong>. Bạn sẽ được học với giảng viên bản ngữ mà không sợ rào cản ngôn ngữ, và được các cố vấn học tập hỗ trợ trong và ngoài lớp để đạt band điểm mong muốn.
+                        IELTS Việt tự hào với <strong>100% giảng viên bản ngữ</strong>, trong đó <strong>80% là cựu giám khảo IELTS</strong> được đào tạo chuyên nghiệp bởi Hội Đồng Anh, kết hợp với các cố vấn học tập người <strong>Việt đạt 8.0+ IELTS</strong>. Bạn sẽ được học với giảng viên bản ngữ mà không sợ rào cản ngôn ngữ, và được các cố vấn học tập hỗ trợ trong và ngoài lớp để đạt band điểm mong muốn.
                     </article>
                 </section>
             </div>
@@ -59,7 +59,7 @@ export default function TeacherPage() {
                             onClick={() => openPopup(tc)}
                         >
                             <Image
-                                className="rounded-lg transform transition-transform duration-500 group-hover:scale-105 object-cover w-full h-full"
+                                className="px-20 py-20 rounded-lg transform transition-transform duration-500 group-hover:scale-105 object-cover w-full h-full"
                                 src={tc?.image} alt="" width={1000} height={1000} />
                             <div className="absolute bottom-10 left-10 text-white z-10">
                                 <p>Giảng viên</p>
@@ -71,7 +71,7 @@ export default function TeacherPage() {
                 </div>
             </div>
             <DetailTeacher teacher={selectedTeacher} onClose={closePopup} />
-            <SignWithIelts />
+            <SignWithIELTS />
             <Footer />
         </div >
     )

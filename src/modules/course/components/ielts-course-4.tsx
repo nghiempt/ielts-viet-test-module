@@ -1,0 +1,107 @@
+'use client'
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import { Card, CardContent } from "@/components/ui/card"
+import { DecorBar } from "@/components/using-ui/decor-bar"
+import Image from "next/image"
+import { DATA } from "@/utils/data"
+
+interface Course4 {
+  id: number,
+  title: string,
+  duration: string,
+  entryPoint: string,
+  outputPoint: string,
+  price: number,
+  commitment: string[],
+  image: string,
+}
+
+const course4 = DATA.COURSE4SKILLS as Course4[]
+
+export default function IeltsCourse4() {
+
+  const formatPrice = (price: number) => {
+    const formattedPrice = new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+      minimumFractionDigits: 0,
+    }).format(price);
+
+    return formattedPrice.replace('₫', 'VND');
+  };
+
+  return (
+    <div className="w-full mb-10 flex flex-col gap-6 justify-center items-center">
+      <div className="text-center mb-6">
+        <h2 className="text-3xl font-bold text-gray-800">Khoá IELTS 4 kỹ năng</h2>
+        <DecorBar />
+        <p className="text-gray-500 mb-2 text-center w-[900px] justify-self-center">
+          Hệ thống các khóa học IELTS được phân theo cấp độ từ thấp đến cao giúp học viên cải thiện cả 4 kỹ năng Nghe, Nói, Đọc, Viết theo chuẩn format của bài thi IELTS thông qua lượng kiến thức toàn diện.
+        </p>
+      </div>
+      <div className="items-center flex flex-col">
+        <Carousel
+          opts={{
+            align: "start",
+          }}
+          className="w-full max-w-7xl mx-auto"
+        >
+          <CarouselContent>
+            {course4?.map((c4, index) => (
+              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 ">
+                <div className="p-1">
+                  <Card>
+                    <CardContent className="px-0 flex aspect-square flex-col items-center rounded-xl shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
+                      <div className="text-center group overflow-hidden">
+                        <div className="relative overflow-hidden cursor-pointer">
+                          <Image
+                            className="w-48 h-48 mx-auto my-10 rounded-t-xl transform transition-transform duration-500 group-hover:scale-105"
+                            src={c4.image}
+                            alt={""}
+                            width={1000}
+                            height={1000}
+                          />
+                        </div>
+                        <div className="px-8 ">
+                          <div className="font-bold py-4 border-b-2 hover:text-[rgb(var(--secondary-rgb))] cursor-pointer">{c4.title}</div>
+
+                          <div className="flex justify-center items-stretch">
+                            <div className=" text-sm mt-2 px-2 border-r-2 pr-5 ">
+                              <div>{c4.duration}</div>
+                              <div>Đầu vào: {c4.entryPoint}</div>
+                            </div>
+                            <div className=" text-sm mt-2 px-2 pl-5">
+                              <div>{formatPrice(c4.price)}</div>
+                              <div>Đầu ra: {c4.outputPoint}</div>
+                            </div>
+                          </div>
+
+                          <div className="text-sm flex flex-col items-center py-2">
+                            <div className="text-[rgb(var(--secondary-rgb))] font-medium flex justify-self-center">★ Cam kết đầu ra</div>
+                            {c4?.commitment?.map((c4c, index) => (
+                              <div key={index} className="flex justify-self-center">{c4c}</div>
+                            ))}
+                          </div>
+                          <button className="mt-5 px-4 py-2 bg-[rgb(var(--secondary-rgb))] text-white font-semibold rounded-full">Tìm hiểu thêm</button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
+    </div>
+  )
+}

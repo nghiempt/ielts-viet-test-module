@@ -9,6 +9,7 @@ import '../../../styles/button.slider.css'
 import { DATA } from "@/utils/data";
 import Image from "next/image";
 import { useState } from "react";
+import { ArrowLeft, ArrowRight, MoveLeft } from "lucide-react";
 
 interface Students {
   id: number,
@@ -40,13 +41,8 @@ const StudentSlider = () => {
   return (
     <section className="grid grid-cols-12 items-center w-11/12 mb-20">
       <div className="flex justify-center items-center col-span-1 mx-auto mb-20">
-        <button onClick={() => swiperInstance?.slidePrev()}>
-          <svg className="w-10 h-10 bg-[rgb(var(--secondary-rgb))] p-3 rounded-full opacity-65 hover:opacity-100 transition-opacity duration-300"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 384 512"
-            fill="white">
-            <path d="M380.6 81.7c7.9 15.8 1.5 35-14.3 42.9L103.6 256 366.3 387.4c15.8 7.9 22.2 27.1 14.3 42.9s-27.1 22.2-42.9 14.3l-320-160C6.8 279.2 0 268.1 0 256s6.8-23.2 17.7-28.6l320-160c15.8-7.9 35-1.5 42.9 14.3z" />
-          </svg>
+        <button onClick={() => swiperInstance?.slidePrev()} className="bg-[rgb(var(--secondary-rgb))] rounded-full p-2 text-white">
+          <ArrowLeft />
         </button>
       </div>
       <div className="col-span-10 h-full mt-2">
@@ -78,7 +74,7 @@ const StudentSlider = () => {
                       <Image
                         src={stu?.image}
                         alt={stu?.title}
-                        className="w-full object-cover rounded-xl"
+                        className="w-40 h-40 mx-auto object-cover rounded-xl"
                         width={1000}
                         height={1000}
                       />
@@ -107,13 +103,8 @@ const StudentSlider = () => {
         </Swiper>
       </div>
       <div className="flex justify-center items-center col-span-1 mx-auto mb-20">
-        <button onClick={() => swiperInstance?.slideNext()}>
-          <svg className="w-10 h-10 bg-[rgb(var(--secondary-rgb))] p-3 rounded-full opacity-65 hover:opacity-100 transition-opacity duration-300"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 384 512"
-            fill="white">
-            <path d="M3.4 81.7c-7.9 15.8-1.5 35 14.3 42.9L280.5 256 17.7 387.4C1.9 395.3-4.5 414.5 3.4 430.3s27.1 22.2 42.9 14.3l320-160c10.8-5.4 17.7-16.5 17.7-28.6s-6.8-23.2-17.7-28.6l-320-160c-15.8-7.9-35-1.5-42.9 14.3z" />
-          </svg>
+        <button onClick={() => swiperInstance?.slideNext()} className="bg-[rgb(var(--secondary-rgb))] rounded-full p-2 text-white">
+          <ArrowRight />
         </button>
       </div>
     </section>

@@ -7,20 +7,21 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import RealityImage from "./reality-image";
 import { DecorBar } from "@/components/using-ui/decor-bar";
-import SignWithIelts from "@/layout/sign-with-ielts";
+import SignWithIELTS from "@/layout/sign-with-ielts";
 
 export default function ContactPage() {
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <Header />
       <div className="w-full mb-10">
-        <div className="w-full h-[350px] bg-center bg-cover" style={{
-          backgroundImage: "url('https://ktdcgroup.vn/wp-content/uploads/2020/10/Lien-he-1-1920x350.jpg')",
+        <div className="w-52 h-52 mx-auto bg-center bg-cover" style={{
+          backgroundImage: "url('https://res.cloudinary.com/farmcode/image/upload/v1734510616/ielts-viet/455845972_122201769056023936_5750988487974446725_n_d6w79x.jpg')",
         }}>
         </div>
         <div className="flex flex-col justify-center items-center mt-16">
           <h1 className="font-bold text-4xl">IELTS VIET TRAINING CENTER</h1>
-          <div className="w-14 border-b-2 border-[rgb(var(--secondary-rgb))] my-4 rounded"></div>
+          {/* <div className="w-14 border-b-2 border-[rgb(var(--secondary-rgb))] my-4 rounded"></div> */}
+          <DecorBar />
           <div className="text-slate-500 mt-4 font-medium">Liên hệ IELTS Việt để được tư vấn lộ trình học IELTS phù hợp dành cho bạn.</div>
         </div>
         <div className="flex flex-row justify-center items-center mt-16">
@@ -44,7 +45,7 @@ export default function ContactPage() {
               className="mb-5"
             />
             <div className="mb-5 font-bold">Facebook Messenger</div>
-            <div className="text-md hover:text-orange-300 cursor-pointer">m.me / ielts-viet</div>
+            <div className="text-md hover:text-orange-300 cursor-pointer">m.me / IELTS-viet</div>
           </div>
           <div className="flex flex-col justify-center items-center border-l pl-10 pr-10">
             <Image
@@ -55,7 +56,7 @@ export default function ContactPage() {
               className="mb-5"
             />
             <div className="mb-5 font-bold">Zalo</div>
-            <div className="text-md hover:text-orange-300 cursor-pointer">m.me / ielts-viet</div>
+            <div className="text-md hover:text-orange-300 cursor-pointer">m.me / IELTS-viet</div>
           </div>
           <div className="flex flex-col justify-center items-center border-l pl-10 pr-10">
             <Image
@@ -66,7 +67,7 @@ export default function ContactPage() {
               className="mb-5"
             />
             <div className="mb-5 font-bold">Facebook Fanpage</div>
-            <div className="text-md hover:text-orange-300 cursor-pointer">m.me / ielts-viet</div>
+            <div className="text-md hover:text-orange-300 cursor-pointer">m.me / IELTS-viet</div>
           </div>
         </div>
         <div className="flex flex-row justify-center items-center w-full mt-32">
@@ -78,6 +79,8 @@ export default function ContactPage() {
             <Link href="https://maps.app.goo.gl/epTLBiHeZqaKXBWR9" target="_blank">
               <Button className="text-[16px] rounded-md py-2 px-10 bg-[rgb(var(--secondary-rgb))]">Xem bản đồ</Button>
             </Link>
+
+
           </div>
         </div>
         <div className="flex justify-center items-center w-full mt-10">
@@ -90,7 +93,7 @@ export default function ContactPage() {
                 style={{
                   border: 0,
                 }}
-                src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=106%20Nguy%E1%BB%85n%20Minh%20Quang,%20P.%20An%20Kh%C3%A1nh,%20Q.%20Ninh%20Ki%E1%BB%81u,%20TP.%20C%E1%BA%A7n%20Th%C6%A1+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
+                src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=106%20Nguy%E1%BB%85n%20Minh%20Quang,%20P.%20An%20Kh%C3%A1nh,%20Q.%20Ninh%20Ki%E1%BB%81u,%20TP.%20C%E1%BA%A7n%20Th%C6%A1+(My%20Business%20Name)&amp;t=k&amp;z=17&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
               </iframe>
             </div>
           </div>
@@ -105,7 +108,7 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-      <SignWithIelts />
+      <SignWithIELTS />
       <Footer />
     </div>
   );

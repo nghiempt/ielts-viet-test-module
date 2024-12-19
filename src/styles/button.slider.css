@@ -5,7 +5,10 @@
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #F97316;
+  background-color: #f97316;
   transform: scale(1.2);
 }
 
+.scroll-bar-style::-webkit-scrollbar {
+  display: none;
+}

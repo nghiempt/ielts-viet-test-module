@@ -3,6 +3,7 @@
 import { MapPin, PhoneCall } from "lucide-react"
 import Image from "next/image"
 import FAVICON from '../app/favicon.ico'
+import Link from "next/link"
 
 export default function Footer() {
     return (
@@ -21,23 +22,20 @@ export default function Footer() {
                         <ul className="space-y-1">
                             <li><a href="#">Đăng ký học</a></li>
                             <li><a href="#">Lịch khai giảng</a></li>
-                            <li><a href="#">Cảm nhận học viên</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h3 className="text-[rgb(var(--secondary-rgb))] font-semibold mb-2">Về IELTS VIỆT</h3>
+                        <h3 className="text-[rgb(var(--secondary-rgb))] font-semibold mb-2">Hỗ trợ</h3>
                         <ul className="space-y-1">
-                            <li><a href="#">Giới thiệu IELTS VIỆT</a></li>
                             <li><a href="#">Câu hỏi thường gặp</a></li>
-                            <li><a href="#">Tuyển dụng</a></li>
+                            <li><a href="#">Liên hệ</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h3 className="text-[rgb(var(--secondary-rgb))] font-semibold mb-2">Tài liệu IELTS</h3>
+                        <h3 className="text-[rgb(var(--secondary-rgb))] font-semibold mb-2">Chính sách</h3>
                         <ul className="space-y-1">
-                            <li><a href="#">Thi thử IELTS</a></li>
-                            <li><a href="#">Sự Kiện IELTS</a></li>
-                            <li><a href="#">Thư Viện IELTS</a></li>
+                            <li><a href="#">Chính sách bảo mật</a></li>
+                            <li><a href="#">Điều khoản sử dụng</a></li>
                         </ul>
                     </div>
                 </div>
@@ -70,12 +68,16 @@ export default function Footer() {
             </div>
             <div className="w-full bg-gray-800 py-4 flex justify-center items-center">
                 <div className="w-3/4 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
-                    <p>&copy; 2024 Ielts Việt</p>
+                    <p>&copy; 2024 IELTS Việt</p>
                     <div className="flex items-center space-x-4 mt-4 md:mt-0">
                         <span>Kết nối với chúng tôi</span>
                         <span className="border-l border-gray-600 h-4 mx-2"></span>
-                        <Image src="https://ktdcgroup.vn/wp-content/uploads/2024/10/google-icon.png" alt="alt" className="w-4 h-4" width={16} height={16} />
-                        <Image src="https://ktdcgroup.vn/wp-content/uploads/2024/10/facebook-icon.png" alt="alt" className="w-4 h-4" width={16} height={16} />
+                        <Link href="#">
+                            <Image src="https://ktdcgroup.vn/wp-content/uploads/2024/10/google-icon.png" alt="alt" className="w-4 h-4" width={16} height={16} />
+                        </Link>
+                        <Link href="#">
+                            <Image src="https://ktdcgroup.vn/wp-content/uploads/2024/10/facebook-icon.png" alt="alt" className="w-4 h-4" width={16} height={16} />
+                        </Link>
                     </div>
                 </div>
             </div>

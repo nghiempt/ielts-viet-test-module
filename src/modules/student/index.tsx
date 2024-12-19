@@ -6,14 +6,23 @@ import { DecorBar } from "@/components/using-ui/decor-bar"
 import { DATA } from '@/utils/data'
 import Image from "next/image"
 import { useState } from "react"
-import Pagination from "react-bootstrap/Pagination";
+// import Pagination from "react-bootstrap/Pagination";
 import RealityImage from "../contact/reality-image"
 import StudentSlider from "./components/students.slider"
 import Link from "next/link";
 import DOMPurify from 'isomorphic-dompurify';
 import { ROUTES } from "@/utils/route"
-import SignWithIelts from "@/layout/sign-with-ielts"
+import SignWithIELTS from "@/layout/sign-with-ielts"
 import { slugifyURL } from "@/utils/slugify"
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
 
 interface Students {
     id: number,
@@ -46,16 +55,27 @@ export default function StudentPage() {
         currentPage * itemPerPage
     );
 
-    const goToNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
+    // const goToNextPage = () => {
+    //     if (currentPage < totalPages) {
+    //         setCurrentPage(currentPage + 1);
+    //     }
+    // };
+    // const goToPreviousPage = () => {
+    //     if (currentPage > 1) {
+    //         setCurrentPage(currentPage - 1);
+    //     }
+    // };
+
     const goToPreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
+        if (currentPage <= 1) return;
+        setCurrentPage(currentPage - 1);
     };
+
+    const goToNextPage = () => {
+        if (currentPage >= totalPages) return;
+        setCurrentPage(currentPage + 1);
+    };
+
 
     const goToFirstPage = () => {
         setCurrentPage(1);
@@ -68,22 +88,22 @@ export default function StudentPage() {
     return (
         <div className="w-full flex flex-col items-center">
             <Header />
-            <div className="w-3/4 mt-5 rounded-md flex justify-center items-center">
+            <div className="w-3/4 mt-7 rounded-md flex justify-center items-center">
                 <section className="w-full flex flex-col justify-center items-center">
                     <h1 className="font-bold text-4xl">HỌC VIÊN IELTS VIỆT</h1>
                     <DecorBar />
-                    <article className="w-4/6 text-wrap text-base font-medium leading-7 text-gray-600">
-                        Hơn 15 năm hoạt động, KTDC tự hào là đơn vị đào tạo nên hàng ngàn học viên có thành tích IELTS ấn tượng. Các cựu học viên có điểm số cao (IELTS 8.0+) còn chủ động kết nối thành mạng lưới Alumni năng động, góp phần giúp đỡ học viên hiện tại của trung tâm luyện tập kỹ năng Nghe – Nói. KTDC tin rằng với mỗi hành trình đã đi qua, học viên đều có những câu chuyện truyền cảm hứng của riêng mình. Hãy cùng KTDC khám phá nhé!
+                    <article className="w-4/6 text-wrap text-center text-base font-medium leading-7 text-gray-600">
+                        Hơn 15 năm hoạt động, IELTS Việt tự hào là đơn vị đào tạo nên hàng ngàn học viên có thành tích IELTS ấn tượng. Các cựu học viên có điểm số cao (IELTS 8.0+) còn chủ động kết nối thành mạng lưới học viên năng động, góp phần giúp đỡ học viên hiện tại của trung tâm luyện tập kỹ năng Nghe – Nói. IELTS Việt tin rằng với mỗi hành trình đã đi qua, học viên đều có những câu chuyện truyền cảm hứng của riêng mình. Hãy cùng IELTS Việt khám phá nhé!
                     </article>
                 </section>
             </div>
             <div className="w-3/4 mt-10">
                 <div className="grid grid-cols-3 gap-7">
                     {pagedResult.map((stu, index) => (
-                        <div key={index} className="group rounded-xl shadow-lg shadow-slate-200 overflow-hidden">
-                            <div className="relative overflow-hidden rounded-t-xl">
+                        <div key={index} className="group rounded-xl shadow-[rgba(17,_17,_26,_0.2)_0px_0px_15px] shadow-slate-200 overflow-hidden">
+                            <div className="relative overflow-hidden rounded-t-xl py-10">
                                 <Link href={`${ROUTES.STUDENT}/${slugifyURL(stu.title)}-${stu.id}`}>
-                                    <Image className="transform transition-transform duration-500 group-hover:scale-105 object-cover w-full h-full" src={stu.image} alt="" width={1000} height={1000} />
+                                    <Image className="transform transition-transform duration-500 group-hover:scale-105 object-cover w-36 h-36 mx-auto" src={stu.image} alt="" width={1000} height={1000} />
                                 </Link>
                             </div>
                             <div className="mx-5 my-5">
@@ -99,34 +119,83 @@ export default function StudentPage() {
                         </div>
                     ))}
                 </div>
-                <div className="flex justify-center items-center">
-                    <Pagination className="flex flex-row gap-4 mt-10">
-                        <Pagination.First
-                            onClick={goToFirstPage}
-                            disabled={currentPage <= 1}
-                            className="px-5 py-2 border rounded-lg hover:bg-[rgb(var(--secondary-rgb))] hover:text-white cursor-pointer"
-                        />
-                        <Pagination.Prev
-                            onClick={goToPreviousPage}
-                            disabled={currentPage <= 1}
-                            className="px-5 py-2 border rounded-lg hover:bg-[rgb(var(--secondary-rgb))] hover:text-white cursor-pointer"
-                        />
-
-                        <Pagination.Item
-                            className="px-3 py-2 border rounded-lg hover:bg-[rgb(var(--secondary-rgb))] hover:text-white">
-                            {currentPage} / {totalPages}
-                        </Pagination.Item>
-
-                        <Pagination.Next
-                            onClick={goToNextPage}
-                            disabled={currentPage >= totalPages}
-                            className="px-5 py-2 border rounded-lg hover:bg-[rgb(var(--secondary-rgb))] hover:text-white cursor-pointer"
-                        />
-                        <Pagination.Last
-                            onClick={goToLastPage}
-                            disabled={currentPage >= totalPages}
-                            className="px-5 py-2 border rounded-lg hover:bg-[rgb(var(--secondary-rgb))] hover:text-white cursor-pointer"
-                        />
+                <div className="flex justify-center items-center mt-10">
+                    <Pagination>
+                        <PaginationContent>
+                            <PaginationItem>
+                                <PaginationPrevious
+                                    href="#"
+                                    onClick={(e) => {
+                                        if (currentPage <= 1) {
+                                            e.preventDefault();
+                                        } else {
+                                            goToPreviousPage();
+                                        }
+                                    }}
+                                    className={`px-5 py-2 border rounded-lg ${currentPage <= 1 ? 'opacity-50 cursor-default' : 'hover:bg-[rgb(var(--secondary-rgb))] hover:text-white cursor-pointer'}`}
+                                />
+                            </PaginationItem>
+                            {currentPage !== 1 && (
+                                <PaginationItem>
+                                    <PaginationLink
+                                        href="#"
+                                        onClick={goToFirstPage}
+                                        className="text-center"
+                                    >
+                                        1
+                                    </PaginationLink>
+                                </PaginationItem>
+                            )}
+                            <PaginationItem>
+                                <PaginationLink
+                                    href="#"
+                                    onClick={() => setCurrentPage(currentPage)}
+                                    isActive={currentPage === currentPage}
+                                >
+                                    {currentPage}
+                                </PaginationLink>
+                            </PaginationItem>
+                            {currentPage !== totalPages && (
+                                <PaginationItem>
+                                    <PaginationLink
+                                        href="#"
+                                        onClick={() => setCurrentPage(currentPage + 1)}
+                                        className="text-center"
+                                    >
+                                        {currentPage + 1}
+                                    </PaginationLink>
+                                </PaginationItem>
+                            )}
+                            {currentPage < totalPages - 1 && (
+                                <PaginationItem>
+                                    <PaginationEllipsis />
+                                </PaginationItem>
+                            )}
+                            {/* {currentPage !== totalPages && (
+                                <PaginationItem>
+                                    <PaginationLink
+                                        href="#"
+                                        onClick={goToLastPage}
+                                        className="text-center"
+                                    >
+                                        {totalPages}
+                                    </PaginationLink>
+                                </PaginationItem>
+                            )} */}
+                            <PaginationItem>
+                                <PaginationNext
+                                    href="#"
+                                    onClick={(e) => {
+                                        if (currentPage >= totalPages) {
+                                            e.preventDefault();
+                                        } else {
+                                            goToNextPage();
+                                        }
+                                    }}
+                                    className={`px-5 py-2 border rounded-lg ${currentPage >= totalPages ? 'opacity-50 cursor-default' : 'hover:bg-[rgb(var(--secondary-rgb))] hover:text-white cursor-pointer'}`}
+                                />
+                            </PaginationItem>
+                        </PaginationContent>
                     </Pagination>
                 </div>
             </div>
@@ -145,7 +214,7 @@ export default function StudentPage() {
             </div>
 
             <div className="bg-cover bg-center h-full w-full flex justify-center items-center py-8"
-                style={{ backgroundImage: `url('https://ktdcgroup.vn/wp-content/uploads/2021/10/chuong-trinh-hoc-ielts-ktdc-ielts-6-Copy-min.jpg')` }}>
+                style={{ backgroundImage: `url('https://res.cloudinary.com/farmcode/image/upload/v1733374676/ielts-viet/chuong-trinh-hoc-ielts-ktdc-ielts-6-Copy-min_eettnm.jpg')` }}>
                 <div className="w-3/4 flex justify-center items-center">
                     <div className="w-full justify-self-center">
                         <div className="text-3xl text-[rgb(var(--secondary-rgb))] font-bold py-4">TƯ VẤN LỘ TRÌNH HỌC CÁ NHÂN HÓA</div>
@@ -172,14 +241,14 @@ export default function StudentPage() {
 
             <div className="flex justify-center mt-20 w-full">
                 <div className="flex flex-col justify-left w-3/4">
-                    <h1 className="font-bold text-4xl">Hình ảnh thực tế</h1>
+                    <h1 className="font-bold text-3xl">Hình ảnh thực tế</h1>
                     <DecorBar />
                     <div>
                         <RealityImage />
                     </div>
                 </div>
             </div>
-            <SignWithIelts />
+            <SignWithIELTS />
             <Footer />
         </div >
     )

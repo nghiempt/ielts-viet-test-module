@@ -6,8 +6,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import '../../../styles/button.slider.css'
 import { DATA } from "@/utils/data";
 import '../../../styles/button.slider.css'
+import { useEffect, useState } from "react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 type Learner = {
   id: number,
@@ -28,18 +31,35 @@ const LearnerSlider = () => {
     return chunks;
   };
 
-  const slides = chunkData(learners, 3);
+  const slides = chunkData(learners, 1);
+
+  const [swiperInstance, setSwiperInstance] = useState<any>(null);
+
+  const handleSwiper = (swiper: any) => {
+    console.log("Swiper instance: ", swiper);
+    setSwiperInstance(swiper);
+  };
 
   return (
-    <section className="w-full">
-      <div className="h-full mt-2">
+    <section className="grid grid-cols-12 items-center w-full mb-2">
+      <div className="flex justify-center items-center col-span-1 mx-auto">
+        <button
+          onClick={() => swiperInstance?.slidePrev()}
+          className="bg-[rgb(var(--secondary-rgb))] rounded-full p-2 text-white">
+          <ArrowLeft />
+        </button>
+      </div>
+      <div className="col-span-10 h-full mt-2">
         <Swiper
-          navigation
+          modules={[Autoplay, Navigation, Pagination]}
           pagination={{ type: "bullets", clickable: true }}
           autoplay={{ delay: 5000 }}
+          speed={800}
           loop={true}
-          modules={[Autoplay, Navigation, Pagination]}
           spaceBetween={20}
+          slidesPerView={3}
+          slidesPerGroup={1}
+          onSwiper={handleSwiper}
           className="w-full"
         >
           {slides?.map((slide, slideIndex) => (
@@ -47,7 +67,7 @@ const LearnerSlider = () => {
               key={`slide-${slideIndex}`}
               className="flex justify-center"
             >
-              <div className="flex flex-row justify-around gap-6 px-14 py-10">
+              <div className="flex flex-row justify-around gap-6 py-10">
                 {slide?.map((learn, index) => (
                   <div className="bg-white rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] p-6 relative" key={index}>
                     <div className="flex items-center space-x-2 mb-4">
@@ -61,7 +81,7 @@ const LearnerSlider = () => {
                       <h3 className="font-bold text-gray-800">{learn.name}</h3>
                       <span className="text-[rgb(var(--secondary-rgb))] text-2xl font-bold absolute top-4 right-4">“</span>
                     </div>
-                    <p className="text-gray-600 text-sm">
+                    <p className="text-gray-600 text-sm line-clamp-4 mb-10">
                       {learn?.cmt}
                     </p>
                     <div className="flex items-center justify-between mt-4">
@@ -76,6 +96,11 @@ const LearnerSlider = () => {
             </SwiperSlide>
           ))}
         </Swiper>
+      </div>
+      <div className="flex justify-center items-center col-span-1 mx-auto">
+        <button onClick={() => swiperInstance?.slideNext()} className="bg-[rgb(var(--secondary-rgb))] rounded-full p-2 text-white">
+          <ArrowRight />
+        </button>
       </div>
     </section>
   );

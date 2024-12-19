@@ -2,7 +2,7 @@ export const learnerData = [
   {
     id: 1,
     name: "Ngọc Anh",
-    cmt: "Mình chỉ mới bắt đầu học ielts từ hè năm nay, lúc đó kiến thức về tiếng anh của mình chỉ coi là đủ dùng và ở mức 4.5(?). Nhưng sau khi học tại Ielt Việt được 2 tháng và giờ...",
+    cmt: "Mình chỉ mới bắt đầu học IELTS từ hè năm nay, lúc đó kiến thức về tiếng anh của mình chỉ coi là đủ dùng và ở mức 4.5(?). Nhưng sau khi học tại Ielt Việt được 2 tháng và giờ...",
     cmtSrc: "Google",
   },
   {
@@ -14,7 +14,7 @@ export const learnerData = [
   {
     id: 3,
     name: "Le Nha Thy",
-    cmt: "Chương trình học bám sát ielts và cực kỳ hiệu quả, thấy lại chuyên môn cao và cách học giúp học viên luyện tập khả năng chủ động trong học tập...",
+    cmt: "Chương trình học bám sát IELTS và cực kỳ hiệu quả, thấy lại chuyên môn cao và cách học giúp học viên luyện tập khả năng chủ động trong học tập...",
     cmtSrc: "Google",
   },
   {
