@@ -2,7 +2,6 @@ import slugify from "slugify";
 
 export function slugifyURL(text: string) {
   if (!text) return "";
-
   text = text
     .replace(/ơ/g, "o")
     .replace(/ư/g, "u")
@@ -19,15 +18,12 @@ export function slugifyURL(text: string) {
     .replace(/ý|ỳ|ỷ|ỹ|ỵ/g, "y")
     .replace(/đ/g, "d")
     .replace(/[^A-Za-z0-9\s\u00C0-\u00FF\u0100-\u017F\u1EA0-\u1EF9]/g, "-");
-
   text = slugify(text, {
     replacement: "-",
     lower: true,
     locale: "vi",
     trim: true,
   });
-
   text = text.replace(/-+/g, "-");
-
   return text;
 }
