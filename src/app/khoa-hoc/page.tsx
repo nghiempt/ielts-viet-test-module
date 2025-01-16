@@ -1,10 +1,10 @@
 "use client"
 
-import HomeClient from "@/modules/home";
+import CourseClient from "@/modules/course";
 import { Loader } from "lucide-react";
 import React, { Suspense } from 'react';
 
-export default function Home() {
+export default function Course() {
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <Suspense
@@ -15,7 +15,7 @@ export default function Home() {
           </div>
         }
       >
-        <HomeClient />
+        <CourseClient />
       </Suspense>
     </div>
   );
