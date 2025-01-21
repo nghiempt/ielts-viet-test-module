@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-sync-scripts */
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 declare global {
@@ -76,7 +77,7 @@ const StatisticsBar = () => {
 
     return (
         <div className="w-full bg-[rgb(var(--primary-rgb))] relative">
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.5/odometer.min.js" integrity="sha512-W/5PVFcV7i2BF+W7oc1dkJk2J7HGEXCYyvPoVVUyM4QT9wJHqRQ60vG5TieVJlaxpqFPPwfGU7aXW+sKk4ufaA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.5/odometer.min.js" integrity="sha512-W/5PVFcV7i2BF+W7oc1dkJk2J7HGEXCYyvPoVVUyM4QT9wJHqRQ60vG5TieVJlaxpqFPPwfGU7aXW+sKk4ufaA==" crossOrigin="anonymous" referrerPolicy="no-referrer"></script>
             <link
                 rel="stylesheet"
                 href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.5/themes/odometer-theme-default.min.css" />
