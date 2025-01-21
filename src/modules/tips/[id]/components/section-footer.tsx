@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 
 const SectionFooter = () => {
     return (
-        <section className="w-[94%] lg:w-[82%] mx-auto bg-[rgb(var(--secondary-rgb))] py-4 lg:py-20 relative overflow-hidden rounded-xl">
+        <section className="w-[100%] lg:w-[100%] mx-auto bg-[rgb(var(--secondary-rgb))] py-4 lg:py-20 mt-14 relative overflow-hidden rounded-xl">
             <div
                 className="absolute inset-0 opacity-10"
                 style={{
@@ -14,19 +14,19 @@ const SectionFooter = () => {
                     backgroundSize: '24px 24px'
                 }} />
             <div className="container mx-auto px-4">
-                <div className="max-w-3xl mx-auto text-center space-y-8">
+                <div className=" mx-auto text-center space-y-8">
                     <h2 className="text-2xl md:text-4xl lg:text-4xl font-bold text-white leading-tight">
-                        Subscribe to our newsletter to receive latest news on our services.
+                        Đăng ký dịch vụ của chúng tôi thông qua email, bạn sẽ nhận được nhiều ưu đãi
                     </h2>
                     <form className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
                         <Input
                             type="email"
-                            placeholder="Enter your email"
+                            placeholder="Nhập email của bạn"
                             className="flex-1 h-12 bg-[rgb(var(--secondary-rgb))] border-white/50 text-white placeholder:text-white" />
                         <Button
                             type="submit"
                             className="h-12 px-8 bg-white text-[rgb(var(--secondary-rgb))] hover:bg-amber-50 font-semibold">
-                            Subscribe
+                            Đăng ký
                         </Button>
                     </form>
                 </div>

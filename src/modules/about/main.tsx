@@ -7,8 +7,34 @@ import Section01 from "./components/section-01";
 import Section02 from "./components/section-02";
 import SectionFooter from "./components/section-footer";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import Section06 from "./components/section-06";
 
 export default function AboutContent() {
+  const section4Ref = useRef(null);
+  const [isSection4Visible, setIsSection4Visible] = useState(false);
+
+  useEffect(() => {
+    const currentSection4Ref = section4Ref.current;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsSection4Visible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (currentSection4Ref) {
+      observer.observe(currentSection4Ref);
+    }
+
+    return () => {
+      if (currentSection4Ref) {
+        observer.unobserve(currentSection4Ref);
+      }
+    };
+  }, []);
   return (
     <main className="w-full flex flex-col justify-center items-center overflow-hidden">
       <div className="w-full relative bg-[#FDF8F5] min-h-[240px] flex items-center overflow-hidden">
@@ -34,22 +60,26 @@ export default function AboutContent() {
         </div>
       </div>
       <div className="w-full flex flex-col justify-center items-center">
-        <div className="w-3/4 py-12">
+        <div className="w-11/12 py-12">
           <Section01 />
         </div>
-        <div className="w-3/4 py-8">
+        <div className="w-11/12 py-2 lg:py-8">
           <Section02 />
         </div>
-        <div className="w-3/4 py-12">
+        <div className="w-11/12 py-12">
           <Section03 />
         </div>
-        <div className="w-full py-12">
+        <div className={`w-full py-12 transition-opacity duration-1000 ${isSection4Visible ? 'opacity-100' : 'opacity-0'}`}
+          ref={section4Ref}>
           <Section04 />
         </div>
-        <div className="w-3/4 py-4">
+        <div className="w-11/12 py-4">
           <Section05 />
         </div>
-        <div className="w-3/4 pt-8">
+        <div className="w-11/12 py-4">
+          <Section06 />
+        </div>
+        <div className="w-11/12 pt-8">
           <SectionFooter />
         </div>
       </div>

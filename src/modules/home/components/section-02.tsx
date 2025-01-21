@@ -6,12 +6,12 @@ const Section02 = () => {
     return (
         <section className="w-full">
             <div className="space-y-12">
-                <div className="text-center">
+                <div className="text-center mx-5">
                     <p className="text-[rgb(var(--secondary-rgb))] text-lg font-semibold mb-3">
                         Cam kết đầu ra
                     </p>
                     <div className="relative inline-block">
-                        <h2 className="text-4xl lg:text-5xl font-bold">
+                        <h2 className="text-4xl lg:text-5xl font-bold leading-snug">
                             Luyện IELTS Cam Kết Đầu Ra
                         </h2>
                         <div className="hidden lg:flex absolute top-1/2 right-0 w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
@@ -31,8 +31,7 @@ const Section02 = () => {
                                     alt="alt"
                                     className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-cover"
                                     width={400}
-                                    height={200}
-                                />
+                                    height={200} />
                             </div>
                             <div className="text-sm text-center">Học Bổng Du Học</div>
                         </div>
@@ -43,8 +42,7 @@ const Section02 = () => {
                                     alt="alt"
                                     className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-cover"
                                     width={400}
-                                    height={200}
-                                />
+                                    height={200} />
                             </div>
                             <div className="text-sm text-center">Định Cư Nước Ngoài</div>
                         </div>
@@ -57,8 +55,7 @@ const Section02 = () => {
                                     alt="alt"
                                     className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-cover"
                                     width={400}
-                                    height={200}
-                                />
+                                    height={200} />
                             </div>
                             <div className="text-sm text-center">Xét Tuyển Đại Học</div>
                         </div>
@@ -69,8 +66,7 @@ const Section02 = () => {
                                     alt="alt"
                                     className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-cover"
                                     width={400}
-                                    height={200}
-                                />
+                                    height={200} />
                             </div>
                             <div className="text-sm text-center">Cơ Hội Việc Làm</div>
                         </div>
@@ -86,8 +82,7 @@ const Section02 = () => {
                                         alt="alt"
                                         className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-cover"
                                         width={400}
-                                        height={200}
-                                    />
+                                        height={200} />
                                 </div>
                                 <div className="text-sm text-center">Học Bổng Du Học</div>
                             </div>
@@ -102,8 +97,7 @@ const Section02 = () => {
                                         alt="alt"
                                         className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-cover"
                                         width={400}
-                                        height={200}
-                                    />
+                                        height={200} />
                                 </div>
                                 <div className="text-sm text-center">Định Cư Nước Ngoài</div>
                             </div>
@@ -118,8 +112,7 @@ const Section02 = () => {
                                         alt="alt"
                                         className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-cover"
                                         width={400}
-                                        height={200}
-                                    />
+                                        height={200} />
                                 </div>
                                 <div className="text-sm text-center">Xét Tuyển Đại Học</div>
                             </div>
@@ -134,8 +127,7 @@ const Section02 = () => {
                                         alt="alt"
                                         className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-cover"
                                         width={400}
-                                        height={200}
-                                    />
+                                        height={200} />
                                 </div>
                                 <div className="text-sm text-center">Cơ Hội Việc Làm</div>
                             </div>

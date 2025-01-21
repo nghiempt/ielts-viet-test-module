@@ -2,7 +2,7 @@
 
 const Section02 = () => {
     return (
-        <section className="w-full grid grid-cols-4 gap-4">
+        <section className="w-full grid grid-cols-1 lg:grid-cols-4 gap-4 px-1 lg:px-[130px]">
             <div className="max-w-md p-1">
                 <div className="bg-emerald-500 rounded-lg p-6 relative">
                     <div className="flex items-center gap-4">
@@ -12,27 +12,23 @@ const Section02 = () => {
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
-                                strokeWidth="2"
-                            >
+                                strokeWidth="2">
                                 <path
                                     d="M5 8h14l-1.5 8h-11L5 8z"
                                     fill="none"
                                     stroke="currentColor"
                                     strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
+                                    strokeLinejoin="round" />
                                 <path
                                     d="M6 8l-1-4h14l-1 4"
                                     stroke="currentColor"
                                     strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
+                                    strokeLinejoin="round" />
                                 <path
                                     d="M9 16v1a2 2 0 002 2h2a2 2 0 002-2v-1"
                                     stroke="currentColor"
                                     strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
+                                    strokeLinejoin="round" />
                             </svg>
                         </div>
                         <div className="text-white">
@@ -51,27 +47,23 @@ const Section02 = () => {
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
-                                strokeWidth="2"
-                            >
+                                strokeWidth="2">
                                 <path
                                     d="M5 8h14l-1.5 8h-11L5 8z"
                                     fill="none"
                                     stroke="currentColor"
                                     strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
+                                    strokeLinejoin="round" />
                                 <path
                                     d="M6 8l-1-4h14l-1 4"
                                     stroke="currentColor"
                                     strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
+                                    strokeLinejoin="round" />
                                 <path
                                     d="M9 16v1a2 2 0 002 2h2a2 2 0 002-2v-1"
                                     stroke="currentColor"
                                     strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
+                                    strokeLinejoin="round" />
                             </svg>
                         </div>
                         <div className="text-white">
@@ -90,27 +82,23 @@ const Section02 = () => {
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
-                                strokeWidth="2"
-                            >
+                                strokeWidth="2">
                                 <path
                                     d="M5 8h14l-1.5 8h-11L5 8z"
                                     fill="none"
                                     stroke="currentColor"
                                     strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
+                                    strokeLinejoin="round" />
                                 <path
                                     d="M6 8l-1-4h14l-1 4"
                                     stroke="currentColor"
                                     strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
+                                    strokeLinejoin="round" />
                                 <path
                                     d="M9 16v1a2 2 0 002 2h2a2 2 0 002-2v-1"
                                     stroke="currentColor"
                                     strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
+                                    strokeLinejoin="round" />
                             </svg>
                         </div>
                         <div className="text-white">
@@ -129,27 +117,23 @@ const Section02 = () => {
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
-                                strokeWidth="2"
-                            >
+                                strokeWidth="2">
                                 <path
                                     d="M5 8h14l-1.5 8h-11L5 8z"
                                     fill="none"
                                     stroke="currentColor"
                                     strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
+                                    strokeLinejoin="round" />
                                 <path
                                     d="M6 8l-1-4h14l-1 4"
                                     stroke="currentColor"
                                     strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
+                                    strokeLinejoin="round" />
                                 <path
                                     d="M9 16v1a2 2 0 002 2h2a2 2 0 002-2v-1"
                                     stroke="currentColor"
                                     strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
+                                    strokeLinejoin="round" />
                             </svg>
                         </div>
                         <div className="text-white">

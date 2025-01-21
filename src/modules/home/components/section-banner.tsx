@@ -3,6 +3,18 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { PlayCircle } from "lucide-react";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import Image from 'next/image';
 
 const SectionBanner = () => {
     return (
@@ -19,18 +31,36 @@ const SectionBanner = () => {
                         Học IELTS cùng chuyên gia đầu ngành. Hỗ trợ toàn diện từ giáo viên bản ngữ, cựu giám khảo và chuyên gia IELTS Việt Nam.
                     </p>
                     <div className="flex items-center gap-4">
-                        <Button className="text-[16px] rounded-full px-10 bg-[rgb(var(--secondary-rgb))] hover:bg-[rgb(var(--secondary-rgb))] hover:opacity-80 text-white">
+                        <Button onClick={() => window.open("https://www.facebook.com/profile.php?id=61550718094576")} className="text-[16px] rounded-full px-10 bg-[rgb(var(--secondary-rgb))] hover:bg-[rgb(var(--secondary-rgb))] hover:opacity-80 text-white">
                             Khám phá ngay
                         </Button>
-                        <Button variant="ghost" className="text-[16px] rounded-full text-[rgb(var(--secondary-rgb))] flex items-center gap-2">
-                            <PlayCircle className="w-5 h-5" />
-                            <span className='hidden lg:flex'>Video giới thiệu</span>
-                            <span className='flex lg:hidden'>Video</span>
-                        </Button>
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button variant="ghost" className="text-[16px] rounded-full text-[rgb(var(--secondary-rgb))] flex items-center gap-2">
+                                    <PlayCircle className="w-5 h-5" />
+                                    <span className='hidden lg:flex'>Video giới thiệu</span>
+                                    <span className='flex lg:hidden'>Video</span>
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="">
+                                <div className="">
+                                    <video className="h-[400px] w-full rounded-lg" controls autoPlay muted>
+                                        <source src="https://res.cloudinary.com/farmcode/video/upload/v1737435129/ielts-viet/vtxrjsdihoh8et87vpqd.mp4" type="video/mp4" />
+                                    </video>
+                                </div>
+                            </DialogContent>
+                        </Dialog>
                     </div>
                 </div>
                 <div className="relative">
-                    <div className="bg-[rgb(var(--secondary-rgb))] rounded-3xl p-8 text-white relative overflow-hidden">
+                    <Image
+                        src="https://res.cloudinary.com/farmcode/image/upload/v1736620702/ielts-viet/website-thumbnail_uqdu6b.png"
+                        alt="alt"
+                        className="w-full object-cover rounded-lg"
+                        width={400}
+                        height={200}
+                    />
+                    {/* <div className="bg-[rgb(var(--secondary-rgb))] rounded-3xl p-8 text-white relative overflow-hidden">
                         <div className="space-y-6 max-w-md">
                             <div>
                                 <h2 className="text-4xl font-bold mb-2">IELTS</h2>
@@ -52,7 +82,7 @@ const SectionBanner = () => {
                         <div className="absolute -right-20 bottom-0">
                             <div className="w-80 h-80 bg-white/10 rounded-full"></div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </section>

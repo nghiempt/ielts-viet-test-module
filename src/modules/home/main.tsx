@@ -12,7 +12,7 @@ import Marquee from "./components/section-marquee";
 
 export default function HomeContent() {
   return (
-    <main className="w-full flex flex-col justify-center items-center gap-20">
+    <main className="w-full flex flex-col justify-center items-center gap-16">
       <section className="lg:w-3/4">
         <SectionBanner />
       </section>
@@ -31,7 +31,7 @@ export default function HomeContent() {
       <section className="bg-[rgb(var(--secondary-rgb))] lg:w-full flex justify-center items-center">
         <Section05 />
       </section>
-      <section className="lg:w-3/4 -translate-y-4">
+      <section className="lg:w-3/4 -translate-y-3">
         <Section06 />
       </section>
       <section className="bg-[rgb(var(--secondary-rgb))] lg:w-full flex justify-center items-center">

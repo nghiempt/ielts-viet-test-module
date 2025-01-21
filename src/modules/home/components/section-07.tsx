@@ -17,7 +17,7 @@ const blogPosts: BlogPost[] = [
         title: 'Tổng hợp tài liệu luyện thi IELTS cho học sinh cấp 2 hiệu quả',
         date: '16 / 01 / 2025',
         author: 'Thuỳ Trang',
-        imageUrl: 'https://ieltscity.vn/wp-content/uploads/2024/07/tai-lieu-luyen-thi-ielts-cho-hoc-sinh-cap-2-1024x576.jpg',
+        imageUrl: 'https://res.cloudinary.com/farmcode/image/upload/v1737442529/ielts-viet/ypjyepv8qjue5renn4dz.png',
         link: '#'
     },
     {
@@ -25,7 +25,7 @@ const blogPosts: BlogPost[] = [
         title: 'Top 19 sách học IELTS cho người mất gốc hay nhất',
         date: '16 / 01 / 2025',
         author: 'Kim Hoàng',
-        imageUrl: 'https://ieltscity.vn/wp-content/uploads/2023/03/sach-hoc-ielts-cho-nguoi-mat-goc-1024x575.jpg',
+        imageUrl: 'https://res.cloudinary.com/farmcode/image/upload/v1737442536/ielts-viet/oqof1iwynzxywfbs0tdz.png',
         link: '#'
     },
     {
@@ -33,7 +33,7 @@ const blogPosts: BlogPost[] = [
         title: '7 Trang web học IELTS Online miễn phí chất lượng 2025',
         date: '16 / 01 / 2025',
         author: 'Kim Ngân',
-        imageUrl: 'https://ieltscity.vn/wp-content/uploads/2023/05/hoc-ielts-online-mien-phi-1024x575.jpg',
+        imageUrl: 'https://res.cloudinary.com/farmcode/image/upload/v1737442538/ielts-viet/vech6qo8wljhccmcwrsh.png',
         link: '#'
     }
 ];

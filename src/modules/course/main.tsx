@@ -30,10 +30,10 @@ export default function CourseContent() {
         </div>
       </div>
       <div className="w-full flex flex-col justify-center items-center">
-        <div className="w-3/4 py-12">
+        <div className="w-full lg:w-3/4 py-12">
           <Section01 />
         </div>
-        <div className="w-3/4 pt-8">
+        <div className="w-full lg:w-3/4 pt-8">
           <SectionFooter />
         </div>
       </div>

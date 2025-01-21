@@ -17,18 +17,18 @@ const Footer = () => {
                             Trung tâm đào tạo tiếng anh từ cơ bản đến nâng cao. Dẫn dắt bởi các chuyên gia hàng đầu và đảm bảo đầu ra. Độ tuổi từ tiểu học, trung học, phổ thông, đại học và thạc sĩ.
                         </p>
                         <div className="flex gap-4">
-                            <Link href="#" className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors">
+                            <a target='_blank' href="https://www.facebook.com/profile.php?id=61550718094576" className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors">
                                 <Facebook size={20} />
-                            </Link>
-                            <Link href="#" className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors">
+                            </a>
+                            <a target='_blank' href="https://www.facebook.com/profile.php?id=61550718094576" className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors">
                                 <Twitter size={20} />
-                            </Link>
-                            <Link href="#" className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors">
+                            </a>
+                            <a target='_blank' href="https://www.facebook.com/profile.php?id=61550718094576" className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors">
                                 <Linkedin size={20} />
-                            </Link>
-                            <Link href="#" className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors">
+                            </a>
+                            <a target='_blank' href="https://www.facebook.com/profile.php?id=61550718094576" className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors">
                                 <Instagram size={20} />
-                            </Link>
+                            </a>
                         </div>
                     </div>
                     <div className='lg:pl-16'>

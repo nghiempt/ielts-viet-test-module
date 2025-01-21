@@ -1,6 +1,7 @@
 'use client'
 
 import { Component, FolderCode, Target, TvMinimal } from "lucide-react";
+import Image from "next/image";
 
 interface CourseCategory {
     id: string;
@@ -8,6 +9,7 @@ interface CourseCategory {
     description: string;
     icon: React.ReactNode;
     backgroundColor: string;
+    thumbail: string;
 }
 
 const categories: CourseCategory[] = [
@@ -20,7 +22,8 @@ const categories: CourseCategory[] = [
                 <div className="text-white font-bold"><Component /></div>
             </div>
         ),
-        backgroundColor: 'bg-white'
+        backgroundColor: 'bg-white',
+        thumbail: 'https://res.cloudinary.com/farmcode/image/upload/v1737435779/ielts-viet/p2rb9bpcdzvnelvnad0j.png',
     },
     {
         id: 'marketing',
@@ -31,7 +34,8 @@ const categories: CourseCategory[] = [
                 <div className="text-white"><TvMinimal /></div>
             </div>
         ),
-        backgroundColor: 'bg-white'
+        backgroundColor: 'bg-white',
+        thumbail: 'https://res.cloudinary.com/farmcode/image/upload/v1737435811/ielts-viet/v8eul70ldtygnsrdohxa.png',
     },
     {
         id: 'development',
@@ -42,7 +46,8 @@ const categories: CourseCategory[] = [
                 <div className="text-white"><FolderCode /></div>
             </div>
         ),
-        backgroundColor: 'bg-white'
+        backgroundColor: 'bg-white',
+        thumbail: 'https://res.cloudinary.com/farmcode/image/upload/v1737435839/ielts-viet/pxyfd84me3bvelcvjbw0.png',
     },
     {
         id: 'improvement',
@@ -53,7 +58,8 @@ const categories: CourseCategory[] = [
                 <div className="text-white"><Target /></div>
             </div>
         ),
-        backgroundColor: 'bg-white'
+        backgroundColor: 'bg-white',
+        thumbail: 'https://res.cloudinary.com/farmcode/image/upload/v1737435896/ielts-viet/lkqpogc3gwoxyq62r4dl.png',
     }
 ];
 
@@ -61,29 +67,36 @@ const Section06 = () => {
     return (
         <div className="w-full px-4 lg:px-0">
             <div className="text-center mb-12">
-                    <p className="text-[rgb(var(--secondary-rgb))] text-md lg:text-lg font-semibold mb-3">
-                        Không Gian Học Tập
-                    </p>
-                    <div className="relative inline-block">
-                        <h2 className="text-4xl lg:text-5xl font-bold">
-                            Cơ Sở Vật Chất Hiện Đại
-                        </h2>
-                        <div className="hidden lg:flex absolute top-1/2 right-0 w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
-                    </div>
+                <p className="text-[rgb(var(--secondary-rgb))] text-md lg:text-lg font-semibold mb-3">
+                    Không Gian Học Tập
+                </p>
+                <div className="relative inline-block">
+                    <h2 className="text-4xl lg:text-5xl font-bold">
+                        Cơ Sở Vật Chất Hiện Đại
+                    </h2>
+                    <div className="hidden lg:flex absolute top-1/2 right-0 w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
                 </div>
+            </div>
             <div className="relative">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5">
                     {categories.map((category) => (
                         <div
                             key={category.id}
-                            className={`${category.backgroundColor} rounded-lg p-8 border border-gray-200 hover:shadow-md transition-shadow duration-300 cursor-pointer mx-2 lg:mx-0`}>
-                            <div className="flex flex-col items-start gap-4">
+                            className={`flex ${category.backgroundColor} rounded-lg p-4 border border-gray-200 hover:shadow-md transition-shadow duration-300 cursor-pointer mx-2 lg:mx-0`}>
+                            <div className="flex flex-col items-start gap-4 p-4">
                                 {category.icon}
                                 <h3 className="text-xl font-bold">{category.title}</h3>
                                 <p className="text-gray-600 text-sm">
                                     {category.description}
                                 </p>
                             </div>
+                            <Image
+                                src={category.thumbail}
+                                alt="alt"
+                                className="w-2/4 object-cover rounded-lg"
+                                width={400}
+                                height={200}
+                            />
                         </div>
                     ))}
                 </div>

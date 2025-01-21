@@ -14,8 +14,8 @@ interface CourseCategory {
 const categories: CourseCategory[] = [
     {
         id: 'uiux',
-        title: 'UI/UX Design',
-        description: 'We are providing you the best UI/UX design guideline. That help you be professional.',
+        title: 'Khoá Học Cấp Tốc',
+        description: 'Rút ngắn tối đa thời gian học Cam kết điểm đẩu ra IELTS 7.0+ Học IELTS linh hoạt theo lịch rảnh Sỉ số lớp chỉ từ 4-8 HV.',
         icon: (
             <div className="bg-yellow-400 p-4 rounded-full">
                 <div className="text-white font-bold"><Component /></div>
@@ -25,8 +25,8 @@ const categories: CourseCategory[] = [
     },
     {
         id: 'marketing',
-        title: 'Digital Marketing',
-        description: 'We are providing you the best Digital Marketing guideline. That help you be professional.',
+        title: 'Khoá Học Online',
+        description: 'Rút ngắn tối đa thời gian học Cam kết điểm đẩu ra IELTS 7.0+ Học IELTS linh hoạt theo lịch rảnh Sỉ số lớp chỉ từ 4-8 HV.',
         icon: (
             <div className="bg-emerald-500 p-4 rounded-full">
                 <div className="text-white"><TvMinimal /></div>
@@ -36,8 +36,8 @@ const categories: CourseCategory[] = [
     },
     {
         id: 'development',
-        title: 'Development',
-        description: 'We are providing you the best Development guideline. That help you be professional.',
+        title: 'Khoá Học 1 kèm 1',
+        description: 'Rút ngắn tối đa thời gian học Cam kết điểm đẩu ra IELTS 7.0+ Học IELTS linh hoạt theo lịch rảnh Sỉ số lớp chỉ từ 4-8 HV.',
         icon: (
             <div className="bg-blue-600 p-4 rounded-full">
                 <div className="text-white"><FolderCode /></div>
@@ -47,8 +47,8 @@ const categories: CourseCategory[] = [
     },
     {
         id: 'improvement',
-        title: 'Self Improvement',
-        description: 'We are providing you the best Self Improvement guideline. That help you be professional.',
+        title: 'Khoá Học General',
+        description: 'Rút ngắn tối đa thời gian học Cam kết điểm đẩu ra IELTS 7.0+ Học IELTS linh hoạt theo lịch rảnh Sỉ số lớp chỉ từ 4-8 HV.',
         icon: (
             <div className="bg-pink-500 p-4 rounded-full">
                 <div className="text-white"><Target /></div>
@@ -60,20 +60,20 @@ const categories: CourseCategory[] = [
 
 const Section03 = () => {
     return (
-        <div className="max-w-7xl mx-auto px-1">
+        <div className="max-w-7xl mx-auto px-0 lg:px-1">
             <div className="text-center mb-12">
-                    <p className="text-[rgb(var(--secondary-rgb))] text-lg font-semibold mb-3">
-                        Our Professionals
-                    </p>
-                    <div className="relative inline-block">
-                        <h2 className="text-4xl lg:text-5xl font-bold">
-                            Meet our Teachers
-                        </h2>
-                        <div className="absolute top-1/2 right-0 w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
-                    </div>
+                <p className="text-[rgb(var(--secondary-rgb))] text-lg font-semibold mb-3">
+                    Danh Mục Khoá Học
+                </p>
+                <div className="relative inline-block">
+                    <h2 className="text-4xl lg:text-5xl font-bold">
+                        Các Khoá Học Tại IELTS VIET
+                    </h2>
+                    <div className="absolute top-[73%] lg:top-1/2 right-[25%] lg:right-0 w-16 lg:w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
                 </div>
+            </div>
             <div className="relative">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mx-3 lg:mx-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mx-0 lg:mx-0">
                     {categories.map((category) => (
                         <div
                             key={category.id}

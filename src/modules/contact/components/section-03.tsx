@@ -31,7 +31,7 @@ const ContactSection03 = () => {
   };
 
   return (
-    <div className="w-3/4 mx-auto bg-white">
+    <div className="w-10/12 lg:w-3/4 mx-auto bg-white">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -40,10 +40,9 @@ const ContactSection03 = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="Your Name*"
+              placeholder="Tên *"
               required
-              className="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[rgb(var(--secondary-rgb))] focus:border-transparent"
-            />
+              className="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[rgb(var(--secondary-rgb))] focus:border-transparent" />
           </div>
           <div>
             <input
@@ -51,10 +50,9 @@ const ContactSection03 = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="Your Email*"
+              placeholder="Email *"
               required
-              className="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[rgb(var(--secondary-rgb))] focus:border-transparent"
-            />
+              className="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[rgb(var(--secondary-rgb))] focus:border-transparent" />
           </div>
           <div>
             <input
@@ -62,22 +60,20 @@ const ContactSection03 = () => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="Your Phone*"
+              placeholder="Số điện thoại *"
               required
-              className="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[rgb(var(--secondary-rgb))] focus:border-transparent"
-            />
+              className="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[rgb(var(--secondary-rgb))] focus:border-transparent" />
           </div>
           <div>
             <select
               name="subject"
               value={formData.subject}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[rgb(var(--secondary-rgb))] focus:border-transparent text-gray-500"
-            >
-              <option value="">Subject</option>
-              <option value="general">General Inquiry</option>
-              <option value="support">Support</option>
-              <option value="feedback">Feedback</option>
+              className="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[rgb(var(--secondary-rgb))] focus:border-transparent text-gray-500">
+              <option value="">Ngành nghề</option>
+              <option value="general">IT</option>
+              <option value="support">Marketing</option>
+              <option value="feedback">Designer</option>
             </select>
           </div>
         </div>
@@ -86,16 +82,14 @@ const ContactSection03 = () => {
             name="message"
             value={formData.message}
             onChange={handleChange}
-            placeholder="Message..."
+            placeholder="Nội dung ..."
             rows={6}
-            className="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[rgb(var(--secondary-rgb))] focus:border-transparent resize-none"
-          />
+            className="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[rgb(var(--secondary-rgb))] focus:border-transparent resize-none" />
         </div>
         <div className="flex justify-center">
           <button
             type="submit"
-            className="px-8 py-3 bg-[rgb(var(--secondary-rgb))] text-white font-medium rounded-md hover:opacity-80 transition-colors duration-300"
-          >
+            className="px-8 py-3 bg-[rgb(var(--secondary-rgb))] text-white font-medium rounded-md hover:opacity-80 transition-colors duration-300">
             Get In Touch
           </button>
         </div>
