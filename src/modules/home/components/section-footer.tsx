@@ -1,8 +1,8 @@
 'use client'
-
 import React from 'react';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 const SectionFooter = () => {
     return (
@@ -16,18 +16,21 @@ const SectionFooter = () => {
             <div className="container mx-auto px-4">
                 <div className="max-w-3xl mx-auto text-center space-y-8">
                     <h2 className="text-2xl md:text-4xl lg:text-4xl font-bold text-white leading-tight">
-                        Đăng ký dịch vụ của chúng tôi thông qua email, bạn sẽ nhận được nhiều ưu đãi
+                        Liên hệ để được tư vấn cụ thể
                     </h2>
-                    <form className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
-                        <Input
-                            type="email"
-                            placeholder="Nhập email của bạn"
-                            className="flex-1 h-12 bg-[rgb(var(--secondary-rgb))] border-white/50 text-white placeholder:text-white" />
-                        <Button
-                            type="submit"
-                            className="h-12 px-8 bg-white text-[rgb(var(--secondary-rgb))] hover:bg-amber-50 font-semibold">
-                            Đăng ký
-                        </Button>
+                    <form onSubmit={(e) => { e.preventDefault(); alert('INBOX ZALO clicked!'); }}>
+                        <div className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                            <Input
+                                type="number"
+                                placeholder="Kết bạn 0939217718"
+                                className="flex-1 h-12 bg-[rgb(var(--secondary-rgb))] border-white/50 text-white placeholder:text-white"
+                            />
+                            <Button
+                                type="submit"
+                                className="h-12 px-8 bg-white text-[rgb(var(--secondary-rgb))] hover:bg-amber-50 font-semibold cursor-pointer">
+                                INBOX ZALO
+                            </Button>
+                        </div>
                     </form>
                 </div>
             </div>

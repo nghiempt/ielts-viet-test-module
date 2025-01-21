@@ -74,7 +74,7 @@ export default function Section06() {
   }, []);
 
   return (
-    <main className="flex flex-col items-center justify-between mb-8">
+    <main className="max-w-[1138px] mx-auto flex flex-col items-center justify-between mb-8">
       <div className="text-center mb-10 mt-8">
         <p className="text-[rgb(var(--secondary-rgb))] text-lg font-semibold mb-3">
           Trung Tâm

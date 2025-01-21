@@ -25,12 +25,12 @@ const courses: Course[] = [
         title: "Khoá Học IELTS Cấp Tốc Dành Cho Người Tìm Việc Làm",
         price: 8900000,
         instructor: {
-            name: "Thầy Trường Hoàng Hậu",
+            name: "Thầy Trương Hoàng Hậu",
             avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png",
             rating: 4.5,
         },
         studentsCount: 8,
-        lessonsCount: 25,
+        lessonsCount: 30,
         image: "https://res.cloudinary.com/farmcode/image/upload/v1737442215/ielts-viet/x3vh4zoqu4wrx64ua4ux.png",
     },
     {
@@ -38,25 +38,64 @@ const courses: Course[] = [
         title: "Khoá học Ielts Online",
         price: 11900000,
         instructor: {
-            name: "Thầy Trường Hoàng Hậu",
+            name: "Cô Trinh",
             avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png",
             rating: 4.5,
         },
         studentsCount: 8,
-        lessonsCount: 25,
+        lessonsCount: 30,
         image: "https://res.cloudinary.com/farmcode/image/upload/v1737442238/ielts-viet/zplfykopocpkhtvpy08q.png",
     },
     {
         id: 3,
-        title: "Khoá học IELTS 1 Kèm 1",
+        title: "Khoá học IELTS 1:1",
         price: 20000000,
         instructor: {
-            name: "Thầy Trường Hoàng Hậu",
+            name: "Cô Thư",
             avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png",
             rating: 4.5,
         },
         studentsCount: 8,
-        lessonsCount: 25,
+        lessonsCount: 30,
+        image: "https://res.cloudinary.com/farmcode/image/upload/v1737442235/ielts-viet/u6vwhbgt5zuvtz4gwsjt.png",
+    },
+    {
+        id: 4,
+        title: "Khoá học Nghe - Nói tiếng Anh thật sự",
+        price: 8900000,
+        instructor: {
+            name: "Thầy Lâm Tiến Thành",
+            avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png",
+            rating: 4.5,
+        },
+        studentsCount: 8,
+        lessonsCount: 30,
+        image: "https://res.cloudinary.com/farmcode/image/upload/v1737442215/ielts-viet/x3vh4zoqu4wrx64ua4ux.png",
+    },
+    {
+        id: 5,
+        title: "Khoá học bám sát chương trình đang học",
+        price: 11900000,
+        instructor: {
+            name: "Cô Lê Đức Anh Thư",
+            avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png",
+            rating: 4.5,
+        },
+        studentsCount: 8,
+        lessonsCount: 30,
+        image: "https://res.cloudinary.com/farmcode/image/upload/v1737442238/ielts-viet/zplfykopocpkhtvpy08q.png",
+    },
+    {
+        id: 6,
+        title: "Khoá học đặc biệt chỉ có tại IELTS Việt",
+        price: 20000000,
+        instructor: {
+            name: "Cô Trân",
+            avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png",
+            rating: 4.5,
+        },
+        studentsCount: 8,
+        lessonsCount: 30,
         image: "https://res.cloudinary.com/farmcode/image/upload/v1737442235/ielts-viet/u6vwhbgt5zuvtz4gwsjt.png",
     },
 ];
@@ -66,11 +105,8 @@ const Section04 = () => {
         <section className="w-full">
             <div className="space-y-12">
                 <div className="text-center">
-                    <p className="text-[rgb(var(--secondary-rgb))] text-md lg:text-lg font-semibold mb-3">
-                        Danh Sách Khoá Học
-                    </p>
                     <div className="relative inline-block">
-                        <h2 className="text-4xl lg:text-5xl font-bold">
+                        <h2 className="text-4xl lg:text-5xl font-bold mt-2">
                             Khoá Học Nổi Bật
                         </h2>
                         <div className="hidden lg:flex absolute top-1/2 right-0 w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
@@ -87,9 +123,6 @@ const Section04 = () => {
                                         className="w-full h-56 transform transition-transform duration-500 group-hover:scale-105  object-cover"
                                         width={400}
                                         height={200} />
-                                    <div className="absolute top-4 right-4 bg-[rgb(var(--quaternary-rgb))] text-gray-700 rounded-full py-1 px-4 font-semibold">
-                                        {HELPER.formatVND(course?.price)}
-                                    </div>
                                 </div>
                                 <div className="p-6 space-y-4">
                                     <div className="flex items-center gap-2">

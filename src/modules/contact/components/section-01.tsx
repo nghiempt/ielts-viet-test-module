@@ -7,7 +7,7 @@ interface ContactCardProps {
 }
 
 const ContactCard = ({ icon, title, details }: ContactCardProps) => (
-  <div className="bg-white border border-gray-200 p-20 rounded-lg shadow-sm flex flex-col items-center text-center">
+  <div className="bg-white border border-gray-200 py-20 px-10 rounded-lg shadow-sm flex flex-col items-center text-center">
     <div className="bg-gray-100 p-4 rounded-full mb-4">
       {icon}
     </div>
@@ -32,7 +32,7 @@ const ContactSection01 = () => {
             </svg>
           }
           title="Địa chỉ"
-          details={['2 Cơ Sở', 'Ninh Kiều, Cần Thơ']} />
+          details={['Cơ sở 1: Số 106, Nguyễn Minh Quang, P. An Khánh, Q. Ninh Kiều, TPCT', 'Cơ sở 2: Số 172C, Nguyễn Tri Phương, P. An Khánh, Q. Ninh Kiều, TPCT']} />
         <ContactCard
           icon={
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,7 +40,7 @@ const ContactSection01 = () => {
             </svg>
           }
           title="Email"
-          details={['dangkykhoahoc@ieltsviet.edu.vn', 'hello@ieltsviet.edu.vn']} />
+          details={['thayhauieltsct@gmail.com', '']} />
         <ContactCard
           icon={
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -48,7 +48,7 @@ const ContactSection01 = () => {
             </svg>
           }
           title="Điện thoại"
-          details={['+84 939.217.718']} />
+          details={['0939.217.718']} />
       </div>
     </div>
   );

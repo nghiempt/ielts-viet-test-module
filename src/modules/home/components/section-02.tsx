@@ -8,19 +8,27 @@ const Section02 = () => {
             <div className="space-y-12">
                 <div className="text-center mx-5">
                     <p className="text-[rgb(var(--secondary-rgb))] text-lg font-semibold mb-3">
-                    Chúng tôi hoàn toàn đảm bảo
+                        Chúng tôi hoàn toàn đảm bảo
                     </p>
                     <div className="relative inline-block">
                         <h2 className="text-4xl lg:text-5xl font-bold leading-snug">
-                        Kết Quả IELTS Và Kỹ Năng Nghe Nói Của Bạn
+                            Kết Quả IELTS Và Kỹ Năng Nghe Nói Của Bạn
                         </h2>
                         <div className="hidden lg:flex absolute top-1/2 right-0 w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
                     </div>
                 </div>
                 <div className="mx-6 lg:mx-28">
                     <p className="text-center">
-                    Chúng tôi xác định rõ nền tảng tiếng anh ban đầu của bạn. Từ đó chúng tôi sẽ bám sát target của bạn để cùng bạn đạt được target đó theo mong muốn. Lợi ích khi học tiếng anh tại IELTS VIỆT:
+                        Chúng tôi xác định rõ nền tảng tiếng anh ban đầu của bạn. Từ đó chúng tôi sẽ bám sát target của bạn để cùng bạn đạt được target đó theo mong muốn.
                     </p>
+                </div>
+                <div className="text-center mx-5">
+                    <div className="relative inline-block  mt-5">
+                        <h2 className="text-4xl lg:text-5xl font-bold leading-snug">
+                            Lợi ích khi học tiếng anh tại Ielts Việt
+                        </h2>
+                        <div className="hidden lg:flex absolute top-1/2 right-0 w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
+                    </div>
                 </div>
                 <div className="hidden lg:flex flex-row justify-around lg:justify-center items-center mx-4 lg:mx-0 gap-3 lg:gap-16">
                     <div className="flex flex-col lg:flex-row lg:justify-around items-center gap-3 lg:gap-16">

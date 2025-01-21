@@ -1,6 +1,6 @@
 'use client'
 
-import { Component, FolderCode, Target, TvMinimal } from "lucide-react";
+import { BookHeadphones, BookMarked, CircleUser, Component, FolderCode, GraduationCap, Target, TvMinimal } from "lucide-react";
 import Image from "next/image";
 
 interface CourseCategory {
@@ -27,7 +27,7 @@ const categories: CourseCategory[] = [
     },
     {
         id: 'marketing',
-        title: 'Màn Hình, Máy Chiếu',
+        title: 'Đầy đủ thiết bị dạy và học',
         description: 'We are providing you the best Digital Marketing guideline. That help you be professional.',
         icon: (
             <div className="bg-emerald-500 p-4 rounded-full">
@@ -60,6 +60,54 @@ const categories: CourseCategory[] = [
         ),
         backgroundColor: 'bg-white',
         thumbail: 'https://res.cloudinary.com/farmcode/image/upload/v1737435896/ielts-viet/lkqpogc3gwoxyq62r4dl.png',
+    },
+    {
+        id: 'i7',
+        title: 'Góc tự học IELTS',
+        description: 'We are providing you the best Self Improvement guideline. That help you be professional.',
+        icon: (
+            <div className="bg-[#0A3D62] p-4 rounded-full">
+                <div className="text-white"><GraduationCap /></div>
+            </div>
+        ),
+        backgroundColor: 'bg-white',
+        thumbail: 'https://res.cloudinary.com/farmcode/image/upload/v1737435896/ielts-viet/lkqpogc3gwoxyq62r4dl.png',
+    },
+    {
+        id: 'i8',
+        title: 'Tặng tài khoản tự luyện IELTS',
+        description: 'We are providing you the best Self Improvement guideline. That help you be professional.',
+        icon: (
+            <div className="bg-[#868E26] p-4 rounded-full">
+                <div className="text-white"><CircleUser /></div>
+            </div>
+        ),
+        backgroundColor: 'bg-white',
+        thumbail: 'https://res.cloudinary.com/farmcode/image/upload/v1737435896/ielts-viet/lkqpogc3gwoxyq62r4dl.png',
+    },
+    {
+        id: 'i9',
+        title: 'Thực hành nghe nói liên tục',
+        description: 'We are providing you the best Self Improvement guideline. That help you be professional.',
+        icon: (
+            <div className="bg-[#EDD2B5] p-4 rounded-full">
+                <div className="text-white"><BookHeadphones /></div>
+            </div>
+        ),
+        backgroundColor: 'bg-white',
+        thumbail: 'https://res.cloudinary.com/farmcode/image/upload/v1737435896/ielts-viet/lkqpogc3gwoxyq62r4dl.png',
+    },
+    {
+        id: 'i10',
+        title: 'Phòng đọc IELTS',
+        description: 'We are providing you the best Self Improvement guideline. That help you be professional.',
+        icon: (
+            <div className="bg-[#333333] p-4 rounded-full">
+                <div className="text-white"><BookMarked /></div>
+            </div>
+        ),
+        backgroundColor: 'bg-white',
+        thumbail: 'https://res.cloudinary.com/farmcode/image/upload/v1737435896/ielts-viet/lkqpogc3gwoxyq62r4dl.png',
     }
 ];
 
@@ -82,13 +130,10 @@ const Section06 = () => {
                     {categories.map((category) => (
                         <div
                             key={category.id}
-                            className={`flex ${category.backgroundColor} rounded-lg p-4 border border-gray-200 hover:shadow-md transition-shadow duration-300 cursor-pointer mx-2 lg:mx-0`}>
+                            className={`flex ${category.backgroundColor} justify-between rounded-lg p-4 border border-gray-200 hover:shadow-md transition-shadow duration-300 cursor-pointer mx-2 lg:mx-0`}>
                             <div className="flex flex-col items-start gap-4 p-4">
                                 {category.icon}
                                 <h3 className="text-xl font-bold">{category.title}</h3>
-                                <p className="text-gray-600 text-sm">
-                                    {category.description}
-                                </p>
                             </div>
                             <Image
                                 src={category.thumbail}

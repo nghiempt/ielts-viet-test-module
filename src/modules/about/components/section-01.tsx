@@ -14,7 +14,7 @@ const Section01 = () => {
                         <h2 className="text-4xl lg:text-5xl font-bold">
                             Luyện IELTS Cam Kết Đầu Ra
                         </h2>
-                        <div className="absolute top-[73%] lg:top-1/2 right-[20%] lg:right-0 w-16 lg:w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
+                        <div className="hidden lg:absolute top-[73%] lg:top-1/2 right-[20%] lg:right-0 w-16 lg:w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
                     </div>
                 </div>
                 <div className="mx-2 lg:mx-36">
