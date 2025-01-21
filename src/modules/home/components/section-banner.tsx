@@ -28,7 +28,7 @@ const SectionBanner = () => {
                         </h1>
                     </div>
                     <p className="text-gray-600 text-lg">
-                        Trải nghiệm IELTS cùng các giảng viên có nhiều kinh nghiệm với sự chăm sóc đặc biệt của trung tâm.
+                    Tham gia học IELTS cùng đội ngũ giảng viên giàu kinh nghiệm, bạn sẽ được hướng dẫn tận tình với phương pháp giảng dạy hiện đại. Trung tâm cung cấp môi trường học tập chuyên nghiệp, tài liệu đa dạng và sự hỗ trợ chu đáo. Đây là cơ hội để bạn cải thiện kỹ năng tiếng Anh và đạt điểm IELTS như mong muốn.
                     </p>
                     <div className="flex items-center gap-4">
                         <Button onClick={() => window.open("https://www.facebook.com/profile.php?id=61550718094576")} className="text-[16px] rounded-full px-10 bg-[rgb(var(--secondary-rgb))] hover:bg-[rgb(var(--secondary-rgb))] hover:opacity-80 text-white">
@@ -54,11 +54,11 @@ const SectionBanner = () => {
                 </div>
                 <div className="relative">
                     <Image
-                        src="https://res.cloudinary.com/farmcode/image/upload/v1736620702/ielts-viet/website-thumbnail_uqdu6b.png"
+                        src="https://res.cloudinary.com/farmcode/image/upload/v1737483656/ielts-viet/laf9k72mi5e4bac3rxds.jpg"
                         alt="alt"
                         className="w-full object-cover rounded-lg"
                         width={400}
-                        height={200}
+                        height={100}
                     />
                     {/* <div className="bg-[rgb(var(--secondary-rgb))] rounded-3xl p-8 text-white relative overflow-hidden">
                         <div className="space-y-6 max-w-md">

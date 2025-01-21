@@ -19,23 +19,23 @@ const testimonials: Testimonial[] = [
         role: 'THPT Long An',
         rating: 5.0,
         comment: "Mình đã tham gia khoá học 1:1 cấp tốc tại Trung Tâm IELTS VIỆT trong 7 tuần. Giáo trình được thiết kế riêng theo năng lực cá nhân, giúp mình tiến bộ rõ rệt trong thời gian ngắn.",
-        imageUrl: 'https://res.cloudinary.com/farmcode/image/upload/v1737017655/ielts-viet/tkrtg2nekaldxkosyx5l.png'
+        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtV9gfYw0MLRJDCzusdtjAn3jJqZoMgAMjU8BZj7cD5XLm8Zj-hFNOem5kPPj5IiUIJp8&usqp=CAU'
     },
     {
         id: '2',
         name: 'Quốc Khánh',
-        role: 'ĐH Y Dược Cần Thơ',
+        role: 'Đại Học Y Dược Cần Thơ',
         rating: 5.0,
         comment: "Trải nghiệm học tập tại Trung Tâm IELTS VIỆT thực sự rất hiệu quả. Khoá học 1:1 cấp tốc trong 7 tuần đã giúp mình tự tin hơn rất nhiều với lộ trình học phù hợp và sự hỗ trợ tận tâm từ giáo viên.",
-        imageUrl: 'https://res.cloudinary.com/farmcode/image/upload/v1737442359/ielts-viet/pai7wqhbz8t9xwodyzdy.png'
+        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-Ybci_L25OcWJhFyrcmoR4q_vsqoAtT_Qug&s'
     },
     {
         id: '3',
         name: 'Nguyễn Hiếu',
-        role: 'ĐH FPT',
+        role: 'Đại Học FPT Cần Thơ',
         rating: 5.0,
         comment: "Mình cảm thấy rất hài lòng khi học tại Trung Tâm IELTS VIỆT. Khoá học 1:1 cấp tốc không chỉ giúp mình đạt được mục tiêu mà còn xây dựng sự tự tin khi sử dụng tiếng Anh.",
-        imageUrl: 'https://res.cloudinary.com/farmcode/image/upload/v1737442364/ielts-viet/wwzzvgu1hu0uecizexkb.png'
+        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4XD7_BX8gEe9eGvr0FktdJ5dYmgxtBDXE9WQN7cwOTea2FNJ-5ls3ckVvZKg4ApJTF3o&usqp=CAU'
     }
 ];
 

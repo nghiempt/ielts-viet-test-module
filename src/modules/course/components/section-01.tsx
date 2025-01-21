@@ -35,78 +35,78 @@ const courses: Course[] = [
         title: "Khoá Học IELTS Cấp Tốc Dành Cho Người Tìm Việc Làm",
         price: 8900000,
         instructor: {
-            name: "Thầy Trường Hoàng Hậu",
-            avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png",
-            rating: 4.5,
+            name: "Thầy Trương Hoàng Hậu",
+            avatar: "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+            rating: 5.0,
         },
         studentsCount: 8,
-        lessonsCount: 25,
-        image: "https://res.cloudinary.com/farmcode/image/upload/v1737442215/ielts-viet/x3vh4zoqu4wrx64ua4ux.png",
+        lessonsCount: 30,
+        image: "https://res.cloudinary.com/farmcode/image/upload/v1737486040/ielts-viet/wfrjklqjato60wjicrvo.jpg",
     },
     {
         id: 2,
-        title: "Khoá học Ielts Online",
+        title: "Khoá Học IELTS Online",
         price: 11900000,
         instructor: {
-            name: "Thầy Trường Hoàng Hậu",
-            avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png",
-            rating: 4.5,
+            name: "Cô Trinh",
+            avatar: "https://cdn-icons-png.flaticon.com/128/6997/6997662.png",
+            rating: 5.0,
         },
         studentsCount: 8,
-        lessonsCount: 25,
-        image: "https://res.cloudinary.com/farmcode/image/upload/v1737442238/ielts-viet/zplfykopocpkhtvpy08q.png",
+        lessonsCount: 30,
+        image: "https://res.cloudinary.com/farmcode/image/upload/v1737486039/ielts-viet/gz4p8bu280kvelkvrb6n.jpg",
     },
     {
         id: 3,
-        title: "Khoá học IELTS 1 Kèm 1",
+        title: "Khoá Học IELTS 1:1",
         price: 20000000,
         instructor: {
-            name: "Thầy Trường Hoàng Hậu",
-            avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png",
-            rating: 4.5,
+            name: "Cô Thư",
+            avatar: "https://cdn-icons-png.flaticon.com/128/6997/6997662.png",
+            rating: 5.0,
         },
         studentsCount: 8,
-        lessonsCount: 25,
-        image: "https://res.cloudinary.com/farmcode/image/upload/v1737442235/ielts-viet/u6vwhbgt5zuvtz4gwsjt.png",
+        lessonsCount: 30,
+        image: "https://res.cloudinary.com/farmcode/image/upload/v1737486037/ielts-viet/hgio2d2k9zx6xhc8pens.jpg",
     },
     {
-        id: 1,
-        title: "Khoá Học IELTS Cấp Tốc Dành Cho Người Tìm Việc Làm",
+        id: 4,
+        title: "Khoá Học Nghe - Nói Tiếng Anh Thật Sự",
         price: 8900000,
         instructor: {
-            name: "Thầy Trường Hoàng Hậu",
-            avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png",
-            rating: 4.5,
+            name: "Thầy Lâm Tiến Thành",
+            avatar: "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+            rating: 5.0,
         },
         studentsCount: 8,
-        lessonsCount: 25,
-        image: "https://res.cloudinary.com/farmcode/image/upload/v1737442215/ielts-viet/x3vh4zoqu4wrx64ua4ux.png",
+        lessonsCount: 30,
+        image: "https://res.cloudinary.com/farmcode/image/upload/v1737486038/ielts-viet/gwpwwwlvavk2fnqvxoq4.jpg",
     },
     {
-        id: 2,
-        title: "Khoá học Ielts Online",
+        id: 5,
+        title: "Khoá Học Bám Sát Chương Trình Đang Học",
         price: 11900000,
         instructor: {
-            name: "Thầy Trường Hoàng Hậu",
-            avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png",
-            rating: 4.5,
+            name: "Cô Lê Đức Anh Thư",
+            avatar: "https://cdn-icons-png.flaticon.com/128/6997/6997662.png",
+            rating: 5.0,
         },
         studentsCount: 8,
-        lessonsCount: 25,
-        image: "https://res.cloudinary.com/farmcode/image/upload/v1737442238/ielts-viet/zplfykopocpkhtvpy08q.png",
+        lessonsCount: 30,
+        image: "https://res.cloudinary.com/farmcode/image/upload/v1737486037/ielts-viet/vch5bl4ewxhm0noznds6.jpg",
     },
     {
-        id: 3,
-        title: "Khoá học IELTS 1 Kèm 1",
+        id: 6,
+        title: "Khoá Học Đặc Biệt Chỉ Có Tại IELTS Việt",
         price: 20000000,
         instructor: {
-            name: "Thầy Trường Hoàng Hậu",
-            avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png",
-            rating: 4.5,
+            name: "Cô Trân",
+            avatar: "https://cdn-icons-png.flaticon.com/128/6997/6997662.png",
+            rating: 5.0,
         },
         studentsCount: 8,
-        lessonsCount: 25,
-        image: "https://res.cloudinary.com/farmcode/image/upload/v1737442235/ielts-viet/u6vwhbgt5zuvtz4gwsjt.png",
+        lessonsCount: 30,
+        image: "https://res.cloudinary.com/farmcode/image/upload/v1737486036/ielts-viet/mplejel4nxfszo5h22bb.jpg",
     },
 ];
 
@@ -138,9 +138,9 @@ const Section01 = () => {
                                                 className="w-full h-56 transform transition-transform duration-500 group-hover:scale-105 object-cover"
                                                 width={400}
                                                 height={200} />
-                                            <div className="absolute top-4 right-4 bg-[rgb(var(--quaternary-rgb))] text-gray-700 rounded-full py-1 px-4 font-semibold">
+                                            {/* <div className="absolute top-4 right-4 bg-[rgb(var(--quaternary-rgb))] text-gray-700 rounded-full py-1 px-4 font-semibold">
                                                 {HELPER.formatVND(course?.price)}
-                                            </div>
+                                            </div> */}
                                         </div>
                                         <div className="p-6 space-y-4">
                                             <div className="flex items-center gap-2">

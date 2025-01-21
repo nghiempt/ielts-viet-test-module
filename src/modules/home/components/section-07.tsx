@@ -14,26 +14,26 @@ interface BlogPost {
 const blogPosts: BlogPost[] = [
     {
         id: '1',
-        title: 'Tổng hợp tài liệu luyện thi IELTS cho học sinh cấp 2 hiệu quả',
+        title: 'Tài liệu luyện thi IELTS dành riêng cho học sinh cấp 2 - Đạt hiệu quả cao',
         date: '16 / 01 / 2025',
         author: 'Thuỳ Trang',
-        imageUrl: 'https://res.cloudinary.com/farmcode/image/upload/v1737442529/ielts-viet/ypjyepv8qjue5renn4dz.png',
+        imageUrl: 'https://plus.unsplash.com/premium_photo-1666739032615-ecbd14dfb543?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZW5nbGlzaHxlbnwwfHwwfHx8MA%3D%3D',
         link: '#'
     },
     {
         id: '2',
-        title: 'Top 19 sách học IELTS cho người mất gốc hay nhất',
+        title: 'Danh sách 19 sách học IELTS dành cho người mới bắt đầu - Lựa chọn hàng đầu',
         date: '16 / 01 / 2025',
         author: 'Kim Hoàng',
-        imageUrl: 'https://res.cloudinary.com/farmcode/image/upload/v1737442536/ielts-viet/oqof1iwynzxywfbs0tdz.png',
+        imageUrl: 'https://images.unsplash.com/photo-1543165796-5426273eaab3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZW5nbGlzaHxlbnwwfHwwfHx8MA%3D%3D',
         link: '#'
     },
     {
         id: '3',
-        title: '7 Trang web học IELTS Online miễn phí chất lượng 2025',
+        title: 'Khám phá 7 trang web học IELTS Online miễn phí tốt nhất năm 2025',
         date: '16 / 01 / 2025',
         author: 'Kim Ngân',
-        imageUrl: 'https://res.cloudinary.com/farmcode/image/upload/v1737442538/ielts-viet/vech6qo8wljhccmcwrsh.png',
+        imageUrl: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGVuZ2xpc2h8ZW58MHx8MHx8fDA%3D',
         link: '#'
     }
 ];

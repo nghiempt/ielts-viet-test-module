@@ -1,6 +1,6 @@
 'use client'
 
-import { Component, FolderCode, Target, TvMinimal } from "lucide-react";
+import { Baby, BookOpenCheck, Component, Earth, FolderCode, Gem, GraduationCap, Target, TvMinimal } from "lucide-react";
 
 
 interface CourseCategory {
@@ -14,66 +14,66 @@ interface CourseCategory {
 const categories: CourseCategory[] = [
     {
         id: 'uiux',
-        title: 'Luyện thi IELTS các cấp độ từ FOUNDATION - BAND 7.5',
+        title: 'Luyện Thi IELTS Các Cấp Độ Từ FOUNDATION - BAND 7.5',
         description: 'Luyện thi IELTS các cấp độ từ FOUNDATION - BAND 7.5',
         icon: (
             <div className="bg-yellow-400 p-4 rounded-full">
-                <div className="text-white font-bold"><Component /></div>
+                <div className="text-white font-bold">7.5</div>
             </div>
         ),
         backgroundColor: 'bg-white'
     },
     {
         id: 'marketing',
-        title: 'Luyện thi chứng chỉ quốc tế TOEIC',
+        title: 'Luyện Thi Chứng Chỉ Quốc Tế TOEIC',
         description: 'Rút ngắn tối đa thời gian học Cam kết điểm đẩu ra IELTS 7.0+ Học IELTS linh hoạt theo lịch rảnh Sỉ số lớp chỉ từ 4-8 HV.',
         icon: (
             <div className="bg-emerald-500 p-4 rounded-full">
-                <div className="text-white"><TvMinimal /></div>
+                <div className="text-white"><BookOpenCheck /></div>
             </div>
         ),
         backgroundColor: 'bg-white'
     },
     {
         id: 'development',
-        title: 'Giao tiếp quốc tế',
+        title: 'Giao Tiếp Quốc Tế',
         description: 'Rút ngắn tối đa thời gian học Cam kết điểm đẩu ra IELTS 7.0+ Học IELTS linh hoạt theo lịch rảnh Sỉ số lớp chỉ từ 4-8 HV.',
         icon: (
             <div className="bg-blue-600 p-4 rounded-full">
-                <div className="text-white"><FolderCode /></div>
+                <div className="text-white"><Earth /></div>
             </div>
         ),
         backgroundColor: 'bg-white'
     },
     {
         id: 'improvement',
-        title: 'Tiếng anh bám sát chương trình phổ thông',
+        title: 'Tiếng Anh Bám Sát Chương Trình Phổ Thông',
         description: 'Rút ngắn tối đa thời gian học Cam kết điểm đẩu ra IELTS 7.0+ Học IELTS linh hoạt theo lịch rảnh Sỉ số lớp chỉ từ 4-8 HV.',
         icon: (
             <div className="bg-pink-500 p-4 rounded-full">
-                <div className="text-white"><Target /></div>
+                <div className="text-white"><GraduationCap /></div>
             </div>
         ),
         backgroundColor: 'bg-white'
     },
     {
         id: 'improvement',
-        title: 'Tiếng anh trẻ em',
+        title: 'Tiếng Anh Trẻ Em',
         description: 'Rút ngắn tối đa thời gian học Cam kết điểm đẩu ra IELTS 7.0+ Học IELTS linh hoạt theo lịch rảnh Sỉ số lớp chỉ từ 4-8 HV.',
         icon: (
-            <div className="bg-pink-500 p-4 rounded-full">
-                <div className="text-white"><Target /></div>
+            <div className="bg-[#006066] p-4 rounded-full">
+                <div className="text-white"><Baby /></div>
             </div>
         ),
         backgroundColor: 'bg-white'
     },
     {
         id: 'improvement',
-        title: 'Lớp đặc biệt',
+        title: 'Lớp Đặc Biệt',
         description: 'Rút ngắn tối đa thời gian học Cam kết điểm đẩu ra IELTS 7.0+ Học IELTS linh hoạt theo lịch rảnh Sỉ số lớp chỉ từ 4-8 HV.',
         icon: (
-            <div className="bg-pink-500 p-4 rounded-full">
-                <div className="text-white"><Target /></div>
+            <div className="bg-[#801E1E] p-4 rounded-full">
+                <div className="text-white"><Gem /></div>
             </div>
         ),
         backgroundColor: 'bg-white'

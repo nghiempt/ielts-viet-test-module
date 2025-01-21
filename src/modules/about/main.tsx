@@ -79,7 +79,7 @@ export default function AboutContent() {
         <div className="w-11/12 py-4">
           <Section06 />
         </div>
-        <div className="w-11/12 pt-8">
+        <div className="w-3/4 pt-8">
           <SectionFooter />
         </div>
       </div>

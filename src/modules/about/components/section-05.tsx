@@ -15,42 +15,42 @@ const teachers: Teacher[] = [
         id: '1',
         name: 'Thầy Trương Hoàng Hậu',
         role: 'Giám Đốc',
-        image: 'https://res.cloudinary.com/farmcode/image/upload/v1737442875/ielts-viet/ppyvsdvahm6b2ljji1jx.png',
+        image: 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png',
         backgroundColor: 'bg-pink-100'
     },
     {
         id: '1',
         name: 'Thầy Lâm Tiến Thành',
         role: 'Giảng viên',
-        image: 'https://res.cloudinary.com/farmcode/image/upload/v1737442875/ielts-viet/ppyvsdvahm6b2ljji1jx.png',
+        image: 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png',
         backgroundColor: 'bg-pink-100'
     },
     {
         id: '1',
         name: 'Cô Thạch Ngọc Trân',
         role: 'Giảng viên',
-        image: 'https://res.cloudinary.com/farmcode/image/upload/v1737442875/ielts-viet/ppyvsdvahm6b2ljji1jx.png',
+        image: 'https://media.istockphoto.com/id/1074273082/pt/vetorial/person-gray-photo-placeholder-woman.jpg?s=612x612&w=0&k=20&c=51rbqtBAgkF-qcwei4zVO7KBGlL6UOldnbUbxRvBHUE=',
         backgroundColor: 'bg-pink-100'
     },
     {
         id: '1',
         name: 'Cô Lê Đức Anh Thư',
         role: 'Giảng viên',
-        image: 'https://res.cloudinary.com/farmcode/image/upload/v1737442875/ielts-viet/ppyvsdvahm6b2ljji1jx.png',
+        image: 'https://media.istockphoto.com/id/1074273082/pt/vetorial/person-gray-photo-placeholder-woman.jpg?s=612x612&w=0&k=20&c=51rbqtBAgkF-qcwei4zVO7KBGlL6UOldnbUbxRvBHUE=',
         backgroundColor: 'bg-pink-100'
     },
     {
         id: '1',
         name: 'Cô Võ Minh Thư',
         role: 'Giảng viên',
-        image: 'https://res.cloudinary.com/farmcode/image/upload/v1737442875/ielts-viet/ppyvsdvahm6b2ljji1jx.png',
+        image: 'https://media.istockphoto.com/id/1074273082/pt/vetorial/person-gray-photo-placeholder-woman.jpg?s=612x612&w=0&k=20&c=51rbqtBAgkF-qcwei4zVO7KBGlL6UOldnbUbxRvBHUE=',
         backgroundColor: 'bg-cyan-100'
     },
     {
         id: 'courtney',
         name: 'Cô Phương Trinh',
         role: 'Giảng viên',
-        image: 'https://res.cloudinary.com/farmcode/image/upload/v1737442875/ielts-viet/ppyvsdvahm6b2ljji1jx.png',
+        image: 'https://media.istockphoto.com/id/1074273082/pt/vetorial/person-gray-photo-placeholder-woman.jpg?s=612x612&w=0&k=20&c=51rbqtBAgkF-qcwei4zVO7KBGlL6UOldnbUbxRvBHUE=',
         backgroundColor: 'bg-sky-100'
     },
 ];
