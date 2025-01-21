@@ -8,18 +8,18 @@ const Section02 = () => {
             <div className="space-y-12">
                 <div className="text-center mx-5">
                     <p className="text-[rgb(var(--secondary-rgb))] text-lg font-semibold mb-3">
-                        Cam kết đầu ra
+                    Chúng tôi hoàn toàn đảm bảo
                     </p>
                     <div className="relative inline-block">
                         <h2 className="text-4xl lg:text-5xl font-bold leading-snug">
-                            Luyện IELTS Cam Kết Đầu Ra
+                        Kết Quả IELTS Và Kỹ Năng Nghe Nói Của Bạn
                         </h2>
                         <div className="hidden lg:flex absolute top-1/2 right-0 w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
                     </div>
                 </div>
-                <div className="mx-6 lg:mx-4">
+                <div className="mx-6 lg:mx-28">
                     <p className="text-center">
-                        Trải nghiệm chương trình luyện thi IELTS hoàn toàn mới được thiết kế đặc biệt bởi các chuyên gia IELTS hàng đầu tại trung tâm IELTS CITY. Khoá học IELTS theo mô hình nhóm nhỏ, sĩ số ít chỉ từ 4-8 học viên, giúp học viên đạt & vượt điểm IELTS trong thời gian nhanh nhất, đồng thời phát triển vượt bậc các kĩ năng Anh ngữ trong môi trường học sáng tạo bậc nhất hiện nay!
+                    Chúng tôi xác định rõ nền tảng tiếng anh ban đầu của bạn. Từ đó chúng tôi sẽ bám sát target của bạn để cùng bạn đạt được target đó theo mong muốn. Lợi ích khi học tiếng anh tại IELTS VIỆT:
                     </p>
                 </div>
                 <div className="hidden lg:flex flex-row justify-around lg:justify-center items-center mx-4 lg:mx-0 gap-3 lg:gap-16">
@@ -33,7 +33,7 @@ const Section02 = () => {
                                     width={400}
                                     height={200} />
                             </div>
-                            <div className="text-sm text-center">Học Bổng Du Học</div>
+                            <div className="text-sm text-center">Giao Tiếp Thật Sự</div>
                         </div>
                         <div className="flex flex-row justify-center items-center gap-3 cursor-pointer hover-container">
                             <div className="rounded-full bg-[#DEF2ED] p-[15px] pt-[16.5px] w-14 h-14 circle flex justify-center items-center">
@@ -44,7 +44,7 @@ const Section02 = () => {
                                     width={400}
                                     height={200} />
                             </div>
-                            <div className="text-sm text-center">Định Cư Nước Ngoài</div>
+                            <div className="text-sm text-center">Đạt IELTS mong muốn</div>
                         </div>
                     </div>
                     <div className="flex flex-col lg:flex-row lg:justify-around items-center gap-3 lg:gap-16">
@@ -57,7 +57,7 @@ const Section02 = () => {
                                     width={400}
                                     height={200} />
                             </div>
-                            <div className="text-sm text-center">Xét Tuyển Đại Học</div>
+                            <div className="text-sm text-center">Bám Sát Tiến Độ</div>
                         </div>
                         <div className="flex flex-row justify-center items-center gap-3 cursor-pointer hover-container">
                             <div className="rounded-full bg-[#DEF2ED] p-[15px] pt-[16.5px] w-14 h-14 circle flex justify-center items-center">
@@ -68,7 +68,7 @@ const Section02 = () => {
                                     width={400}
                                     height={200} />
                             </div>
-                            <div className="text-sm text-center">Cơ Hội Việc Làm</div>
+                            <div className="text-sm text-center">Cơ Hội Quốc Tế</div>
                         </div>
                     </div>
                 </div>
