@@ -2,7 +2,7 @@
 
 const ContactSection04 = () => {
   return (
-    <div className="w-10/12 lg:w-3/4 grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div className="w-full px-5 lg:px-0 grid grid-cols-1 lg:grid-cols-2 gap-8">
       <div className="flex flex-col gap-3">
         <div className="text-xl font-medium bg-[rgb(var(--quaternary-rgb))] rounded-md py-2 pl-4 text-[rgb(var(--secondary-rgb))]">Địa chỉ Cơ sở 1</div>
         <div className="w-1/2 lg:w-full" style={{ width: "100%" }}>

@@ -35,7 +35,7 @@ const Marquee = () => {
   }
 
   return (
-    <section className="w-full py-8 overflow-hidden">
+    <section className="w-full py-0 lg:py-8 overflow-hidden">
       <div className="hidden lg:flex justify-center items-center gap-4 whitespace-nowrap">
         <FastMarquee loop={0} speed={70}>
           {Array.from({ length: 10 }).map((_, index) => (
@@ -51,13 +51,13 @@ const Marquee = () => {
         </FastMarquee>
       </div>
       <div className="flex lg:hidden justify-center items-center gap-4 whitespace-nowrap">
-        <FastMarquee loop={0} speed={100}>
+        <FastMarquee loop={0} speed={70}>
           {Array.from({ length: 10 }).map((_, index) => (
             <Image
               key={`marquee-image-${index}`}
               src={getRandomItem(myArray)}
               alt="alt"
-              className="w-32 h-20 object-cover rounded-lg mr-10"
+              className="w-40 h-28 object-cover rounded-lg mr-10"
               width={1000}
               height={1000}
             />

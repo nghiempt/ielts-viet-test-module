@@ -82,16 +82,16 @@ const categories: CourseCategory[] = [
 
 const Section03 = () => {
     return (
-        <div className="max-w-[1138px] mx-auto px-0 lg:px-1">
+        <div className="max-w-[1138px] mx-auto px-0 lg:px-0">
             <div className="text-center mb-12">
                 <div className="relative inline-block mx-5">
                     <h2 className="text-4xl lg:text-5xl font-bold">
                         Các Khoá Học Tại IELTS VIET
                     </h2>
-                    <div className="absolute top-[73%] lg:top-1/2 right-[25%] lg:right-0 w-16 lg:w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
+                    <div className="hidden lg:flex absolute top-[73%] lg:top-1/2 right-[25%] lg:right-0 w-16 lg:w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
                 </div>
             </div>
-            <div className="relative mx-5">
+            <div className="relative mx-5 lg:mx-0">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {categories.map((category) => (
                         <div

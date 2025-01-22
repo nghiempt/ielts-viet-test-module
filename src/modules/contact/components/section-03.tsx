@@ -31,7 +31,7 @@ const ContactSection03 = () => {
   };
 
   return (
-    <div className="w-10/12 lg:w-3/4 mx-auto bg-white">
+    <div className="w-full px-5 lg:px-0 mx-auto bg-white">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>

@@ -17,13 +17,13 @@ const Section01 = () => {
                         <div className="hidden lg:flex absolute top-1/2 right-0 w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
                     </div>
                 </div>
-                <div className="mx-6 lg:mx-0">
+                <div className="mx-6 lg:mx-28">
                     <p className="text-center">
                         Chúng tôi luôn bắt đầu bằng việc đánh giá và xác định rõ ràng nền tảng tiếng Anh hiện tại của bạn để hiểu rõ điểm mạnh cũng như những kỹ năng cần cải thiện. Dựa trên kết quả này, chúng tôi sẽ thiết kế lộ trình học tập phù hợp, bám sát mục tiêu cụ thể mà bạn đặt ra. Trong suốt quá trình, đội ngũ giảng viên và nhân viên hỗ trợ sẽ đồng hành cùng bạn, giúp bạn từng bước tiến gần hơn đến target mong muốn. Chúng tôi tin rằng với sự nỗ lực và phương pháp học tập đúng đắn, bạn sẽ đạt được thành công như kỳ vọng.
                     </p>
                 </div>
                 <div className="text-center mx-5">
-                    <div className="relative inline-block  mt-5">
+                    <div className="relative inline-block mt-5">
                         <h2 className="text-2xl lg:text-3xl font-bold leading-snug">
                             Lợi ích khi học tiếng anh tại IELTS VIỆT
                         </h2>

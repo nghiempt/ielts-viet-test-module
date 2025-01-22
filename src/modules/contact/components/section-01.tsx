@@ -22,7 +22,7 @@ const ContactCard = ({ icon, title, details }: ContactCardProps) => (
 
 const ContactSection01 = () => {
   return (
-    <div className="w-10/12 lg:w-3/4">
+    <div className="w-full px-5 lg:px-0">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <ContactCard
           icon={

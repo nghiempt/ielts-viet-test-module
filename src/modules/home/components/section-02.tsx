@@ -19,11 +19,11 @@ const Section02 = () => {
                 </div>
                 <div className="mx-6 lg:mx-28">
                     <p className="text-center">
-                    Chúng tôi luôn bắt đầu bằng việc đánh giá và xác định rõ ràng nền tảng tiếng Anh hiện tại của bạn để hiểu rõ điểm mạnh cũng như những kỹ năng cần cải thiện. Dựa trên kết quả này, chúng tôi sẽ thiết kế lộ trình học tập phù hợp, bám sát mục tiêu cụ thể mà bạn đặt ra. Trong suốt quá trình, đội ngũ giảng viên và nhân viên hỗ trợ sẽ đồng hành cùng bạn, giúp bạn từng bước tiến gần hơn đến target mong muốn. Chúng tôi tin rằng với sự nỗ lực và phương pháp học tập đúng đắn, bạn sẽ đạt được thành công như kỳ vọng.
+                        Chúng tôi luôn bắt đầu bằng việc đánh giá và xác định rõ ràng nền tảng tiếng Anh hiện tại của bạn để hiểu rõ điểm mạnh cũng như những kỹ năng cần cải thiện. Dựa trên kết quả này, chúng tôi sẽ thiết kế lộ trình học tập phù hợp, bám sát mục tiêu cụ thể mà bạn đặt ra. Trong suốt quá trình, đội ngũ giảng viên và nhân viên hỗ trợ sẽ đồng hành cùng bạn, giúp bạn từng bước tiến gần hơn đến target mong muốn. Chúng tôi tin rằng với sự nỗ lực và phương pháp học tập đúng đắn, bạn sẽ đạt được thành công như kỳ vọng.
                     </p>
                 </div>
                 <div className="text-center mx-5">
-                    <div className="relative inline-block  mt-5">
+                    <div className="relative inline-block mt-5">
                         <h2 className="text-2xl lg:text-3xl font-bold leading-snug">
                             Lợi ích khi học tiếng anh tại IELTS VIỆT
                         </h2>
@@ -79,7 +79,7 @@ const Section02 = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex lg:hidden flex-col justify-around lg:justify-center items-start mx-4 lg:mx-0 gap-3 lg:gap-16">
+                <div className="flex lg:hidden flex-col justify-around lg:justify-center items-start mx-4 lg:mx-0 gap-3 lg:gap-16 pb-4">
                     <div className="w-full flex flex-col lg:flex-row lg:justify-around items-center gap-3 lg:gap-16 px-8">
                         <div className="w-full flex justify-between items-center">
                             <div className="flex flex-row justify-center items-center gap-3 cursor-pointer hover-container">

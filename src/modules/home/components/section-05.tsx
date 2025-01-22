@@ -70,7 +70,7 @@ const StarRating = ({ rating }: { rating: number }) => {
 
 const Section05 = () => {
     return (
-        <section className="w-screen px-6 lg:px-0 pb-20 pt-12">
+        <section className="w-screen px-6 lg:px-0 pb-12 pt-12">
             <div className="text-center mb-12">
                 <div className="text-center space-y-1">
                     <p className="text-[#eee] text-md lg:text-lg font-semibold mb-3">Thành Tựu Nổi Bật</p>

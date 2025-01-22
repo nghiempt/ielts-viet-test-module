@@ -63,23 +63,23 @@ export default function AboutContent() {
         <div className="lg:w-3/4 py-12">
           <Section01 />
         </div>
-        <div className="lg:w-3/4 py-2 lg:py-8">
+        <div className="lg:w-3/4 py-2 lg:pb-8 lg:pt-6">
           <Section02 />
         </div>
-        <div className="lg:w-3/4 py-12">
+        <div className="lg:w-3/4 pb-12 pt-10">
           <Section03 />
         </div>
-        <div className={`w-full py-12 transition-opacity duration-1000 ${isSection4Visible ? 'opacity-100' : 'opacity-0'}`}
+        <div className={`w-full pt-8 pb-12 transition-opacity duration-1000 ${isSection4Visible ? 'opacity-100' : 'opacity-0'}`}
           ref={section4Ref}>
           <Section04 />
         </div>
         <div className="lg:w-3/4 py-4">
           <Section05 />
         </div>
-        <div className="lg:w-3/4 py-4">
+        <div className="w-full lg:w-3/4 pt-4 pb-2">
           <Section06 />
         </div>
-        <div className="lg:w-3/4 lg:pt-8">
+        <div className="lg:w-3/4 lg:pt-8 px-5 lg:px-0">
           <SectionFooter />
         </div>
       </div>

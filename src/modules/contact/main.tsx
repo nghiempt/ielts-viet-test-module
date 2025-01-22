@@ -31,16 +31,16 @@ export default function ContactContent() {
           <div className="w-32 h-32 border-4 border-yellow-400 rounded-full opacity-20" />
         </div>
       </div>
-      <div className="w-full flex flex-col justify-center items-center gap-4 py-8">
+      <div className="w-full lg:w-3/4 flex flex-col justify-center items-center gap-4 py-8">
         <ContactSection01 />
       </div>
-      <div className="w-full flex flex-col justify-center items-center gap-4 pt-8 pb-12">
+      <div className="w-full lg:w-3/4 flex flex-col justify-center items-center gap-4 pt-8 pb-12">
         <ContactSection02 />
       </div>
-      <div className="w-full flex flex-col justify-center items-center gap-4">
+      <div className="w-full lg:w-3/4 flex flex-col justify-center items-center gap-4">
         <ContactSection03 />
       </div>
-      <div className="w-full flex flex-col justify-center items-center gap-4 pt-20">
+      <div className="w-full lg:w-3/4 flex flex-col justify-center items-center gap-4 pt-20">
         <ContactSection04 />
       </div>
     </main>

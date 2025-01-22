@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 
 const SectionFooter = () => {
     return (
-        <section className="w-[88%] lg:w-[98%] mx-auto bg-[rgb(var(--secondary-rgb))] py-4 lg:py-20 relative overflow-hidden rounded-xl">
+        <section className="w-[100%] lg:w-[100%] mx-auto bg-[rgb(var(--secondary-rgb))] py-4 lg:py-20 relative overflow-hidden rounded-xl">
             <div
                 className="absolute inset-0 opacity-10"
                 style={{

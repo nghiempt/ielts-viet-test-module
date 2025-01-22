@@ -91,7 +91,7 @@ const blogPosts: BlogPost[] = [
 
 const Section01 = () => {
     return (
-        <section className="w-full">
+        <section className="w-full px-2 lg:px-0">
             <div className="text-center mb-12">
                 <p className="text-[rgb(var(--secondary-rgb))] text-md lg:text-lg font-semibold mb-3">
                     Bài Viết Hấp Dẫn
@@ -100,7 +100,7 @@ const Section01 = () => {
                     <h2 className="text-4xl lg:text-5xl font-bold">
                         Danh Sách Các Bài Viết
                     </h2>
-                    <div className="absolute top-[73%] lg:top-1/2 right-[42%] lg:right-0 w-16 lg:w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
+                    <div className="hidden lg:flex absolute top-[73%] lg:top-1/2 right-[42%] lg:right-0 w-16 lg:w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
                 </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-3 lg:mx-0">

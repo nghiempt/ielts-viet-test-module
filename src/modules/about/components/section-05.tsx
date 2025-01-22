@@ -81,7 +81,7 @@ const Section05 = () => {
                     <h2 className="text-4xl lg:text-5xl font-bold">
                         Đội Ngũ Giảng Viên
                     </h2>
-                    <div className="hidden lg:absolute top-1/2 right-4 lg:right-0 w-20 lg:w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
+                    <div className="hidden lg:flex absolute top-1/2 right-4 lg:right-0 w-20 lg:w-32 h-3 bg-[rgb(var(--tertiary-rgb))] opacity-70 -z-10 transform translate-x-6"></div>
                 </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
