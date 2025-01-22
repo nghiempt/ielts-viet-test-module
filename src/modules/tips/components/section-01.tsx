@@ -91,7 +91,7 @@ const blogPosts: BlogPost[] = [
 
 const Section01 = () => {
     return (
-        <section className="w-full px-2.5">
+        <section className="w-full">
             <div className="text-center mb-12">
                 <p className="text-[rgb(var(--secondary-rgb))] text-md lg:text-lg font-semibold mb-3">
                     Bài Viết Hấp Dẫn

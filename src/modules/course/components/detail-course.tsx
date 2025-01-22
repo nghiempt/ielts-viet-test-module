@@ -13,7 +13,7 @@ export default function CourseDetail({ course }: any) {
               src={course.image}
               alt="logo"
               fill
-              className="object-contain"
+              className="object-cover"
             />
           </div>
           <div className="space-y-4 lg:space-y-6 lg:col-span-7">

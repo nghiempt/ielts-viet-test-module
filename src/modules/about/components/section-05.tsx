@@ -75,7 +75,7 @@ const TeacherCard = ({ teacher }: { teacher: Teacher }) => (
 
 const Section05 = () => {
     return (
-        <div className="w-full lg:w-5/6 lg:mx-auto">
+        <div className="w-full lg:mx-auto">
             <div className="text-center mb-16">
                 <div className="relative inline-block">
                     <h2 className="text-4xl lg:text-5xl font-bold">

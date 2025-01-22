@@ -2,9 +2,16 @@
 
 import { Quote, Star } from "lucide-react";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, EffectCoverflow } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-coverflow';
+import '../../../styles/contact.css'
 
 interface Testimonial {
-    id: string;
+    id: number;
     name: string;
     role: string;
     rating: number;
@@ -14,7 +21,7 @@ interface Testimonial {
 
 const testimonials: Testimonial[] = [
     {
-        id: '1',
+        id: 1,
         name: 'Hoài Thương',
         role: 'THPT Long An',
         rating: 5.0,
@@ -22,7 +29,7 @@ const testimonials: Testimonial[] = [
         imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtV9gfYw0MLRJDCzusdtjAn3jJqZoMgAMjU8BZj7cD5XLm8Zj-hFNOem5kPPj5IiUIJp8&usqp=CAU'
     },
     {
-        id: '2',
+        id: 2,
         name: 'Quốc Khánh',
         role: 'Đại Học Y Dược Cần Thơ',
         rating: 5.0,
@@ -30,7 +37,15 @@ const testimonials: Testimonial[] = [
         imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-Ybci_L25OcWJhFyrcmoR4q_vsqoAtT_Qug&s'
     },
     {
-        id: '3',
+        id: 3,
+        name: 'Nguyễn Hiếu',
+        role: 'Đại Học FPT Cần Thơ',
+        rating: 5.0,
+        comment: "Mình cảm thấy rất hài lòng khi học tại Trung Tâm IELTS VIỆT. Khoá học 1:1 cấp tốc không chỉ giúp mình đạt được mục tiêu mà còn xây dựng sự tự tin khi sử dụng tiếng Anh.",
+        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4XD7_BX8gEe9eGvr0FktdJ5dYmgxtBDXE9WQN7cwOTea2FNJ-5ls3ckVvZKg4ApJTF3o&usqp=CAU'
+    },
+    {
+        id: 4,
         name: 'Nguyễn Hiếu',
         role: 'Đại Học FPT Cần Thơ',
         rating: 5.0,
@@ -55,7 +70,7 @@ const StarRating = ({ rating }: { rating: number }) => {
 
 const Section05 = () => {
     return (
-        <section className="w-full lg:w-3/4 px-6 lg:px-0 pb-20 pt-12">
+        <section className="w-screen px-6 lg:px-0 pb-20 pt-12">
             <div className="text-center mb-12">
                 <div className="text-center space-y-1">
                     <p className="text-[#eee] text-md lg:text-lg font-semibold mb-3">Thành Tựu Nổi Bật</p>
@@ -64,13 +79,38 @@ const Section05 = () => {
                     </h2>
                 </div>
             </div>
-            <div className="relative">
-                <div className="w-full flex flex-col lg:flex-row justify-between items-center overflow-hidden gap-8">
-                    {testimonials.map((testimonial, index) => (
-                        <div key={testimonial.id}
-                            className={`w-[96%] md:w-1/2 lg:w-[31.5%] lg:flex-shrink-0 transform transition-transform duration-300 ease-in-out`} >
+            <Swiper
+                effect={'coverflow'}
+                grabCursor={true}
+                centeredSlides={true}
+                slidesPerView={1}
+                breakpoints={{
+                    300: {
+                        slidesPerView: 1,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                    },
+                }}
+                loop={true}
+                coverflowEffect={{
+                    rotate: 0,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: false,
+                    scale: 0.85,
+                }}
+                spaceBetween={30}
+                pagination={{ clickable: true, bulletClass: 'swiper-pagination-bullet', bulletActiveClass: 'swiper-pagination-bullet-active bg-white' }}
+                modules={[EffectCoverflow, Pagination, Navigation]}
+                className="w-full lg:w-[74%] h-96"
+            >
+                {testimonials.map((testimonial, index) => (
+                    <SwiperSlide key={index} className="flex justify-center items-center">
+                        <div className={`w-full md:w-1/2 lg:w-[100%] flex flex-row justify-around items-center transform transition-transform duration-300 ease-in-out`} >
                             <div className="bg-white p-8 rounded-lg shadow-sm">
-                                <div className="flex items-center gap-4 mb-4">
+                                <div key={testimonial.id} className="flex items-center gap-4 mb-4">
                                     <Image
                                         src={testimonial.imageUrl}
                                         alt={testimonial.name}
@@ -88,9 +128,9 @@ const Section05 = () => {
                                 <div className="flex lg:hidden absolute top-4 right-4 text-[rgb(var(--secondary-rgb))] text-4xl font-serif opacity-25"><Quote size={20} /></div>
                             </div>
                         </div>
-                    ))}
-                </div>
-            </div>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
         </section>
     );
 };

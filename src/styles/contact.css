@@ -33,3 +33,7 @@
 .image-gallery-thumbnail.active {
   border: 2px solid orange;
 }
+
+.swiper-pagination-bullet{
+  background-color: white;
+}

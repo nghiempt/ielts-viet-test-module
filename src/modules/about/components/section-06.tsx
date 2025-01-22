@@ -87,9 +87,9 @@ export default function Section06() {
         </div>
       </div>
       {!isGalleryOpen ? (
-        <div className="w-full max-w-screen-xl h-full px-2">
+        <div className="w-1/3 lg:w-full max-w-screen-xlh-full lg:px-2">
           <Swiper
-            className="h-[300px] lg:h-full"
+            className="h-[400px] lg:h-full"
             navigation
             pagination={{
               clickable: true,
@@ -100,7 +100,7 @@ export default function Section06() {
             resistanceRatio={0}>
             {slides?.map((slide, index) => (
               <SwiperSlide key={index} className="">
-                <div className="grid grid-rows-12 gap-2 h-[296px] lg:h-full">
+                <div className="grid grid-rows-12 gap-2 h-[350px] lg:h-full">
                   <div className={`grid grid-cols-12 gap-2 ${index % 2 === 0 ? "row-span-6" : "row-span-7"}`}>
                     <div className="col-span-7 flex justify-center items-center relative group"
                       onClick={() => openGallery(slide[0]?.id - 1)}>

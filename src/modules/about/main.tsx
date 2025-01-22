@@ -60,26 +60,26 @@ export default function AboutContent() {
         </div>
       </div>
       <div className="w-full flex flex-col justify-center items-center">
-        <div className="w-11/12 py-12">
+        <div className="lg:w-3/4 py-12">
           <Section01 />
         </div>
-        <div className="w-11/12 py-2 lg:py-8">
+        <div className="lg:w-3/4 py-2 lg:py-8">
           <Section02 />
         </div>
-        <div className="w-11/12 py-12">
+        <div className="lg:w-3/4 py-12">
           <Section03 />
         </div>
         <div className={`w-full py-12 transition-opacity duration-1000 ${isSection4Visible ? 'opacity-100' : 'opacity-0'}`}
           ref={section4Ref}>
           <Section04 />
         </div>
-        <div className="w-11/12 py-4">
+        <div className="lg:w-3/4 py-4">
           <Section05 />
         </div>
-        <div className="w-11/12 py-4">
+        <div className="lg:w-3/4 py-4">
           <Section06 />
         </div>
-        <div className="w-3/4 pt-8">
+        <div className="lg:w-3/4 lg:pt-8">
           <SectionFooter />
         </div>
       </div>
