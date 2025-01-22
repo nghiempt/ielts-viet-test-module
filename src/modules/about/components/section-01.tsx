@@ -47,7 +47,7 @@ const Section01 = () => {
                                 <Image
                                     src="https://cdn-icons-png.flaticon.com/128/9119/9119230.png"
                                     alt="alt"
-                                    className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-cover"
+                                    className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-contain"
                                     width={400}
                                     height={200} />
                             </div>
@@ -60,7 +60,7 @@ const Section01 = () => {
                                 <Image
                                     src="https://cdn-icons-png.flaticon.com/128/3094/3094918.png"
                                     alt="alt"
-                                    className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-cover"
+                                    className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105 object-contain"
                                     width={400}
                                     height={200} />
                             </div>
@@ -71,7 +71,7 @@ const Section01 = () => {
                                 <Image
                                     src="https://cdn-icons-png.flaticon.com/128/814/814513.png"
                                     alt="alt"
-                                    className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-cover"
+                                    className="w-full h-[26px] transform transition-transform duration-500 group-hover:scale-105  object-cover"
                                     width={400}
                                     height={200} />
                             </div>
@@ -85,13 +85,13 @@ const Section01 = () => {
                             <div className="flex flex-row justify-center items-center gap-3 cursor-pointer hover-container">
                                 <div className="rounded-full bg-[#DEF2ED] p-[15px] pt-[16.5px] w-14 h-14 circle flex justify-center items-center">
                                     <Image
-                                        src="https://cdn-icons-png.flaticon.com/128/761/761505.png"
+                                        src="https://cdn-icons-png.flaticon.com/128/17367/17367529.png"
                                         alt="alt"
                                         className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-cover"
                                         width={400}
                                         height={200} />
                                 </div>
-                                <div className="text-sm text-center">Học Bổng Du Học</div>
+                                <div className="text-sm text-center">Giao Tiếp Thật Sự</div>
                             </div>
                             <div className="text-white">empty</div>
                         </div>
@@ -100,13 +100,13 @@ const Section01 = () => {
                             <div className="flex flex-row justify-center items-center gap-3 cursor-pointer hover-container">
                                 <div className="rounded-full bg-[#DEF2ED] p-[15px] pt-[16.5px] w-14 h-14 circle flex justify-center items-center">
                                     <Image
-                                        src="https://cdn-icons-png.flaticon.com/128/10473/10473299.png"
+                                        src="https://cdn-icons-png.flaticon.com/128/9119/9119230.png"
                                         alt="alt"
-                                        className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-cover"
+                                        className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-contain"
                                         width={400}
                                         height={200} />
                                 </div>
-                                <div className="text-sm text-center">Định Cư Nước Ngoài</div>
+                                <div className="text-sm text-center">Đạt IELTS mong muốn</div>
                             </div>
                         </div>
                     </div>
@@ -115,13 +115,13 @@ const Section01 = () => {
                             <div className="flex flex-row justify-center items-center gap-3 cursor-pointer hover-container">
                                 <div className="rounded-full bg-[#DEF2ED] p-[15px] pt-[16.5px] w-14 h-14 circle flex justify-center items-center">
                                     <Image
-                                        src="https://cdn-icons-png.flaticon.com/128/2997/2997322.png"
+                                        src="https://cdn-icons-png.flaticon.com/128/3094/3094918.png"
                                         alt="alt"
-                                        className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-cover"
+                                        className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-contain"
                                         width={400}
                                         height={200} />
                                 </div>
-                                <div className="text-sm text-center">Xét Tuyển Đại Học</div>
+                                <div className="text-sm text-center">Bám Sát Tiến Độ</div>
                             </div>
                             <div className="text-white">empty</div>
                         </div>
@@ -130,13 +130,13 @@ const Section01 = () => {
                             <div className="flex flex-row justify-center items-center gap-3 cursor-pointer hover-container">
                                 <div className="rounded-full bg-[#DEF2ED] p-[15px] pt-[16.5px] w-14 h-14 circle flex justify-center items-center">
                                     <Image
-                                        src="https://cdn-icons-png.flaticon.com/128/3059/3059330.png"
+                                        src="https://cdn-icons-png.flaticon.com/128/814/814513.png"
                                         alt="alt"
-                                        className="w-full h-8 transform transition-transform duration-500 group-hover:scale-105  object-cover"
+                                        className="w-full h-[25px] transform transition-transform duration-500 group-hover:scale-105  object-cover"
                                         width={400}
                                         height={200} />
                                 </div>
-                                <div className="text-sm text-center">Cơ Hội Việc Làm</div>
+                                <div className="text-sm text-center">Cơ Hội Quốc Tế</div>
                             </div>
                         </div>
                     </div>
