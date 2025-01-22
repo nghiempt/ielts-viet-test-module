@@ -26,7 +26,7 @@ const courses: Course[] = [
         price: 8900000,
         instructor: {
             name: "Thầy Trương Hoàng Hậu",
-            avatar: "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+            avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737517741/ielts-viet/e9ezv52zjsijpkidifme.jpg",
             rating: 5.0,
         },
         studentsCount: 8,
@@ -38,8 +38,8 @@ const courses: Course[] = [
         title: "Khoá Học IELTS Online",
         price: 11900000,
         instructor: {
-            name: "Cô Trinh",
-            avatar: "https://cdn-icons-png.flaticon.com/128/6997/6997662.png",
+            name: "Cô Phương Trinh",
+            avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737517741/ielts-viet/xwhzeij09ovqumaso6rn.jpg",
             rating: 5.0,
         },
         studentsCount: 8,
@@ -51,8 +51,8 @@ const courses: Course[] = [
         title: "Khoá Học IELTS 1:1",
         price: 20000000,
         instructor: {
-            name: "Cô Thư",
-            avatar: "https://cdn-icons-png.flaticon.com/128/6997/6997662.png",
+            name: "Cô Minh Thư",
+            avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737517741/ielts-viet/vstvevvdeyhrk2ng0kun.jpg",
             rating: 5.0,
         },
         studentsCount: 8,
@@ -65,7 +65,7 @@ const courses: Course[] = [
         price: 8900000,
         instructor: {
             name: "Thầy Lâm Tiến Thành",
-            avatar: "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+            avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737517742/ielts-viet/hdxxkkes5gtfokmssff8.jpg",
             rating: 5.0,
         },
         studentsCount: 8,
@@ -78,7 +78,7 @@ const courses: Course[] = [
         price: 11900000,
         instructor: {
             name: "Cô Lê Đức Anh Thư",
-            avatar: "https://cdn-icons-png.flaticon.com/128/6997/6997662.png",
+            avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737517741/ielts-viet/ylsyb61zi9kyascwp0it.jpg",
             rating: 5.0,
         },
         studentsCount: 8,
@@ -90,8 +90,8 @@ const courses: Course[] = [
         title: "Khoá Học Đặc Biệt Chỉ Có Tại IELTS Việt",
         price: 20000000,
         instructor: {
-            name: "Cô Trân",
-            avatar: "https://cdn-icons-png.flaticon.com/128/6997/6997662.png",
+            name: "Cô Ngọc Trân",
+            avatar: "https://res.cloudinary.com/farmcode/image/upload/v1737517742/ielts-viet/wzyakd9aahjm9lguisas.jpg",
             rating: 5.0,
         },
         studentsCount: 8,
@@ -129,7 +129,7 @@ const Section04 = () => {
                                         <Image
                                             src={course?.instructor.avatar}
                                             alt={course?.instructor.name}
-                                            className="w-10 h-10 rounded-full"
+                                            className="w-10 h-10 rounded-full border"
                                             width={40}
                                             height={40} />
                                         <div className="flex-1">

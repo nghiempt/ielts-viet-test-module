@@ -97,7 +97,7 @@ const Section03 = () => {
                         <div
                             key={category.id}
                             className={`${category.backgroundColor} rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-200`}>
-                            <div className="flex flex-col items-start gap-4">
+                            <div className="flex flex-col items-center text-center justify-center gap-4">
                                 {category.icon}
                                 <h3 className="text-xl font-bold">{category.title}</h3>
                             </div>

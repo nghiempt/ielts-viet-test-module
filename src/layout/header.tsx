@@ -61,7 +61,7 @@ const Header = () => {
                             <Link
                                 key={item.label}
                                 href={item.href}
-                                className={`text-[16px] font-medium transition-colors hover:text-[rgb(var(--secondary-rgb))] ${item.href === pathname ? 'text-[rgb(var(--secondary-rgb))]' : 'text-gray-500'
+                                className={`text-[14px] font-medium transition-colors hover:text-[rgb(var(--secondary-rgb))] ${item.href === pathname ? 'text-[rgb(var(--secondary-rgb))]' : 'text-gray-500'
                                     }`}>
                                 {item.label}
                             </Link>
