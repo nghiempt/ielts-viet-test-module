@@ -46,7 +46,7 @@ export default function TipsContentDetail() {
       <div className="w-[95%] lg:w-full flex flex-col justify-center items-center mt-6 md:mt-10 px-4 md:px-0">
         <div className="w-full md:w-[90%] lg:w-3/4 flex flex-col lg:flex-row gap-8 lg:gap-12">
           <div className="flex-1">
-            <BlogPost {...post} />
+            <BlogPost />
           </div>
           <div className="w-full lg:w-80">
             <Sidebar />

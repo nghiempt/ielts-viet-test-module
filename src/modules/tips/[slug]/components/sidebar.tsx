@@ -1,49 +1,59 @@
+import { DATA } from "@/utils/data";
+import { slugifyURL } from "@/utils/slugify";
 import Image from "next/image";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-interface RelatedPost {
+interface BlogPostProps {
+  id: number;
   title: string;
-  slug: string;
   date: string;
-  thumbnail: string;
+  author: string;
+  authorImage: string;
+  authorDesc: string,
+  imageUrl: string;
+  content: string;
+  facebookLink: string;
+  twitterLink: string;
+  instagramLink: string;
+  linkedInLink: string;
 }
 
-interface RelatedPostsProps {
-  posts: RelatedPost[];
-}
+const blogPosts = DATA.BLOG_POSTS as BlogPostProps[];
 
 export const Sidebar = () => {
-  const relatedPosts = [
-    {
-      title: "The Surprising Reason College Tuition Is Crazy Expensive",
-      slug: "college-tuition-expensive",
-      date: "19 Jun 2023",
-      thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png"
-    },
-    {
-      title: "A critical review of mobile learning integration",
-      slug: "mobile-learning-integration",
-      date: "22 May 2023",
-      thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png"
-    },
-    {
-      title: "Hampden-Sydney College in Virginia",
-      slug: "hampden-sydney-college",
-      date: "12 Apr 2023",
-      thumbnail: "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png"
+  const { slug } = useParams<{ slug: string }>()
+  const [post, setPost] = useState<BlogPostProps | null>(null)
+  const [idPo, setIdPo] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (slug && typeof slug === 'string') {
+      const slugParts = slug.split('-')
+      const id = parseInt(slugParts[slugParts.length - 1])
+
+      setIdPo(id);
+
+      const fountPost = blogPosts.find(po => po.id === id)
+
+      if (fountPost && slug === slugifyURL(fountPost.title) + `-${fountPost.id}`) {
+        setPost(fountPost)
+      } else {
+        setPost(null)
+      }
     }
-  ];
+  }, [slug, idPo])
   return (
-    <aside className="space-y-8">
-      <div className="bg-gray-100 p-6 rounded-lg text-center">
+    <aside className="space-y-4 lg:space-y-8">
+      <div className="hidden lg:flex flex-col bg-gray-100 p-6 rounded-lg text-center">
         <Image
           src="https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png"
           alt="Jenny Alexandra"
           width={120}
           height={120}
           className="rounded-full mx-auto mb-4" />
-        <h3 className="font-bold">Trường Hoàng Hậu</h3>
-        <p className="text-gray-600 text-sm">Hi beautiful people, I&apos;m an author at the blog. Read our post - stay tuned!</p>
+        <h3 className="font-bold mb-1">{post?.author}</h3>
+        <p className="text-gray-600 text-sm">{post?.authorDesc}</p>
         <div className="flex justify-center space-x-4 mt-4">
           <Link href="#" className="text-gray-400 hover:text-gray-600">
             <span className="sr-only">Facebook</span>
@@ -72,16 +82,19 @@ export const Sidebar = () => {
         </div>
       </div>
       <div className="space-y-4">
-        <h3 className="font-bold text-lg mb-4">Related Posts</h3>
+        <h3 className="font-bold text-lg mb-4">Bài viết liên quan</h3>
         <div className="grid gap-4">
-          {relatedPosts.map((post) => (
+          {blogPosts?.filter((po) => {
+            if (Array.isArray(idPo)) return false;
+            return po?.id !== idPo;
+          })?.slice(0, 4)?.map((post) => (
             <Link
-              key={post.slug}
-              href={`/blog/${post.slug}`}
+              key={post.id}
+              href={`${slugifyURL(post.title)}-${post.id}`}
               className="flex items-start space-x-4 group">
               <div className="flex-shrink-0 w-20 h-16 relative">
                 <Image
-                  src={post.thumbnail}
+                  src={post.imageUrl || "/"}
                   alt={post.title}
                   fill
                   className="rounded-lg object-cover" />

@@ -1,4 +1,4 @@
-import TipsDetailPage from "@/modules/tips/[id]";
+import TipsDetailPage from "@/modules/tips/[slug]";
 import { Loader } from "lucide-react";
 import { Suspense } from "react";
 

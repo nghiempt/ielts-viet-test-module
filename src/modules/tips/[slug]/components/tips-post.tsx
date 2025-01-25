@@ -1,66 +1,88 @@
-// components/BlogPost.tsx
-import { IMAGES } from '@/utils/images';
+import { DATA } from '@/utils/data';
+import { slugifyURL } from '@/utils/slugify';
 import Image from 'next/image';
 import Link from 'next/link';
-
-interface Author {
-  name: string;
-  image: string;
-  bio: string;
-}
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface BlogPostProps {
+  id: number;
   title: string;
-  author: Author;
   date: string;
-  comments: number;
+  author: string;
+  authorImage: string;
+  authorDesc: string,
+  imageUrl: string;
   content: string;
+  facebookLink: string;
+  twitterLink: string;
+  instagramLink: string;
+  linkedInLink: string;
 }
 
-export const BlogPost = ({ title, author, date, comments, content }: BlogPostProps) => {
+const blogPosts = DATA.BLOG_POSTS as BlogPostProps[];
+
+export const BlogPost = () => {
+  const { slug } = useParams<{ slug: string }>()
+  const [post, setPost] = useState<BlogPostProps | null>(null)
+  const [idPo, setIdPo] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (slug && typeof slug === 'string') {
+      const slugParts = slug.split('-')
+      const id = parseInt(slugParts[slugParts.length - 1])
+
+      setIdPo(id);
+
+      const foundPost = blogPosts.find(po => po.id === id)
+
+      if (foundPost && slug === slugifyURL(foundPost.title) + `-${foundPost.id}`) {
+        setPost(foundPost)
+      } else {
+        setPost(null)
+      }
+    }
+  }, [slug, idPo])
+
   return (
     <article className="w-full bg-white">
       <div className="space-y-4">
         <div className='w-full aspect-video relative'>
           <Image
-            src="https://res.cloudinary.com/farmcode/image/upload/v1737130585/ielts-viet/blog-detail_fko2ki.jpg"
+            src={post?.imageUrl || "/"}
             alt="blog cover"
             fill
             className="object-cover rounded-lg" />
         </div>
         <div className="flex flex-wrap items-center text-xs md:text-sm text-gray-500 space-x-2 md:space-x-4">
-          <span>BY {author.name.toUpperCase()}</span>
+          <span>BY {post?.author.toUpperCase()}</span>
           <span>•</span>
-          <span>COMMENTS {comments}</span>
-          <span>•</span>
-          <span>{date}</span>
+          <span>{post?.date}</span>
         </div>
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{title}</h1>
-        <div className="prose max-w-none text-sm md:text-base">{content}</div>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{post?.title}</h1>
+        <div className="prose max-w-none text-sm md:text-base">{post?.content}</div>
         <div className="border-t border-b py-4 mt-8">
           <div className="flex flex-wrap items-center gap-2 md:gap-4">
             <span className="font-medium">SHARE:</span>
             <div className="flex gap-2 md:gap-4">
-              <Link href="#" className="text-gray-500 hover:text-gray-900">Facebook</Link>
-              <Link href="#" className="text-gray-500 hover:text-gray-900">Twitter</Link>
-              <Link href="#" className="text-gray-500 hover:text-gray-900">LinkedIn</Link>
-              <Link href="#" className="text-gray-500 hover:text-gray-900">Pinterest</Link>
+              <Link href={post?.facebookLink || "#"} className="text-gray-500 hover:text-gray-900">Facebook</Link>
+              <Link href={post?.twitterLink || "#"} className="text-gray-500 hover:text-gray-900">Twitter</Link>
+              <Link href={post?.linkedInLink || "#"} className="text-gray-500 hover:text-gray-900">LinkedIn</Link>
             </div>
           </div>
         </div>
-        <div className="flex items-start space-x-4 py-6">
+        <div className="flex items-start space-x-4 pt-6 pb-0 lg:pb-6">
           <Image
-            src="https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png"
+            src={post?.authorImage || "/"}
             alt="logo"
             width={80}
             height={80}
             className="rounded-full" />
           <div className="flex-1">
-            <h3 className="font-bold text-gray-900 ">Author:
-              Trường Hoàng Hậu
+            <h3 className="font-bold text-gray-900 ">Author: {post?.author}
             </h3>
             <p className="text-gray-600 mt-1 mb-3">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.
+              {post?.authorDesc}
             </p>
             <div className="flex space-x-4">
               <Link href="#" className="text-gray-400 hover:text-gray-600">
