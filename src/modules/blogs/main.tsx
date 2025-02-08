@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Section01 from "./components/section-01";
 import SectionFooter from "./components/section-footer";
@@ -10,19 +10,22 @@ export default function TipsContent() {
       <div className="w-full relative bg-[#FDF8F5] min-h-[240px] flex items-center overflow-hidden">
         <div className="absolute left-12 bottom-12 grid grid-cols-4 gap-2">
           {[...Array(12)].map((_, i) => (
-            <div key={i} className="w-2 h-2 rounded-full bg-[rgb(var(--secondary-rgb))] opacity-60" />
+            <div
+              key={i}
+              className="w-2 h-2 rounded-full bg-[rgb(var(--secondary-rgb))] opacity-60"
+            />
           ))}
         </div>
         <div className="max-w-7xl mx-auto px-4 w-full text-center">
           <h1 className="text-4xl md:text-5xl lg:text-5xl font-bold text-gray-900 mb-4">
-            Tips IELTS
+            Bài Viết
           </h1>
           <nav className="flex justify-center items-center space-x-2 text-gray-600">
             <Link href="/" className="hover:text-gray-900 transition-colors">
               Trang Chủ
             </Link>
             <span className="text-gray-400">•</span>
-            <span className="text-gray-900">Tips</span>
+            <span className="text-gray-900">Bài Viết</span>
           </nav>
         </div>
         <div className="absolute -right-16 top-1/2 -translate-y-1/2">

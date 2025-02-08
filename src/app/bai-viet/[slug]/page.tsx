@@ -1,4 +1,4 @@
-import TipsDetailPage from "@/modules/tips/[slug]";
+import TipsDetailPage from "@/modules/blogs/[slug]";
 import { Loader } from "lucide-react";
 import { Suspense } from "react";
 
@@ -6,8 +6,7 @@ export default function TipsDetail() {
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <Suspense
-        fallback=
-        {
+        fallback={
           <div className="w-full h-[500px] flex flex-col justify-center items-center">
             <Loader className="animate-spin" size={24} />
           </div>
@@ -18,4 +17,3 @@ export default function TipsDetail() {
     </div>
   );
 }
-

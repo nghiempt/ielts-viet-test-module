@@ -3879,6 +3879,7 @@ snapshots:
       class-variance-authority: 0.7.1
       clsx: 2.1.1
       embla-carousel-react: 8.5.2(react@18.3.1)
+      isomorphic-dompurify: 2.20.0
       js-cookie: 3.0.5
       jspdf: 2.5.2
       lucide-react: 0.427.0(react@18.3.1)
@@ -3901,8 +3902,12 @@ snapshots:
       - '@types/react'
       - '@types/react-dom'
       - babel-plugin-macros
+      - bufferutil
+      - canvas
       - sass
+      - supports-color
       - tailwindcss
+      - utf-8-validate
 
   ignore@5.3.2: {}
 

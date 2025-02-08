@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Section02 from "./components/section-02";
 import Section03 from "./components/section-03";
@@ -37,7 +37,7 @@ export default function HomeContent() {
       <section className="bg-[rgb(var(--secondary-rgb))] lg:w-full flex justify-center items-center">
         <Section07 />
       </section>
-      <section className="lg:w-3/4">
+      <section className="w-full lg:w-3/4">
         <SectionFooter />
       </section>
     </main>

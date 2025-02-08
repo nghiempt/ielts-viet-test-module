@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Link from "next/link";
 import { BlogPost } from "./components/tips-post";
@@ -10,12 +10,14 @@ export default function TipsContentDetail() {
     title: "The Surprising Reason College Tuition Is Crazy Expensive",
     author: {
       name: "Trương Hoàng Hậu",
-      image: "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png",
-      bio: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis."
+      image:
+        "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png",
+      bio: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.",
     },
     date: "24 JUN 2023",
     comments: 25,
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
   };
   return (
     <main className="w-full flex flex-col justify-center items-center overflow-hidden">
@@ -23,7 +25,10 @@ export default function TipsContentDetail() {
         <div className="absolute left-4 md:left-12 bottom-8 md:bottom-12">
           <div className="grid grid-cols-4 gap-1 md:gap-2">
             {[...Array(12)].map((_, i) => (
-              <div key={i} className="w-1.5 md:w-2 h-1.5 md:h-2 rounded-full bg-[rgb(var(--secondary-rgb))] opacity-60" />
+              <div
+                key={i}
+                className="w-1.5 md:w-2 h-1.5 md:h-2 rounded-full bg-[rgb(var(--secondary-rgb))] opacity-60"
+              />
             ))}
           </div>
         </div>
@@ -36,7 +41,7 @@ export default function TipsContentDetail() {
               Trang Chủ
             </Link>
             <span className="text-gray-400">•</span>
-            <span className="text-gray-900">Tips</span>
+            <span className="text-gray-900">Bài Viết</span>
           </nav>
         </div>
         <div className="absolute -right-8 md:-right-16 top-1/2 -translate-y-1/2">
