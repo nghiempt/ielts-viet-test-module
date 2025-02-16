@@ -1,9 +1,9 @@
-import { DATA } from '@/utils/data';
-import { slugifyURL } from '@/utils/slugify';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { DATA } from "@/utils/data";
+import { slugifyURL } from "@/utils/slugify";
+import Image from "next/image";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface BlogPostProps {
   id: number;
@@ -11,7 +11,7 @@ interface BlogPostProps {
   date: string;
   author: string;
   authorImage: string;
-  authorDesc: string,
+  authorDesc: string;
   imageUrl: string;
   content: string;
   facebookLink: string;
@@ -23,51 +23,74 @@ interface BlogPostProps {
 const blogPosts = DATA.BLOG_POSTS as BlogPostProps[];
 
 export const BlogPost = () => {
-  const { slug } = useParams<{ slug: string }>()
-  const [post, setPost] = useState<BlogPostProps | null>(null)
+  const { slug } = useParams<{ slug: string }>();
+  const [post, setPost] = useState<BlogPostProps | null>(null);
   const [idPo, setIdPo] = useState<number | null>(null);
 
   useEffect(() => {
-    if (slug && typeof slug === 'string') {
-      const slugParts = slug.split('-')
-      const id = parseInt(slugParts[slugParts.length - 1])
+    if (slug && typeof slug === "string") {
+      const slugParts = slug.split("-");
+      const id = parseInt(slugParts[slugParts.length - 1]);
 
       setIdPo(id);
 
-      const foundPost = blogPosts.find(po => po.id === id)
+      const foundPost = blogPosts.find((po) => po.id === id);
 
-      if (foundPost && slug === slugifyURL(foundPost.title) + `-${foundPost.id}`) {
-        setPost(foundPost)
+      if (
+        foundPost &&
+        slug === slugifyURL(foundPost.title) + `-${foundPost.id}`
+      ) {
+        setPost(foundPost);
       } else {
-        setPost(null)
+        setPost(null);
       }
     }
-  }, [slug, idPo])
+  }, [slug, idPo]);
 
   return (
     <article className="w-full bg-white">
       <div className="space-y-4">
-        <div className='w-full aspect-video relative'>
+        <div className="w-full aspect-video relative">
           <Image
             src={post?.imageUrl || "/"}
             alt="blog cover"
             fill
-            className="object-cover rounded-lg" />
+            className="object-cover rounded-lg"
+          />
         </div>
         <div className="flex flex-wrap items-center text-xs md:text-sm text-gray-500 space-x-2 md:space-x-4">
           <span>BY {post?.author.toUpperCase()}</span>
           <span>•</span>
           <span>{post?.date}</span>
         </div>
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{post?.title}</h1>
-        <div className="prose max-w-none text-sm md:text-base">{post?.content}</div>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+          {post?.title}
+        </h1>
+        <div className="prose max-w-none text-sm md:text-base">
+          {post?.content}
+        </div>
         <div className="border-t border-b py-4 mt-8">
           <div className="flex flex-wrap items-center gap-2 md:gap-4">
             <span className="font-medium">SHARE:</span>
             <div className="flex gap-2 md:gap-4">
-              <Link href={post?.facebookLink || "#"} className="text-gray-500 hover:text-gray-900">Facebook</Link>
-              <Link href={post?.twitterLink || "#"} className="text-gray-500 hover:text-gray-900">Twitter</Link>
-              <Link href={post?.linkedInLink || "#"} className="text-gray-500 hover:text-gray-900">LinkedIn</Link>
+              <Link
+                href={post?.facebookLink || "#"}
+                className="text-gray-500 hover:text-gray-900"
+              >
+                Facebook
+              </Link>
+              <Link
+                href={post?.twitterLink || "#"}
+                className="text-gray-500 hover:text-gray-900"
+              >
+                Twitter
+              </Link>
+              <Link
+                href={post?.linkedInLink || "#"}
+                className="text-gray-500 hover:text-gray-900"
+              >
+                LinkedIn
+              </Link>
             </div>
           </div>
         </div>
@@ -77,8 +100,9 @@ export const BlogPost = () => {
             alt="logo"
             width={80}
             height={80}
-            className="rounded-full" />
-          <div className="flex-1">
+            className="rounded-full"
+          />
+          {/* <div className="flex-1">
             <h3 className="font-bold text-gray-900 ">Author: {post?.author}
             </h3>
             <p className="text-gray-600 mt-1 mb-3">
@@ -110,7 +134,7 @@ export const BlogPost = () => {
                 </svg>
               </Link>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </article>
