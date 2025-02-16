@@ -57,7 +57,7 @@ export default function TipsContentDetail() {
             <Sidebar />
           </div>
         </div>
-        <div className="w-full md:w-[90%] lg:w-[75%] pt-8">
+        <div className="w-full md:w-[90%] lg:w-[75%] pt-7 lg:pt-3">
           <SectionFooter />
         </div>
       </div>

@@ -94,7 +94,7 @@ export const BlogPost = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-start space-x-4 pt-6 pb-0 lg:pb-6">
+        {/* <div className="flex items-start space-x-4 pt-6 pb-0 lg:pb-6">
           <Image
             src={post?.authorImage || "/"}
             alt="logo"
@@ -102,7 +102,7 @@ export const BlogPost = () => {
             height={80}
             className="rounded-full"
           />
-          {/* <div className="flex-1">
+          <div className="flex-1">
             <h3 className="font-bold text-gray-900 ">Author: {post?.author}
             </h3>
             <p className="text-gray-600 mt-1 mb-3">
@@ -134,8 +134,8 @@ export const BlogPost = () => {
                 </svg>
               </Link>
             </div>
-          </div> */}
-        </div>
+          </div> 
+        </div> */}
       </div>
     </article>
   );
