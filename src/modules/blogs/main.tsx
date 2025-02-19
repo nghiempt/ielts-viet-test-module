@@ -1,5 +1,6 @@
 "use client";
 
+import { BlogProvider } from "./components/blog-context";
 import Section01 from "./components/section-01";
 import SectionFooter from "./components/section-footer";
 import Link from "next/link";
@@ -34,7 +35,9 @@ export default function TipsContent() {
       </div>
       <div className="w-full flex flex-col justify-center items-center">
         <div className="w-full lg:w-3/4 py-12">
-          <Section01 />
+          <BlogProvider>
+            <Section01 />
+          </BlogProvider>
         </div>
         <div className="w-full lg:w-3/4 pt-4">
           <SectionFooter />

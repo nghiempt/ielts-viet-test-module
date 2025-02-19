@@ -2,15 +2,18 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { BlogProvider } from "@/modules/blogs/components/blog-context";
 
 const font = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "IELTS VIỆT",
-  description: "Học IELTS cùng chuyên gia đầu ngành. Hỗ trợ toàn diện từ giáo viên bản ngữ, cựu giám khảo và chuyên gia IELTS Việt Nam.",
+  description:
+    "Học IELTS cùng chuyên gia đầu ngành. Hỗ trợ toàn diện từ giáo viên bản ngữ, cựu giám khảo và chuyên gia IELTS Việt Nam.",
   openGraph: {
     title: "IELTS VIỆT",
-    description: "Học IELTS cùng chuyên gia đầu ngành. Hỗ trợ toàn diện từ giáo viên bản ngữ, cựu giám khảo và chuyên gia IELTS Việt Nam.",
+    description:
+      "Học IELTS cùng chuyên gia đầu ngành. Hỗ trợ toàn diện từ giáo viên bản ngữ, cựu giám khảo và chuyên gia IELTS Việt Nam.",
     url: "https://ieltsviet.edu.vn",
     images: [
       {
@@ -24,8 +27,11 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "IELTS VIỆT",
-    description: "Học IELTS cùng chuyên gia đầu ngành. Hỗ trợ toàn diện từ giáo viên bản ngữ, cựu giám khảo và chuyên gia IELTS Việt Nam.",
-    images: ["https://res.cloudinary.com/farmcode/image/upload/v1736620702/ielts-viet/website-thumbnail_uqdu6b.png"],
+    description:
+      "Học IELTS cùng chuyên gia đầu ngành. Hỗ trợ toàn diện từ giáo viên bản ngữ, cựu giám khảo và chuyên gia IELTS Việt Nam.",
+    images: [
+      "https://res.cloudinary.com/farmcode/image/upload/v1736620702/ielts-viet/website-thumbnail_uqdu6b.png",
+    ],
   },
 };
 
@@ -37,8 +43,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className} suppressHydrationWarning={true}>
-        {children}
-        <Toaster />
+        <BlogProvider>
+          {children}
+          <Toaster />
+        </BlogProvider>
       </body>
     </html>
   );

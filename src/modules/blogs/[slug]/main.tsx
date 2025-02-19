@@ -4,21 +4,44 @@ import Link from "next/link";
 import { BlogPost } from "./components/tips-post";
 import { Sidebar } from "./components/sidebar";
 import SectionFooter from "./components/section-footer";
+import { BlogProvider } from "../components/blog-context";
+import React, { useEffect } from "react";
+import { BlogService } from "@/services/blog";
+
+interface BlogPost {
+  _id: string;
+  title: string;
+  thumbnail: string;
+  content: string;
+  facebook: string;
+  twitter: string;
+  instagram: string;
+  author_id: string;
+  author_name: string;
+  created_at: string;
+}
 
 export default function TipsContentDetail() {
-  const post = {
-    title: "The Surprising Reason College Tuition Is Crazy Expensive",
-    author: {
-      name: "Trương Hoàng Hậu",
-      image:
-        "https://res.cloudinary.com/farmcode/image/upload/v1737017508/nduhew4idfpqqhucorem.png",
-      bio: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.",
-    },
-    date: "24 JUN 2023",
-    comments: 25,
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  const [data, setData] = React.useState<BlogPost[]>([]);
+
+  const init = async () => {
+    try {
+      const res = await BlogService.getAll();
+
+      if (Array.isArray(res) && res.length > 0) {
+        setData(res);
+      } else {
+        setData([]);
+      }
+    } catch (error) {
+      console.error("Error fetching blog data:", error);
+      setData([]);
+    }
   };
+
+  useEffect(() => {
+    init();
+  }, []);
   return (
     <main className="w-full flex flex-col justify-center items-center overflow-hidden">
       <div className="w-full relative bg-[#FDF8F5] min-h-[200px] md:min-h-[240px] flex items-center overflow-hidden px-4">
@@ -51,10 +74,12 @@ export default function TipsContentDetail() {
       <div className="w-[95%] lg:w-full flex flex-col justify-center items-center mt-6 md:mt-10 px-4 md:px-0">
         <div className="w-full md:w-[90%] lg:w-3/4 flex flex-col lg:flex-row gap-8 lg:gap-12">
           <div className="flex-1">
-            <BlogPost />
+            <BlogProvider>
+              <BlogPost />
+            </BlogProvider>
           </div>
           <div className="w-full lg:w-80">
-            <Sidebar />
+            <Sidebar data={data} />
           </div>
         </div>
         <div className="w-full md:w-[90%] lg:w-[75%] pt-7 lg:pt-3">
