@@ -45,7 +45,7 @@ export const BlogPost = () => {
           />
         </div>
         <div className="flex flex-wrap items-center text-xs md:text-sm text-gray-500 space-x-2 md:space-x-4">
-          <span>BY {post?.author_name}</span>
+          <span>By {post?.author_name}</span>
           <span>•</span>
           <span>{HELPER.formatDate(post?.created_at || "")}</span>
         </div>
