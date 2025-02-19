@@ -1,105 +1,139 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
 import Header from '@/layout/header';
 import Footer from '@/layout/footer';
 import Image from 'next/image';
 import { LoginModal } from './login';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Loader } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-
-const teachers: any = [
-    {
-        id: "1",
-        name: "Thầy Trương Hoàng Hậu",
-        role: "Giám Đốc",
-        image:
-            "https://res.cloudinary.com/farmcode/image/upload/v1737517741/ielts-viet/e9ezv52zjsijpkidifme.jpg",
-        backgroundColor: "bg-pink-100",
-    },
-    {
-        id: "1",
-        name: "Thầy Lâm Tiến Thành",
-        role: "Giảng viên",
-        image:
-            "https://res.cloudinary.com/farmcode/image/upload/v1737517742/ielts-viet/hdxxkkes5gtfokmssff8.jpg",
-        backgroundColor: "bg-pink-100",
-    },
-    {
-        id: "1",
-        name: "Cô Thạch Ngọc Trân",
-        role: "Giảng viên",
-        image:
-            "https://res.cloudinary.com/farmcode/image/upload/v1737517742/ielts-viet/wzyakd9aahjm9lguisas.jpg",
-        backgroundColor: "bg-pink-100",
-    },
-    {
-        id: "1",
-        name: "Cô Lê Đức Anh Thư",
-        role: "Giảng viên",
-        image:
-            "https://res.cloudinary.com/farmcode/image/upload/v1737517741/ielts-viet/ylsyb61zi9kyascwp0it.jpg",
-        backgroundColor: "bg-pink-100",
-    },
-    {
-        id: "1",
-        name: "Cô Võ Minh Thư",
-        role: "Giảng viên",
-        image:
-            "https://res.cloudinary.com/farmcode/image/upload/v1737517741/ielts-viet/vstvevvdeyhrk2ng0kun.jpg",
-        backgroundColor: "bg-cyan-100",
-    },
-    {
-        id: "courtney",
-        name: "Cô Phương Trinh",
-        role: "Giảng viên",
-        image:
-            "https://res.cloudinary.com/farmcode/image/upload/v1737517741/ielts-viet/xwhzeij09ovqumaso6rn.jpg",
-        backgroundColor: "bg-sky-100",
-    },
-];
+import { HELPER } from '@/utils/helper';
 
 export default function TimeKeepingClient() {
 
     const currentTime = new Date().toLocaleTimeString();
     const { toast } = useToast();
 
+    const [teachers, setTeachers] = useState([] as any);
+    const [currentTeacher, setCurrentTeacher] = useState(null as any);
     const [isLoading, setIsLoading] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
     const [isCheckIn, setIsCheckIn] = useState(false);
 
-    const handleLogin = () => {
-        setIsLoading(true);
-        setTimeout(() => {
-            setIsLoading(false);
-            setIsLogin(true);
-        }, 2000);
-    }
-
     const handleCheckIn = () => {
-        setIsLoading(true);
-        setTimeout(() => {
-            toast({
-                title: "Bạn đã check-in thành công!",
-                description: "Chúc bạn một ngày làm việc hiệu quả!",
+        const raw = "";
+        const requestOptions: any = {
+            method: "POST",
+            body: raw,
+            redirect: "follow"
+        };
+        fetch(`https://api.farmcode.io.vn/v1/ielts-viet/account/check/${currentTeacher?._id}`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                if (result?.data) {
+                    setIsLoading(false);
+                    setIsCheckIn(true);
+                    toast({
+                        title: "Bạn đã check-in thành công!",
+                        description: "Chúc bạn một ngày làm việc hiệu quả!",
+                    })
+                } else {
+                    toast({
+                        title: "Có lỗi xảy ra",
+                        variant: "destructive",
+                        description: "Vui lòng thử lại",
+                    })
+                    setIsLoading(false);
+                }
             })
-            setIsLoading(false);
-            setIsCheckIn(true);
-        }, 2000);
+            .catch((error) => console.error(error));
     }
 
     const handleCheckOut = () => {
-        setIsLoading(true);
-        setTimeout(() => {
-            toast({
-                title: "Bạn đã check-out thành công!",
-                description: "Thời gian làm việc hôm nay của bạn là 118 phút.",
+        const raw = "";
+        const requestOptions: any = {
+            method: "POST",
+            body: raw,
+            redirect: "follow"
+        };
+        fetch(`https://api.farmcode.io.vn/v1/ielts-viet/account/check/${currentTeacher?._id}`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                if (result?.data) {
+                    setIsLoading(false);
+                    setIsCheckIn(true);
+                    setIsLogin(false);
+                    toast({
+                        title: "Bạn đã check-out thành công!",
+                        description: "Chúc bạn một ngày làm việc hiệu quả!",
+                    })
+                } else {
+                    toast({
+                        title: "Có lỗi xảy ra",
+                        variant: "destructive",
+                        description: "Vui lòng thử lại",
+                    })
+                    setIsLoading(false);
+                }
             })
-            setIsLoading(false);
-            setIsCheckIn(false);
-            setIsLogin(false);
-        }, 2000);
+            .catch((error) => console.error(error));
     }
+
+    const getAllAccount = async () => {
+        const requestOptions: any = {
+            method: "GET",
+            redirect: "follow"
+        };
+        fetch("https://api.farmcode.io.vn/v1/ielts-viet/account/", requestOptions)
+            .then((response) => response.json())
+            .then((result) => setTeachers(result?.data))
+            .catch((error) => console.error(error));
+    }
+
+    const handleLogin = async (code: string) => {
+        console.log(currentTeacher);
+        setIsLoading(true);
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        const raw = JSON.stringify({
+            "login_code": code
+        });
+        const requestOptions: any = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+        fetch(`https://api.farmcode.io.vn/v1/ielts-viet/account/${currentTeacher?._id}`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                if (result?.data) {
+                    setIsLogin(true);
+                    setIsLoading(false);
+                    toast({
+                        title: "Đăng nhập thành công!",
+                        description: "Chúc bạn một ngày làm việc hiệu quả!",
+                    })
+                } else {
+                    toast({
+                        title: "Mã code không hợp lệ!",
+                        variant: "destructive",
+                        description: "Vui lòng kiểm tra lại mã code của bạn!",
+                    })
+                    setIsLoading(false);
+                }
+            })
+            .catch((error) => console.error(error));
+    }
+
+    const init = () => {
+        getAllAccount()
+    }
+
+    useEffect(() => {
+        init()
+    }, []);
 
     return (
         <div className="w-full flex flex-col justify-center items-center">
@@ -109,13 +143,19 @@ export default function TimeKeepingClient() {
                     !isLogin && (
                         <div className='w-3/4'>
                             <h1 className="text-2xl text-center">Hãy chọn bản thân để Check-in nhé!</h1>
-                            <div className='grid grid-cols-1 lg:grid-cols-3 gap-10 mt-10'>
+                            <div className={`grid grid-cols-1 ${teachers?.length === 0 ? 'lg:grid-cols-1' : 'lg:grid-cols-3'} gap-10 mt-10`}>
                                 {
-                                    teachers?.map((teacher: any, index: any) => {
-                                        return (
-                                            <LoginModal key={index} teacher={teacher} handleLogin={handleLogin} isLoading={isLoading} />
-                                        )
-                                    })
+                                    teachers?.length === 0
+                                        ?
+                                        <div className='w-full h-96 flex justify-center items-center'>
+                                            <Loader className="w-6 h-6 ml-2 animate-spin" />
+                                        </div>
+                                        :
+                                        teachers?.map((teacher: any, index: any) => {
+                                            return (
+                                                <LoginModal key={index} teacher={teacher} handleLogin={handleLogin} isLoading={isLoading} setCurrentTeacher={setCurrentTeacher} />
+                                            )
+                                        })
                                 }
                             </div>
                         </div>
@@ -126,16 +166,16 @@ export default function TimeKeepingClient() {
                         <div className='w-3/4 flex flex-col lg:flex-row justify-center items-center gap-10 lg:mt-10'>
                             <div className="border border-green-500 p-10 rounded-lg flex flex-col justify-center items-center cursor-pointer">
                                 <Image
-                                    src="https://res.cloudinary.com/farmcode/image/upload/v1737517741/ielts-viet/e9ezv52zjsijpkidifme.jpg"
+                                    src={currentTeacher?.avatar}
                                     alt="alt"
                                     className="w-20 h-20 object-cover rounded-full border"
                                     width={1000}
                                     height={0}
                                 />
                                 <div className="text-center space-y-1 mt-4">
-                                    <h3 className="text-xl font-bold">Thầy Trương Hoàng Hậu</h3>
+                                    <h3 className="text-xl font-bold">{currentTeacher?.teacher_name}</h3>
                                     <p className="text-[rgb(var(--secondary-rgb))] font-medium">
-                                        Giảng viên
+                                        {HELPER.renderStatusTimeKeeping(currentTeacher.latest_status)}
                                     </p>
                                 </div>
                             </div>
@@ -162,16 +202,16 @@ export default function TimeKeepingClient() {
                         <div className='w-3/4 flex flex-col lg:flex-row justify-center items-center gap-10 lg:mt-10'>
                             <div className="border border-red-500 p-10 rounded-lg flex flex-col justify-center items-center cursor-pointer">
                                 <Image
-                                    src="https://res.cloudinary.com/farmcode/image/upload/v1737517741/ielts-viet/e9ezv52zjsijpkidifme.jpg"
+                                    src={currentTeacher?.avatar}
                                     alt="alt"
                                     className="w-20 h-20 object-cover rounded-full border"
                                     width={1000}
                                     height={0}
                                 />
                                 <div className="text-center space-y-1 mt-4">
-                                    <h3 className="text-xl font-bold">Thầy Trương Hoàng Hậu</h3>
+                                    <h3 className="text-xl font-bold">{currentTeacher?.teacher_name}</h3>
                                     <p className="text-[rgb(var(--secondary-rgb))] font-medium">
-                                        Giảng viên
+                                        {HELPER.renderStatusTimeKeeping(currentTeacher.latest_status)}
                                     </p>
                                 </div>
                             </div>

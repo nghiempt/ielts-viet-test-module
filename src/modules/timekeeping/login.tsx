@@ -9,25 +9,30 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
+import { HELPER } from "@/utils/helper"
 import { Loader } from "lucide-react"
 import Image from "next/image"
+import { useState } from "react"
 
-export function LoginModal({ teacher, handleLogin, isLoading }: any) {
+export function LoginModal({ teacher, handleLogin, isLoading, setCurrentTeacher }: any) {
+
+    const [code, setCode] = useState("66c9d8065aeca85d")
+
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <div className="hover:bg-gray-100 py-10 rounded-lg flex flex-col justify-center items-center cursor-pointer">
+                <div onClick={() => setCurrentTeacher(teacher)} className="hover:bg-gray-100 py-10 rounded-lg flex flex-col justify-center items-center cursor-pointer">
                     <Image
-                        src={teacher.image}
-                        alt={teacher.name}
+                        src={teacher.avatar}
+                        alt={teacher.teacher_name}
                         className="w-20 h-20 object-cover rounded-full border"
                         width={1000}
                         height={0}
                     />
                     <div className="text-center space-y-1 mt-4">
-                        <h3 className="text-xl font-bold">{teacher.name}</h3>
+                        <h3 className="text-xl font-bold">{teacher.teacher_name}</h3>
                         <p className="text-[rgb(var(--secondary-rgb))] font-medium">
-                            {teacher.role}
+                            {HELPER.renderStatusTimeKeeping(teacher.latest_status)}
                         </p>
                     </div>
                 </div>
@@ -41,12 +46,17 @@ export function LoginModal({ teacher, handleLogin, isLoading }: any) {
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Input id="name" value="9999" className="col-span-4" />
+                        <Input
+                            id="code"
+                            value={code}
+                            onChange={(e) => setCode(e.target.value)}
+                            className="col-span-4"
+                        />
                     </div>
                 </div>
                 <DialogFooter>
                     <Button
-                        onClick={handleLogin}
+                        onClick={() => handleLogin(code)}
                         className="bg-[rgb(var(--secondary-rgb))] hover:bg-[rgb(var(--secondary-rgb))] hover:opacity-80"
                     >
                         {isLoading ? "Vui lòng đợi" : "Đăng nhập"}
