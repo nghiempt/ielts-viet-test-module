@@ -70,7 +70,7 @@ const Section01 = () => {
         {data.map((item, index) => (
           <article
             key={index}
-            className="relative overflow-hidden group bg-white rounded-lg border hover:shadow-md transition-shadow duration-300"
+            className="cursor-pointer relative overflow-hidden group bg-white rounded-lg border hover:shadow-md transition-shadow duration-300"
             onClick={() => {
               handleClick(item._id, item.title);
             }}

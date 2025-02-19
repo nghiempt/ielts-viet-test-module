@@ -15,6 +15,9 @@ const formatDate = (isoDate: string) => {
 const convertSpacesToDash = (input: string) => {
   return input.trim().replace(/\s+/g, "-");
 };
+const sanitizeContent = (html: string) => {
+  return html.replace(/<img[^>]*>/g, "");
+};
 
 const renderStatusTimeKeeping = (status: string) => {
   let result = "";
@@ -34,4 +37,5 @@ export const HELPER = {
   formatDate,
   convertSpacesToDash,
   renderStatusTimeKeeping,
+  sanitizeContent,
 };

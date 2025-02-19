@@ -53,25 +53,32 @@ export const BlogPost = () => {
           {post?.title}
         </h1>
         <div className="prose max-w-none text-sm md:text-base">
-          {post?.content}
+          <div
+            dangerouslySetInnerHTML={{
+              __html: HELPER.sanitizeContent(post?.content || ""),
+            }}
+          />
         </div>
         <div className="border-t border-b py-4 mt-8">
           <div className="flex flex-wrap items-center gap-2 md:gap-4">
             <span className="font-medium">SHARE:</span>
             <div className="flex gap-2 md:gap-4">
               <Link
+                target="_blank"
                 href={post?.facebook || "#"}
                 className="text-gray-500 hover:text-gray-900"
               >
                 Facebook
               </Link>
               <Link
+                target="_blank"
                 href={post?.twitter || "#"}
                 className="text-gray-500 hover:text-gray-900"
               >
                 Twitter
               </Link>
               <Link
+                target="_blank"
                 href={post?.instagram || "#"}
                 className="text-gray-500 hover:text-gray-900"
               >
