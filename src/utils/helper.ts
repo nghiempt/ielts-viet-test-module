@@ -16,8 +16,22 @@ const convertSpacesToDash = (input: string) => {
   return input.trim().replace(/\s+/g, "-");
 };
 
+const renderStatusTimeKeeping = (status: string) => {
+  let result = "";
+  switch (status) {
+    case "need-check-in":
+      result = "Chưa check-in";
+      break;
+    default:
+      result = "Chưa xác định";
+      break;
+  }
+  return result;
+};
+
 export const HELPER = {
   formatVND,
   formatDate,
   convertSpacesToDash,
+  renderStatusTimeKeeping,
 };
