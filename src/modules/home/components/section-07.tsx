@@ -1,8 +1,10 @@
 "use client";
 
+import { useBlog } from "@/modules/blogs/components/blog-context";
 import { BlogService } from "@/services/blog";
 import { HELPER } from "@/utils/helper";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 interface BlogPost {
@@ -38,6 +40,15 @@ const Section07 = () => {
   useEffect(() => {
     init();
   }, []);
+
+  const { setSelectedBlogId } = useBlog();
+  const router = useRouter();
+
+  const handleClick = (id: string, title: string) => {
+    setSelectedBlogId(id);
+    localStorage.setItem("selectedBlogId", id);
+    router.push(`/bai-viet/${HELPER.convertSpacesToDash(title)}`);
+  };
   return (
     <section className="w-full lg:w-3/4 px-6 lg:px-0 pb-20 pt-12">
       <div className="text-center mb-12">
@@ -54,7 +65,10 @@ const Section07 = () => {
         {data.slice(0, 3).map((item, index) => (
           <article
             key={index}
-            className="relative overflow-hidden group bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+            className="cursor-pointer relative overflow-hidden group bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+            onClick={() => {
+              handleClick(item._id, item.title);
+            }}
           >
             <div className="relative overflow-hidden group aspect-[4/3]">
               <Image

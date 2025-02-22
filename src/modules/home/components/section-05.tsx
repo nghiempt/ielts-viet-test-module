@@ -14,12 +14,12 @@ import { ReviewService } from "@/services/review";
 
 interface Testimonial {
   _id: string;
-  Name: string;
-  School: string;
-  Rating: number;
-  Comment: string;
-  Avt: string;
-  Overall: number;
+  name: string;
+  school: string;
+  rating: number;
+  comment: string;
+  avatar: string;
+  overall: number;
   created_at: string;
 }
 
@@ -113,28 +113,28 @@ const Section05 = () => {
               <div className="bg-white p-8 rounded-lg shadow-sm">
                 <div key={index} className="flex items-center gap-4 mb-4">
                   <Image
-                    src={item?.Avt}
-                    alt={item?.Name}
+                    src={item?.avatar}
+                    alt={item?.name}
                     className="w-16 h-16 rounded-full object-cover"
                     width={1000}
                     height={1000}
                   />
                   <div>
-                    <h3 className="font-bold text-lg">{item?.Name}</h3>
-                    <p className="text-gray-600 text-sm">{item?.School}</p>
+                    <h3 className="font-bold text-lg">{item?.name}</h3>
+                    <p className="text-gray-600 text-sm">{item?.school}</p>
                   </div>
                 </div>
                 <div className="flex flex-row justify-between items-center">
-                  <StarRating rating={item?.Rating} />
+                  <StarRating rating={item?.rating} />
                   <div className="text-gray-600 flex items-center">
                     Overall:{" "}
                     <span className="font-bold text-xl ml-2 text-[rgb(var(--secondary-rgb))]">
-                      {item?.Overall}
+                      {item?.overall}
                     </span>
                   </div>
                 </div>
 
-                <p className="mt-4 text-gray-600">{item?.Comment}</p>
+                <p className="mt-4 text-gray-600">{item?.comment}</p>
                 <div className="hidden lg:flex absolute top-4 right-4 text-[rgb(var(--secondary-rgb))] text-4xl font-serif opacity-25">
                   <Quote size={40} />
                 </div>
