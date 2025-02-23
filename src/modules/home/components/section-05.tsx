@@ -3,7 +3,12 @@
 import { Quote, Star } from "lucide-react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, EffectCoverflow } from "swiper/modules";
+import {
+  Navigation,
+  Pagination,
+  EffectCoverflow,
+  Autoplay,
+} from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -79,6 +84,10 @@ const Section05 = () => {
         grabCursor={true}
         centeredSlides={true}
         slidesPerView={1}
+        autoplay={{
+          delay: 2000,
+          disableOnInteraction: false,
+        }}
         breakpoints={{
           300: {
             slidesPerView: 1,
@@ -102,7 +111,7 @@ const Section05 = () => {
           bulletClass: "swiper-pagination-bullet",
           bulletActiveClass: "swiper-pagination-bullet-active bg-white",
         }}
-        modules={[EffectCoverflow, Pagination, Navigation]}
+        modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
         className="w-full lg:w-[74%] h-96"
       >
         {data.map((item, index) => (
