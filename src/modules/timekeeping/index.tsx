@@ -222,7 +222,7 @@ export default function TimeKeepingClient() {
           <div className="w-3/4 flex flex-col lg:flex-row justify-center items-center gap-10 lg:mt-10">
             <div className="border border-red-500 p-10 rounded-lg flex flex-col justify-center items-center cursor-pointer">
               <Image
-                src={currentTeacher?.avatar}
+                src={currentTeacher?.teacher_avatar}
                 alt="alt"
                 className="w-20 h-20 object-cover rounded-full border"
                 width={1000}
