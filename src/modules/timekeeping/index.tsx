@@ -4,20 +4,22 @@
 import Header from "@/layout/header";
 import Footer from "@/layout/footer";
 import Image from "next/image";
+import Cookies from "js-cookie";
 import { LoginModal } from "./login";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Loader } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { HELPER } from "@/utils/helper";
 import { API } from "@/utils/api";
 
 export default function TimeKeepingClient() {
+  const isTKLogin = Cookies.get("isTKLogin");
   const currentTime = new Date().toLocaleTimeString();
   const { toast } = useToast();
   const [teachers, setTeachers] = useState([] as any);
   const [currentTeacher, setCurrentTeacher] = useState(null as any);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(!!isTKLogin);
   const [isCheckIn, setIsCheckIn] = useState(false);
 
   const handleCheckIn = () => {
@@ -36,12 +38,9 @@ export default function TimeKeepingClient() {
           toast({
             title: "Bạn đã check-in thành công!",
             description:
-              "Chúc bạn một ngày làm việc hiệu quả! Đang chuyển hướng về trang chủ...",
+              "Chúc bạn một ngày làm việc hiệu quả! Hãy quay lại check-in sau khi xong việc nhé.",
           });
-
-          setTimeout(() => {
-            window.location.href = "/cham-cong";
-          }, 2000);
+          window.location.href = "/cham-cong";
         } else {
           toast({
             title: "Có lỗi xảy ra",
@@ -73,6 +72,8 @@ export default function TimeKeepingClient() {
               "Chúc bạn một ngày làm việc hiệu quả! Đang chuyển hướng về trang chủ...",
           });
 
+          Cookies.remove("isTKLogin");
+
           setTimeout(() => {
             window.location.href = "/cham-cong";
           }, 2000);
@@ -99,7 +100,21 @@ export default function TimeKeepingClient() {
       .catch((error) => console.error(error));
   };
 
+  const setTeacherFromCookie = useCallback(() => {
+    if (isTKLogin && teachers.length > 0) {
+      const teacherFromCookie = teachers.find(
+        (teacher: any) => teacher._id === isTKLogin
+      );
+      if (teacherFromCookie) {
+        setCurrentTeacher(teacherFromCookie);
+        setIsCheckIn(teacherFromCookie.latest_status !== "need-check-in");
+      }
+    }
+  }, [isTKLogin, teachers]);
+
   const handleLogin = async (code: string) => {
+    if (!currentTeacher?._id) return;
+
     setIsLoading(true);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -112,40 +127,54 @@ export default function TimeKeepingClient() {
       body: raw,
       redirect: "follow",
     };
-    fetch(`${API.TIMEKEEPING_LOGIN}/${currentTeacher?._id}`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        if (result?.data) {
-          setIsLogin(true);
-          if (result.data.latest_status === "need-check-in") {
-            setIsCheckIn(false);
-          } else {
-            setIsCheckIn(true);
-          }
-          setIsLoading(false);
-          toast({
-            title: "Đăng nhập thành công!",
-            description: "Chúc bạn một ngày làm việc hiệu quả!",
-          });
-        } else {
-          toast({
-            title: "Mã code không hợp lệ!",
-            variant: "destructive",
-            description: "Vui lòng kiểm tra lại mã code của bạn!",
-          });
-          setIsLoading(false);
-        }
-      })
-      .catch((error) => console.error(error));
+
+    try {
+      const response = await fetch(
+        `${API.TIMEKEEPING_LOGIN}/${currentTeacher._id}`,
+        requestOptions
+      );
+      const result = await response.json();
+
+      if (result?.data) {
+        Cookies.set("isTKLogin", currentTeacher._id, { expires: 7 });
+        setIsLogin(true);
+        setIsCheckIn(result.data.latest_status !== "need-check-in");
+        setCurrentTeacher({
+          ...currentTeacher,
+          latest_status: result.data.latest_status,
+          latest_datetime_check_in: result.data.latest_datetime_check_in,
+        });
+
+        setIsLoading(false);
+        toast({
+          title: "Đăng nhập thành công!",
+          description: "Chúc bạn một ngày làm việc hiệu quả!",
+        });
+      } else {
+        toast({
+          title: "Mã code không hợp lệ!",
+          variant: "destructive",
+          description: "Vui lòng kiểm tra lại mã code của bạn!",
+        });
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
   };
 
-  const init = () => {
+  const init = useCallback(() => {
     getAllAccount();
-  };
+  }, []);
 
   useEffect(() => {
     init();
   }, []);
+
+  useEffect(() => {
+    setTeacherFromCookie();
+  }, [setTeacherFromCookie]);
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
@@ -196,7 +225,9 @@ export default function TimeKeepingClient() {
                   {currentTeacher?.teacher_name}
                 </h3>
                 <p className="text-[rgb(var(--secondary-rgb))] font-medium">
-                  {HELPER.renderStatusTimeKeeping(currentTeacher.latest_status)}
+                  {HELPER.renderStatusTimeKeeping(
+                    currentTeacher?.latest_status || "need-check-in"
+                  )}
                 </p>
               </div>
             </div>
@@ -218,6 +249,8 @@ export default function TimeKeepingClient() {
               </div>
               <h1 className="text-xl text-center">
                 Thời gian bạn Check-in là: <strong>{currentTime}</strong>
+                <br />
+                Hãy quay lại check-out sau khi xong việc nhé!
               </h1>
             </div>
           </div>
@@ -237,7 +270,9 @@ export default function TimeKeepingClient() {
                   {currentTeacher?.teacher_name}
                 </h3>
                 <p className="text-[rgb(var(--secondary-rgb))] font-medium">
-                  {HELPER.renderStatusTimeKeeping(currentTeacher.latest_status)}
+                  {HELPER.renderStatusTimeKeeping(
+                    currentTeacher?.latest_status || "need-check-in"
+                  )}
                 </p>
               </div>
             </div>
