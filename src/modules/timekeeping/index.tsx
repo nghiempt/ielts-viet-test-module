@@ -14,13 +14,20 @@ import { API } from "@/utils/api";
 
 export default function TimeKeepingClient() {
   const isTKLogin = Cookies.get("isTKLogin");
-  const currentTime = new Date().toLocaleTimeString();
   const { toast } = useToast();
   const [teachers, setTeachers] = useState([] as any);
   const [currentTeacher, setCurrentTeacher] = useState(null as any);
   const [isLoading, setIsLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(!!isTKLogin);
   const [isCheckIn, setIsCheckIn] = useState(false);
+  const [currentTime, setCurrentTime] = useState(
+    new Date().toLocaleTimeString()
+  );
+  const [workingTime, setWorkingTime] = useState(
+    HELPER.calculateWorkingTime(
+      currentTeacher?.latest_datetime_check_in || new Date().toISOString()
+    )
+  );
 
   const handleCheckIn = () => {
     const raw = "";
@@ -176,6 +183,23 @@ export default function TimeKeepingClient() {
     setTeacherFromCookie();
   }, [setTeacherFromCookie]);
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date().toLocaleTimeString());
+      if (isCheckIn && currentTeacher?.latest_datetime_check_in) {
+        setWorkingTime(
+          HELPER.calculateWorkingTime(currentTeacher.latest_datetime_check_in)
+        );
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [
+    isCheckIn,
+    currentTeacher?.latest_datetime_check_in,
+    setTeacherFromCookie,
+  ]);
+
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <Header />
@@ -304,13 +328,7 @@ export default function TimeKeepingClient() {
                 </div>
               </div>
               <h1 className="text-xl text-center">
-                Thời gian bạn đang làm việc là:{" "}
-                <strong>
-                  {HELPER.calculateWorkingTime(
-                    currentTeacher?.latest_datetime_check_in
-                  )}
-                </strong>
-                .
+                Thời gian bạn đang làm việc là: <strong>{workingTime}</strong>.
               </h1>
             </div>
           </div>
