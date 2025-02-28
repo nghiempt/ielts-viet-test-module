@@ -61,9 +61,12 @@ export function LoginModal({
           <div className="grid grid-cols-4 items-center gap-4">
             <Input
               id="code"
+              type="number"
+              placeholder="Ví dụ: 1234"
               value={code}
               onChange={(e) => setCode(e.target.value)}
               className="col-span-4"
+              style={{ fontSize: "16px" }}
             />
           </div>
         </div>

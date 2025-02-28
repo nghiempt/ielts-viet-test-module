@@ -152,12 +152,12 @@ export default function TimeKeepingClient() {
       <Header />
       <div className="w-full flex flex-col justify-center items-center pt-10 pb-20">
         {!isLogin && (
-          <div className="w-3/4">
+          <div className="w-4/5">
             <h1 className="text-2xl text-center">
               Hãy chọn bản thân để Check-in nhé!
             </h1>
             <div
-              className={`grid grid-cols-1 ${
+              className={`grid grid-cols-2 ${
                 teachers?.length === 0 ? "lg:grid-cols-1" : "lg:grid-cols-3"
               } gap-10 mt-10`}
             >
