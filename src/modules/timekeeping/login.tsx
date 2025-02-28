@@ -20,7 +20,7 @@ export function LoginModal({
   isLoading,
   setCurrentTeacher,
 }: any) {
-  const [code, setCode] = useState("66c9d8065aeca85d");
+  const [code, setCode] = useState("");
 
   return (
     <Dialog>
@@ -38,7 +38,13 @@ export function LoginModal({
           />
           <div className="text-center space-y-1 mt-4">
             <h3 className="text-xl font-bold">{teacher.teacher_name}</h3>
-            <p className="text-[rgb(var(--secondary-rgb))] font-medium">
+            <p
+              className={`${
+                teacher.latest_status === "need-check-in"
+                  ? "text-[rgb(var(--secondary-rgb))]"
+                  : "text-green-600"
+              } font-medium`}
+            >
               {HELPER.renderStatusTimeKeeping(teacher.latest_status)}
             </p>
           </div>

@@ -9,11 +9,11 @@ import { useEffect, useState } from "react";
 import { Loader } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { HELPER } from "@/utils/helper";
+import { API } from "@/utils/api";
 
 export default function TimeKeepingClient() {
   const currentTime = new Date().toLocaleTimeString();
   const { toast } = useToast();
-
   const [teachers, setTeachers] = useState([] as any);
   const [currentTeacher, setCurrentTeacher] = useState(null as any);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,10 +27,7 @@ export default function TimeKeepingClient() {
       body: raw,
       redirect: "follow",
     };
-    fetch(
-      `https://api.farmcode.io.vn/v1/ielts-viet/account/check/${currentTeacher?._id}`,
-      requestOptions
-    )
+    fetch(`${API.CHECK_IN_OUT}/${currentTeacher?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.data) {
@@ -38,8 +35,13 @@ export default function TimeKeepingClient() {
           setIsCheckIn(true);
           toast({
             title: "Bạn đã check-in thành công!",
-            description: "Chúc bạn một ngày làm việc hiệu quả!",
+            description:
+              "Chúc bạn một ngày làm việc hiệu quả! Đang chuyển hướng về trang chủ...",
           });
+
+          setTimeout(() => {
+            window.location.href = "/cham-cong";
+          }, 2000);
         } else {
           toast({
             title: "Có lỗi xảy ra",
@@ -59,20 +61,21 @@ export default function TimeKeepingClient() {
       body: raw,
       redirect: "follow",
     };
-    fetch(
-      `https://api.farmcode.io.vn/v1/ielts-viet/account/check/${currentTeacher?._id}`,
-      requestOptions
-    )
+    fetch(`${API.CHECK_IN_OUT}/${currentTeacher?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.data) {
           setIsLoading(false);
-          setIsCheckIn(true);
-          setIsLogin(false);
+          setIsCheckIn(false);
           toast({
             title: "Bạn đã check-out thành công!",
-            description: "Chúc bạn một ngày làm việc hiệu quả!",
+            description:
+              "Chúc bạn một ngày làm việc hiệu quả! Đang chuyển hướng về trang chủ...",
           });
+
+          setTimeout(() => {
+            window.location.href = "/cham-cong";
+          }, 2000);
         } else {
           toast({
             title: "Có lỗi xảy ra",
@@ -90,14 +93,13 @@ export default function TimeKeepingClient() {
       method: "GET",
       redirect: "follow",
     };
-    fetch("https://api.farmcode.io.vn/v1/ielts-viet/account/", requestOptions)
+    fetch(`${API.GET_ALL_TEACHER}`, requestOptions)
       .then((response) => response.json())
       .then((result) => setTeachers(result?.data))
       .catch((error) => console.error(error));
   };
 
   const handleLogin = async (code: string) => {
-    console.log(currentTeacher);
     setIsLoading(true);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -110,14 +112,16 @@ export default function TimeKeepingClient() {
       body: raw,
       redirect: "follow",
     };
-    fetch(
-      `https://api.farmcode.io.vn/v1/ielts-viet/account/${currentTeacher?._id}`,
-      requestOptions
-    )
+    fetch(`${API.TIMEKEEPING_LOGIN}/${currentTeacher?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.data) {
           setIsLogin(true);
+          if (result.data.latest_status === "need-check-in") {
+            setIsCheckIn(false);
+          } else {
+            setIsCheckIn(true);
+          }
           setIsLoading(false);
           toast({
             title: "Đăng nhập thành công!",
@@ -213,7 +217,7 @@ export default function TimeKeepingClient() {
                 </div>
               </div>
               <h1 className="text-xl text-center">
-                Thời gian bạn Check-in là: {currentTime}
+                Thời gian bạn Check-in là: <strong>{currentTime}</strong>
               </h1>
             </div>
           </div>
@@ -239,7 +243,18 @@ export default function TimeKeepingClient() {
             </div>
             <div className="flex flex-col justify-start items-center gap-4">
               <h1 className="text-xl text-center">
-                Bạn đã Check-in lúc 5:20:16 PM
+                Bạn đã Check-in lúc{" "}
+                <strong>
+                  {HELPER.formatDateTime(
+                    currentTeacher?.latest_datetime_check_in
+                  )}
+                </strong>
+                &nbsp;ngày&nbsp;
+                <strong>
+                  {HELPER.formatDateDay(
+                    currentTeacher?.latest_datetime_check_in
+                  )}
+                </strong>
               </h1>
               <div className="flex justify-center items-center">
                 <div
@@ -254,7 +269,13 @@ export default function TimeKeepingClient() {
                 </div>
               </div>
               <h1 className="text-xl text-center">
-                Thời gian bạn đang làm việc là: 118 phút.
+                Thời gian bạn đang làm việc là:{" "}
+                <strong>
+                  {HELPER.calculateWorkingTime(
+                    currentTeacher?.latest_datetime_check_in
+                  )}
+                </strong>
+                .
               </h1>
             </div>
           </div>

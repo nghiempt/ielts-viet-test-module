@@ -11,5 +11,7 @@ export const API = {
   //REVIEWS
   GET_ALL_REVIEW: `${BASE_URL}/ielts-viet/review/`,
   //TIMEKEEPING
-  // GET_ALL_TEACHER: `${BASE_URL}/slider`,
+  GET_ALL_TEACHER: `${BASE_URL}/ielts-viet/account/`,
+  CHECK_IN_OUT: `${BASE_URL}/ielts-viet/account/check`,
+  TIMEKEEPING_LOGIN: `${BASE_URL}/ielts-viet/account`,
 };
