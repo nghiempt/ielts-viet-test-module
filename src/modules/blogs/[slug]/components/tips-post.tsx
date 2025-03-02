@@ -1,10 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BlogService } from "@/services/blog";
 import { HELPER } from "@/utils/helper";
-import sanitizeHtml from "sanitize-html";
-import { useParams } from "next/navigation";
+import { IMAGES } from "@/utils/images";
 
 interface BlogPostProps {
   _id: string;
@@ -24,13 +22,6 @@ export const BlogPost = () => {
   const pathParams = new URLSearchParams(location.search);
   const blogId = pathParams.get("blog");
   const [isLoading, setIsLoading] = useState(true);
-
-  const sanitizedContent = sanitizeHtml(post?.content || "", {
-    allowedTags: ["p", "img", "ul", "li"],
-    allowedAttributes: {
-      img: ["src", "alt"],
-    },
-  });
 
   const handleFacebookShare = (link: string) => {
     window.open(`https://www.facebook.com/share.php?u=${link}`, "_blank");
@@ -76,21 +67,16 @@ export const BlogPost = () => {
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
           {post?.title}
         </h1>
-        <div className="prose max-w-none text-sm md:text-base">
+        <div>
           <div
-            // dangerouslySetInnerHTML={{
-            //   __html: HELPER.sanitizeContent(post?.content || ""),
-            // }}
-
             dangerouslySetInnerHTML={{
-              __html: sanitizedContent,
+              __html: post?.content || "",
             }}
           />
         </div>
         <div className="border-t border-b py-4 mt-8">
           <div className="flex flex-wrap items-center gap-2 md:gap-4">
-            <span className="font-medium">SHARE:</span>
-            <div className="flex gap-2 md:gap-4">
+            <div className="flex flex-row justify-center items-center gap-2 md:gap-4">
               <div
                 onClick={() =>
                   handleFacebookShare(
@@ -99,10 +85,17 @@ export const BlogPost = () => {
                     )}?blog=${post?._id}`
                   )
                 }
-                className="text-gray-500 hover:text-gray-900 cursor-pointer"
+                className="text-white hover:opacity-90 cursor-pointer bg-blue-500 py-2 px-4 rounded-lg"
               >
-                Facebook
+                Chia sẻ ngay
               </div>
+              <Image
+                src={IMAGES.FACEBOOK}
+                alt=""
+                width={1000}
+                height={1000}
+                className="w-8 h-8"
+              />
             </div>
           </div>
         </div>
