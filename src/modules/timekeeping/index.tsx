@@ -20,6 +20,7 @@ export default function TimeKeepingClient() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(!!isTKLogin);
   const [isCheckIn, setIsCheckIn] = useState(false);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [currentTime, setCurrentTime] = useState(
     new Date().toLocaleTimeString()
   );
@@ -47,7 +48,6 @@ export default function TimeKeepingClient() {
             description:
               "Chúc bạn một ngày làm việc hiệu quả! Hãy quay lại check-in sau khi xong việc nhé.",
           });
-          window.location.href = "/cham-cong";
         } else {
           toast({
             title: "Có lỗi xảy ra",
@@ -80,10 +80,8 @@ export default function TimeKeepingClient() {
           });
 
           Cookies.remove("isTKLogin");
-
-          setTimeout(() => {
-            window.location.href = "/cham-cong";
-          }, 2000);
+          setIsCheckingOut(true);
+          window.location.href = "/cham-cong";
         } else {
           toast({
             title: "Có lỗi xảy ra",
@@ -121,7 +119,7 @@ export default function TimeKeepingClient() {
 
   const handleLogin = async (code: string) => {
     if (!currentTeacher?._id) return;
-
+    setIsCheckingOut(false);
     setIsLoading(true);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -234,7 +232,7 @@ export default function TimeKeepingClient() {
             </div>
           </div>
         )}
-        {isLogin && !isCheckIn && (
+        {isLogin && !isCheckIn && !isCheckingOut && (
           <div className="w-3/4 flex flex-col lg:flex-row justify-center items-center gap-10 lg:mt-10">
             <div className="border border-green-500 p-10 rounded-lg flex flex-col justify-center items-center cursor-pointer">
               <Image
@@ -293,10 +291,11 @@ export default function TimeKeepingClient() {
                 <h3 className="text-xl font-bold">
                   {currentTeacher?.teacher_name}
                 </h3>
-                <p className="text-[rgb(var(--secondary-rgb))] font-medium">
-                  {HELPER.renderStatusTimeKeeping(
+                <p className="text-green-600 font-medium">
+                  {/* {HELPER.renderStatusTimeKeeping(
                     currentTeacher?.latest_status || "need-check-in"
-                  )}
+                  )} */}
+                  Đang trong ca
                 </p>
               </div>
             </div>

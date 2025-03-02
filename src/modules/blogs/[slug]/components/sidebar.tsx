@@ -34,15 +34,26 @@ export const Sidebar = ({ data }: { data: any }) => {
   // const [post, setPost] = useState<BlogPostProps | null>(null);
   const [author, setAuthor] = useState<AuthorProps | null>(null);
   const [iPo, setIPo] = useState<string | null>(null);
+  const pathParams = new URLSearchParams(location.search);
+  const blogId = pathParams.get("blog");
   const [isLoading, setIsLoading] = useState(true);
 
   const init = async () => {
-    const storeId = localStorage.getItem("selectedBlogId");
-    setIPo(storeId);
-    const res = await BlogService.getBlogById(storeId || "");
-    if (res) {
-      const auth = await BlogService.getAuthorById(res.author_id || "");
-      setAuthor(auth);
+    if (blogId) {
+      setIPo(blogId);
+      const res = await BlogService.getBlogById(blogId || "");
+      if (res) {
+        const auth = await BlogService.getAuthorById(res.author_id || "");
+        setAuthor(auth);
+      }
+    } else {
+      const storeId = localStorage.getItem("selectedBlogId");
+      setIPo(storeId);
+      const res = await BlogService.getBlogById(storeId || "");
+      if (res) {
+        const auth = await BlogService.getAuthorById(res.author_id || "");
+        setAuthor(auth);
+      }
     }
   };
 

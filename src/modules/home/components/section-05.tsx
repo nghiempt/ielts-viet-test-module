@@ -133,7 +133,7 @@ const Section05 = () => {
                     <p className="text-gray-600 text-sm">{item?.school}</p>
                   </div>
                 </div>
-                <div className="flex flex-row justify-between items-center">
+                <div className="flex flex-row justify-between gap-5 items-center">
                   <StarRating rating={item?.rating} />
                   <div className="text-gray-600 flex items-center">
                     Overall:{" "}

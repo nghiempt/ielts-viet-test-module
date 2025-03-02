@@ -75,36 +75,33 @@ const Section01 = () => {
               handleClick(item._id, item.title);
             }}
           >
-            {/* <Link
+            <Link
               // href={`bai-viet/${slugifyURL(item.title)}-${item?._id}`}
-              href={{
-                pathname: `/bai-viet/${HELPER.convertSpacesToDash(item.title)}`,
-                query: { id: item._id },
-              }}
-            > */}
-            <div className="relative overflow-hidden group aspect-[4/3]">
-              <Image
-                src={item?.thumbnail}
-                alt={item?.title}
-                className="w-full h-full transform transition-transform duration-500 group-hover:scale-105 object-cover"
-                width={1000}
-                height={1000}
-              />
-            </div>
-            <div className="p-6">
-              <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
-                <time>{HELPER.formatDate(item?.created_at)}</time>
-                <span className="text-gray-400">•</span>
-                <span>{item?.author_name}</span>
+              href={`/bai-viet/${HELPER.convertSpacesToDash(item.title)}`}
+            >
+              <div className="relative overflow-hidden group aspect-[4/3]">
+                <Image
+                  src={item?.thumbnail}
+                  alt={item?.title}
+                  className="w-full h-full transform transition-transform duration-500 group-hover:scale-105 object-cover"
+                  width={1000}
+                  height={1000}
+                />
               </div>
-              <h3 className="text-xl font-bold mb-4 line-clamp-2">
-                {item?.title}
-              </h3>
-              <div className="inline-block text-[rgb(var(--secondary-rgb))] font-medium hover:opacity-60 transition-colors duration-300 underline-offset-2 cursor-pointer">
-                Xem chi tiết
+              <div className="p-6">
+                <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
+                  <time>{HELPER.formatDate(item?.created_at)}</time>
+                  <span className="text-gray-400">•</span>
+                  <span>{item?.author_name}</span>
+                </div>
+                <h3 className="text-xl font-bold mb-4 line-clamp-2">
+                  {item?.title}
+                </h3>
+                <div className="inline-block text-[rgb(var(--secondary-rgb))] font-medium hover:opacity-60 transition-colors duration-300 underline-offset-2 cursor-pointer">
+                  Xem chi tiết
+                </div>
               </div>
-            </div>
-            {/* </Link> */}
+            </Link>
           </article>
         ))}
       </div>

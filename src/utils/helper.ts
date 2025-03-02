@@ -66,10 +66,10 @@ const renderStatusTimeKeeping = (status: string) => {
   let result = "";
   switch (status) {
     case "need-check-in":
-      result = "Chưa check-in";
+      result = "Trống";
       break;
     default:
-      result = "Đã check-in";
+      result = "Đang trong ca";
       break;
   }
   return result;

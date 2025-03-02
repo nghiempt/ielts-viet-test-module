@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BlogService } from "@/services/blog";
 import { HELPER } from "@/utils/helper";
+import sanitizeHtml from "sanitize-html";
+import { useParams } from "next/navigation";
 
 interface BlogPostProps {
   _id: string;
@@ -19,13 +21,35 @@ interface BlogPostProps {
 
 export const BlogPost = () => {
   const [post, setPost] = useState<BlogPostProps | null>(null);
+  const pathParams = new URLSearchParams(location.search);
+  const blogId = pathParams.get("blog");
   const [isLoading, setIsLoading] = useState(true);
 
+  const sanitizedContent = sanitizeHtml(post?.content || "", {
+    allowedTags: ["p", "img", "ul", "li"],
+    allowedAttributes: {
+      img: ["src", "alt"],
+    },
+  });
+
+  const handleFacebookShare = (link: string) => {
+    window.open(`https://www.facebook.com/share.php?u=${link}`, "_blank");
+  };
+
   const init = async () => {
-    const storeId = localStorage.getItem("selectedBlogId");
-    const res = await BlogService.getBlogById(storeId || "");
-    if (res) {
-      setPost(res);
+    if (blogId) {
+      if (typeof blogId === "string") {
+        const res = await BlogService.getBlogById(blogId);
+        if (res) {
+          setPost(res);
+        }
+      }
+    } else {
+      const storeId = localStorage.getItem("selectedBlogId");
+      const res = await BlogService.getBlogById(storeId || "");
+      if (res) {
+        setPost(res);
+      }
     }
   };
 
@@ -54,8 +78,12 @@ export const BlogPost = () => {
         </h1>
         <div className="prose max-w-none text-sm md:text-base">
           <div
+            // dangerouslySetInnerHTML={{
+            //   __html: HELPER.sanitizeContent(post?.content || ""),
+            // }}
+
             dangerouslySetInnerHTML={{
-              __html: HELPER.sanitizeContent(post?.content || ""),
+              __html: sanitizedContent,
             }}
           />
         </div>
@@ -63,27 +91,18 @@ export const BlogPost = () => {
           <div className="flex flex-wrap items-center gap-2 md:gap-4">
             <span className="font-medium">SHARE:</span>
             <div className="flex gap-2 md:gap-4">
-              <Link
-                target="_blank"
-                href={post?.facebook || "#"}
-                className="text-gray-500 hover:text-gray-900"
+              <div
+                onClick={() =>
+                  handleFacebookShare(
+                    `https://www.ieltsviet.edu.vn//bai-viet/${HELPER.convertSpacesToDash(
+                      post?.title || ""
+                    )}?blog=${post?._id}`
+                  )
+                }
+                className="text-gray-500 hover:text-gray-900 cursor-pointer"
               >
                 Facebook
-              </Link>
-              <Link
-                target="_blank"
-                href={post?.twitter || "#"}
-                className="text-gray-500 hover:text-gray-900"
-              >
-                Twitter
-              </Link>
-              <Link
-                target="_blank"
-                href={post?.instagram || "#"}
-                className="text-gray-500 hover:text-gray-900"
-              >
-                LinkedIn
-              </Link>
+              </div>
             </div>
           </div>
         </div>
