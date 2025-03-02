@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { BlogService } from "@/services/blog";
 import { HELPER } from "@/utils/helper";
-import { IMAGES } from "@/utils/images";
+import { Facebook } from "lucide-react";
 
 interface BlogPostProps {
   _id: string;
@@ -88,13 +88,7 @@ export const BlogPost = () => {
                 className="flex flex-row justify-center gap-2 items-center text-white hover:opacity-90 cursor-pointer bg-[#1878F2] py-2 px-4 rounded-lg"
               >
                 Chia sẻ ngay
-                <Image
-                  src={IMAGES.FACEBOOK}
-                  alt=""
-                  width={1000}
-                  height={1000}
-                  className="w-8 h-8"
-                />
+                <Facebook color="#ffffff" strokeWidth={0.5} fill="white" />
               </div>
             </div>
           </div>

@@ -22,7 +22,12 @@ export default function TimeKeepingClient() {
   const [isCheckIn, setIsCheckIn] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [currentTime, setCurrentTime] = useState(
-    new Date().toLocaleTimeString()
+    new Date().toLocaleTimeString("vi-VN", {
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    })
   );
   const [workingTime, setWorkingTime] = useState(
     HELPER.calculateWorkingTime(new Date().toISOString())
@@ -41,17 +46,15 @@ export default function TimeKeepingClient() {
         if (result?.data) {
           setIsLoading(false);
           setIsCheckIn(true);
-          // setCurrentTimeCheckIn(new Date().toISOString());
           setCurrentTeacher({
             ...currentTeacher,
-            latest_datetime_check_in: new Date().toISOString(), // Update check-in time
+            latest_datetime_check_in: new Date().toISOString(),
           });
           toast({
             title: "Bạn đã check-in thành công!",
             description:
               "Chúc bạn một ngày làm việc hiệu quả! Hãy quay lại check-in sau khi xong việc nhé.",
           });
-          // window.location.href = "/cham-cong";
         } else {
           toast({
             title: "Có lỗi xảy ra",

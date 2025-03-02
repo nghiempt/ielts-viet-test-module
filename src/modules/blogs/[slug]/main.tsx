@@ -5,7 +5,7 @@ import { BlogPost } from "./components/tips-post";
 import { Sidebar } from "./components/sidebar";
 import SectionFooter from "./components/section-footer";
 import { BlogProvider } from "../components/blog-context";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BlogService } from "@/services/blog";
 
 interface BlogPost {
@@ -21,8 +21,23 @@ interface BlogPost {
   created_at: string;
 }
 
+interface BlogPostProps {
+  _id: string;
+  title: string;
+  thumbnail: string;
+  content: string;
+  facebook: string;
+  twitter: string;
+  instagram: string;
+  author_id: string;
+  author_name: string;
+  created_at: string;
+}
+
 export default function TipsContentDetail() {
   const [data, setData] = React.useState<BlogPost[]>([]);
+  const pathParams = new URLSearchParams(location.search);
+  const blogId = pathParams.get("blog");
 
   const init = async () => {
     try {
@@ -41,7 +56,28 @@ export default function TipsContentDetail() {
 
   useEffect(() => {
     init();
+    getDetailBlog();
   }, []);
+
+  const [post, setPost] = useState<BlogPostProps | null>(null);
+
+  const getDetailBlog = async () => {
+    if (blogId) {
+      if (typeof blogId === "string") {
+        const res = await BlogService.getBlogById(blogId);
+        if (res) {
+          setPost(res);
+        }
+      }
+    } else {
+      const storeId = localStorage.getItem("selectedBlogId");
+      const res = await BlogService.getBlogById(storeId || "");
+      if (res) {
+        setPost(res);
+      }
+    }
+  };
+
   return (
     <main className="w-full flex flex-col justify-center items-center overflow-hidden">
       <div className="w-full relative bg-[#FDF8F5] min-h-[200px] md:min-h-[240px] flex items-center overflow-hidden px-4">
@@ -57,7 +93,7 @@ export default function TipsContentDetail() {
         </div>
         <div className="max-w-7xl mx-auto w-full text-center">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            Chi Tiết Khoá Học
+            Chi Tiết Bài Viết
           </h1>
           <nav className="flex justify-center items-center space-x-2 text-sm md:text-base text-gray-600">
             <Link href="/" className="hover:text-gray-900 transition-colors">
@@ -65,6 +101,12 @@ export default function TipsContentDetail() {
             </Link>
             <span className="text-gray-400">•</span>
             <span className="text-gray-900">Bài Viết</span>
+            <span className="text-gray-400">•</span>
+            <span className="text-gray-900">
+              {(post?.title || "").length > 20
+                ? `${post?.title.slice(0, 20)}...`
+                : post?.title}
+            </span>
           </nav>
         </div>
         <div className="absolute -right-8 md:-right-16 top-1/2 -translate-y-1/2">

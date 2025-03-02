@@ -119,36 +119,34 @@ export const Sidebar = ({ data }: { data: any }) => {
             })
             ?.slice(0, 4)
             ?.map((post: any, index: number) => (
-              <div
+              <Link
                 key={index}
-                onClick={() => {
-                  handleClick(post._id, post.title);
-                }}
-                className="cursor-pointer flex items-start space-x-4 group"
+                href={`/bai-viet/${HELPER.convertSpacesToDash(post.title)}`}
               >
-                {/* <Link
-              key={index}
-              href={`${slugifyURL(post.title)}-${post.id}`}
-              className="flex items-start space-x-4 group"
-              > */}
-                <div className="flex-shrink-0 w-20 h-16 relative">
-                  <Image
-                    src={post?.thumbnail || "/"}
-                    alt={post?.title}
-                    fill
-                    className="rounded-lg object-cover"
-                  />
+                <div
+                  onClick={() => {
+                    handleClick(post._id, post.title);
+                  }}
+                  className="cursor-pointer flex items-start space-x-4 group"
+                >
+                  <div className="flex-shrink-0 w-20 h-20 relative">
+                    <Image
+                      src={post?.thumbnail || "/"}
+                      alt={post?.title}
+                      fill
+                      className="rounded-lg object-cover"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-gray-900 font-medium group-hover:text-blue-600 transition-colors text-sm md:text-base line-clamp-2">
+                      {post?.title}
+                    </h3>
+                    <p className="text-xs md:text-sm text-gray-500 mt-1">
+                      {HELPER.formatDate(post?.created_at)}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-gray-900 font-medium group-hover:text-blue-600 transition-colors text-sm md:text-base line-clamp-2">
-                    {post?.title}
-                  </h3>
-                  <p className="text-xs md:text-sm text-gray-500 mt-1">
-                    {HELPER.formatDate(post?.created_at)}
-                  </p>
-                </div>
-                {/* </Link> */}
-              </div>
+              </Link>
             ))}
         </div>
       </div>

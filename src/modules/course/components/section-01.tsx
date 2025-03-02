@@ -97,7 +97,7 @@ const courses: Course[] = [
       name: "Cô Lê Đức Anh Thư",
       avatar:
         "https://res.cloudinary.com/farmcode/image/upload/v1737517741/ielts-viet/ylsyb61zi9kyascwp0it.jpg",
-      rating: 5.0,
+      rating: 4.5,
     },
     studentsCount: 8,
     lessonsCount: 30,
@@ -120,6 +120,24 @@ const courses: Course[] = [
       "https://res.cloudinary.com/farmcode/image/upload/v1737486036/ielts-viet/mplejel4nxfszo5h22bb.jpg",
   },
 ];
+
+const StarRating = ({ rating }: { rating: number }) => {
+  return (
+    <div className="flex items-center gap-1">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <Star
+          key={star}
+          className={`w-4 h-4 ${
+            star <= rating
+              ? "fill-[rgb(var(--secondary-rgb))] text-[rgb(var(--secondary-rgb))]"
+              : "text-gray-300"
+          }`}
+        />
+      ))}
+      <span className="ml-1 text-gray-600">({rating})</span>
+    </div>
+  );
+};
 
 const Section01 = () => {
   return (
@@ -167,8 +185,9 @@ const Section01 = () => {
                             {course?.instructor.name}
                           </p>
                           <div className="flex items-center gap-1">
-                            <Star className="w-4 h-4 fill-[rgb(var(--secondary-rgb))] text-[rgb(var(--secondary-rgb))]" />
-                            <span>({course?.instructor.rating})</span>
+                            {/* <Star className="w-4 h-4 fill-[rgb(var(--secondary-rgb))] text-[rgb(var(--secondary-rgb))]" />
+                            <span>({course?.instructor.rating})</span> */}
+                            <StarRating rating={course?.instructor.rating} />
                           </div>
                         </div>
                       </div>
