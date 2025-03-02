@@ -183,7 +183,14 @@ export default function TimeKeepingClient() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentTime(new Date().toLocaleTimeString());
+      setCurrentTime(
+        new Date().toLocaleTimeString("vi-VN", {
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      );
       if (isCheckIn && currentTeacher?.latest_datetime_check_in) {
         setWorkingTime(
           HELPER.calculateWorkingTime(currentTeacher.latest_datetime_check_in)
@@ -255,7 +262,7 @@ export default function TimeKeepingClient() {
             </div>
             <div className="flex flex-col justify-start items-center gap-4">
               <h1 className="text-xl text-center">
-                Click vào nút bên dưới để Check-in
+                Click vào nút bên dưới để Check-in vào ca làm việc nhé!
               </h1>
               <div className="flex justify-center items-center">
                 <div
@@ -272,7 +279,7 @@ export default function TimeKeepingClient() {
               <h1 className="text-xl text-center">
                 Thời gian bạn Check-in là: <strong>{currentTime}</strong>
                 <br />
-                Hãy quay lại check-out sau khi xong việc nhé!
+                Hãy quay lại Check-out sau khi xong việc nhé!
               </h1>
             </div>
           </div>

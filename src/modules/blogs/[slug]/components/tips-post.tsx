@@ -85,17 +85,17 @@ export const BlogPost = () => {
                     )}?blog=${post?._id}`
                   )
                 }
-                className="text-white hover:opacity-90 cursor-pointer bg-blue-500 py-2 px-4 rounded-lg"
+                className="flex flex-row justify-center gap-2 items-center text-white hover:opacity-90 cursor-pointer bg-[#1878F2] py-2 px-4 rounded-lg"
               >
                 Chia sẻ ngay
+                <Image
+                  src={IMAGES.FACEBOOK}
+                  alt=""
+                  width={1000}
+                  height={1000}
+                  className="w-8 h-8"
+                />
               </div>
-              <Image
-                src={IMAGES.FACEBOOK}
-                alt=""
-                width={1000}
-                height={1000}
-                className="w-[39px] h-[39px]"
-              />
             </div>
           </div>
         </div>
