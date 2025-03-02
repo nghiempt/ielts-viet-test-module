@@ -94,7 +94,7 @@ export const BlogPost = () => {
                 alt=""
                 width={1000}
                 height={1000}
-                className="w-8 h-8"
+                className="w-[39px] h-[39px]"
               />
             </div>
           </div>
