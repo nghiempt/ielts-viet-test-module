@@ -6,6 +6,7 @@ import PassageProgressBar from "./components/processing-bar";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Grid2x2Check } from "lucide-react";
 import PassageProgressBarMobile from "./components/processing-bar-mobile";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface QuestionOption {
   id: string;
@@ -26,9 +27,14 @@ interface MultipleChoiceQuestion {
   selectedAnswers: string[];
 }
 
-const PopupMenu = () => {
+const PopupMenu = ({
+  isOpen,
+  setIsOpen,
+}: {
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+}) => {
   const [selectedTab, setSelectedTab] = useState(0);
-  const [isOpen, setIsOpen] = useState(true);
 
   // Section data from your original code
   const sections = [
@@ -64,162 +70,170 @@ const PopupMenu = () => {
     return section ? questionIndex < section.answeredQuestions : false;
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="">
-      <div className="bg-white rounded-t-[40px] shadow-lg w-full max-w-md overflow-hidden">
-        <div className="bg-black w-32 h-[4px] rounded-full mx-auto mt-3"></div>
-        {/* Header */}
-        <div className="px-6 pb-0 pt-3 flex justify-between items-center">
-          <h2 className="text-lg font-semibold">Lưu ý</h2>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="text-gray-400 hover:text-gray-600"
-          >
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ y: "100%" }}
+          animate={{ y: 0 }}
+          exit={{ y: "100%" }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="fixed bottom-0 left-0 right-0 z-30"
+        >
+          <div className="bg-white rounded-t-[40px] shadow-lg w-full max-w-md mx-auto overflow-hidden">
+            <div className="bg-black w-32 h-[4px] rounded-full mx-auto mt-3"></div>
+            {/* Header */}
+            <div className="px-6 pb-0 pt-3 flex justify-between items-center">
+              <h2 className="text-lg font-semibold">Lưu ý</h2>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
 
-        {/* Instruction */}
-        <div className="px-6 py-3">
-          <p className="text-gray-700 text-xs">
-            Bạn có 10 câu hỏi để review và sửa lại đáp án ở các sections 1, 2, 3
-            và 4.
-          </p>
-        </div>
+            {/* Instruction */}
+            <div className="px-6 py-3">
+              <p className="text-gray-700 text-xs">
+                Bạn có 10 câu hỏi để review và sửa lại đáp án ở các sections 1,
+                2, 3 và 4.
+              </p>
+            </div>
 
-        {/* Tabs */}
-        <div className="flex border-b">
-          <button
-            className={`flex-1 py-3 text-center font-medium text-sm ${
-              selectedTab === 0
-                ? "text-orange-500 border-b-2 border-orange-500"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-            onClick={() => setSelectedTab(0)}
-          >
-            Sections 1-2
-          </button>
-          <button
-            className={`flex-1 py-3 text-center font-medium text-sm ${
-              selectedTab === 1
-                ? "text-orange-500 border-b-2 border-orange-500"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-            onClick={() => setSelectedTab(1)}
-          >
-            Sections 3-4
-          </button>
-        </div>
+            {/* Tabs */}
+            <div className="flex border-b">
+              <button
+                className={`flex-1 py-3 text-center font-medium text-sm ${
+                  selectedTab === 0
+                    ? "text-orange-500 border-b-2 border-orange-500"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+                onClick={() => setSelectedTab(0)}
+              >
+                Sections 1-2
+              </button>
+              <button
+                className={`flex-1 py-3 text-center font-medium text-sm ${
+                  selectedTab === 1
+                    ? "text-orange-500 border-b-2 border-orange-500"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+                onClick={() => setSelectedTab(1)}
+              >
+                Sections 3-4
+              </button>
+            </div>
 
-        {/* Tab Content */}
-        <div className="px-6 py-4 overflow-y-auto">
-          {selectedTab === 0 && (
-            <>
-              {/* Section 1 */}
-              <div className="mb-5">
-                <h3 className="text-sm font-bold mb-3">SECTION 1</h3>
-                <div className="grid grid-cols-5 gap-4">
-                  {sections[0].questionRange.map((num) => (
-                    <div
-                      key={num}
-                      className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
-                        getQuestionStatus(1, num)
-                          ? "bg-green-500 text-white"
-                          : "bg-gray-200 text-gray-700"
-                      }`}
-                    >
-                      {num}
+            {/* Tab Content */}
+            <div className="px-6 py-4 overflow-y-auto max-h-[60vh]">
+              {selectedTab === 0 && (
+                <>
+                  {/* Section 1 */}
+                  <div className="mb-5">
+                    <h3 className="text-sm font-bold mb-3">SECTION 1</h3>
+                    <div className="grid grid-cols-5 gap-4">
+                      {sections[0].questionRange.map((num) => (
+                        <div
+                          key={num}
+                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
+                            getQuestionStatus(1, num)
+                              ? "bg-green-500 text-white"
+                              : "bg-gray-200 text-gray-700"
+                          }`}
+                        >
+                          {num}
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
-              {/* Section 2 */}
-              <div>
-                <h3 className="text-sm font-bold mb-3">SECTION 2</h3>
-                <div className="grid grid-cols-5 gap-4">
-                  {sections[1].questionRange.map((num) => (
-                    <div
-                      key={num}
-                      className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
-                        getQuestionStatus(2, num)
-                          ? "bg-green-500 text-white"
-                          : "bg-gray-200 text-gray-700"
-                      }`}
-                    >
-                      {num}
+                  </div>
+                  {/* Section 2 */}
+                  <div>
+                    <h3 className="text-sm font-bold mb-3">SECTION 2</h3>
+                    <div className="grid grid-cols-5 gap-4">
+                      {sections[1].questionRange.map((num) => (
+                        <div
+                          key={num}
+                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
+                            getQuestionStatus(2, num)
+                              ? "bg-green-500 text-white"
+                              : "bg-gray-200 text-gray-700"
+                          }`}
+                        >
+                          {num}
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
-          {selectedTab === 1 && (
-            <>
-              {/* Section 3 */}
-              <div className="mb-5">
-                <h3 className="text-sm font-bold mb-3">SECTION 3</h3>
-                <div className="grid grid-cols-5 gap-4">
-                  {sections[2].questionRange.map((num) => (
-                    <div
-                      key={num}
-                      className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
-                        getQuestionStatus(3, num)
-                          ? "bg-green-500 text-white"
-                          : "bg-gray-200 text-gray-700"
-                      }`}
-                    >
-                      {num}
+                  </div>
+                </>
+              )}
+              {selectedTab === 1 && (
+                <>
+                  {/* Section 3 */}
+                  <div className="mb-5">
+                    <h3 className="text-sm font-bold mb-3">SECTION 3</h3>
+                    <div className="grid grid-cols-5 gap-4">
+                      {sections[2].questionRange.map((num) => (
+                        <div
+                          key={num}
+                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
+                            getQuestionStatus(3, num)
+                              ? "bg-green-500 text-white"
+                              : "bg-gray-200 text-gray-700"
+                          }`}
+                        >
+                          {num}
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
-              {/* Section 4 */}
-              <div>
-                <h3 className="text-sm font-bold mb-3">SECTION 4</h3>
-                <div className="grid grid-cols-5 gap-4">
-                  {sections[3].questionRange.map((num) => (
-                    <div
-                      key={num}
-                      className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
-                        getQuestionStatus(4, num)
-                          ? "bg-green-500 text-white"
-                          : "bg-gray-200 text-gray-700"
-                      }`}
-                    >
-                      {num}
+                  </div>
+                  {/* Section 4 */}
+                  <div>
+                    <h3 className="text-sm font-bold mb-3">SECTION 4</h3>
+                    <div className="grid grid-cols-5 gap-4">
+                      {sections[3].questionRange.map((num) => (
+                        <div
+                          key={num}
+                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
+                            getQuestionStatus(4, num)
+                              ? "bg-green-500 text-white"
+                              : "bg-gray-200 text-gray-700"
+                          }`}
+                        >
+                          {num}
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
-        </div>
+                  </div>
+                </>
+              )}
+            </div>
 
-        {/* Submit Button */}
-        <div className="px-4 py-5">
-          <button
-            onClick={() => alert("Answers submitted!")}
-            className="w-full py-3 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 transition duration-150"
-          >
-            Submit
-          </button>
-        </div>
-      </div>
-    </div>
+            {/* Submit Button */}
+            <div className="px-4 py-5">
+              <button
+                onClick={() => alert("Answers submitted!")}
+                className="w-full py-3 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 transition duration-150"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
@@ -227,6 +241,7 @@ const ListeningTestClient: React.FC = () => {
   const [activeSection, setActiveSection] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [timeLeft, setTimeLeft] = useState("57:25");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const multipleChoiceQuestions: MultipleChoiceQuestion[] = [
     // Section 1
@@ -939,6 +954,7 @@ const ListeningTestClient: React.FC = () => {
             <div className="w-full flex justify-center">
               <div
                 className={`w-11 h-11 border-2 border-gray-300 rounded-full bg-white cursor-pointer flex items-center justify-center`}
+                onClick={() => setIsPopupOpen(true)}
               >
                 <Grid2x2Check color="#6B7280" size={17} />
               </div>
@@ -954,9 +970,11 @@ const ListeningTestClient: React.FC = () => {
 
       {/* POPUP MENU QUESTIONS  */}
       <div className="fixed bottom-0 left-0 right-0 z-30">
-        <PopupMenu />
+        <PopupMenu isOpen={isPopupOpen} setIsOpen={setIsPopupOpen} />
       </div>
-      <div className="absolute bottom-0 top-0 left-0 right-0 bg-black opacity-30 z-20"></div>
+      {isPopupOpen && (
+        <div className="absolute bottom-0 top-0 left-0 right-0 bg-black opacity-30 z-20"></div>
+      )}
     </div>
   );
 };
