@@ -755,7 +755,7 @@ const ListeningTestClient: React.FC = () => {
       </header>
 
       {/* Main Content */}
-      <div className="fixed top-[64px] bottom-[108px] left-0 right-0 overflow-y-auto">
+      <div className="fixed top-[0] bottom-[0] left-0 right-0 overflow-y-auto pt-12 pb-16">
         <div className="container mx-auto w-full lg:w-[65%] p-3 lg:p-4 pt-5 pb-3">
           {/* Multiple Choice Questions */}
           <div className="mb-4">

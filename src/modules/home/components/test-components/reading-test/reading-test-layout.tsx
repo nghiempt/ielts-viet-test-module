@@ -112,7 +112,7 @@ const ReadingTestLayout = () => {
               bulletActiveClass: "swiper-pagination-bullet-active bg-white",
             }}
             modules={[Pagination, Navigation, Autoplay]}
-            className="w-80 sm:w-96 lg:w-[100%] h-[400px] lg:h-[380px]"
+            className="w-80 sm:w-96 lg:w-[100%] h-[400px] sm:h-[430px] lg:h-[380px]"
           >
             {readingTest.map((book, index) => (
               <SwiperSlide key={index} className="">

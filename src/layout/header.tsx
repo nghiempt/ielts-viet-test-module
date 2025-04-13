@@ -2,13 +2,9 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import {
-  BookMarked,
   House,
-  Info,
-  LibraryBig,
   ChevronDown,
   BookOpenText,
   Headphones,
@@ -88,7 +84,7 @@ const Header = () => {
             <Image
               src={IMAGES.LOGO}
               alt="alt"
-              className="w-full h-12 object-cover"
+              className="w-full h-12 object-contain"
               width={1000}
               height={0}
             />
