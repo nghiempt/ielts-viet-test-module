@@ -1,14 +1,13 @@
 "use client";
 
-import { BlogProvider } from "@/modules/test-toan-bo/components/blog-context";
-import HomeClient from "@/modules/home";
+import WritingClient from "@/modules/test-viet";
 import { Loader } from "lucide-react";
 import React, { Suspense } from "react";
 
-export default function Home() {
+export default function Writings() {
   return (
     <div className="w-full flex flex-col justify-center items-center">
-      <BlogProvider>
+      {/* <BlogProvider>
         <Suspense
           fallback={
             <div className="w-full h-[500px] flex flex-col justify-center items-center">
@@ -16,9 +15,19 @@ export default function Home() {
             </div>
           }
         >
-          <HomeClient />
+          <TipsClient />
         </Suspense>
-      </BlogProvider>
+      </BlogProvider> */}
+
+      <Suspense
+        fallback={
+          <div className="w-full h-[500px] flex flex-col justify-center items-center">
+            <Loader className="animate-spin" size={24} />
+          </div>
+        }
+      >
+        <WritingClient />
+      </Suspense>
     </div>
   );
 }
