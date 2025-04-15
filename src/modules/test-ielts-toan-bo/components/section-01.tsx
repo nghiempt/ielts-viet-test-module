@@ -101,101 +101,96 @@ export default function Section01() {
         </p>
 
         {/* Test Sections */}
-        <div className="mb-8">
-          <div className="hidden lg:flex mb-2 text-base lg:text-xl">
-            <div className="w-28 font-bold text-gray-800 mr-8">BÀI TEST</div>
-            <div className="w-28 font-bold text-gray-800 mr-16">READING</div>
-            <div className="w-28 font-bold text-gray-800 mr-16">LISTENING</div>
-            <div className="font-bold text-gray-800">WRITING</div>
+        <div className="mb-8 w-full">
+          {/* Desktop Header */}
+          <div className="hidden lg:grid lg:grid-cols-4 gap-4 mb-4 text-base lg:text-lg border-b border-gray-200 pb-2">
+            <div className="font-bold text-gray-800 text-center">BÀI TEST</div>
+            <div className="font-bold text-gray-800 text-center">READING</div>
+            <div className="font-bold text-gray-800 text-center">LISTENING</div>
+            <div className="font-bold text-gray-800 text-center">WRITING</div>
           </div>
 
+          {/* Tests */}
           {tests.map((test) => (
             <div
               key={test.id}
-              className=" flex flex-col lg:flex-row justify-center items-center py-3 border-b border-gray-200"
+              className="flex flex-col lg:grid lg:grid-cols-4 gap-4 items-center py-3 border-b border-gray-200"
             >
-              <div className="w-full text-center lg:text-left mb-5 lg:mb-0 lg:w-32">
-                <div className="font-medium text-lg lg:text-sm">
+              {/* Test ID */}
+              <div className="w-full text-center mb-4 lg:mb-0">
+                <div className="font-medium text-lg lg:text-base">
                   Test {test.id}
                 </div>
               </div>
 
-              <div className="w-80 lg:w-full flex md:grid overflow-x-auto md:overflow-visible gap-4 md:gap-6 md:grid-cols-3 pb-4 md:pb-0 px-0 mx-0 snap-x snap-mandatory scrollbar scrollbar-thumb-gray-300 scrollbar-track-gray-100 scroll-bar-style">
-                <div className="flex-shrink-0 flex items-center">
-                  {test.hasReading && (
+              {/* Mobile: Horizontal Scroll, Desktop: Grid */}
+              <div className="w-full lg:col-span-3 flex overflow-x-auto lg:overflow-visible gap-4 lg:grid lg:grid-cols-3 pb-4 lg:pb-0 px-0 mx-0 snap-x snap-mandatory scrollbar scrollbar-thumb-gray-300 scrollbar-track-gray-100 scroll-bar-style">
+                {/* Reading */}
+                <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
+                  {test.hasReading ? (
                     <div className="flex flex-col justify-center items-center gap-1">
                       <div className="border-4 border-gray-200 p-3 rounded-full">
                         <BookOpenText />
                       </div>
-                      <button
-                        className={`flex items-center justify-center py-2 px-4 mt-4 rounded-lg border
-                          border-gray-300 text-black hover:border-[#FA812F]
-                       w-full text-sm font-medium`}
-                      >
+                      <button className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium">
                         <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F] p-3">
-                          <div>
-                            <PlayIcon
-                              color="#FA812F"
-                              fill="#FA812F"
-                              size={15}
-                            />
-                          </div>
+                          <PlayIcon
+                            color="#FA812F"
+                            fill="#FA812F"
+                            className="w-4 h-4"
+                          />
                         </div>
                         <span>Làm bài</span>
                       </button>
                     </div>
+                  ) : (
+                    <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
                   )}
                 </div>
 
-                <div className="flex-shrink-0 flex items-center">
-                  {test.hasListening && (
+                {/* Listening */}
+                <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
+                  {test.hasListening ? (
                     <div className="flex flex-col justify-center items-center gap-1">
                       <div className="border-4 border-gray-200 p-3 rounded-full">
                         <Headphones />
                       </div>
-                      <button
-                        className={`flex items-center justify-center py-2 px-4 mt-4 rounded-lg border
-                          border-gray-300 text-black hover:border-[#FA812F]
-                       w-full text-sm font-medium`}
-                      >
+                      <button className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium">
                         <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F] p-3">
-                          <div>
-                            <PlayIcon
-                              color="#FA812F"
-                              fill="#FA812F"
-                              size={15}
-                            />
-                          </div>
+                          <PlayIcon
+                            color="#FA812F"
+                            fill="#FA812F"
+                            className="w-4 h-4"
+                          />
                         </div>
                         <span>Làm bài</span>
                       </button>
                     </div>
+                  ) : (
+                    <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
                   )}
                 </div>
 
-                <div className="flex-shrink-0 flex items-center">
-                  {test.hasWriting && (
+                {/* Writing */}
+                <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
+                  {test.hasWriting ? (
                     <div className="flex flex-col justify-center items-center gap-1">
                       <div className="border-4 border-gray-200 p-3 rounded-full">
                         <PenLine />
                       </div>
-                      <button
-                        className={`flex items-center justify-center py-2 px-4 mt-4 rounded-lg border
-                          border-gray-300 text-black hover:border-[#FA812F]
-                       w-full text-sm font-medium`}
-                      >
+                      <button className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium">
                         <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F] p-3">
-                          <div>
-                            <PlayIcon
-                              color="#FA812F"
-                              fill="#FA812F"
-                              size={15}
-                            />
-                          </div>
+                          <PlayIcon
+                            color="#FA812F"
+                            fill="#FA812F"
+                            className="w-4 h-4"
+                          />
                         </div>
                         <span>Làm bài</span>
                       </button>
                     </div>
+                  ) : (
+                    <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
                   )}
                 </div>
               </div>

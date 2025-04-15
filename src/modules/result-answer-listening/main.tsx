@@ -27,12 +27,16 @@ interface MultipleChoiceQuestion {
   selectedAnswers: string[];
 }
 
-const PopupMenu = ({
-  isOpen,
-  setIsOpen,
-}: {
+interface PopupMenuProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
+  onQuestionSelect: (questionNum: number) => void;
+}
+
+const PopupMenu: React.FC<PopupMenuProps> = ({
+  isOpen,
+  setIsOpen,
+  onQuestionSelect,
 }) => {
   const [selectedTab, setSelectedTab] = useState(0);
 
@@ -64,7 +68,7 @@ const PopupMenu = ({
     },
   ];
 
-  const getQuestionStatus = (sectionId: any, questionNum: any) => {
+  const getQuestionStatus = (sectionId: number, questionNum: number) => {
     const section = sections.find((s) => s.id === sectionId);
     const questionIndex = section ? questionNum - section.questionRange[0] : -1;
     return section ? questionIndex < section.answeredQuestions : false;
@@ -82,7 +86,6 @@ const PopupMenu = ({
         >
           <div className="bg-white rounded-t-[40px] shadow-lg w-full max-w-md mx-auto overflow-hidden">
             <div className="bg-black w-32 h-[4px] rounded-full mx-auto mt-3"></div>
-            {/* Header */}
             <div className="px-6 pb-0 pt-3 flex justify-between items-center">
               <h2 className="text-lg font-semibold">Lưu ý</h2>
               <button
@@ -104,16 +107,12 @@ const PopupMenu = ({
                 </svg>
               </button>
             </div>
-
-            {/* Instruction */}
             <div className="px-6 py-3">
               <p className="text-gray-700 text-xs">
                 Bạn có 10 câu hỏi để review và sửa lại đáp án ở các sections 1,
                 2, 3 và 4.
               </p>
             </div>
-
-            {/* Tabs */}
             <div className="flex border-b">
               <button
                 className={`flex-1 py-3 text-center font-medium text-sm ${
@@ -136,41 +135,45 @@ const PopupMenu = ({
                 Sections 3-4
               </button>
             </div>
-
-            {/* Tab Content */}
             <div className="px-6 py-4 overflow-y-auto max-h-[60vh]">
               {selectedTab === 0 && (
                 <>
-                  {/* Section 1 */}
                   <div className="mb-5">
                     <h3 className="text-sm font-bold mb-3">SECTION 1</h3>
                     <div className="grid grid-cols-5 gap-4">
                       {sections[0].questionRange.map((num) => (
                         <div
                           key={num}
-                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
+                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium cursor-pointer ${
                             getQuestionStatus(1, num)
                               ? "bg-green-500 text-white"
                               : "bg-gray-200 text-gray-700"
                           }`}
+                          onClick={() => {
+                            onQuestionSelect(num);
+                            setIsOpen(false);
+                          }}
                         >
                           {num}
                         </div>
                       ))}
                     </div>
                   </div>
-                  {/* Section 2 */}
                   <div>
                     <h3 className="text-sm font-bold mb-3">SECTION 2</h3>
                     <div className="grid grid-cols-5 gap-4">
                       {sections[1].questionRange.map((num) => (
                         <div
                           key={num}
-                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
+                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium cursor-pointer ${
                             getQuestionStatus(2, num)
                               ? "bg-green-500 text-white"
                               : "bg-gray-200 text-gray-700"
                           }`}
+                          onClick={() => {
+                            onQuestionSelect(num);
+                            setIsOpen(false);
+                          }}
                         >
                           {num}
                         </div>
@@ -181,36 +184,42 @@ const PopupMenu = ({
               )}
               {selectedTab === 1 && (
                 <>
-                  {/* Section 3 */}
                   <div className="mb-5">
                     <h3 className="text-sm font-bold mb-3">SECTION 3</h3>
                     <div className="grid grid-cols-5 gap-4">
                       {sections[2].questionRange.map((num) => (
                         <div
                           key={num}
-                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
+                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium cursor-pointer ${
                             getQuestionStatus(3, num)
                               ? "bg-green-500 text-white"
                               : "bg-gray-200 text-gray-700"
                           }`}
+                          onClick={() => {
+                            onQuestionSelect(num);
+                            setIsOpen(false);
+                          }}
                         >
                           {num}
                         </div>
                       ))}
                     </div>
                   </div>
-                  {/* Section 4 */}
                   <div>
                     <h3 className="text-sm font-bold mb-3">SECTION 4</h3>
                     <div className="grid grid-cols-5 gap-4">
                       {sections[3].questionRange.map((num) => (
                         <div
                           key={num}
-                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
+                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium cursor-pointer ${
                             getQuestionStatus(4, num)
                               ? "bg-green-500 text-white"
                               : "bg-gray-200 text-gray-700"
                           }`}
+                          onClick={() => {
+                            onQuestionSelect(num);
+                            setIsOpen(false);
+                          }}
                         >
                           {num}
                         </div>
@@ -220,8 +229,6 @@ const PopupMenu = ({
                 </>
               )}
             </div>
-
-            {/* Submit Button */}
             <div className="px-4 py-5">
               <button
                 onClick={() => alert("Answers submitted!")}
@@ -240,6 +247,7 @@ const PopupMenu = ({
 const ListeningTestClient: React.FC = () => {
   const [activeSection, setActiveSection] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedQuestion, setSelectedQuestion] = useState(1);
   const [timeLeft, setTimeLeft] = useState("57:25");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -683,6 +691,60 @@ const ListeningTestClient: React.FC = () => {
   const handleSectionSelect = (sectionId: number) => {
     setActiveSection(sectionId);
     setCurrentPage(sectionId);
+    const section = sections.find((s) => s.id === sectionId);
+    if (
+      section &&
+      (selectedQuestion < section.questionRange[0] ||
+        selectedQuestion >
+          section.questionRange[section.questionRange.length - 1])
+    ) {
+      setSelectedQuestion(section.questionRange[0]);
+    }
+  };
+
+  const handleQuestionSelect = (questionNum: number) => {
+    const section = sections.find(
+      (s) =>
+        questionNum >= s.questionRange[0] &&
+        questionNum <= s.questionRange[s.questionRange.length - 1]
+    );
+    if (section) {
+      setActiveSection(section.id);
+      setCurrentPage(section.id);
+      setSelectedQuestion(questionNum);
+    }
+  };
+
+  const handleNextQuestion = () => {
+    if (selectedQuestion < sections[sections.length - 1].questionRange[9]) {
+      const nextQuestion = selectedQuestion + 1;
+      const nextSection = sections.find(
+        (s) =>
+          nextQuestion >= s.questionRange[0] &&
+          nextQuestion <= s.questionRange[s.questionRange.length - 1]
+      );
+      if (nextSection) {
+        setActiveSection(nextSection.id);
+        setCurrentPage(nextSection.id);
+        setSelectedQuestion(nextQuestion);
+      }
+    }
+  };
+
+  const handlePreviousQuestion = () => {
+    if (selectedQuestion > sections[0].questionRange[0]) {
+      const prevQuestion = selectedQuestion - 1;
+      const prevSection = sections.find(
+        (s) =>
+          prevQuestion >= s.questionRange[0] &&
+          prevQuestion <= s.questionRange[s.questionRange.length - 1]
+      );
+      if (prevSection) {
+        setActiveSection(prevSection.id);
+        setCurrentPage(prevSection.id);
+        setSelectedQuestion(prevQuestion);
+      }
+    }
   };
 
   const currentSection = sections.find(
@@ -695,7 +757,6 @@ const ListeningTestClient: React.FC = () => {
     currentSection?.matchQuestions.includes(q.id)
   );
 
-  // Add function to determine answered status
   const getAnsweredStatus = (questionNum: number) => {
     const questionIndex =
       questionNum - (currentSection?.questionRange[0] || 1) + 1;
@@ -715,28 +776,11 @@ const ListeningTestClient: React.FC = () => {
             className="w-full h-full"
           />
         </div>
-        <div className="text-center">
-          <div className="font-semibold">IELTS Online Test</div>
-          <div className="text-sm text-gray-600">CAM16 - Listening Test 4</div>
+        <div className="text-center mr-28">
+          <div className="font-semibold">IELTS Reading Test</div>
+          <div className="text-sm text-gray-600">CAM13 - Reading Test 4</div>
         </div>
         <div className="flex items-center">
-          <div className="bg-gray-100 px-3 py-1 rounded-full flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 text-gray-500 mr-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>{timeLeft}</span>
-          </div>
           <Link href="/" className="text-gray-400 hover:text-gray-600 ml-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -754,14 +798,12 @@ const ListeningTestClient: React.FC = () => {
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="fixed top-[0] bottom-[0] left-0 right-0 overflow-y-auto pt-12 pb-16">
-        <div className="container mx-auto w-full lg:w-[65%] p-3 lg:p-4 pt-5 lg:pt-10 pb-3 lg:pb-16">
-          {/* Multiple Choice Questions */}
+      <div className="fixed top-[0] bottom-[0] left-0 right-0 overflow-y-auto pt-20 pb-28">
+        <div className="container mx-auto w-full lg:w-[65%] p-3 lg:p-4 pt-5 pb-3">
           <div className="mb-4">
             <div className="bg-[#FA812F] text-white py-4 px-4 rounded-md flex justify-between items-center mb-2">
               <h2 className="font-medium">
-                Questions {currentSection?.mcQuestions[0].charAt(0)} {"-"}
+                Questions {currentSection?.mcQuestions[0].charAt(0)} -{" "}
                 {currentSection?.mcQuestions[1].charAt(2)}
               </h2>
               <span className="text-sm ml-5">Choose TWO letters, A-E.</span>
@@ -790,7 +832,6 @@ const ListeningTestClient: React.FC = () => {
             </div>
           </div>
 
-          {/* Matching Questions */}
           <div className="mb-4">
             <div className="bg-[#FA812F] text-white py-4 px-4 rounded-md flex justify-between items-center mb-2">
               <h2 className="font-medium">
@@ -852,105 +893,77 @@ const ListeningTestClient: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white z-10">
-        <div className="hidden lg:flex flex-wrap justify-center mt-2 gap-1 max-w-3xl mx-auto pb-2">
-          {currentSection?.questionRange.map((questionNum) => {
-            const isAnswered = getAnsweredStatus(questionNum);
-            return (
-              <button
-                key={questionNum}
-                className={`w-8 h-8 rounded-md flex items-center justify-center text-xs ${
-                  isAnswered
-                    ? "bg-[#FA812F] text-white"
-                    : "bg-gray-100 text-gray-800"
-                }`}
-                onClick={() => handleSectionSelect(currentSection?.id || 1)}
-              >
-                {questionNum}
-              </button>
-            );
-          })}
-        </div>
-        {/* NAVIGATION DESKTOP  */}
-        <div className="hidden lg:flex justify-between items-center p-2 border-t border-gray-200">
-          <div
-            className={`${
-              activeSection === 1 ? "" : "border border-[#FA812F]"
-            } w-36 flex justify-center items-center rounded-lg py-2 px-4 bg-white ml-4 cursor-pointer`}
-            onClick={() =>
-              handleSectionSelect(activeSection > 1 ? activeSection - 1 : 4)
-            }
-          >
-            <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center ${
-                activeSection === 1 ? "hidden" : "flex"
-              }`}
-            >
-              <ChevronLeft color="#FA812F" /> Section {activeSection - 1}
-            </div>
-          </div>
-          <div className="flex justify-center text-sm">
+      <div className="fixed bottom-0 left-0 right-0 bg-white pt-0 pb-2 lg:pt-0 lg:pb-2 z-10">
+        <div className="hidden lg:flex justify-between mt-0 text-sm border-t border-gray-100 pt-0">
+          <div className="flex justify-center items-center">
             {sections.map((section) => (
               <PassageProgressBar
                 key={section.id}
                 passageNumber={section.id}
-                currentQuestion={section.answeredQuestions} // Updated from currentQuestion
+                currentQuestion={selectedQuestion}
                 totalQuestions={section.totalQuestions}
-                choosenPassage={activeSection === section.id}
+                startQuestion={section.questionRange[0]}
+                endQuestion={
+                  section.questionRange[section.questionRange.length - 1]
+                }
+                choosenPassage={section.id === activeSection}
                 onClick={() => handleSectionSelect(section.id)}
+                onQuestionClick={handleQuestionSelect}
               />
             ))}
           </div>
-          <div
-            className={`w-36 flex justify-center items-center ${
-              activeSection === 4 ? "hidden" : "border border-[#FA812F]"
-            } rounded-lg py-2 px-4 bg-white mr-4 cursor-pointer`}
-            onClick={() =>
-              handleSectionSelect(activeSection < 4 ? activeSection + 1 : 1)
-            }
-          >
+          <div className="flex flex-row">
             <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center ${
-                activeSection === 4 ? "hidden" : "flex"
+              className={`w-full flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer ${
+                selectedQuestion === sections[0].questionRange[0]
+                  ? "opacity-50"
+                  : ""
               }`}
+              onClick={handlePreviousQuestion}
             >
-              Section {activeSection + 1} <ChevronRight color="#FA812F" />
+              <div
+                className={`text-[#FA812F] font-medium text-md justify-center items-center px-5 py-1 rounded-md flex border border-[#FA812F]`}
+              >
+                <ChevronLeft color="#FA812F" />
+              </div>
+            </div>
+            <div
+              className={`w-full flex justify-center items-center rounded-lg my-2 bg-white mr-4 cursor-pointer ${
+                selectedQuestion ===
+                sections[sections.length - 1].questionRange[9]
+                  ? "opacity-50"
+                  : ""
+              }`}
+              onClick={handleNextQuestion}
+            >
+              <div
+                className={`text-[#FA812F] font-medium text-md justify-center items-center px-5 py-1 rounded-md flex border border-[#FA812F]`}
+              >
+                <ChevronRight color="#FA812F" />
+              </div>
             </div>
           </div>
-
-          {/* SUBMIT BUTTON  */}
-          <Link
-            href="/reading-test/view-result"
-            className={`w-36 flex justify-center items-center ${
-              activeSection === 4 ? "border border-[#FA812F]" : "hidden"
-            } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
-          >
-            <div
-              className={`font-medium text-md justify-center items-center ${
-                activeSection === 4 ? "flex" : "hidden"
-              }`}
-            >
-              Nộp bài
-            </div>
-          </Link>
         </div>
-        {/* NAVIGATION MOBILE  */}
-        <div className="lg:hidden flex justify-center items-center py-2 border-t border-gray-200">
+
+        <div className="lg:hidden flex justify-center items-center py-0 pt-2 border-t border-gray-200">
           <div className="flex justify-center text-sm">
             {sections.map((section) => (
               <PassageProgressBarMobile
                 key={section.id}
                 passageNumber={section.id}
-                currentQuestion={section.answeredQuestions} // Updated from currentQuestion
+                currentQuestion={selectedQuestion}
                 totalQuestions={section.totalQuestions}
-                choosenPassage={activeSection === section.id}
+                startQuestion={section.questionRange[0]}
+                endQuestion={
+                  section.questionRange[section.questionRange.length - 1]
+                }
+                choosenPassage={section.id === activeSection}
                 onClick={() => handleSectionSelect(section.id)}
+                onQuestionClick={handleQuestionSelect}
               />
             ))}
           </div>
 
-          {/* SUBMIT BUTTON  */}
           <div className="flex flex-col justify-center -translate-y-[2px]">
             <div className="w-full flex justify-center">
               <div
@@ -967,11 +980,34 @@ const ListeningTestClient: React.FC = () => {
             </div>
           </div>
         </div>
+
+        <AnimatePresence>
+          {isPopupOpen && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.3 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="fixed bottom-0 top-0 left-0 right-0 bg-black z-20"
+              />
+              <PopupMenu
+                isOpen={isPopupOpen}
+                setIsOpen={setIsPopupOpen}
+                onQuestionSelect={handleQuestionSelect}
+              />
+            </>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* POPUP MENU QUESTIONS  */}
       <div className="fixed bottom-0 left-0 right-0 z-30">
-        <PopupMenu isOpen={isPopupOpen} setIsOpen={setIsPopupOpen} />
+        <PopupMenu
+          isOpen={isPopupOpen}
+          setIsOpen={setIsPopupOpen}
+          onQuestionSelect={handleQuestionSelect}
+        />
       </div>
       {isPopupOpen && (
         <div className="absolute bottom-0 top-0 left-0 right-0 bg-black opacity-30 z-20"></div>

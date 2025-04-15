@@ -13,6 +13,7 @@ import Link from "next/link";
 import PassageProgressBarMobile from "./components/processing-bar-mobile";
 import { motion, AnimatePresence } from "framer-motion";
 
+// PopupMenu component remains unchanged
 const PopupMenu = ({
   isOpen,
   setIsOpen,
@@ -22,7 +23,6 @@ const PopupMenu = ({
 }) => {
   const [selectedTab, setSelectedTab] = useState(0);
 
-  // Section data
   const sections = [
     {
       id: 1,
@@ -62,7 +62,6 @@ const PopupMenu = ({
         >
           <div className="bg-white rounded-t-[40px] shadow-lg w-full max-w-md mx-auto overflow-hidden">
             <div className="bg-black w-32 h-[4px] rounded-full mx-auto mt-3"></div>
-            {/* Header */}
             <div className="px-6 pb-0 pt-3 flex justify-between items-center">
               <h2 className="text-lg font-semibold">Lưu ý</h2>
               <button
@@ -84,15 +83,11 @@ const PopupMenu = ({
                 </svg>
               </button>
             </div>
-
-            {/* Instruction */}
             <div className="px-6 py-3">
               <p className="text-gray-700 text-xs">
                 Bạn có thể review và sửa lại đáp án ở các sections 1, 2, và 3.
               </p>
             </div>
-
-            {/* Tabs */}
             <div className="flex border-b">
               <button
                 className={`flex-1 py-3 text-center font-medium text-sm ${
@@ -125,8 +120,6 @@ const PopupMenu = ({
                 Section 3
               </button>
             </div>
-
-            {/* Tab Content */}
             <div className="px-6 py-4 overflow-y-auto max-h-[60vh]">
               {selectedTab === 0 && (
                 <div className="mb-5">
@@ -186,8 +179,6 @@ const PopupMenu = ({
                 </div>
               )}
             </div>
-
-            {/* Submit Button */}
             <div className="px-4 py-5">
               <button
                 onClick={() => alert("Answers submitted!")}
@@ -203,10 +194,11 @@ const PopupMenu = ({
   );
 };
 
-export default function ReadingTestClient() {
+export default function AnswerKeyReadingPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [timeLeft, setTimeLeft] = useState("57:25");
   const [selectedPassage, setSelectedPassage] = useState(1);
+  const [selectedQuestion, setSelectedQuestion] = useState(1);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [switchReading, setSwitchReading] = useState(true);
 
@@ -216,9 +208,7 @@ export default function ReadingTestClient() {
     { id: 3, startQuestion: 27, endQuestion: 40, answeredQuestions: 8 },
   ];
 
-  // Generate questions for each passage
   const passageQuestions = [
-    // Passage 1: Questions 1-13
     [
       { id: 1, text: "to direct the tunnelling" },
       { id: 2, text: "water runs into a _____ used by local people" },
@@ -234,7 +224,6 @@ export default function ReadingTestClient() {
       { id: 12, text: "_____ used in arid regions" },
       { id: 13, text: "maintenance of the system" },
     ],
-    // Passage 2: Questions 14-26
     [
       { id: 14, text: "early farming methods" },
       { id: 15, text: "crop rotation benefits" },
@@ -250,7 +239,6 @@ export default function ReadingTestClient() {
       { id: 25, text: "animal husbandry role" },
       { id: 26, text: "_____ fertilizer source" },
     ],
-    // Passage 3: Questions 27-40
     [
       { id: 27, text: "industrial revolution impact" },
       { id: 28, text: "steam engine was invented by _____" },
@@ -272,33 +260,83 @@ export default function ReadingTestClient() {
   const handlePassageSelect = (passageId: number) => {
     setSelectedPassage(passageId);
     setCurrentPage(passageId);
+    const passage = passages.find((p) => p.id === passageId);
+    if (
+      (passage && selectedQuestion < passage.startQuestion) ||
+      selectedQuestion > (passage?.endQuestion ?? 0)
+    ) {
+      setSelectedQuestion(passage?.startQuestion ?? 0);
+    }
   };
 
-  // Move to next passage
+  const handleQuestionSelect = (questionNum: number) => {
+    // Find the passage that contains this question
+    const passage = passages.find(
+      (p) => questionNum >= p.startQuestion && questionNum <= p.endQuestion
+    );
+    if (passage) {
+      setSelectedPassage(passage.id);
+      setCurrentPage(passage.id);
+      setSelectedQuestion(questionNum);
+    }
+  };
+
+  const handleNextQuestion = () => {
+    // Check if there's a next question
+    if (selectedQuestion < passages[passages.length - 1].endQuestion) {
+      const nextQuestion = selectedQuestion + 1;
+      // Find the passage for the next question
+      const nextPassage = passages.find(
+        (p) => nextQuestion >= p.startQuestion && nextQuestion <= p.endQuestion
+      );
+      if (nextPassage) {
+        setSelectedPassage(nextPassage.id);
+        setCurrentPage(nextPassage.id);
+        setSelectedQuestion(nextQuestion);
+      }
+    }
+  };
+
+  const handlePreviousQuestion = () => {
+    // Check if there's a previous question
+    if (selectedQuestion > passages[0].startQuestion) {
+      const prevQuestion = selectedQuestion - 1;
+      // Find the passage for the previous question
+      const prevPassage = passages.find(
+        (p) => prevQuestion >= p.startQuestion && prevQuestion <= p.endQuestion
+      );
+      if (prevPassage) {
+        setSelectedPassage(prevPassage.id);
+        setCurrentPage(prevPassage.id);
+        setSelectedQuestion(prevQuestion);
+      }
+    }
+  };
+
   const handleNextPassage = () => {
     const nextPassage =
       selectedPassage < passages.length ? selectedPassage + 1 : 1;
     handlePassageSelect(nextPassage);
   };
 
-  // Move to previous passage
   const handlePreviousPassage = () => {
     const prevPassage =
       selectedPassage > 1 ? selectedPassage - 1 : passages.length;
     handlePassageSelect(prevPassage);
   };
 
+  const currentPassage = passages[selectedPassage - 1];
   const currentQuestions = passageQuestions[selectedPassage - 1];
 
-  const currentPassage = passages[selectedPassage - 1];
+  const currentQuestionData = currentQuestions.find(
+    (q) => q.id === selectedQuestion
+  );
 
-  // Generate question numbers for the current passage only
   const passageQuestionNumbers = Array.from(
     { length: currentPassage.endQuestion - currentPassage.startQuestion + 1 },
     (_, i) => currentPassage.startQuestion + i
   );
 
-  // Determine which questions are answered
   const getAnsweredStatus = (questionNum: number) => {
     const questionIndex = questionNum - currentPassage.startQuestion + 1;
     return questionIndex <= currentPassage.answeredQuestions;
@@ -306,7 +344,6 @@ export default function ReadingTestClient() {
 
   return (
     <div className="relative min-h-screen w-full bg-gray-50">
-      {/* Header */}
       <header className="fixed top-0 left-0 right-0 flex items-center justify-between bg-white border-b border-gray-200 px-4 py-2 z-20">
         <div className="hidden lg:flex items-center w-[10%] py-3">
           <Image
@@ -317,28 +354,11 @@ export default function ReadingTestClient() {
             className="w-full h-full"
           />
         </div>
-        <div className="text-center">
+        <div className="text-center mr-28">
           <div className="font-semibold">IELTS Reading Test</div>
           <div className="text-sm text-gray-600">CAM13 - Reading Test 4</div>
         </div>
         <div className="flex items-center">
-          <div className="bg-gray-100 px-3 py-1 rounded-full flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 text-gray-500 mr-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>{timeLeft}</span>
-          </div>
           <Link href="/" className="text-gray-400 hover:text-gray-600 ml-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -358,39 +378,50 @@ export default function ReadingTestClient() {
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="fixed top-[0px] bottom-[0px] left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full overflow-y-auto pb-20 pt-14">
-        {/* Reading passage */}
+      <div className="fixed top-0 bottom-0 left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full">
         <div
-          className={`p-4 pt-8 overflow-y-auto border-r border-gray-200 ${
+          className={`p-4 py-24 overflow-y-auto border-r border-gray-200 ${
             switchReading ? "" : "hidden lg:block"
           }`}
+          style={{ scrollbarWidth: "thin" }}
         >
           {selectedPassage === 1 && (
             <div>
               <h1 className="w-full text-xl font-bold mb-4">Title 1</h1>
-              <p className="mb-4 text-sm">Passage 1</p>
+              <p className="mb-4 text-sm">
+                Passage 1 content goes here. This is a placeholder for the
+                actual reading passage text, which can be quite long and will
+                require scrolling independently of the questions section.
+              </p>
             </div>
           )}
           {selectedPassage === 2 && (
             <div>
               <h1 className="w-full text-xl font-bold mb-4">Title 2</h1>
-              <p className="mb-4 text-sm">Passage 2</p>
+              <p className="mb-4 text-sm">
+                Passage 2 content goes here. This is a placeholder for the
+                actual reading passage text, which can be quite long and will
+                require scrolling independently of the questions section.
+              </p>
             </div>
           )}
           {selectedPassage === 3 && (
             <div>
               <h1 className="w-full text-xl font-bold mb-4">Title 3</h1>
-              <p className="mb-4 text-sm">Passage 3</p>
+              <p className="mb-4 text-sm">
+                Passage 3 content goes here. This is a placeholder for the
+                actual reading passage text, which can be quite long and will
+                require scrolling independently of the questions section.
+              </p>
             </div>
           )}
         </div>
 
-        {/* Questions */}
         <div
-          className={`bg-white p-4 pt-8 ${
+          className={`bg-white p-4 pt-24 pb-32 overflow-y-auto ${
             switchReading ? "hidden lg:block" : ""
           }`}
+          style={{ scrollbarWidth: "thin" }}
         >
           <div className="mb-6">
             <div className="bg-[#FA812F] text-white p-3 rounded-md flex justify-between items-center">
@@ -441,103 +472,72 @@ export default function ReadingTestClient() {
         </div>
       </div>
 
-      {/* Pagination */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white pt-0 pb-2 lg:pt-2 lg:pb-2 z-10">
-        <div className="hidden lg:flex flex-wrap justify-center mt-0 gap-1 max-w-3xl mx-auto">
-          {passageQuestionNumbers.map((questionNum) => {
-            const isAnswered = getAnsweredStatus(questionNum);
-            return (
-              <button
-                key={questionNum}
-                className={`w-8 h-8 rounded-md flex items-center justify-center text-xs ${
-                  isAnswered
-                    ? "bg-[#FA812F] text-white"
-                    : "bg-gray-100 text-gray-800"
-                }`}
-              >
-                {questionNum}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* NAVIGATE DESKTOP */}
-        <div className="hidden lg:flex justify-between mt-2 text-sm border-t border-gray-200 pt-2">
-          <div
-            className={`${
-              selectedPassage === 1 ? "" : "border border-[#FA812F]"
-            } w-36 flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer`}
-            onClick={handlePreviousPassage}
-          >
-            <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center ${
-                selectedPassage === 1 ? "hidden" : "flex"
-              }`}
-            >
-              <ChevronLeft color="#FA812F" /> Passage {selectedPassage - 1}
-            </div>
-          </div>
-
+      <div className="fixed bottom-0 left-0 right-0 bg-white pt-0 pb-2 lg:pt-0 lg:pb-2 z-10">
+        <div className="hidden lg:flex justify-between mt-0 text-sm border-t border-gray-100 pt-0">
           <div className="flex justify-center items-center">
             {passages.map((passage) => (
               <PassageProgressBar
                 key={passage.id}
                 passageNumber={passage.id}
-                currentQuestion={passage.answeredQuestions}
+                currentQuestion={selectedQuestion}
                 totalQuestions={passage.endQuestion - passage.startQuestion + 1}
+                startQuestion={passage.startQuestion}
+                endQuestion={passage.endQuestion}
                 choosenPassage={selectedPassage === passage.id}
                 onClick={() => handlePassageSelect(passage.id)}
+                onQuestionClick={handleQuestionSelect}
               />
             ))}
           </div>
-          <div
-            className={`w-36 flex justify-center items-center ${
-              selectedPassage === 3 ? "hidden" : "border border-[#FA812F]"
-            } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
-            onClick={handleNextPassage}
-          >
+          <div className="flex flex-row">
             <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center ${
-                selectedPassage === 3 ? "hidden" : "flex"
+              className={`w-full flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer ${
+                selectedQuestion === passages[0].startQuestion
+                  ? "opacity-50"
+                  : ""
               }`}
+              onClick={handlePreviousQuestion}
             >
-              Passage {selectedPassage + 1} <ChevronRight color="#FA812F" />
+              <div
+                className={`text-[#FA812F] font-medium text-md justify-center items-center px-5 py-1 rounded-md flex border border-[#FA812F]`}
+              >
+                <ChevronLeft color="#FA812F" />
+              </div>
+            </div>
+            <div
+              className={`w-full flex justify-center items-center rounded-lg my-2 bg-white mr-4 cursor-pointer ${
+                selectedQuestion === passages[passages.length - 1].endQuestion
+                  ? "opacity-50"
+                  : ""
+              }`}
+              onClick={handleNextQuestion}
+            >
+              <div
+                className={`text-[#FA812F] font-medium text-md justify-center items-center px-5 py-1 rounded-md flex border border-[#FA812F]`}
+              >
+                <ChevronRight color="#FA812F" />
+              </div>
             </div>
           </div>
-
-          {/* SUBMIT BUTTON */}
-          <Link
-            href="/reading-test/view-result"
-            className={`w-36 flex justify-center items-center ${
-              selectedPassage === 3 ? "border border-[#FA812F]" : "hidden"
-            } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
-          >
-            <div
-              className={`font-medium text-md justify-center items-center ${
-                selectedPassage === 3 ? "flex" : "hidden"
-              }`}
-            >
-              Nộp bài
-            </div>
-          </Link>
         </div>
 
-        {/* NAVIGATE MOBILE */}
         <div className="lg:hidden flex justify-center items-center py-0 pt-2 border-t border-gray-200">
           <div className="flex justify-center text-sm">
             {passages.map((passage) => (
               <PassageProgressBarMobile
                 key={passage.id}
                 passageNumber={passage.id}
-                currentQuestion={passage.answeredQuestions}
+                currentQuestion={selectedQuestion}
                 totalQuestions={passage.endQuestion - passage.startQuestion + 1}
+                startQuestion={passage.startQuestion}
+                endQuestion={passage.endQuestion}
                 choosenPassage={passage.id === selectedPassage}
                 onClick={() => handlePassageSelect(passage.id)}
+                onQuestionClick={handleQuestionSelect}
               />
             ))}
           </div>
 
-          {/* SUBMIT BUTTON */}
           <div className="flex flex-col justify-center -translate-y-[2px]">
             <div className="w-full flex justify-center">
               <div
@@ -555,7 +555,6 @@ export default function ReadingTestClient() {
           </div>
         </div>
 
-        {/* POPUP MENU QUESTIONS */}
         <AnimatePresence>
           {isPopupOpen && (
             <>
@@ -571,7 +570,7 @@ export default function ReadingTestClient() {
           )}
         </AnimatePresence>
       </div>
-      {/* Toggle Button (Mobile Only) */}
+
       <div className="lg:hidden absolute bg-[#FA812F] rounded-full bottom-[13%] right-[5%] z-30">
         <div className="p-3.5" onClick={() => setSwitchReading(!switchReading)}>
           {switchReading ? (
