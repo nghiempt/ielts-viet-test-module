@@ -133,12 +133,8 @@ export default function Section01() {
                         <BookOpenText />
                       </div>
                       <button className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium">
-                        <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F] p-3">
-                          <PlayIcon
-                            color="#FA812F"
-                            fill="#FA812F"
-                            className="w-4 h-4"
-                          />
+                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
                         </div>
                         <span>Làm bài</span>
                       </button>
@@ -156,12 +152,8 @@ export default function Section01() {
                         <Headphones />
                       </div>
                       <button className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium">
-                        <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F] p-3">
-                          <PlayIcon
-                            color="#FA812F"
-                            fill="#FA812F"
-                            className="w-4 h-4"
-                          />
+                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
                         </div>
                         <span>Làm bài</span>
                       </button>
@@ -179,12 +171,8 @@ export default function Section01() {
                         <PenLine />
                       </div>
                       <button className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium">
-                        <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F] p-3">
-                          <PlayIcon
-                            color="#FA812F"
-                            fill="#FA812F"
-                            className="w-4 h-4"
-                          />
+                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
                         </div>
                         <span>Làm bài</span>
                       </button>
