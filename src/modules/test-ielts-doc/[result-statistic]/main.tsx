@@ -391,7 +391,7 @@ const ResultStatistic = () => {
     <div className="bg-gray-50 min-h-screen w-full">
       <header className="fixed top-0 left-0 right-0 bg-white shadow p-2 flex justify-between items-center z-20">
         <div className="flex items-center">
-          <div>
+          <div className="hidden lg:flex">
             <Image
               src={IMAGES.LOGO}
               alt="Dinh Luc Logo"
@@ -424,7 +424,7 @@ const ResultStatistic = () => {
       </header>
 
       <main
-        className="container w-[55%] mx-auto py-6 px-4 overflow-y-auto scroll-bar-style"
+        className="container w-[95%] lg:w-[55%] mx-auto py-6 px-4 overflow-y-auto scroll-bar-style"
         style={{
           height: "calc(100vh - 10px)",
           paddingTop: "100px",
@@ -432,14 +432,14 @@ const ResultStatistic = () => {
       >
         {/* Score Card */}
         <div className="bg-white rounded-lg shadow mb-6">
-          <div className="p-6">
+          <div className="flex flex-col justify-center items-center p-6">
             <div className="font-medium text-lg mb-4">
               Oops! Bạn chưa làm đúng câu nào, cố gắng lần sau nhé.
             </div>
 
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-16">
-                <div className="relative w-24 h-24">
+            <div className="flex justify-center lg:justify-between items-center">
+              <div className="flex flex-col lg:flex-row items-center gap-16">
+                <div className="relative w-24 h-24 mt-5 lg:mt-0">
                   <svg className="w-full h-full" viewBox="0 0 100 100">
                     {/* Background circle (orange-300) */}
                     <circle
@@ -482,8 +482,8 @@ const ResultStatistic = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col justify-between items-start">
-                  <div className="mb-2 flex flex-row justify-between items-center w-28">
+                <div className="flex flex-col justify-between items-center lg:items-start w-60 lg:w-full">
+                  <div className="mb-2 flex flex-row justify-between items-center w-full lg:w-28">
                     <span className="text-sm text-black mr-2 font-semibold">
                       Đúng:
                     </span>
@@ -491,7 +491,7 @@ const ResultStatistic = () => {
                       {resultStats.correct}
                     </span>
                   </div>
-                  <div className="mb-2 flex flex-row justify-between items-center w-28">
+                  <div className="mb-2 flex flex-row justify-between items-center w-full lg:w-28">
                     <span className="text-sm text-black mr-2 font-semibold">
                       Sai:
                     </span>
@@ -499,7 +499,7 @@ const ResultStatistic = () => {
                       {resultStats.incorrect}
                     </span>
                   </div>
-                  <div className="mb-2 flex flex-row justify-between items-center w-28">
+                  <div className="mb-2 flex flex-row justify-between items-center w-full lg:w-28">
                     <span className="text-sm text-black mr-2 font-semibold">
                       Bỏ qua:
                     </span>
@@ -510,7 +510,7 @@ const ResultStatistic = () => {
                 </div>
               </div>
 
-              <div>
+              <div className="hidden lg:flex">
                 <Image
                   src={IMAGES.RESULT}
                   alt="Student reading"
