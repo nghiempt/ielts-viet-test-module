@@ -20,7 +20,7 @@ const LatestTestCard: React.FC<TestCardProps> = ({
   started = false,
 }) => {
   return (
-    <div className="flex-shrink-0 h-full w-64 lg:w-full bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+    <div className="flex-shrink-0 h-full w-72 lg:w-full bg-white rounded-lg shadow-sm p-6 border border-gray-200">
       <div className="flex flex-col justify-between h-full">
         <div>
           <h3 className="text-lg font-semibold text-gray-800">

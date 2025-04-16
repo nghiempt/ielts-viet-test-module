@@ -423,7 +423,7 @@ export default function WritingTestClient() {
         </div>
 
         {/* NAVIGATE MOBILE */}
-        <div className="lg:hidden flex justify-center items-center py-0 pt-2 border-t border-gray-200">
+        <div className="lg:hidden relative flex justify-center items-center py-0 pt-2 border-t border-gray-200">
           <div className="flex justify-center text-sm">
             {passages.map((passage) => (
               <PassageProgressBarMobile
@@ -453,6 +453,20 @@ export default function WritingTestClient() {
               Reviews & Submit
             </div>
           </div>
+
+          {/* Toggle Button (Mobile Only) */}
+          <div className="lg:hidden absolute bg-[#FA812F] rounded-full bottom-[0%] right-[5%] z-20 -translate-y-24">
+            <div
+              className="p-3.5"
+              onClick={() => setSwitchWriting(!switchWriting)}
+            >
+              {switchWriting ? (
+                <Grid2x2Check color="white" />
+              ) : (
+                <FileText color="white" />
+              )}
+            </div>
+          </div>
         </div>
 
         {/* POPUP MENU QUESTIONS */}
@@ -470,17 +484,6 @@ export default function WritingTestClient() {
             </>
           )}
         </AnimatePresence>
-      </div>
-
-      {/* Toggle Button (Mobile Only) */}
-      <div className="lg:hidden absolute bg-[#FA812F] rounded-full bottom-[13%] right-[5%]">
-        <div className="p-3.5" onClick={() => setSwitchWriting(!switchWriting)}>
-          {switchWriting ? (
-            <Grid2x2Check color="white" />
-          ) : (
-            <FileText color="white" />
-          )}
-        </div>
       </div>
     </div>
   );

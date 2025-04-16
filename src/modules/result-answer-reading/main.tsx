@@ -521,7 +521,7 @@ export default function AnswerKeyReadingPage() {
           </div>
         </div>
 
-        <div className="lg:hidden flex justify-center items-center py-0 pt-2 border-t border-gray-200">
+        <div className="lg:hidden relative flex justify-center items-center py-0 pt-2 border-t border-gray-200">
           <div className="flex justify-center text-sm">
             {passages.map((passage) => (
               <PassageProgressBarMobile
@@ -553,6 +553,19 @@ export default function AnswerKeyReadingPage() {
               Reviews & Submit
             </div>
           </div>
+
+          <div className="lg:hidden absolute bg-[#FA812F] rounded-full bottom-[0%] -translate-y-24 right-[5%] z-30">
+            <div
+              className="p-3.5"
+              onClick={() => setSwitchReading(!switchReading)}
+            >
+              {switchReading ? (
+                <Grid2x2Check color="white" />
+              ) : (
+                <FileText color="white" />
+              )}
+            </div>
+          </div>
         </div>
 
         <AnimatePresence>
@@ -569,16 +582,6 @@ export default function AnswerKeyReadingPage() {
             </>
           )}
         </AnimatePresence>
-      </div>
-
-      <div className="lg:hidden absolute bg-[#FA812F] rounded-full bottom-[13%] right-[5%] z-30">
-        <div className="p-3.5" onClick={() => setSwitchReading(!switchReading)}>
-          {switchReading ? (
-            <Grid2x2Check color="white" />
-          ) : (
-            <FileText color="white" />
-          )}
-        </div>
       </div>
     </div>
   );

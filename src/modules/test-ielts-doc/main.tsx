@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import PassageProgressBarMobile from "./components/processing-bar-mobile";
 import { motion, AnimatePresence } from "framer-motion";
+import { Router } from "next/router";
 
 const PopupMenu = ({
   isOpen,
@@ -189,12 +190,11 @@ const PopupMenu = ({
 
             {/* Submit Button */}
             <div className="px-4 py-5">
-              <button
-                onClick={() => alert("Answers submitted!")}
-                className="w-full py-3 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 transition duration-150"
-              >
-                Submit
-              </button>
+              <Link href={"/reading-test/view-result"}>
+                <button className="w-full py-3 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 transition duration-150">
+                  Submit
+                </button>
+              </Link>
             </div>
           </div>
         </motion.div>
@@ -360,82 +360,84 @@ export default function ReadingTestClient() {
 
       {/* Main Content */}
       <div className="fixed top-[0px] bottom-[0px] left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full overflow-y-auto pb-20 pt-14">
-        {/* Reading passage */}
-        <div
-          className={`p-4 pt-8 overflow-y-auto border-r border-gray-200 ${
-            switchReading ? "" : "hidden lg:block"
-          }`}
-        >
-          {selectedPassage === 1 && (
-            <div>
-              <h1 className="w-full text-xl font-bold mb-4">Title 1</h1>
-              <p className="mb-4 text-sm">Passage 1</p>
-            </div>
-          )}
-          {selectedPassage === 2 && (
-            <div>
-              <h1 className="w-full text-xl font-bold mb-4">Title 2</h1>
-              <p className="mb-4 text-sm">Passage 2</p>
-            </div>
-          )}
-          {selectedPassage === 3 && (
-            <div>
-              <h1 className="w-full text-xl font-bold mb-4">Title 3</h1>
-              <p className="mb-4 text-sm">Passage 3</p>
-            </div>
-          )}
-        </div>
-
-        {/* Questions */}
-        <div
-          className={`bg-white p-4 pt-8 ${
-            switchReading ? "hidden lg:block" : ""
-          }`}
-        >
-          <div className="mb-6">
-            <div className="bg-[#FA812F] text-white p-3 rounded-md flex justify-between items-center">
-              <div className="font-medium">
-                Questions {passages[selectedPassage - 1].startQuestion} -{" "}
-                {passages[selectedPassage - 1].endQuestion}
+        <div className="relative">
+          {/* Reading passage */}
+          <div
+            className={`p-4 pt-8 overflow-y-auto border-r border-gray-200 ${
+              switchReading ? "" : "hidden lg:block"
+            }`}
+          >
+            {selectedPassage === 1 && (
+              <div>
+                <h1 className="w-full text-xl font-bold mb-4">Title 1</h1>
+                <p className="mb-4 text-sm">Passage 1</p>
               </div>
-              <div className="text-sm">
-                Write your answers in boxes on your answer sheet.
+            )}
+            {selectedPassage === 2 && (
+              <div>
+                <h1 className="w-full text-xl font-bold mb-4">Title 2</h1>
+                <p className="mb-4 text-sm">Passage 2</p>
               </div>
-            </div>
+            )}
+            {selectedPassage === 3 && (
+              <div>
+                <h1 className="w-full text-xl font-bold mb-4">Title 3</h1>
+                <p className="mb-4 text-sm">Passage 3</p>
+              </div>
+            )}
+          </div>
 
-            <div className="relative bg-gray-100 p-4 flex justify-center my-4 z-0">
-              <div className="relative w-full h-64">
-                <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs left-[10%] top-[10%]">
-                  {selectedPassage === 1
-                    ? "The Persian Qanat Method"
-                    : selectedPassage === 2
-                    ? "Agricultural Development"
-                    : "Industrial Revolution"}
+          {/* Questions */}
+          <div
+            className={`bg-white p-4 pt-8 ${
+              switchReading ? "hidden lg:block" : ""
+            }`}
+          >
+            <div className="mb-6">
+              <div className="bg-[#FA812F] text-white p-3 rounded-md flex justify-between items-center">
+                <div className="font-medium">
+                  Questions {passages[selectedPassage - 1].startQuestion} -{" "}
+                  {passages[selectedPassage - 1].endQuestion}
                 </div>
-                <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs right-[10%] top-[10%]">
-                  2
-                </div>
-                <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs left-[40%] bottom-[40%]">
-                  3
-                </div>
-                <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs right-[30%] bottom-[30%]">
-                  4
-                </div>
-                <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs left-[20%] bottom-[10%]">
-                  5
+                <div className="text-sm">
+                  Write your answers in boxes on your answer sheet.
                 </div>
               </div>
-            </div>
 
-            <div className="space-y-3">
-              {currentQuestions.map((question) => (
-                <div key={question.id} className="flex items-center">
-                  <div className="mr-2 w-6 h-6 bg-[#FA812F] text-white rounded-full flex items-center justify-center text-xs">
-                    {question.id}
+              <div className="relative bg-gray-100 p-4 flex justify-center my-4 z-0">
+                <div className="relative w-full h-64">
+                  <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs left-[10%] top-[10%]">
+                    {selectedPassage === 1
+                      ? "The Persian Qanat Method"
+                      : selectedPassage === 2
+                      ? "Agricultural Development"
+                      : "Industrial Revolution"}
                   </div>
-                  <div className="flex-1">{question.text}</div>
+                  <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs right-[10%] top-[10%]">
+                    2
+                  </div>
+                  <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs left-[40%] bottom-[40%]">
+                    3
+                  </div>
+                  <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs right-[30%] bottom-[30%]">
+                    4
+                  </div>
+                  <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs left-[20%] bottom-[10%]">
+                    5
+                  </div>
                 </div>
-              ))}
+              </div>
+
+              <div className="space-y-3">
+                {currentQuestions.map((question) => (
+                  <div key={question.id} className="flex items-center">
+                    <div className="mr-2 w-6 h-6 bg-[#FA812F] text-white rounded-full flex items-center justify-center text-xs">
+                      {question.id}
+                    </div>
+                    <div className="flex-1">{question.text}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -523,7 +525,7 @@ export default function ReadingTestClient() {
         </div>
 
         {/* NAVIGATE MOBILE */}
-        <div className="lg:hidden flex justify-center items-center py-0 pt-2 border-t border-gray-200">
+        <div className="lg:hidden flex relative justify-center items-center py-0 pt-2 border-t border-gray-200">
           <div className="flex justify-center text-sm">
             {passages.map((passage) => (
               <PassageProgressBarMobile
@@ -553,6 +555,20 @@ export default function ReadingTestClient() {
               Reviews & Submit
             </div>
           </div>
+
+          {/* Toggle Button (Mobile Only) */}
+          <div className="lg:hidden absolute bg-[#FA812F] rounded-full bottom-[0%] right-[5%] -translate-y-24 z-30">
+            <div
+              className="p-3.5"
+              onClick={() => setSwitchReading(!switchReading)}
+            >
+              {switchReading ? (
+                <Grid2x2Check color="white" />
+              ) : (
+                <FileText color="white" />
+              )}
+            </div>
+          </div>
         </div>
 
         {/* POPUP MENU QUESTIONS */}
@@ -570,16 +586,6 @@ export default function ReadingTestClient() {
             </>
           )}
         </AnimatePresence>
-      </div>
-      {/* Toggle Button (Mobile Only) */}
-      <div className="lg:hidden absolute bg-[#FA812F] rounded-full bottom-[13%] right-[5%] z-30">
-        <div className="p-3.5" onClick={() => setSwitchReading(!switchReading)}>
-          {switchReading ? (
-            <Grid2x2Check color="white" />
-          ) : (
-            <FileText color="white" />
-          )}
-        </div>
       </div>
     </div>
   );

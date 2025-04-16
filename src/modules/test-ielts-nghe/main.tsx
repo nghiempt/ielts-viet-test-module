@@ -223,12 +223,11 @@ const PopupMenu = ({
 
             {/* Submit Button */}
             <div className="px-4 py-5">
-              <button
-                onClick={() => alert("Answers submitted!")}
-                className="w-full py-3 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 transition duration-150"
-              >
-                Submit
-              </button>
+              <Link href={"/listening-test/view-result"}>
+                <button className="w-full py-3 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 transition duration-150">
+                  Submit
+                </button>
+              </Link>
             </div>
           </div>
         </motion.div>
@@ -921,7 +920,7 @@ const ListeningTestClient: React.FC = () => {
 
           {/* SUBMIT BUTTON  */}
           <Link
-            href="/reading-test/view-result"
+            href="/listening-test/view-result"
             className={`w-36 flex justify-center items-center ${
               activeSection === 4 ? "border border-[#FA812F]" : "hidden"
             } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
