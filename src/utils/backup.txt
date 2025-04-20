@@ -1,0 +1,147 @@
+ {/* <div
+          className={`bg-white p-4 pt-8 ${
+            switchReading ? "hidden lg:block" : ""
+          }`}
+        >
+          <div className="mb-6">
+            <div className="bg-[#FA812F] text-white p-3 rounded-md flex justify-between items-center">
+              <div className="font-medium">
+                Questions {passages[selectedPassage - 1].startQuestion} -{" "}
+                {passages[selectedPassage - 1].endQuestion}
+              </div>
+              <div className="text-sm">
+                Write your answers in boxes on your answer sheet.
+              </div>
+            </div>
+
+            <div className="relative bg-gray-100 p-4 flex justify-center my-4 z-0">
+              <div className="relative w-full h-64">
+                <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs left-[10%] top-[10%]">
+                  {selectedPassage === 1
+                    ? "The Persian Qanat Method"
+                    : selectedPassage === 2
+                    ? "Agricultural Development"
+                    : "Industrial Revolution"}
+                </div>
+                <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs right-[10%] top-[10%]">
+                  2
+                </div>
+                <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs left-[40%] bottom-[40%]">
+                  3
+                </div>
+                <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs right-[30%] bottom-[30%]">
+                  4
+                </div>
+                <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs left-[20%] bottom-[10%]">
+                  5
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              {currentQuestions.map((question) => (
+                <div key={question.id} className="flex items-center">
+                  <div className="mr-2 w-6 h-6 bg-[#FA812F] text-white rounded-full flex items-center justify-center text-xs">
+                    {question.id}
+                  </div>
+                  <div className="flex-1">{question.text}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div> */}
+
+
+        listening src 
+         {/* Multiple Choice Questions */}
+          <div className="mb-4">
+            <div className="bg-[#FA812F] text-white py-4 px-4 rounded-md flex justify-between items-center mb-2">
+              <h2 className="font-medium">
+                Questions {currentSection?.mcQuestions[0].charAt(0)} {"-"}
+                {currentSection?.mcQuestions[1].charAt(2)}
+              </h2>
+              <span className="text-sm ml-5">Choose TWO letters, A-E.</span>
+            </div>
+            <div className="bg-white p-6 rounded-md shadow-sm">
+              {currentMCQuestions.map((question) => (
+                <div key={question.id} className="mb-8">
+                  <div className="flex items-start mb-4">
+                    <div className="w-24 text-blue-600 font-medium mr-4">
+                      {question.id}
+                    </div>
+                    <div>{question.text}</div>
+                  </div>
+                  <div className="ml-0 lg:ml-10 space-y-3">
+                    {question.options.map((option) => (
+                      <div key={option.id} className="flex items-center">
+                        <div className="w-6 h-6 flex items-center justify-center text-gray-500 mr-3">
+                          {option.id}
+                        </div>
+                        <div>{option.text}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Matching Questions */}
+          <div className="mb-4">
+            <div className="bg-[#FA812F] text-white py-4 px-4 rounded-md flex justify-between items-center mb-2">
+              <h2 className="font-medium">
+                Questions {currentSection?.matchQuestions[0]} -{" "}
+                {
+                  currentSection?.matchQuestions[
+                    currentSection.matchQuestions.length - 1
+                  ]
+                }
+              </h2>
+              <span className="text-sm ml-5">
+                Choose SIX answers from the box and write the correct letter,
+                A-E.
+              </span>
+            </div>
+            <div className="bg-white p-6 rounded-md shadow-sm">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-6">
+                  {currentMatchQuestions.map((question) => (
+                    <div key={question.id} className="flex items-start">
+                      <div className="text-blue-600 font-medium mr-4">
+                        {question.id}
+                      </div>
+                      <div className="flex-1">
+                        <div className="mb-2">{question.city}</div>
+                        <div className="flex items-center">
+                          <div className="w-8 h-8 rounded-full border border-gray-300 bg-gray-100 flex items-center justify-center mr-2">
+                            <span className="text-gray-400 text-sm">?</span>
+                          </div>
+                          <div className="flex-1 h-10 px-3 py-2 bg-gray-100 text-gray-400 rounded">
+                            Drop your answer here
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="bg-gray-50 p-4 rounded-md">
+                  <h3 className="text-center mb-4 font-medium text-gray-700">
+                    Kéo option vào câu hỏi
+                  </h3>
+                  <div className="space-y-4">
+                    {currentMatchQuestions[0].options.map((option) => (
+                      <div
+                        key={option.id}
+                        className="flex items-center bg-white p-3 rounded shadow-sm"
+                      >
+                        <div className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center mr-3">
+                          {option.id}
+                        </div>
+                        <div>{option.text}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>

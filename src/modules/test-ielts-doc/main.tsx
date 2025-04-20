@@ -13,6 +13,20 @@ import Link from "next/link";
 import PassageProgressBarMobile from "./components/processing-bar-mobile";
 import { motion, AnimatePresence } from "framer-motion";
 import { Router } from "next/router";
+import { DATA } from "@/utils/data";
+import {
+  QuizHeader,
+  QuizQuestion,
+} from "./components/test-type/multiple-choice/multiple-choice";
+import { ShortAnswerQuiz } from "./components/test-type/fil-in-the-blank/fill-in";
+
+interface Question {
+  id: number;
+  question: string;
+  options: string[];
+  isMultiple: boolean;
+  selectedOptions: string | string[] | null;
+}
 
 const PopupMenu = ({
   isOpen,
@@ -209,64 +223,26 @@ export default function ReadingTestClient() {
   const [selectedPassage, setSelectedPassage] = useState(1);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [switchReading, setSwitchReading] = useState(true);
+  const [questions, setQuestions] = useState<Question[]>(
+    DATA.passageQuestions2.flatMap((passage) =>
+      passage
+        .filter((q) => q.q_type === "MP")
+        .flatMap((q) =>
+          q.question_data.map((qd) => ({
+            id: qd.id,
+            question: "question" in qd ? qd.question : "",
+            options: "choice" in qd ? qd.choice : [],
+            isMultiple: "isMultiple" in qd ? qd.isMultiple : false,
+            selectedOptions: "isMultiple" in qd && qd.isMultiple ? [] : null,
+          }))
+        )
+    )
+  );
 
   const passages = [
     { id: 1, startQuestion: 1, endQuestion: 13, answeredQuestions: 7 },
     { id: 2, startQuestion: 14, endQuestion: 26, answeredQuestions: 4 },
     { id: 3, startQuestion: 27, endQuestion: 40, answeredQuestions: 8 },
-  ];
-
-  // Generate questions for each passage
-  const passageQuestions = [
-    // Passage 1: Questions 1-13
-    [
-      { id: 1, text: "to direct the tunnelling" },
-      { id: 2, text: "water runs into a _____ used by local people" },
-      { id: 3, text: "vertical shafts to remove earth and for _____" },
-      { id: 4, text: "_____ made of wood or stone" },
-      { id: 5, text: "_____ attached to the plumb line" },
-      { id: 6, text: "handholds and footholds used for _____" },
-      { id: 7, text: "traditional irrigation system" },
-      { id: 8, text: "underground water channels" },
-      { id: 9, text: "mountain slope construction" },
-      { id: 10, text: "_____ for water distribution" },
-      { id: 11, text: "ancient engineering technique" },
-      { id: 12, text: "_____ used in arid regions" },
-      { id: 13, text: "maintenance of the system" },
-    ],
-    // Passage 2: Questions 14-26
-    [
-      { id: 14, text: "early farming methods" },
-      { id: 15, text: "crop rotation benefits" },
-      { id: 16, text: "soil fertility was maintained by _____" },
-      { id: 17, text: "_____ used for plowing" },
-      { id: 18, text: "seasonal planting schedule" },
-      { id: 19, text: "irrigation improvements" },
-      { id: 20, text: "_____ increased crop yields" },
-      { id: 21, text: "traditional tools included _____" },
-      { id: 22, text: "harvesting techniques" },
-      { id: 23, text: "storage methods for _____" },
-      { id: 24, text: "_____ prevented soil erosion" },
-      { id: 25, text: "animal husbandry role" },
-      { id: 26, text: "_____ fertilizer source" },
-    ],
-    // Passage 3: Questions 27-40
-    [
-      { id: 27, text: "industrial revolution impact" },
-      { id: 28, text: "steam engine was invented by _____" },
-      { id: 29, text: "factory system development" },
-      { id: 30, text: "_____ replaced hand tools" },
-      { id: 31, text: "urban population growth" },
-      { id: 32, text: "working conditions in _____" },
-      { id: 33, text: "child labor was common in _____" },
-      { id: 34, text: "_____ improved transportation" },
-      { id: 35, text: "coal mining expansion" },
-      { id: 36, text: "_____ powered machinery" },
-      { id: 37, text: "textile industry changes" },
-      { id: 38, text: "_____ invention increased production" },
-      { id: 39, text: "social reforms addressed _____" },
-      { id: 40, text: "economic growth factors" },
-    ],
   ];
 
   const handlePassageSelect = (passageId: number) => {
@@ -288,7 +264,7 @@ export default function ReadingTestClient() {
     handlePassageSelect(prevPassage);
   };
 
-  const currentQuestions = passageQuestions[selectedPassage - 1];
+  const currentQuestions = DATA.passageQuestions2[selectedPassage - 1];
 
   const currentPassage = passages[selectedPassage - 1];
 
@@ -302,6 +278,25 @@ export default function ReadingTestClient() {
   const getAnsweredStatus = (questionNum: number) => {
     const questionIndex = questionNum - currentPassage.startQuestion + 1;
     return questionIndex <= currentPassage.answeredQuestions;
+  };
+
+  const handleSelectOption = (questionId: number, option: string) => {
+    setQuestions(
+      questions.map((q) =>
+        q.id === questionId
+          ? {
+              ...q,
+              selectedOptions: q.isMultiple
+                ? Array.isArray(q.selectedOptions)
+                  ? q.selectedOptions.includes(option)
+                    ? q.selectedOptions.filter((opt) => opt !== option) // Deselect
+                    : [...q.selectedOptions, option] // Add selection
+                  : [option] // Initialize array for multiple-choice
+                : option, // Set string for single-choice
+            }
+          : q
+      )
+    );
   };
 
   return (
@@ -360,86 +355,88 @@ export default function ReadingTestClient() {
 
       {/* Main Content */}
       <div className="fixed top-[0px] bottom-[0px] left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full overflow-y-auto pb-20 pt-14">
-        <div className="relative">
-          {/* Reading passage */}
-          <div
-            className={`p-4 pt-8 overflow-y-auto border-r border-gray-200 ${
-              switchReading ? "" : "hidden lg:block"
-            }`}
-          >
-            {selectedPassage === 1 && (
-              <div>
-                <h1 className="w-full text-xl font-bold mb-4">Title 1</h1>
-                <p className="mb-4 text-sm">Passage 1</p>
-              </div>
-            )}
-            {selectedPassage === 2 && (
-              <div>
-                <h1 className="w-full text-xl font-bold mb-4">Title 2</h1>
-                <p className="mb-4 text-sm">Passage 2</p>
-              </div>
-            )}
-            {selectedPassage === 3 && (
-              <div>
-                <h1 className="w-full text-xl font-bold mb-4">Title 3</h1>
-                <p className="mb-4 text-sm">Passage 3</p>
-              </div>
-            )}
-          </div>
-
-          {/* Questions */}
-          <div
-            className={`bg-white p-4 pt-8 ${
-              switchReading ? "hidden lg:block" : ""
-            }`}
-          >
-            <div className="mb-6">
-              <div className="bg-[#FA812F] text-white p-3 rounded-md flex justify-between items-center">
-                <div className="font-medium">
-                  Questions {passages[selectedPassage - 1].startQuestion} -{" "}
-                  {passages[selectedPassage - 1].endQuestion}
-                </div>
-                <div className="text-sm">
-                  Write your answers in boxes on your answer sheet.
-                </div>
-              </div>
-
-              <div className="relative bg-gray-100 p-4 flex justify-center my-4 z-0">
-                <div className="relative w-full h-64">
-                  <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs left-[10%] top-[10%]">
-                    {selectedPassage === 1
-                      ? "The Persian Qanat Method"
-                      : selectedPassage === 2
-                      ? "Agricultural Development"
-                      : "Industrial Revolution"}
-                  </div>
-                  <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs right-[10%] top-[10%]">
-                    2
-                  </div>
-                  <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs left-[40%] bottom-[40%]">
-                    3
-                  </div>
-                  <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs right-[30%] bottom-[30%]">
-                    4
-                  </div>
-                  <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs left-[20%] bottom-[10%]">
-                    5
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                {currentQuestions.map((question) => (
-                  <div key={question.id} className="flex items-center">
-                    <div className="mr-2 w-6 h-6 bg-[#FA812F] text-white rounded-full flex items-center justify-center text-xs">
-                      {question.id}
-                    </div>
-                    <div className="flex-1">{question.text}</div>
-                  </div>
-                ))}
-              </div>
+        {/* Reading passage */}
+        <div
+          className={`p-4 pt-8 overflow-y-auto border-r border-gray-200 ${
+            switchReading ? "" : "hidden lg:block"
+          }`}
+        >
+          {selectedPassage === 1 && (
+            <div>
+              <h1 className="w-full text-xl font-bold mb-4">Title 1</h1>
+              <p className="mb-4 text-sm">Passage 1</p>
             </div>
-          </div>
+          )}
+          {selectedPassage === 2 && (
+            <div>
+              <h1 className="w-full text-xl font-bold mb-4">Title 2</h1>
+              <p className="mb-4 text-sm">Passage 2</p>
+            </div>
+          )}
+          {selectedPassage === 3 && (
+            <div>
+              <h1 className="w-full text-xl font-bold mb-4">Title 3</h1>
+              <p className="mb-4 text-sm">Passage 3</p>
+            </div>
+          )}
+        </div>
+
+        {/* Questions */}
+        <div
+          className={`bg-white p-4 pt-8 pb-10 overflow-y-auto h-full ${
+            switchReading ? "hidden lg:block" : ""
+          }`}
+        >
+          {currentQuestions.map((questionSet, index) => (
+            <div key={index} className="mb-6">
+              {questionSet.q_type === "MP" && (
+                <>
+                  <QuizHeader
+                    title={`Questions ${questionSet.question_data[0].id} - ${
+                      questionSet.question_data[
+                        questionSet.question_data.length - 1
+                      ].id
+                    }`}
+                    subtitle="Choose the correct answer"
+                  />
+                  {questionSet.question_data.map((q) => {
+                    const questionState = questions.find(
+                      (qs) => qs.id === q.id
+                    );
+                    return (
+                      <QuizQuestion
+                        key={q.id}
+                        id={q.id}
+                        question={"question" in q ? q.question : ""}
+                        options={"choice" in q ? q.choice : []}
+                        isMultiple={"isMultiple" in q ? q.isMultiple : false}
+                        selectedOptions={questionState?.selectedOptions || null}
+                        onSelectOption={(option) =>
+                          handleSelectOption(q.id, option)
+                        }
+                      />
+                    );
+                  })}
+                </>
+              )}
+              {questionSet.q_type === "FI" && (
+                <ShortAnswerQuiz
+                  title={`Questions ${questionSet.question_data[0].id} - ${
+                    questionSet.question_data[
+                      questionSet.question_data.length - 1
+                    ].id
+                  }`}
+                  subtitle="Complete the sentences below"
+                  instructions="Write your answers in the boxes provided."
+                  questions={questionSet.question_data.map((q) => ({
+                    id: q.id,
+                    start_passage: "start_passage" in q ? q.start_passage : "",
+                    end_passage: "end_passage" in q ? q.end_passage : "",
+                  }))}
+                />
+              )}
+            </div>
+          ))}
         </div>
       </div>
 
@@ -556,7 +553,7 @@ export default function ReadingTestClient() {
             </div>
           </div>
 
-          {/* Toggle Button (Mobile Only) */}
+          {/* Toggle Button (Mobile) */}
           <div className="lg:hidden absolute bg-[#FA812F] rounded-full bottom-[0%] right-[5%] -translate-y-24 z-30">
             <div
               className="p-3.5"

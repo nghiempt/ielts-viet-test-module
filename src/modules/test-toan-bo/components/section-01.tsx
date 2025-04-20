@@ -5,7 +5,7 @@ import Link from "next/link";
 import { slugifyURL } from "@/utils/slugify";
 import { DATA } from "@/utils/data";
 import React, { useEffect } from "react";
-import { BlogService } from "@/services/blog";
+import { BlogService } from "@/services/reading";
 import { HELPER } from "@/utils/helper";
 import { useBlog } from "./blog-context";
 import { useRouter } from "next/navigation";

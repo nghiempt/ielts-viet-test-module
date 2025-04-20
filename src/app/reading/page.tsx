@@ -1,4 +1,4 @@
-"use client";
+'use client";';
 
 import ReadingClient from "@/modules/test-doc";
 import { Loader } from "lucide-react";

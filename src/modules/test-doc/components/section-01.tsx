@@ -1,8 +1,9 @@
 // components/ReadingTestCollection.tsx
-import React, { useState } from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Search, ChevronRight, ChevronUp, ChevronDown } from "lucide-react";
-import Link from "next/link";
+import { Search, ChevronRight, ChevronDown } from "lucide-react";
 import { IMAGES } from "@/utils/images";
 
 // Define interfaces for our data structures
@@ -240,9 +241,27 @@ const ReadingSection: React.FC = () => {
   };
 
   const [expanded, setExpanded] = useState(false);
-  const expandedFilter = expanded
-    ? filterCategories
-    : filterCategories.slice(0, 1);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth <= 768 : true
+  );
+
+  useEffect(() => {
+    // Only run this in the browser
+    if (typeof window !== "undefined") {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 768);
+      };
+
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
+  }, []);
+
+  const expandedFilter = isMobile
+    ? expanded
+      ? filterCategories
+      : filterCategories.slice(0, 1)
+    : filterCategories;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
@@ -264,13 +283,13 @@ const ReadingSection: React.FC = () => {
           <div className="w-full md:w-64 flex-shrink-0">
             <div className="mb-4">
               <h3 className="text-sm font-medium mb-2">Tìm kiếm</h3>
-              <div className="flex">
+              <div className="flex flex-row gap-3">
                 <input
                   type="text"
                   placeholder="Search"
-                  className="border border-gray-300 rounded-l p-2 text-sm w-full"
+                  className="border border-gray-300 rounded-md p-2 text-sm w-full"
                 />
-                <button className="bg-gray-700 hover:bg-gray-800 text-white px-3 rounded-r">
+                <button className="bg-gray-700 hover:bg-gray-800 text-white px-3 rounded-full">
                   <Search size={16} />
                 </button>
               </div>
@@ -280,7 +299,11 @@ const ReadingSection: React.FC = () => {
             <div
               className="overflow-hidden transition-all duration-700 ease-in-out"
               style={{
-                maxHeight: expanded ? "1000px" : "200px",
+                maxHeight: isMobile
+                  ? expanded
+                    ? "1000px"
+                    : "200px"
+                  : "1000px",
               }}
             >
               {expandedFilter.map((category, index) => (

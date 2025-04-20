@@ -5,6 +5,7 @@ const formatVND = (money: number) => {
   }
   return number.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
 };
+
 const formatDate = (isoDate: string) => {
   const date = new Date(isoDate);
   const day = String(date.getUTCDate()).padStart(2, "0");
@@ -62,19 +63,6 @@ const sanitizeContent = (html: string) => {
   return html.replace(/<img[^>]*>/g, "");
 };
 
-const renderStatusTimeKeeping = (status: string) => {
-  let result = "";
-  switch (status) {
-    case "need-check-in":
-      result = "Trống";
-      break;
-    default:
-      result = "Đang trong ca";
-      break;
-  }
-  return result;
-};
-
 const calculateWorkingTime = (latestCheckIn: string) => {
   if (!latestCheckIn) {
     return "Not checked in yet";
@@ -97,7 +85,6 @@ export const HELPER = {
   formatDateTime,
   formatDateDay,
   convertSpacesToDash,
-  renderStatusTimeKeeping,
   sanitizeContent,
   calculateWorkingTime,
 };

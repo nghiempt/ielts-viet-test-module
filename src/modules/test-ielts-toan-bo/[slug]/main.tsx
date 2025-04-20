@@ -6,7 +6,7 @@ import { Sidebar } from "./components/sidebar";
 import SectionFooter from "./components/section-footer";
 import { BlogProvider } from "../components/blog-context";
 import React, { useEffect, useState } from "react";
-import { BlogService } from "@/services/blog";
+import { BlogService } from "@/services/reading";
 
 interface BlogPost {
   _id: string;

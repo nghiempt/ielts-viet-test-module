@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { BlogService } from "@/services/blog";
+import { BlogService } from "@/services/reading";
 import { HELPER } from "@/utils/helper";
 import { Facebook } from "lucide-react";
 

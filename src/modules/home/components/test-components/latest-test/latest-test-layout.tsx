@@ -12,7 +12,7 @@ const LatestTestLayout = () => {
           Bài test mới nhất
         </h1>
       </div>
-      <div className="flex md:grid overflow-x-auto md:overflow-visible gap-4 md:gap-6 md:grid-cols-3 pb-4 md:pb-0 px-0 mx-0 snap-x snap-mandatory scrollbar scrollbar-thumb-gray-300 scrollbar-track-gray-100 scroll-bar-style h-56">
+      <div className="flex md:grid overflow-x-auto md:overflow-visible gap-4 md:gap-6 md:grid-cols-3 pb-4 md:pb-0 px-0 mx-0 snap-x snap-mandatory scrollbar scrollbar-thumb-gray-300 scrollbar-track-gray-100 scroll-bar-style h-56 lg:h-full">
         <Link href="/listening-test">
           <LatestTestCard
             testName="CAM16"

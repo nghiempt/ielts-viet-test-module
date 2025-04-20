@@ -1,4 +1,4 @@
-import { BlogService } from "@/services/blog";
+import { BlogService } from "@/services/reading";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
