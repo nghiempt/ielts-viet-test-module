@@ -1,29 +1,28 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { IMAGES } from "@/utils/images";
 
 interface WritingTest {
-  id: number;
-  title: string;
-  testsCount: number;
-  attempts: number;
-  coverColor: string;
-  coverImage: string;
+  _id: string;
+  type: string;
+  parts: string[];
+  name: string;
+  thumbnail: string;
+  time: number;
+  created_at: string;
 }
 interface WritingTestCardProps {
   book: WritingTest;
 }
 
-const TestBookCard: React.FC<WritingTestCardProps> = ({ book }) => {
+const WritingTestCard: React.FC<WritingTestCardProps> = ({ book }) => {
   return (
-    <div className={`rounded-lg p-0 ${book.coverColor}`}>
+    <div className={`rounded-lg p-0`}>
       <div className="relative flex flex-col items-center">
         <div className="relative w-full h-full mb-4">
           <Image
-            src={IMAGES.THUMBNAIL}
-            alt={book.title}
+            src={book?.thumbnail}
+            alt={book?.name}
             width={1000}
             height={1000}
             className="w-full h-full object-cover rounded-lg"
@@ -31,10 +30,9 @@ const TestBookCard: React.FC<WritingTestCardProps> = ({ book }) => {
         </div>
 
         <div className="w-full mt-2">
-          <h3 className="text-lg lg:text-2xl font-bold">{book.title}</h3>
+          <h3 className="text-lg lg:text-2xl font-bold">{book?.name}</h3>
           <p className="text-sm lg:text-base text-gray-600 mt-1">
-            {book.testsCount} bài tests · {book.attempts.toLocaleString()} lượt
-            làm
+            11 bài tests · 12K lượt làm
           </p>
 
           <Link
@@ -61,4 +59,4 @@ const TestBookCard: React.FC<WritingTestCardProps> = ({ book }) => {
   );
 };
 
-export default TestBookCard;
+export default WritingTestCard;

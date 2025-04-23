@@ -1,6 +1,5 @@
 "use client";
 
-import { BlogProvider } from "./components/blog-context";
 import Section01 from "./components/section-01";
 import SectionFooter from "./components/section-footer";
 import Link from "next/link";

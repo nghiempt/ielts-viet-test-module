@@ -1,5 +1,5 @@
 // pages/index.tsx
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TestBookCard from "./writing-card";
 import { Swiper as SwiperCore } from "swiper/types";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,6 +9,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
 import "@/styles/contact.css";
+import { WritingService } from "@/services/writing";
 
 interface WritingTest {
   id: number;
@@ -20,49 +21,36 @@ interface WritingTest {
 }
 
 const WritingTestLayout = () => {
-  const testBooks: WritingTest[] = [
-    {
-      id: 1,
-      title: "Practice Test Plus 1",
-      testsCount: 10,
-      attempts: 25000,
-      coverColor: "bg-white",
-      coverImage: "/images/ielts-book-1.png",
-    },
-    {
-      id: 2,
-      title: "Practice Test Plus 2",
-      testsCount: 11,
-      attempts: 9000,
-      coverColor: "bg-white",
-      coverImage: "/images/ielts-book-2.png",
-    },
-    {
-      id: 3,
-      title: "Practice Test Plus 3",
-      testsCount: 14,
-      attempts: 11000,
-      coverColor: "bg-white",
-      coverImage: "/images/ielts-book-3.png",
-    },
-    {
-      id: 4,
-      title: "Practice Test Plus 4",
-      testsCount: 14,
-      attempts: 11000,
-      coverColor: "bg-white",
-      coverImage: "/images/ielts-book-3.png",
-    },
-  ];
+  const [writings, setWritings] = useState<any[]>([]);
+  const swiperRef = useRef<SwiperCore | null>(null);
 
-  let swiperInstance: SwiperCore | null = null;
+  const render = (data: any) => {
+    setWritings(data);
+  };
+
+  const init = async () => {
+    const res = await WritingService.getAll();
+    if (res && res.length > 0) {
+      render(res);
+    } else {
+      setWritings([]);
+    }
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
 
   const handlePrev = () => {
-    swiperInstance?.slidePrev(500);
+    if (swiperRef.current) {
+      swiperRef.current.slidePrev(500);
+    }
   };
 
   const handleNext = () => {
-    swiperInstance?.slideNext(500);
+    if (swiperRef.current) {
+      swiperRef.current.slideNext(500);
+    }
   };
 
   return (
@@ -72,7 +60,7 @@ const WritingTestLayout = () => {
       </h1>
       <div className="relative">
         <Swiper
-          onSwiper={(swiper) => (swiperInstance = swiper)}
+          onSwiper={(swiper) => (swiperRef.current = swiper)}
           effect={"coverflow"}
           grabCursor={true}
           centeredSlides={true}
@@ -98,9 +86,9 @@ const WritingTestLayout = () => {
           modules={[Pagination, Navigation, Autoplay]}
           className="w-80 sm:w-96 lg:w-[100%] h-[400px] sm:h-[430px] lg:h-[420px]"
         >
-          {testBooks.map((book, index) => (
+          {writings.map((item, index) => (
             <SwiperSlide key={index} className="">
-              <TestBookCard key={book.id} book={book} />
+              <TestBookCard key={index} book={item} />
             </SwiperSlide>
           ))}
         </Swiper>

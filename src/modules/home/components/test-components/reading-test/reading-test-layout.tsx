@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Swiper as SwiperCore } from "swiper/types";
 import ReadingTestCard from "./reading-card";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,75 +9,39 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
 import "@/styles/contact.css";
+import { ReadingService } from "@/services/reading";
 
 const ReadingTestLayout = () => {
-  const readingTest = [
-    {
-      bookNumber: 13,
-      testCount: 8,
-      attemptsCount: 56,
-      bgColor: "bg-white",
-      coverImage: "/images/cambridge-ielts-13.png",
-    },
-    {
-      bookNumber: 17,
-      testCount: 8,
-      attemptsCount: 136,
-      bgColor: "bg-white",
-      coverImage: "/images/cambridge-ielts-17.png",
-    },
-    {
-      bookNumber: 16,
-      testCount: 8,
-      attemptsCount: 212,
-      bgColor: "bg-white",
-      coverImage: "/images/cambridge-ielts-16.png",
-    },
-    {
-      bookNumber: 15,
-      testCount: 8,
-      attemptsCount: 119,
-      bgColor: "bg-white",
-      coverImage: "/images/cambridge-ielts-15.png",
-    },
-    {
-      bookNumber: 15,
-      testCount: 8,
-      attemptsCount: 119,
-      bgColor: "bg-white",
-      coverImage: "/images/cambridge-ielts-15.png",
-    },
-    {
-      bookNumber: 15,
-      testCount: 8,
-      attemptsCount: 119,
-      bgColor: "bg-white",
-      coverImage: "/images/cambridge-ielts-15.png",
-    },
-    {
-      bookNumber: 15,
-      testCount: 8,
-      attemptsCount: 119,
-      bgColor: "bg-white",
-      coverImage: "/images/cambridge-ielts-15.png",
-    },
-    {
-      bookNumber: 15,
-      testCount: 8,
-      attemptsCount: 119,
-      bgColor: "bg-white",
-      coverImage: "/images/cambridge-ielts-15.png",
-    },
-  ];
+  const [readings, setReadings] = useState<any[]>([]);
+  const swiperRef = useRef<SwiperCore | null>(null);
 
-  let swiperInstance: SwiperCore | null = null;
+  const render = (data: any) => {
+    setReadings(data);
+  };
+
+  const init = async () => {
+    const res = await ReadingService.getAll();
+    if (res && res.length > 0) {
+      render(res);
+    } else {
+      setReadings([]);
+    }
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
 
   const handlePrev = () => {
-    swiperInstance?.slidePrev(500);
+    if (swiperRef.current) {
+      swiperRef.current.slidePrev(500);
+    }
   };
 
   const handleNext = () => {
-    swiperInstance?.slideNext(500);
+    if (swiperRef.current) {
+      swiperRef.current.slideNext(500);
+    }
   };
 
   return (
@@ -88,7 +52,7 @@ const ReadingTestLayout = () => {
         </h1>
         <div className="relative">
           <Swiper
-            onSwiper={(swiper) => (swiperInstance = swiper)}
+            onSwiper={(swiper) => (swiperRef.current = swiper)}
             effect={"coverflow"}
             grabCursor={true}
             centeredSlides={true}
@@ -114,15 +78,14 @@ const ReadingTestLayout = () => {
             modules={[Pagination, Navigation, Autoplay]}
             className="w-80 sm:w-96 lg:w-[100%] h-[400px] sm:h-[430px] lg:h-[380px]"
           >
-            {readingTest.map((book, index) => (
+            {readings.map((book: any, index: number) => (
               <SwiperSlide key={index} className="">
                 <ReadingTestCard
-                  key={book.bookNumber}
-                  bookNumber={book.bookNumber}
-                  testCount={book.testCount}
-                  attemptsCount={book.attemptsCount}
-                  bgColor={book.bgColor}
-                  coverImage={book.coverImage}
+                  key={index}
+                  title={book?.name}
+                  testCount={11}
+                  attemptsCount={113}
+                  coverImage={book?.thumbnail}
                 />
               </SwiperSlide>
             ))}

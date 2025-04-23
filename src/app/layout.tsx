@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import { BlogProvider } from "@/modules/test-toan-bo/components/blog-context";
 
 const font = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
@@ -43,10 +42,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className} suppressHydrationWarning={true}>
-        <BlogProvider>
-          {children}
-          <Toaster />
-        </BlogProvider>
+        {children}
+        <Toaster />
       </body>
     </html>
   );

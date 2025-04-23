@@ -10,34 +10,34 @@ interface TestCardProps {
   coverImage: string;
 }
 
-const ReadingTestCard: React.FC<TestCardProps> = ({
+const ListeningTestCard: React.FC<TestCardProps> = ({
   title,
   testCount,
   attemptsCount,
   coverImage,
 }) => {
   return (
-    <div className={`rounded-lg p-0 lg:p-0`}>
-      <div className="flex justify-center">
-        <div className="relative w-full h-full">
+    <div className="grid grid-cols-12 gap-5 rounded-lg overflow-hidden">
+      <div
+        className={`col-span-4 p-0 w-full h-full flex items-center justify-center`}
+      >
+        <div className="w-full h-full relative">
           <Image
             src={coverImage}
             alt={`${title}`}
             width={1000}
             height={1000}
-            className="object-cover rounded-lg shadow-lg w-full h-full"
+            className="object-cover rounded-lg h-full w-full"
           />
         </div>
       </div>
-      <div className="mt-4">
-        <h3 className="text-2xl font-bold text-gray-800">{title}</h3>
-        <div className="flex items-center text-gray-600 mt-1">
-          <span>{testCount} bài tests</span>
-          <span className="mx-2">•</span>
-          <span>{attemptsCount}K lượt làm</span>
-        </div>
-        <Link href={`/reading-test`}>
-          <div className="inline-flex items-center text-[#FA812F] font-medium mt-2">
+      <div className="col-span-8 flex-1 p-0">
+        <h2 className="text-lg lg:text-2xl font-semibold">{title}</h2>
+        <p className="text-gray-600 mt-1 text-sm lg:text-base">
+          {testCount} bài tests • {attemptsCount}K lượt làm
+        </p>
+        <Link href={`/listening-test`}>
+          <div className="flex flex-row items-center text-[#FA812F] mt-2 font-medium text-sm lg:text-base">
             Xem bài test
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -58,4 +58,4 @@ const ReadingTestCard: React.FC<TestCardProps> = ({
   );
 };
 
-export default ReadingTestCard;
+export default ListeningTestCard;
