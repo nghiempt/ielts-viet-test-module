@@ -4,8 +4,7 @@ import Image from "next/image";
 import "@/styles/hide-scroll.css";
 import { IMAGES } from "@/utils/images";
 import { Check } from "lucide-react";
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 interface QuestionAnswer {
   question_id: string;
@@ -13,6 +12,7 @@ interface QuestionAnswer {
   correct_answer: string | string[];
   is_correct: boolean;
   is_pass: boolean;
+  q_type: string;
 }
 
 interface PartResult {
@@ -36,6 +36,9 @@ const ResultStatistic = () => {
   const [incorrectCount, setIncorrectCount] = useState<number>(0);
   const [unanswerCount, setUnanswerCount] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
+  const router = useRouter();
+
+  const [response, setResponse] = useState<ResultData | null>(null);
 
   useEffect(() => {
     const storedAnswers = localStorage.getItem("readingTestAnswers");
@@ -43,6 +46,9 @@ const ResultStatistic = () => {
       try {
         const parsedAnswers = JSON.parse(storedAnswers);
         console.log("Parsed answers:", parsedAnswers);
+        console.log("Parsed answers kkk:", storedAnswers);
+
+        setResponse(parsedAnswers);
 
         if (parsedAnswers?.data) {
           const resultData = parsedAnswers.data as ResultData;
@@ -106,6 +112,7 @@ const ResultStatistic = () => {
           } else if (totals.correct >= 39 && totals.correct <= 40) {
             setScore(9);
           }
+          // localStorage.removeItem("readingTestAnswers");
         } else {
           console.error("Invalid data structure in parsedAnswers");
         }
@@ -130,16 +137,44 @@ const ResultStatistic = () => {
 
   const scorePercentage = Number(resultStats.score) * 10;
 
+  const handleSubmit = async () => {
+    const jsonData = JSON.stringify(response, null, 2);
+
+    console.log("Submitted answers:", jsonData);
+
+    // Store JSON data in localStorage
+    localStorage.setItem("readingTestAnswers", jsonData);
+
+    // Navigate to reading-result page
+    window.open(`/test-result-reading/${id}`, "_blank");
+  };
+
   // Helper to render passage answers
   const renderPassageAnswers = (part: PartResult, passageNum: number) => {
-    return part.user_answers.map((answer, index) => {
-      const questionNumber = index + 1 + (passageNum - 1) * 13; // Adjust based on your question numbering
+    // Sort user_answers: MP questions first, then FB questions
+    const sortedAnswers = [...part.user_answers].sort((a, b) => {
+      if (a.q_type === "MP" && b.q_type !== "MP") return -1; // MP comes first
+      if (a.q_type !== "MP" && b.q_type === "MP") return 1; // FB comes after
+      return 0; // Maintain original order for same types
+    });
+
+    return sortedAnswers.map((answer, index) => {
+      // Adjust question numbering to reflect the passage
+      const questionNumber = index + 1 + (passageNum - 1) * 13; // Assuming 13 questions per passage
       return (
         <div key={answer.question_id} className="flex items-center text-sm">
           <div className="flex items-center justify-center w-6 h-6 rounded-full bg-gray-200 text-gray-800 mr-2">
             {questionNumber}
           </div>
-          <span className="text-gray-500 mr-2">
+          <span
+            className={`${
+              answer.is_pass
+                ? "text-yellow-600"
+                : answer.is_correct
+                ? "text-green-500"
+                : "text-red-500"
+            } mr-2`}
+          >
             {answer.is_pass
               ? "Skipped"
               : answer.is_correct
@@ -151,8 +186,8 @@ const ResultStatistic = () => {
               ? answer.correct_answer.join(", ")
               : answer.correct_answer}
           </span>
-          {!answer.is_pass && (
-            <span className="text-red-600 ml-2">
+          {!answer.is_pass && !answer.is_correct && (
+            <span className="text-gray-600 ml-2">
               (Your answer:{" "}
               {answer.answer.length ? answer.answer.join(", ") : "None"})
             </span>
@@ -293,12 +328,12 @@ const ResultStatistic = () => {
               </div>
             </div>
 
-            <Link
-              href={`/test-result-reading/${id}`}
-              className="bg-red-600 text-white rounded-md px-4 py-2 text-sm mt-4"
+            <div
+              onClick={handleSubmit}
+              className="cursor-pointer bg-red-600 text-white rounded-md px-4 py-2 text-sm mt-4"
             >
               Xem giải thích
-            </Link>
+            </div>
           </div>
         </div>
 

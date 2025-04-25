@@ -13,13 +13,14 @@ import PassageProgressBarMobile from "./components/processing-bar-mobile";
 import { motion, AnimatePresence } from "framer-motion";
 import PopupMenu from "./components/pop-up";
 import {
-  QuizHeader,
-  QuizQuestion,
-} from "./components/test-type/multiple-choice/multiple-choice";
-import { ShortAnswerQuiz } from "./components/test-type/fil-in-the-blank/fill-in";
+  ResultHeader,
+  ResultShortAnswerQuestion,
+} from "./components/test-type/fil-in-the-blank/fill-in";
 import { usePathname } from "next/navigation";
 import { ReadingService } from "@/services/reading";
 import { QuestionsService } from "@/services/questions";
+import "@/styles/hide-scroll.css";
+import { ResultQuestion } from "./components/test-type/multiple-choice/multiple-choice";
 
 // Interfaces remain the same as provided
 interface Question {
@@ -32,6 +33,14 @@ interface Question {
   start_passage?: string;
   end_passage?: string;
   question_id: string;
+  correct_answer?: string | string[];
+  is_correct?: boolean;
+}
+
+interface QuestionStatus {
+  questionId: number;
+  isAnswered: boolean;
+  isCorrect: boolean | null;
 }
 
 interface PassageSection {
@@ -45,6 +54,7 @@ interface PassageSection {
     _id: string;
     q_type: string;
     part_id: string;
+    question: string;
     choices?: string[];
     isMultiple?: boolean;
     answer: string[];
@@ -87,6 +97,29 @@ interface PassageInfo {
   answeredQuestions: number;
 }
 
+interface QuestionAnswer {
+  question_id: string;
+  q_type: string;
+  answer: string[];
+  correct_answer: string | string[];
+  is_correct: boolean;
+  is_pass: boolean;
+}
+
+interface PartResult {
+  type: string;
+  part_id: string;
+  user_answers: QuestionAnswer[];
+  correct_count: number;
+  incorrect_count: number;
+  pass_count: number;
+}
+
+interface ResultData {
+  submit_id: string;
+  result: PartResult[];
+}
+
 export default function AnswerKeyReadingPage() {
   const pathname = usePathname();
   const [data, setData] = useState<ReadingDetail | null>(null);
@@ -97,12 +130,12 @@ export default function AnswerKeyReadingPage() {
   const [selectedPassage, setSelectedPassage] = useState(1);
   const [answers, setAnswers] = useState<AnswerState>({ parts: [] });
   const [currentPage, setCurrentPage] = useState(1);
-  // const [timeLeft, setTimeLeft] = useState("57:25");
   const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [switchReading, setSwitchReading] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [response, setResponse] = useState<ResultData | null>(null);
 
   const calculatePassages = useMemo(() => {
     return (): PassageInfo[] => {
@@ -144,10 +177,6 @@ export default function AnswerKeyReadingPage() {
 
   const passages = calculatePassages();
 
-  const render = (data: ReadingDetail) => {
-    setData(data);
-  };
-
   const mapAndArrangeQuestions = (passage: PassageSection, startId: number) => {
     const mappedQuestions = passage.question.map((q, index) => {
       const partAnswer = answers.parts.find(
@@ -157,12 +186,20 @@ export default function AnswerKeyReadingPage() {
         (ua) => ua.question_id === q._id
       );
 
-      const selectedOptions = userAnswer?.answer?.length
+      // Get result data for this question
+      const partResult = response?.result.find(
+        (part) => part.part_id === q.part_id
+      );
+      const questionResult = partResult?.user_answers.find(
+        (ua) => ua.question_id === q._id
+      );
+
+      const selectedOptions = questionResult?.answer?.length
         ? q.q_type === "MP" && q.isMultiple
-          ? userAnswer.answer
+          ? questionResult.answer
           : q.q_type === "MP"
-          ? userAnswer.answer[0]
-          : userAnswer.answer[0] || ""
+          ? questionResult.answer[0]
+          : questionResult.answer[0] || ""
         : q.q_type === "MP"
         ? q.isMultiple
           ? []
@@ -171,7 +208,8 @@ export default function AnswerKeyReadingPage() {
 
       return {
         id: startId + index,
-        question: q.q_type === "MP" ? `Question ${startId + index}` : "",
+        question:
+          q.q_type === "MP" ? q.question || `Question ${startId + index}` : "",
         options: q.q_type === "MP" && q.choices ? q.choices : [],
         isMultiple: q.q_type === "MP" ? q.isMultiple || false : false,
         selectedOptions,
@@ -179,9 +217,12 @@ export default function AnswerKeyReadingPage() {
         start_passage: q.q_type === "FB" ? q.start_passage : undefined,
         end_passage: q.q_type === "FB" ? q.end_passage : undefined,
         question_id: q._id,
+        correct_answer: questionResult?.correct_answer || [],
+        is_correct: questionResult?.is_correct || false,
       };
     });
 
+    // Arrange questions: MP first if first question is MP, else FB first
     const firstQuestionType = passage.question[0]?.q_type;
     const arrangedQuestions =
       firstQuestionType === "MP"
@@ -201,6 +242,10 @@ export default function AnswerKeyReadingPage() {
   };
 
   const init = async () => {
+    const storedAnswers = localStorage.getItem("readingTestAnswers");
+    const parsedAnswers = storedAnswers ? JSON.parse(storedAnswers) : null;
+    setResponse(parsedAnswers?.data || null);
+
     setIsLoading(true);
     setError(null);
     const segments = pathname.split("/").filter(Boolean);
@@ -254,9 +299,6 @@ export default function AnswerKeyReadingPage() {
           );
 
           const initialParts: PartAnswer[] = Object.values(groupedByPartId);
-          if (process.env.NODE_ENV !== "production") {
-            console.log("Initialized answers:", initialParts);
-          }
           return { parts: initialParts };
         });
 
@@ -295,41 +337,11 @@ export default function AnswerKeyReadingPage() {
       );
       setQuestions(updatedQuestions);
     }
-  }, [selectedPassage, passages, passage1, passage2, passage3]);
-
-  // useEffect(() => {
-  //   if (!data?.time) return;
-
-  //   let time = data.time * 60; // Convert minutes to seconds
-  //   const timer = setInterval(() => {
-  //     const minutes = Math.floor(time / 60);
-  //     const seconds = time % 60;
-  //     setTimeLeft(`${minutes}:${seconds.toString().padStart(2, "0")}`);
-  //     time -= 1;
-  //     if (time < 0) {
-  //       clearInterval(timer);
-  //       // Handle time up (e.g., auto-submit)
-  //     }
-  //   }, 1000);
-
-  //   return () => clearInterval(timer);
-  // }, [data]);
+  }, [selectedPassage, passages, passage1, passage2, passage3, response]);
 
   const handlePassageSelect = (passageId: number) => {
     setSelectedPassage(passageId);
     setCurrentPage(passageId);
-  };
-
-  const handleNextPassage = () => {
-    const nextPassage =
-      selectedPassage < passages.length ? selectedPassage + 1 : 1;
-    handlePassageSelect(nextPassage);
-  };
-
-  const handlePreviousPassage = () => {
-    const prevPassage =
-      selectedPassage > 1 ? selectedPassage - 1 : passages.length;
-    handlePassageSelect(prevPassage);
   };
 
   const handleQuestionSelect = (questionId: number) => {
@@ -337,180 +349,59 @@ export default function AnswerKeyReadingPage() {
   };
 
   const handleNextQuestion = () => {
-    if (
-      selectedQuestion === null ||
-      selectedQuestion === passages[passages.length - 1].endQuestion
-    )
+    if (selectedQuestion === null) {
+      // If no question is selected, select the first question of the current passage
+      setSelectedQuestion(passages[selectedPassage - 1].startQuestion);
       return;
-    setSelectedQuestion(selectedQuestion + 1);
+    }
+
+    // Find the passage of the next question
+    const nextQuestionId = selectedQuestion + 1;
+    const nextPassage = passages.find(
+      (p) =>
+        nextQuestionId >= p.startQuestion && nextQuestionId <= p.endQuestion
+    );
+
+    if (!nextPassage) {
+      // No next question available (end of all questions)
+      return;
+    }
+
+    // If the next question is in a different passage, switch to that passage
+    if (nextPassage.id !== selectedPassage) {
+      setSelectedPassage(nextPassage.id);
+      setCurrentPage(nextPassage.id);
+    }
+
+    setSelectedQuestion(nextQuestionId);
   };
 
   const handlePreviousQuestion = () => {
-    if (
-      selectedQuestion === null ||
-      selectedQuestion === passages[0].startQuestion
-    )
-      return;
-    setSelectedQuestion(selectedQuestion - 1);
-  };
-
-  const currentPassage = passages[selectedPassage - 1] || {
-    startQuestion: 1,
-    endQuestion: 1,
-    answeredQuestions: 0,
-  };
-
-  const passageQuestionNumbers = Array.from(
-    {
-      length: currentPassage.endQuestion - currentPassage.startQuestion + 1,
-    },
-    (_, i) => currentPassage.startQuestion + i
-  );
-
-  const getAnsweredStatus = (questionNum: number) => {
-    const question = questions.find((q) => q.id === questionNum);
-    if (!question) return false;
-
-    const questionData =
-      passage1?.question.find((q) => q._id === question.question_id) ||
-      passage2?.question.find((q) => q._id === question.question_id) ||
-      passage3?.question.find((q) => q._id === question.question_id);
-
-    if (!questionData) return false;
-
-    const partAnswer = answers.parts.find(
-      (part) => part.part_id === questionData.part_id
-    );
-    const userAnswer = partAnswer?.user_answers.find(
-      (ua) => ua.question_id === question.question_id
-    );
-
-    return (
-      (userAnswer?.answer?.length ?? 0) > 0 &&
-      (question.q_type === "FB" ? userAnswer?.answer[0] !== "" : true)
-    );
-  };
-
-  const updatePartCompletion = (partId: string) => {
-    setAnswers((prev) => {
-      const updatedParts = prev.parts.map((part) => {
-        if (part.part_id === partId) {
-          const allAnswered = part.user_answers.every(
-            (ua) => ua.answer.length > 0 && ua.answer[0] !== ""
-          );
-          return { ...part, isComplete: allAnswered };
-        }
-        return part;
-      });
-      return { parts: updatedParts };
-    });
-  };
-
-  const handleSelectOption = (questionId: number, option: string) => {
-    const question = questions.find((q) => q.id === questionId);
-    if (!question) {
-      console.error("Question not found:", questionId);
+    if (selectedQuestion === null) {
+      // If no question is selected, select the last question of the current passage
+      setSelectedQuestion(passages[selectedPassage - 1].endQuestion);
       return;
     }
 
-    const questionData =
-      passage1?.question.find((q) => q._id === question.question_id) ||
-      passage2?.question.find((q) => q._id === question.question_id) ||
-      passage3?.question.find((q) => q._id === question.question_id);
+    // Find the passage of the previous question
+    const prevQuestionId = selectedQuestion - 1;
+    const prevPassage = passages.find(
+      (p) =>
+        prevQuestionId >= p.startQuestion && prevQuestionId <= p.endQuestion
+    );
 
-    if (!questionData) {
-      console.error("Question data not found for ID:", question.question_id);
+    if (!prevPassage) {
+      // No previous question available (start of all questions)
       return;
     }
 
-    setAnswers((prev) => {
-      const updatedParts = prev.parts.map((part) => {
-        if (part.part_id === questionData.part_id) {
-          let updatedUserAnswers = [...part.user_answers];
-          const answerIndex = updatedUserAnswers.findIndex(
-            (ua) => ua.question_id === question.question_id
-          );
+    // If the previous question is in a different passage, switch to that passage
+    if (prevPassage.id !== selectedPassage) {
+      setSelectedPassage(prevPassage.id);
+      setCurrentPage(prevPassage.id);
+    }
 
-          if (answerIndex === -1) {
-            updatedUserAnswers.push({
-              question_id: question.question_id,
-              answer: question.isMultiple ? [option] : [option],
-            });
-          } else {
-            updatedUserAnswers = updatedUserAnswers.map((ua, index) => {
-              if (index === answerIndex) {
-                const currentAnswer = ua.answer || [];
-                let newAnswer: string[];
-
-                if (question.isMultiple) {
-                  newAnswer = currentAnswer.includes(option)
-                    ? currentAnswer.filter((opt) => opt !== option)
-                    : [...currentAnswer, option];
-                } else {
-                  newAnswer = [option];
-                }
-
-                return { ...ua, answer: newAnswer };
-              }
-              return ua;
-            });
-          }
-
-          return { ...part, user_answers: updatedUserAnswers };
-        }
-        return part;
-      });
-
-      return { parts: updatedParts };
-    });
-
-    setQuestions((prevQuestions) =>
-      prevQuestions.map((q) =>
-        q.id === questionId
-          ? {
-              ...q,
-              selectedOptions: question.isMultiple
-                ? Array.isArray(q.selectedOptions)
-                  ? q.selectedOptions.includes(option)
-                    ? q.selectedOptions.filter((opt) => opt !== option)
-                    : [...q.selectedOptions, option]
-                  : [option]
-                : option,
-            }
-          : q
-      )
-    );
-
-    updatePartCompletion(questionData.part_id);
-  };
-
-  const handleFillInAnswer = (questionId: number, answer: string) => {
-    const question = questions.find((q) => q.id === questionId);
-    if (!question) return;
-
-    const questionData =
-      passage1?.question.find((q) => q._id === question.question_id) ||
-      passage2?.question.find((q) => q._id === question.question_id) ||
-      passage3?.question.find((q) => q._id === question.question_id);
-
-    if (!questionData) return;
-
-    setAnswers((prev) => {
-      const updatedParts = prev.parts.map((part) => {
-        if (part.part_id === questionData.part_id) {
-          const updatedUserAnswers = part.user_answers.map((ua) =>
-            ua.question_id === question.question_id
-              ? { ...ua, answer: [answer] }
-              : ua
-          );
-          return { ...part, user_answers: updatedUserAnswers };
-        }
-        return part;
-      });
-      return { parts: updatedParts };
-    });
-
-    updatePartCompletion(questionData.part_id);
+    setSelectedQuestion(prevQuestionId);
   };
 
   if (isLoading) {
@@ -537,8 +428,8 @@ export default function AnswerKeyReadingPage() {
           <div className="font-semibold">{data?.name}</div>
           <div className="text-sm text-gray-600">Reading Test Result</div>
         </div>
-        <div className="flex items-center">
-          <Link href="/" className="text-gray-400 hover:text-gray-600 ml-4">
+        <Link href={"/"} target="_blank" className="flex items-center">
+          <div className="text-gray-400 hover:text-gray-600 ml-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 text-gray-500"
@@ -553,16 +444,15 @@ export default function AnswerKeyReadingPage() {
                 d="M6 18L18 6M6 6l12 12"
               />
             </svg>
-          </Link>
-        </div>
+          </div>
+        </Link>
       </header>
 
       <div className="fixed top-0 bottom-0 left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full">
         <div
-          className={`p-4 py-24 overflow-y-auto border-r border-gray-200 ${
+          className={`p-4 py-24 pb-32 overflow-y-auto scroll-bar-style border-r border-gray-200 ${
             switchReading ? "" : "hidden lg:block"
           }`}
-          style={{ scrollbarWidth: "thin" }}
         >
           {selectedPassage === 1 && (
             <div className="">
@@ -591,10 +481,9 @@ export default function AnswerKeyReadingPage() {
         </div>
 
         <div
-          className={`bg-white p-4 pt-24 pb-32 overflow-y-auto ${
+          className={`bg-white p-4 pt-24 pb-32 overflow-y-auto scroll-bar-style ${
             switchReading ? "hidden lg:block" : ""
           }`}
-          style={{ scrollbarWidth: "thin" }}
         >
           {questions.reduce((acc: JSX.Element[], question, index) => {
             if (question.q_type === "MP") {
@@ -606,27 +495,27 @@ export default function AnswerKeyReadingPage() {
                   options: q.options,
                   isMultiple: q.isMultiple,
                   selectedOptions: q.selectedOptions,
+                  correct_answer: q.correct_answer,
+                  is_correct: q.is_correct,
                 }));
               if (index === questions.findIndex((q) => q.q_type === "MP")) {
                 acc.push(
                   <div key={`mp-${index}`} className="mb-6">
-                    <QuizHeader
+                    <ResultHeader
                       title={`Questions ${mpQuestions[0].id} - ${
                         mpQuestions[mpQuestions.length - 1].id
                       }`}
-                      subtitle="Choose the correct answer"
+                      subtitle="Review your answers"
                     />
                     {mpQuestions.map((q) => (
-                      <QuizQuestion
+                      <ResultQuestion
                         key={q.id}
                         id={q.id}
                         question={q.question}
                         options={q.options}
-                        isMultiple={q.isMultiple}
                         selectedOptions={q.selectedOptions}
-                        onSelectOption={(option) =>
-                          handleSelectOption(q.id, option)
-                        }
+                        correctAnswer={q.correct_answer || []}
+                        isCorrect={q.is_correct ?? false}
                       />
                     ))}
                   </div>
@@ -640,24 +529,39 @@ export default function AnswerKeyReadingPage() {
                   start_passage: q.start_passage || "",
                   end_passage: q.end_passage || "",
                   selectedAnswer: q.selectedOptions || "",
+                  correct_answer: q.correct_answer,
+                  is_correct: q.is_correct,
                 }));
               if (index === questions.findIndex((q) => q.q_type === "FB")) {
                 acc.push(
                   <div key={`fb-${index}`} className="mb-6">
-                    <ShortAnswerQuiz
+                    <ResultHeader
                       title={`Questions ${fbQuestions[0].id} - ${
                         fbQuestions[fbQuestions.length - 1].id
                       }`}
-                      subtitle="Complete the sentences below"
-                      instructions="Write your answers in the boxes provided."
-                      questions={fbQuestions.map((q) => ({
-                        ...q,
-                        selectedAnswer: Array.isArray(q.selectedAnswer)
-                          ? q.selectedAnswer.join(", ")
-                          : q.selectedAnswer,
-                      }))}
-                      onAnswerChange={handleFillInAnswer}
+                      subtitle="Review your answers"
                     />
+                    <div className="">
+                      {fbQuestions.map((q) => (
+                        <ResultShortAnswerQuestion
+                          key={q.id}
+                          id={q.id}
+                          start_passage={q.start_passage}
+                          end_passage={q.end_passage}
+                          selectedAnswer={
+                            Array.isArray(q.selectedAnswer)
+                              ? q.selectedAnswer.join(", ")
+                              : q.selectedAnswer || "No answer provided"
+                          }
+                          correctAnswer={
+                            Array.isArray(q.correct_answer)
+                              ? q.correct_answer.join(", ")
+                              : q.correct_answer || ""
+                          }
+                          isCorrect={q.is_correct ?? false}
+                        />
+                      ))}
+                    </div>
                   </div>
                 );
               }
@@ -670,19 +574,48 @@ export default function AnswerKeyReadingPage() {
       <div className="fixed bottom-0 left-0 right-0 bg-white pt-0 pb-2 lg:pt-0 lg:pb-2 z-10">
         <div className="hidden lg:flex justify-between mt-0 text-sm border-t border-gray-100 pt-0">
           <div className="flex justify-center items-center">
-            {passages.map((passage) => (
-              <PassageProgressBar
-                key={passage.id}
-                passageNumber={passage.id}
-                currentQuestion={selectedQuestion ?? 0}
-                totalQuestions={passage.endQuestion - passage.startQuestion + 1}
-                startQuestion={passage.startQuestion}
-                endQuestion={passage.endQuestion}
-                choosenPassage={selectedPassage === passage.id}
-                onClick={() => handlePassageSelect(passage.id)}
-                onQuestionClick={handleQuestionSelect}
-              />
-            ))}
+            {passages.map((passage) => {
+              // Get the questions for this passage directly
+              const passageData = [passage1, passage2, passage3].filter(
+                (p): p is PassageSection => p !== null
+              )[passage.id - 1];
+              const passageQuestions = mapAndArrangeQuestions(
+                passageData,
+                passage.startQuestion
+              );
+
+              // Calculate question statuses
+              const questionStatuses = passageQuestions.map((question) => {
+                const isAnswered =
+                  (Array.isArray(question.selectedOptions) &&
+                    question.selectedOptions.length > 0) ||
+                  (typeof question.selectedOptions === "string" &&
+                    question.selectedOptions !== "");
+
+                return {
+                  questionId: question.id,
+                  isAnswered,
+                  isCorrect: isAnswered ? question.is_correct ?? false : null,
+                };
+              });
+
+              return (
+                <PassageProgressBar
+                  key={passage.id}
+                  passageNumber={passage.id}
+                  currentQuestion={selectedQuestion ?? 0}
+                  totalQuestions={
+                    passage.endQuestion - passage.startQuestion + 1
+                  }
+                  startQuestion={passage.startQuestion}
+                  endQuestion={passage.endQuestion}
+                  choosenPassage={selectedPassage === passage.id}
+                  onClick={() => handlePassageSelect(passage.id)}
+                  onQuestionClick={handleQuestionSelect}
+                  questionStatuses={questionStatuses}
+                />
+              );
+            })}
           </div>
           <div className="flex flex-row">
             <div
@@ -737,6 +670,29 @@ export default function AnswerKeyReadingPage() {
                 choosenPassage={passage.id === selectedPassage}
                 onClick={() => handlePassageSelect(passage.id)}
                 onQuestionClick={handleQuestionSelect}
+                questionStatuses={(() => {
+                  const passageData = [passage1, passage2, passage3].filter(
+                    (p): p is PassageSection => p !== null
+                  )[passage.id - 1];
+                  const passageQuestions = mapAndArrangeQuestions(
+                    passageData,
+                    passage.startQuestion
+                  );
+                  return passageQuestions.map((question) => {
+                    const isAnswered =
+                      (Array.isArray(question.selectedOptions) &&
+                        question.selectedOptions.length > 0) ||
+                      (typeof question.selectedOptions === "string" &&
+                        question.selectedOptions !== "");
+                    return {
+                      questionId: question.id,
+                      isAnswered,
+                      isCorrect: isAnswered
+                        ? question.is_correct ?? false
+                        : null,
+                    };
+                  });
+                })()}
               />
             ))}
           </div>
@@ -793,7 +749,40 @@ export default function AnswerKeyReadingPage() {
                 transition={{ duration: 0.3 }}
                 className="fixed bottom-0 top-0 left-0 right-0 bg-black z-20"
               />
-              <PopupMenu isOpen={isPopupOpen} setIsOpen={setIsPopupOpen} />
+              <PopupMenu
+                isOpen={isPopupOpen}
+                setIsOpen={setIsPopupOpen}
+                passages={passages}
+                questionStatuses={(() => {
+                  const statuses: { [passageId: number]: QuestionStatus[] } =
+                    {};
+                  passages.forEach((passage) => {
+                    const passageData = [passage1, passage2, passage3].filter(
+                      (p): p is PassageSection => p !== null
+                    )[passage.id - 1];
+                    const passageQuestions = mapAndArrangeQuestions(
+                      passageData,
+                      passage.startQuestion
+                    );
+                    statuses[passage.id] = passageQuestions.map((question) => {
+                      const isAnswered =
+                        (Array.isArray(question.selectedOptions) &&
+                          question.selectedOptions.length > 0) ||
+                        (typeof question.selectedOptions === "string" &&
+                          question.selectedOptions !== "");
+                      return {
+                        questionId: question.id,
+                        isAnswered,
+                        isCorrect: isAnswered
+                          ? question.is_correct ?? false
+                          : null,
+                      };
+                    });
+                  });
+                  return statuses;
+                })()}
+                onQuestionClick={handleQuestionSelect}
+              />
             </>
           )}
         </AnimatePresence>

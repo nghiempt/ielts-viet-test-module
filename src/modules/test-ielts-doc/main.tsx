@@ -43,6 +43,7 @@ interface PassageSection {
   content: string;
   part_num: number;
   question: Array<{
+    question: any;
     _id: string;
     q_type: string;
     part_id: string;
@@ -94,14 +95,48 @@ export default function ReadingTestClient() {
   const [passage1, setPassage1] = useState<PassageSection | null>(null);
   const [passage2, setPassage2] = useState<PassageSection | null>(null);
   const [passage3, setPassage3] = useState<PassageSection | null>(null);
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<Question[]>([]); // Current passage questions
+  const [allQuestions, setAllQuestions] = useState<Question[]>([]); // All questions across passages
   const [selectedPassage, setSelectedPassage] = useState(1);
   const [answers, setAnswers] = useState<AnswerState>({ parts: [] });
   const [currentPage, setCurrentPage] = useState(1);
-  const [timeLeft, setTimeLeft] = useState("57:25");
+  const [timeLeft, setTimeLeft] = useState("60:00");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [switchReading, setSwitchReading] = useState(true);
   const router = useRouter();
+
+  useEffect(() => {
+    // Parse initial time "60:00" into seconds
+    const [minutes, seconds] = timeLeft.split(":").map(Number);
+    let totalSeconds = minutes * 60 + seconds;
+
+    // Only start the timer if there's time remaining
+    if (totalSeconds <= 0) return;
+
+    // Set up the interval to decrease time every second
+    const timer = setInterval(() => {
+      totalSeconds -= 1;
+
+      // Calculate new minutes and seconds
+      const newMinutes = Math.floor(totalSeconds / 60);
+      const newSeconds = totalSeconds % 60;
+
+      // Format the time as MM:SS
+      const formattedTime = `${newMinutes
+        .toString()
+        .padStart(2, "0")}:${newSeconds.toString().padStart(2, "0")}`;
+      setTimeLeft(formattedTime);
+
+      // Stop the timer when it reaches 0
+      if (totalSeconds <= 0) {
+        clearInterval(timer);
+        setTimeLeft("00:00");
+      }
+    }, 1000);
+
+    // Cleanup: Clear the interval when the component unmounts
+    return () => clearInterval(timer);
+  }, []);
 
   const calculatePassages = (): PassageInfo[] => {
     const passagesInfo: PassageInfo[] = [];
@@ -168,7 +203,7 @@ export default function ReadingTestClient() {
 
       return {
         id: startId + index,
-        question: q.q_type === "MP" ? `Question ${startId + index}` : "",
+        question: q.q_type === "MP" ? q.question : "",
         options: q.q_type === "MP" && q.choices ? q.choices : [],
         isMultiple: q.q_type === "MP" ? q.isMultiple || false : false,
         selectedOptions,
@@ -203,12 +238,17 @@ export default function ReadingTestClient() {
 
     try {
       const res = await ReadingService.getReadingById(id);
+      if (!res) throw new Error("Reading data not found");
+
       const [resP1, resP2, resP3] = await Promise.all([
         QuestionsService.getQuestionsById(res.parts[0]),
         QuestionsService.getQuestionsById(res.parts[1]),
         QuestionsService.getQuestionsById(res.parts[2]),
       ]);
 
+      if (!resP1 || !resP2 || !resP3) {
+        throw new Error("One or more passages not found");
+      }
       if (res && resP1 && resP2 && resP3) {
         setPassage1(resP1);
         setPassage2(resP2);
@@ -253,7 +293,25 @@ export default function ReadingTestClient() {
           return { parts: initialParts };
         });
 
+        // Map all questions for all passages
         const passage1Questions = mapAndArrangeQuestions(resP1, 1);
+        const passage2Questions = mapAndArrangeQuestions(
+          resP2,
+          passage1Questions.length + 1
+        );
+        const passage3Questions = mapAndArrangeQuestions(
+          resP3,
+          passage1Questions.length + passage2Questions.length + 1
+        );
+
+        // Store all questions in allQuestions state
+        setAllQuestions([
+          ...passage1Questions,
+          ...passage2Questions,
+          ...passage3Questions,
+        ]);
+
+        // Set initial questions for Passage 1
         setQuestions(passage1Questions);
       } else {
         setData(null);
@@ -293,6 +351,16 @@ export default function ReadingTestClient() {
     setCurrentPage(passageId);
   };
 
+  const handleQuestionSelect = (questionNum: number) => {
+    const passage = passages.find(
+      (p) => questionNum >= p.startQuestion && questionNum <= p.endQuestion
+    );
+    if (passage) {
+      setSelectedPassage(passage.id);
+      setCurrentPage(passage.id);
+    }
+  };
+
   const handleNextPassage = () => {
     const nextPassage =
       selectedPassage < passages.length ? selectedPassage + 1 : 1;
@@ -319,7 +387,8 @@ export default function ReadingTestClient() {
   );
 
   const getAnsweredStatus = (questionNum: number) => {
-    const question = questions.find((q) => q.id === questionNum);
+    // Use allQuestions instead of questions to check status across all passages
+    const question = allQuestions.find((q) => q.id === questionNum);
     if (!question) return false;
 
     const questionData =
@@ -332,14 +401,21 @@ export default function ReadingTestClient() {
     const partAnswer = answers.parts.find(
       (part) => part.part_id === questionData.part_id
     );
-    const userAnswer = partAnswer?.user_answers.find(
+    if (!partAnswer) return false;
+
+    const userAnswer = partAnswer.user_answers.find(
       (ua) => ua.question_id === question.question_id
     );
+    if (!userAnswer) return false;
 
-    return (
-      (userAnswer?.answer?.length ?? 0) > 0 &&
-      (question.q_type === "FB" ? userAnswer?.answer[0] !== "" : true)
-    );
+    const hasAnswer = userAnswer.answer?.length > 0;
+    if (!hasAnswer) return false;
+
+    if (question.q_type === "FB") {
+      return userAnswer.answer[0] !== "";
+    }
+
+    return true;
   };
 
   const updatePartCompletion = (partId: string) => {
@@ -418,9 +494,26 @@ export default function ReadingTestClient() {
       return { parts: updatedParts };
     });
 
-    // Update questions state to reflect selection immediately
     setQuestions((prevQuestions) =>
       prevQuestions.map((q) =>
+        q.id === questionId
+          ? {
+              ...q,
+              selectedOptions: question.isMultiple
+                ? Array.isArray(q.selectedOptions)
+                  ? q.selectedOptions.includes(option)
+                    ? q.selectedOptions.filter((opt) => opt !== option)
+                    : [...q.selectedOptions, option]
+                  : [option]
+                : option,
+            }
+          : q
+      )
+    );
+
+    // Update allQuestions to reflect the selected option across all passages
+    setAllQuestions((prevAllQuestions) =>
+      prevAllQuestions.map((q) =>
         q.id === questionId
           ? {
               ...q,
@@ -465,6 +558,13 @@ export default function ReadingTestClient() {
       return { parts: updatedParts };
     });
 
+    // Update allQuestions to reflect the fill-in answer
+    setAllQuestions((prevAllQuestions) =>
+      prevAllQuestions.map((q) =>
+        q.id === questionId ? { ...q, selectedOptions: answer } : q
+      )
+    );
+
     updatePartCompletion(questionData.part_id);
   };
 
@@ -476,18 +576,17 @@ export default function ReadingTestClient() {
     const response = await SubmitService.submitTest(body);
 
     const jsonData = JSON.stringify(response, null, 2);
+    const jsonData2 = JSON.stringify(body, null, 2);
 
-    console.log("Submitted answers:", jsonData);
+    console.log("Submitted answers:", jsonData2);
 
-    // Store JSON data in localStorage
     localStorage.setItem("readingTestAnswers", jsonData);
 
-    // Extract test ID from pathname
     const segments = pathname.split("/").filter(Boolean);
     const testId = segments[segments.length - 1];
 
-    // Navigate to reading-result page
-    router.push(`/reading-result/${testId}`);
+    window.open(`/reading-result/${testId}`, "_blank");
+    router.push("/");
   };
 
   return (
@@ -545,10 +644,10 @@ export default function ReadingTestClient() {
       </header>
 
       {/* Main Content */}
-      <div className="fixed top-[0px] bottom-[0px] left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full overflow-y-auto pb-28 pt-14">
+      <div className="fixed top-[0px] bottom-[0px] left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full overflow-y-auto pb-16 lg:pb-28 pt-14">
         {/* Reading passage */}
         <div
-          className={`p-4 pt-8 overflow-y-auto border-r border-gray-200 bg-white ${
+          className={`p-4 pt-8 overflow-y-auto scroll-bar-style border-r border-gray-200 bg-white ${
             switchReading ? "" : "hidden lg:block"
           }`}
         >
@@ -580,7 +679,7 @@ export default function ReadingTestClient() {
 
         {/* Questions */}
         <div
-          className={`bg-white p-4 pt-8 pb-0 overflow-y-auto h-full ${
+          className={`bg-white p-4 pt-8 pb-0 overflow-y-auto scroll-bar-style h-full ${
             switchReading ? "hidden lg:block" : ""
           }`}
         >
@@ -636,7 +735,7 @@ export default function ReadingTestClient() {
                       title={`Questions ${fbQuestions[0].id} - ${
                         fbQuestions[fbQuestions.length - 1].id
                       }`}
-                      subtitle="Complete the sentences below"
+                      subtitle=""
                       instructions="Write your answers in the boxes provided."
                       questions={fbQuestions.map((q) => ({
                         ...q,
@@ -784,7 +883,7 @@ export default function ReadingTestClient() {
 
         {/* POPUP MENU QUESTIONS */}
         <AnimatePresence>
-          {isPopupOpen && (
+          {isPopupOpen && passages && passages.length > 0 && (
             <>
               <motion.div
                 initial={{ opacity: 0 }}
@@ -793,7 +892,14 @@ export default function ReadingTestClient() {
                 transition={{ duration: 0.3 }}
                 className="fixed bottom-0 top-0 left-0 right-0 bg-black z-20"
               />
-              <PopupMenu isOpen={isPopupOpen} setIsOpen={setIsPopupOpen} />
+              <PopupMenu
+                isOpen={isPopupOpen}
+                setIsOpen={setIsPopupOpen}
+                passages={passages}
+                getAnsweredStatus={getAnsweredStatus}
+                onSubmit={handleSubmit}
+                onQuestionSelect={handleQuestionSelect}
+              />
             </>
           )}
         </AnimatePresence>

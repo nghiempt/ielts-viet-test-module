@@ -14,9 +14,9 @@ export default function HomeContent() {
       <section className="lg:w-3/4">
         <SectionBanner />
       </section>
-      <section className="lg:w-3/4">
+      {/* <section className="lg:w-3/4">
         <Section02 />
-      </section>
+      </section> */}
       <section className="lg:w-3/4">
         <Section03 />
       </section>

@@ -35,9 +35,11 @@ interface QuizQuestionProps {
 
 export const QuizHeader: React.FC<QuizHeaderProps> = ({ title, subtitle }) => (
   <div className="bg-[#FA812F] text-white p-4 rounded-lg mb-4">
-    <h1 className="flex flex-row justify-between items-center text-lg font-bold">
-      <span>{title}</span>{" "}
-      <span className="font-normal text-base ml-2">{subtitle}</span>
+    <h1 className="flex flex-row justify-between items-center  font-bold">
+      <span className="text-base lg:text-lg">{title}</span>{" "}
+      <span className="font-normal text-right text-base lg:text-base ml-2">
+        {subtitle}
+      </span>
     </h1>
   </div>
 );

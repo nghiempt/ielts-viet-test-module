@@ -1,41 +1,47 @@
-import { useState } from "react";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+
+interface PassageInfo {
+  id: number;
+  startQuestion: number;
+  endQuestion: number;
+  answeredQuestions: number;
+}
+
+interface QuestionStatus {
+  questionId: number;
+  isAnswered: boolean;
+  isCorrect: boolean | null;
+}
+
+interface PopupMenuProps {
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+  passages: PassageInfo[];
+  questionStatuses: { [passageId: number]: QuestionStatus[] };
+  onQuestionClick: (questionId: number) => void;
+}
 
 const PopupMenu = ({
   isOpen,
   setIsOpen,
-}: {
-  isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
-}) => {
+  passages,
+  questionStatuses,
+  onQuestionClick,
+}: PopupMenuProps) => {
   const [selectedTab, setSelectedTab] = useState(0);
 
-  const sections = [
-    {
-      id: 1,
-      answeredQuestions: 7,
-      totalQuestions: 13,
-      questionRange: Array.from({ length: 13 }, (_, i) => i + 1),
-    },
-    {
-      id: 2,
-      answeredQuestions: 4,
-      totalQuestions: 13,
-      questionRange: Array.from({ length: 13 }, (_, i) => i + 14),
-    },
-    {
-      id: 3,
-      answeredQuestions: 8,
-      totalQuestions: 14,
-      questionRange: Array.from({ length: 14 }, (_, i) => i + 27),
-    },
-  ];
+  const getQuestionStatusColor = (passageId: number, questionNum: number) => {
+    const passage = passages.find((p) => p.id === passageId);
+    if (!passage) return "bg-yellow-500"; // Default to yellow if passage not found
 
-  const getQuestionStatus = (sectionId: number, questionNum: number) => {
-    const section = sections.find((s) => s.id === sectionId);
-    const questionIndex = section ? questionNum - section.questionRange[0] : -1;
-    return section ? questionIndex < section.answeredQuestions : false;
+    const status = questionStatuses[passageId]?.find(
+      (q) => q.questionId === questionNum
+    );
+    if (!status || !status.isAnswered) {
+      return "bg-yellow-500"; // Unanswered
+    }
+    return status.isCorrect ? "bg-green-500" : "bg-red-500"; // Correct or Incorrect
   };
 
   return (
@@ -51,7 +57,7 @@ const PopupMenu = ({
           <div className="bg-white rounded-t-[40px] shadow-lg w-full max-w-md mx-auto overflow-hidden">
             <div className="bg-black w-32 h-[4px] rounded-full mx-auto mt-3"></div>
             <div className="px-6 pb-0 pt-3 flex justify-between items-center">
-              <h2 className="text-lg font-semibold">Lưu ý</h2>
+              <h2 className="text-lg font-semibold">Review Questions</h2>
               <button
                 onClick={() => setIsOpen(false)}
                 className="text-gray-400 hover:text-gray-600"
@@ -73,107 +79,55 @@ const PopupMenu = ({
             </div>
             <div className="px-6 py-3">
               <p className="text-gray-700 text-xs">
-                Bạn có thể review và sửa lại đáp án ở các sections 1, 2, và 3.
+                Review and navigate to questions in Sections 1, 2, and 3.
               </p>
             </div>
             <div className="flex border-b">
-              <button
-                className={`flex-1 py-3 text-center font-medium text-sm ${
-                  selectedTab === 0
-                    ? "text-orange-500 border-b-2 border-orange-500"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-                onClick={() => setSelectedTab(0)}
-              >
-                Section 1
-              </button>
-              <button
-                className={`flex-1 py-3 text-center font-medium text-sm ${
-                  selectedTab === 1
-                    ? "text-orange-500 border-b-2 border-orange-500"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-                onClick={() => setSelectedTab(1)}
-              >
-                Section 2
-              </button>
-              <button
-                className={`flex-1 py-3 text-center font-medium text-sm ${
-                  selectedTab === 2
-                    ? "text-orange-500 border-b-2 border-orange-500"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-                onClick={() => setSelectedTab(2)}
-              >
-                Section 3
-              </button>
+              {passages.map((passage, index) => (
+                <button
+                  key={passage.id}
+                  className={`flex-1 py-3 text-center font-medium text-sm ${
+                    selectedTab === index
+                      ? "text-orange-500 border-b-2 border-orange-500"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
+                  onClick={() => setSelectedTab(index)}
+                >
+                  Section {passage.id}
+                </button>
+              ))}
             </div>
             <div className="px-6 py-4 overflow-y-auto max-h-[60vh]">
-              {selectedTab === 0 && (
-                <div className="mb-5">
-                  <h3 className="text-sm font-bold mb-3">SECTION 1</h3>
-                  <div className="grid grid-cols-5 gap-4">
-                    {sections[0].questionRange.map((num) => (
-                      <div
-                        key={num}
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
-                          getQuestionStatus(1, num)
-                            ? "bg-green-500 text-white"
-                            : "bg-gray-200 text-gray-700"
-                        }`}
-                      >
-                        {num}
+              {passages.map(
+                (passage, index) =>
+                  selectedTab === index && (
+                    <div key={passage.id} className="mb-5">
+                      <h3 className="text-sm font-bold mb-3">
+                        SECTION {passage.id}
+                      </h3>
+                      <div className="grid grid-cols-5 gap-4">
+                        {Array.from(
+                          {
+                            length:
+                              passage.endQuestion - passage.startQuestion + 1,
+                          },
+                          (_, i) => passage.startQuestion + i
+                        ).map((num) => (
+                          <div
+                            key={num}
+                            className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium text-white cursor-pointer ${getQuestionStatusColor(
+                              passage.id,
+                              num
+                            )}`}
+                            onClick={() => onQuestionClick(num)}
+                          >
+                            {num}
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </div>
+                    </div>
+                  )
               )}
-              {selectedTab === 1 && (
-                <div className="mb-5">
-                  <h3 className="text-sm font-bold mb-3">SECTION 2</h3>
-                  <div className="grid grid-cols-5 gap-4">
-                    {sections[1].questionRange.map((num) => (
-                      <div
-                        key={num}
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
-                          getQuestionStatus(2, num)
-                            ? "bg-green-500 text-white"
-                            : "bg-gray-200 text-gray-700"
-                        }`}
-                      >
-                        {num}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {selectedTab === 2 && (
-                <div className="mb-5">
-                  <h3 className="text-sm font-bold mb-3">SECTION 3</h3>
-                  <div className="grid grid-cols-5 gap-4">
-                    {sections[2].questionRange.map((num) => (
-                      <div
-                        key={num}
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
-                          getQuestionStatus(3, num)
-                            ? "bg-green-500 text-white"
-                            : "bg-gray-200 text-gray-700"
-                        }`}
-                      >
-                        {num}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className="px-4 py-5">
-              <button
-                onClick={() => alert("Answers submitted!")}
-                className="w-full py-3 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 transition duration-150"
-              >
-                Submit
-              </button>
             </div>
           </div>
         </motion.div>
