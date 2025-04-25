@@ -573,20 +573,45 @@ export default function ReadingTestClient() {
       user_id: "",
       parts: answers.parts,
     };
-    const response = await SubmitService.submitTest(body);
 
-    const jsonData = JSON.stringify(response, null, 2);
-    const jsonData2 = JSON.stringify(body, null, 2);
+    try {
+      const response = await SubmitService.submitTest(body);
 
-    console.log("Submitted answers:", jsonData2);
+      const jsonData = JSON.stringify(response, null, 2);
+      const jsonData2 = JSON.stringify(body, null, 2);
 
-    localStorage.setItem("readingTestAnswers", jsonData);
+      console.log("Submitted answers:", jsonData2);
 
-    const segments = pathname.split("/").filter(Boolean);
-    const testId = segments[segments.length - 1];
+      localStorage.setItem("readingTestAnswers", jsonData);
 
-    window.open(`/reading-result/${testId}`, "_blank");
-    router.push("/");
+      const segments = pathname.split("/").filter(Boolean);
+      const testId = segments[segments.length - 1];
+
+      // // Check if the device is mobile
+      // const isMobile =
+      //   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      //     navigator.userAgent
+      //   );
+
+      // // Open new tab or navigate
+      // if (isMobile) {
+      //   // For mobile, attempt to open a new tab
+      //   const newWindow = window.open("", "_blank");
+      //   if (newWindow) {
+      //     newWindow.location = `/reading-result/${testId}`;
+      //   } else {
+      //     // Fallback: navigate in the same tab if window.open fails
+      //     window.location.href = `/reading-result/${testId}`;
+      //   }
+      // } else {
+      //   // For desktop, use window.open
+      //   window.open(`/reading-result/${testId}`, "_blank");
+      // }
+      router.push(`/reading-result/${testId}`);
+    } catch (error) {
+      console.error("Error submitting test:", error);
+      // Optionally handle the error (e.g., show a user message)
+    }
   };
 
   return (

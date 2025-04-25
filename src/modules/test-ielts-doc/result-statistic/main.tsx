@@ -145,8 +145,27 @@ const ResultStatistic = () => {
     // Store JSON data in localStorage
     localStorage.setItem("readingTestAnswers", jsonData);
 
-    // Navigate to reading-result page
-    window.open(`/test-result-reading/${id}`, "_blank");
+    // // Check if the device is mobile
+    // const isMobile =
+    //   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    //     navigator.userAgent
+    //   );
+
+    // if (isMobile) {
+    //   // For mobile, attempt to open a new tab
+    //   const newWindow = window.open("", "_blank");
+    //   if (newWindow) {
+    //     newWindow.location = `/test-result-reading/${id}`;
+    //   } else {
+    //     // Fallback: navigate in the same tab if window.open fails
+    //     window.location.href = `/test-result-reading/${id}`;
+    //   }
+    // } else {
+    //   // For desktop, use original window.open
+    //   window.open(`/test-result-reading/${id}`, "_blank");
+    // }
+
+    router.push(`/test-result-reading/${id}`);
   };
 
   // Helper to render passage answers
@@ -284,7 +303,7 @@ const ResultStatistic = () => {
                       {resultStats.score}
                     </text>
                   </svg>
-                  <div className="absolute top-[15%] right-[31%] bg-[#FF991F] rounded-full w-8 h-8 flex items-center justify-center">
+                  <div className="absolute -top-[5%] lg:top-[15%] right-[36%] lg:right-[31%] bg-[#FF991F] rounded-full w-12 h-12 lg:w-8 lg:h-8 flex items-center justify-center">
                     <Check color="white" size={17} strokeWidth={6} />
                   </div>
                 </div>
@@ -338,7 +357,7 @@ const ResultStatistic = () => {
         </div>
 
         {/* Answer Key */}
-        <div className="bg-white rounded-lg shadow">
+        <div className="bg-white rounded-lg shadow mb-16 lg:mb-0">
           <div className="p-6">
             <h2 className="font-medium text-lg mb-4">Answer key</h2>
 
