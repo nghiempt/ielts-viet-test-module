@@ -4,8 +4,6 @@ import React from "react";
 
 interface TestCardProps {
   testName: string;
-  type: "Reading" | "Listening";
-  testNumber: number;
   attempts?: number;
   totalQuestions: number;
   started?: boolean;
@@ -13,8 +11,6 @@ interface TestCardProps {
 
 const LatestTestCard: React.FC<TestCardProps> = ({
   testName,
-  type,
-  testNumber,
   attempts,
   totalQuestions,
   started = false,
@@ -23,9 +19,7 @@ const LatestTestCard: React.FC<TestCardProps> = ({
     <div className="flex-shrink-0 h-full w-72 lg:w-full bg-white rounded-lg shadow-sm p-6 border border-gray-200">
       <div className="flex flex-col justify-between h-full">
         <div>
-          <h3 className="text-lg font-semibold text-gray-800">
-            {testName} - {type} Test {testNumber}
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-800">{testName}</h3>
           <div className="flex items-center text-gray-500 text-sm mt-2">
             {attempts && (
               <>

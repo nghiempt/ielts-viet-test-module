@@ -1,4 +1,5 @@
 // pages/index.tsx
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import TestBookCard from "./writing-card";
 import { Swiper as SwiperCore } from "swiper/types";
@@ -11,17 +12,18 @@ import "swiper/css/effect-coverflow";
 import "@/styles/contact.css";
 import { WritingService } from "@/services/writing";
 
-interface WritingTest {
-  id: number;
-  title: string;
-  testsCount: number;
-  attempts: number;
-  coverColor: string;
-  coverImage: string;
+interface WritingTestItem {
+  _id: string;
+  type: string;
+  parts: string[];
+  name: string;
+  thumbnail: string;
+  time: number;
+  created_at: string;
 }
 
 const WritingTestLayout = () => {
-  const [writings, setWritings] = useState<any[]>([]);
+  const [writings, setWritings] = useState<WritingTestItem[]>([]);
   const swiperRef = useRef<SwiperCore | null>(null);
 
   const render = (data: any) => {
@@ -31,7 +33,10 @@ const WritingTestLayout = () => {
   const init = async () => {
     const res = await WritingService.getAll();
     if (res && res.length > 0) {
-      render(res);
+      const filteredData = res.filter(
+        (item: WritingTestItem) => item.thumbnail != null
+      );
+      render(filteredData);
     } else {
       setWritings([]);
     }
@@ -86,7 +91,7 @@ const WritingTestLayout = () => {
           modules={[Pagination, Navigation, Autoplay]}
           className="w-80 sm:w-96 lg:w-[100%] h-[400px] sm:h-[430px] lg:h-[420px]"
         >
-          {writings.map((item, index) => (
+          {writings?.map((item, index) => (
             <SwiperSlide key={index} className="">
               <TestBookCard key={index} book={item} />
             </SwiperSlide>

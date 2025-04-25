@@ -1,24 +1,23 @@
 // components/IELTSTestLayout.tsx
+"use client";
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { IMAGES } from "@/utils/images";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import "@/styles/contact.css";
 import { ListeningService } from "@/services/listening";
 import ListeningTestCard from "./listening-card";
 
 interface ListeningTestItem {
-  id: number;
-  title: string;
-  testCount: number;
-  attemptCount: string;
-  bgColor: string;
-  imagePath: string;
+  _id: string;
+  type: string;
+  parts: string[];
+  name: string;
+  thumbnail: string;
+  time: number;
+  created_at: string;
 }
 
 const ListeningTest: React.FC = () => {
-  const [listenings, setListenings] = useState<any[]>([]);
+  const [listenings, setListenings] = useState<ListeningTestItem[]>([]);
 
   const render = (data: any) => {
     setListenings(data);
@@ -26,8 +25,11 @@ const ListeningTest: React.FC = () => {
 
   const init = async () => {
     const res = await ListeningService.getAll();
-    if (res && res?.length > 0) {
-      render(res);
+    if (res && res.length > 0) {
+      const filteredData = res.filter(
+        (item: ListeningTestItem) => item.thumbnail != null
+      );
+      render(filteredData);
     } else {
       setListenings([]);
     }
@@ -43,7 +45,7 @@ const ListeningTest: React.FC = () => {
         Listening Test
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {listenings.slice(0, 6).map((item, index) => (
+        {listenings.slice(0, 6)?.map((item, index) => (
           <ListeningTestCard
             key={index}
             title={item?.name}

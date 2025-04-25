@@ -1,21 +1,7 @@
 "use client";
 
-import FullIeltsTestClient from "@/modules/test-ielts-toan-bo";
-import { Loader } from "lucide-react";
-import React, { Suspense } from "react";
+import FullIeltsTestContent from "@/modules/test-ielts-toan-bo";
 
-export default function Contact() {
-  return (
-    <div className="w-full flex flex-col justify-center items-center">
-      <Suspense
-        fallback={
-          <div className="w-full h-[500px] flex flex-col justify-center items-center">
-            <Loader className="animate-spin" size={24} />
-          </div>
-        }
-      >
-        <FullIeltsTestClient />
-      </Suspense>
-    </div>
-  );
+export default function FullIeltsTestPage() {
+  return <FullIeltsTestContent />;
 }

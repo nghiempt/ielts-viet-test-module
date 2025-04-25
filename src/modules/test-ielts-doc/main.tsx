@@ -1,5 +1,5 @@
 // pages/ielts-test.tsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { IMAGES } from "@/utils/images";
 import PassageProgressBar from "./components/processing-bar";
@@ -12,13 +12,16 @@ import {
 import Link from "next/link";
 import PassageProgressBarMobile from "./components/processing-bar-mobile";
 import { motion, AnimatePresence } from "framer-motion";
-import { Router } from "next/router";
-import { DATA } from "@/utils/data";
 import {
   QuizHeader,
   QuizQuestion,
 } from "./components/test-type/multiple-choice/multiple-choice";
 import { ShortAnswerQuiz } from "./components/test-type/fil-in-the-blank/fill-in";
+import PopupMenu from "./components/pop-up";
+import { usePathname, useRouter } from "next/navigation";
+import { ReadingService } from "@/services/reading";
+import { QuestionsService } from "@/services/questions";
+import { SubmitService } from "@/services/submit";
 
 interface Question {
   id: number;
@@ -26,277 +29,465 @@ interface Question {
   options: string[];
   isMultiple: boolean;
   selectedOptions: string | string[] | null;
+  q_type: string;
+  start_passage?: string;
+  end_passage?: string;
+  question_id: string;
 }
 
-const PopupMenu = ({
-  isOpen,
-  setIsOpen,
-}: {
-  isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
-}) => {
-  const [selectedTab, setSelectedTab] = useState(0);
+interface PassageSection {
+  _id: string;
+  stest_id: string;
+  type: string;
+  image: string;
+  content: string;
+  part_num: number;
+  question: Array<{
+    _id: string;
+    q_type: string;
+    part_id: string;
+    choices?: string[];
+    isMultiple?: boolean;
+    answer: string[];
+    created_at: string;
+    start_passage?: string;
+    end_passage?: string;
+  }>;
+  created_at: string;
+}
 
-  // Section data
-  const sections = [
-    {
-      id: 1,
-      answeredQuestions: 7,
-      totalQuestions: 13,
-      questionRange: Array.from({ length: 13 }, (_, i) => i + 1),
-    },
-    {
-      id: 2,
-      answeredQuestions: 4,
-      totalQuestions: 13,
-      questionRange: Array.from({ length: 13 }, (_, i) => i + 14),
-    },
-    {
-      id: 3,
-      answeredQuestions: 8,
-      totalQuestions: 14,
-      questionRange: Array.from({ length: 14 }, (_, i) => i + 27),
-    },
-  ];
+interface ReadingDetail {
+  _id: string;
+  type: string;
+  parts: string[];
+  name: string;
+  thumbnail: string;
+  time: number;
+  created_at: string;
+}
 
-  const getQuestionStatus = (sectionId: number, questionNum: number) => {
-    const section = sections.find((s) => s.id === sectionId);
-    const questionIndex = section ? questionNum - section.questionRange[0] : -1;
-    return section ? questionIndex < section.answeredQuestions : false;
-  };
+interface UserAnswer {
+  question_id: string;
+  answer: string[];
+}
 
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ y: "100%" }}
-          animate={{ y: 0 }}
-          exit={{ y: "100%" }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="fixed bottom-0 left-0 right-0 z-30"
-        >
-          <div className="bg-white rounded-t-[40px] shadow-lg w-full max-w-md mx-auto overflow-hidden">
-            <div className="bg-black w-32 h-[4px] rounded-full mx-auto mt-3"></div>
-            {/* Header */}
-            <div className="px-6 pb-0 pt-3 flex justify-between items-center">
-              <h2 className="text-lg font-semibold">Lưu ý</h2>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
+interface PartAnswer {
+  part_id: string;
+  user_answers: UserAnswer[];
+  isComplete: boolean;
+}
 
-            {/* Instruction */}
-            <div className="px-6 py-3">
-              <p className="text-gray-700 text-xs">
-                Bạn có thể review và sửa lại đáp án ở các sections 1, 2, và 3.
-              </p>
-            </div>
+interface AnswerState {
+  parts: PartAnswer[];
+}
 
-            {/* Tabs */}
-            <div className="flex border-b">
-              <button
-                className={`flex-1 py-3 text-center font-medium text-sm ${
-                  selectedTab === 0
-                    ? "text-orange-500 border-b-2 border-orange-500"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-                onClick={() => setSelectedTab(0)}
-              >
-                Section 1
-              </button>
-              <button
-                className={`flex-1 py-3 text-center font-medium text-sm ${
-                  selectedTab === 1
-                    ? "text-orange-500 border-b-2 border-orange-500"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-                onClick={() => setSelectedTab(1)}
-              >
-                Section 2
-              </button>
-              <button
-                className={`flex-1 py-3 text-center font-medium text-sm ${
-                  selectedTab === 2
-                    ? "text-orange-500 border-b-2 border-orange-500"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-                onClick={() => setSelectedTab(2)}
-              >
-                Section 3
-              </button>
-            </div>
-
-            {/* Tab Content */}
-            <div className="px-6 py-4 overflow-y-auto max-h-[60vh]">
-              {selectedTab === 0 && (
-                <div className="mb-5">
-                  <h3 className="text-sm font-bold mb-3">SECTION 1</h3>
-                  <div className="grid grid-cols-5 gap-4">
-                    {sections[0].questionRange.map((num) => (
-                      <div
-                        key={num}
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
-                          getQuestionStatus(1, num)
-                            ? "bg-green-500 text-white"
-                            : "bg-gray-200 text-gray-700"
-                        }`}
-                      >
-                        {num}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {selectedTab === 1 && (
-                <div className="mb-5">
-                  <h3 className="text-sm font-bold mb-3">SECTION 2</h3>
-                  <div className="grid grid-cols-5 gap-4">
-                    {sections[1].questionRange.map((num) => (
-                      <div
-                        key={num}
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
-                          getQuestionStatus(2, num)
-                            ? "bg-green-500 text-white"
-                            : "bg-gray-200 text-gray-700"
-                        }`}
-                      >
-                        {num}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {selectedTab === 2 && (
-                <div className="mb-5">
-                  <h3 className="text-sm font-bold mb-3">SECTION 3</h3>
-                  <div className="grid grid-cols-5 gap-4">
-                    {sections[2].questionRange.map((num) => (
-                      <div
-                        key={num}
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
-                          getQuestionStatus(3, num)
-                            ? "bg-green-500 text-white"
-                            : "bg-gray-200 text-gray-700"
-                        }`}
-                      >
-                        {num}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Submit Button */}
-            <div className="px-4 py-5">
-              <Link href={"/reading-test/view-result"}>
-                <button className="w-full py-3 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 transition duration-150">
-                  Submit
-                </button>
-              </Link>
-            </div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-};
+interface PassageInfo {
+  id: number;
+  startQuestion: number;
+  endQuestion: number;
+  answeredQuestions: number;
+}
 
 export default function ReadingTestClient() {
+  const pathname = usePathname();
+  const [data, setData] = useState<ReadingDetail | null>(null);
+  const [passage1, setPassage1] = useState<PassageSection | null>(null);
+  const [passage2, setPassage2] = useState<PassageSection | null>(null);
+  const [passage3, setPassage3] = useState<PassageSection | null>(null);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [selectedPassage, setSelectedPassage] = useState(1);
+  const [answers, setAnswers] = useState<AnswerState>({ parts: [] });
   const [currentPage, setCurrentPage] = useState(1);
   const [timeLeft, setTimeLeft] = useState("57:25");
-  const [selectedPassage, setSelectedPassage] = useState(1);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [switchReading, setSwitchReading] = useState(true);
-  const [questions, setQuestions] = useState<Question[]>(
-    DATA.passageQuestions2.flatMap((passage) =>
-      passage
-        .filter((q) => q.q_type === "MP")
-        .flatMap((q) =>
-          q.question_data.map((qd) => ({
-            id: qd.id,
-            question: "question" in qd ? qd.question : "",
-            options: "choice" in qd ? qd.choice : [],
-            isMultiple: "isMultiple" in qd ? qd.isMultiple : false,
-            selectedOptions: "isMultiple" in qd && qd.isMultiple ? [] : null,
-          }))
-        )
-    )
-  );
+  const router = useRouter();
 
-  const passages = [
-    { id: 1, startQuestion: 1, endQuestion: 13, answeredQuestions: 7 },
-    { id: 2, startQuestion: 14, endQuestion: 26, answeredQuestions: 4 },
-    { id: 3, startQuestion: 27, endQuestion: 40, answeredQuestions: 8 },
-  ];
+  const calculatePassages = (): PassageInfo[] => {
+    const passagesInfo: PassageInfo[] = [];
+    const passageData = [passage1, passage2, passage3].filter(
+      (p): p is PassageSection => p !== null
+    );
+
+    let questionCounter = 1;
+
+    passageData.forEach((passage, index) => {
+      const questionCount = passage.question.length;
+      const partId = passage._id;
+
+      const answeredQuestions = answers.parts
+        .filter((part) => part.part_id === partId)
+        .reduce((count, part) => {
+          return (
+            count +
+            part.user_answers.filter(
+              (ua) => ua.answer.length > 0 && ua.answer[0] !== ""
+            ).length
+          );
+        }, 0);
+
+      passagesInfo.push({
+        id: index + 1,
+        startQuestion: questionCounter,
+        endQuestion: questionCounter + questionCount - 1,
+        answeredQuestions,
+      });
+
+      questionCounter += questionCount;
+    });
+
+    return passagesInfo;
+  };
+
+  const passages = calculatePassages();
+
+  const render = (data: any) => {
+    setData(data);
+  };
+
+  const mapAndArrangeQuestions = (passage: PassageSection, startId: number) => {
+    const mappedQuestions = passage.question.map((q, index) => {
+      const partAnswer = answers.parts.find(
+        (part) => part.part_id === q.part_id
+      );
+      const userAnswer = partAnswer?.user_answers.find(
+        (ua) => ua.question_id === q._id
+      );
+
+      const selectedOptions = userAnswer?.answer?.length
+        ? q.q_type === "MP" && q.isMultiple
+          ? userAnswer.answer
+          : q.q_type === "MP"
+          ? userAnswer.answer[0]
+          : userAnswer.answer[0] || ""
+        : q.q_type === "MP"
+        ? q.isMultiple
+          ? []
+          : null
+        : "";
+
+      return {
+        id: startId + index,
+        question: q.q_type === "MP" ? `Question ${startId + index}` : "",
+        options: q.q_type === "MP" && q.choices ? q.choices : [],
+        isMultiple: q.q_type === "MP" ? q.isMultiple || false : false,
+        selectedOptions,
+        q_type: q.q_type,
+        start_passage: q.q_type === "FB" ? q.start_passage : undefined,
+        end_passage: q.q_type === "FB" ? q.end_passage : undefined,
+        question_id: q._id,
+      };
+    });
+
+    const firstQuestionType = passage.question[0]?.q_type;
+    const arrangedQuestions =
+      firstQuestionType === "MP"
+        ? [
+            ...mappedQuestions.filter((q) => q.q_type === "MP"),
+            ...mappedQuestions.filter((q) => q.q_type === "FB"),
+          ]
+        : [
+            ...mappedQuestions.filter((q) => q.q_type === "FB"),
+            ...mappedQuestions.filter((q) => q.q_type === "MP"),
+          ];
+
+    return arrangedQuestions.map((q, index) => ({
+      ...q,
+      id: startId + index,
+    }));
+  };
+
+  const init = async () => {
+    const segments = pathname.split("/").filter(Boolean);
+    const id = segments[segments.length - 1];
+
+    try {
+      const res = await ReadingService.getReadingById(id);
+      const [resP1, resP2, resP3] = await Promise.all([
+        QuestionsService.getQuestionsById(res.parts[0]),
+        QuestionsService.getQuestionsById(res.parts[1]),
+        QuestionsService.getQuestionsById(res.parts[2]),
+      ]);
+
+      if (res && resP1 && resP2 && resP3) {
+        setPassage1(resP1);
+        setPassage2(resP2);
+        setPassage3(resP3);
+        setData(res);
+
+        setAnswers((prev) => {
+          if (prev.parts.length > 0) return prev;
+
+          const allQuestions = [
+            ...resP1.question.map((q: any) => ({
+              part_id: q.part_id,
+              question_id: q._id,
+            })),
+            ...resP2.question.map((q: any) => ({
+              part_id: q.part_id,
+              question_id: q._id,
+            })),
+            ...resP3.question.map((q: any) => ({
+              part_id: q.part_id,
+              question_id: q._id,
+            })),
+          ];
+
+          const groupedByPartId = allQuestions.reduce(
+            (acc, { part_id, question_id }) => {
+              if (!acc[part_id]) {
+                acc[part_id] = {
+                  part_id,
+                  user_answers: [],
+                  isComplete: false,
+                };
+              }
+              acc[part_id].user_answers.push({ question_id, answer: [] });
+              return acc;
+            },
+            {} as Record<string, PartAnswer>
+          );
+
+          const initialParts: PartAnswer[] = Object.values(groupedByPartId);
+          console.log("Initialized answers:", initialParts);
+          return { parts: initialParts };
+        });
+
+        const passage1Questions = mapAndArrangeQuestions(resP1, 1);
+        setQuestions(passage1Questions);
+      } else {
+        setData(null);
+      }
+    } catch (error) {
+      console.error("Error initializing reading test:", error);
+      setData(null);
+    }
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
+  useEffect(() => {
+    const startIds = passages.reduce(
+      (acc, passage) => ({
+        ...acc,
+        [passage.id]: passage.startQuestion,
+      }),
+      {} as { [key: number]: number }
+    );
+
+    const passageData = { 1: passage1, 2: passage2, 3: passage3 };
+    const selectedPassageData = passageData[selectedPassage as 1 | 2 | 3];
+    if (selectedPassageData) {
+      const updatedQuestions = mapAndArrangeQuestions(
+        selectedPassageData,
+        startIds[selectedPassage]
+      );
+      setQuestions(updatedQuestions);
+    }
+  }, [selectedPassage, passage1, passage2, passage3, answers]);
 
   const handlePassageSelect = (passageId: number) => {
     setSelectedPassage(passageId);
     setCurrentPage(passageId);
   };
 
-  // Move to next passage
   const handleNextPassage = () => {
     const nextPassage =
       selectedPassage < passages.length ? selectedPassage + 1 : 1;
     handlePassageSelect(nextPassage);
   };
 
-  // Move to previous passage
   const handlePreviousPassage = () => {
     const prevPassage =
       selectedPassage > 1 ? selectedPassage - 1 : passages.length;
     handlePassageSelect(prevPassage);
   };
 
-  const currentQuestions = DATA.passageQuestions2[selectedPassage - 1];
+  const currentPassage = passages[selectedPassage - 1] || {
+    startQuestion: 1,
+    endQuestion: 1,
+    answeredQuestions: 0,
+  };
 
-  const currentPassage = passages[selectedPassage - 1];
-
-  // Generate question numbers for the current passage only
   const passageQuestionNumbers = Array.from(
-    { length: currentPassage.endQuestion - currentPassage.startQuestion + 1 },
+    {
+      length: currentPassage.endQuestion - currentPassage.startQuestion + 1,
+    },
     (_, i) => currentPassage.startQuestion + i
   );
 
-  // Determine which questions are answered
   const getAnsweredStatus = (questionNum: number) => {
-    const questionIndex = questionNum - currentPassage.startQuestion + 1;
-    return questionIndex <= currentPassage.answeredQuestions;
+    const question = questions.find((q) => q.id === questionNum);
+    if (!question) return false;
+
+    const questionData =
+      passage1?.question.find((q) => q._id === question.question_id) ||
+      passage2?.question.find((q) => q._id === question.question_id) ||
+      passage3?.question.find((q) => q._id === question.question_id);
+
+    if (!questionData) return false;
+
+    const partAnswer = answers.parts.find(
+      (part) => part.part_id === questionData.part_id
+    );
+    const userAnswer = partAnswer?.user_answers.find(
+      (ua) => ua.question_id === question.question_id
+    );
+
+    return (
+      (userAnswer?.answer?.length ?? 0) > 0 &&
+      (question.q_type === "FB" ? userAnswer?.answer[0] !== "" : true)
+    );
+  };
+
+  const updatePartCompletion = (partId: string) => {
+    setAnswers((prev) => {
+      const updatedParts = prev.parts.map((part) => {
+        if (part.part_id === partId) {
+          const allAnswered = part.user_answers.every(
+            (ua) => ua.answer.length > 0 && ua.answer[0] !== ""
+          );
+          return { ...part, isComplete: allAnswered };
+        }
+        return part;
+      });
+      return { parts: updatedParts };
+    });
   };
 
   const handleSelectOption = (questionId: number, option: string) => {
-    setQuestions(
-      questions.map((q) =>
+    const question = questions.find((q) => q.id === questionId);
+    if (!question) {
+      console.error("Question not found:", questionId);
+      return;
+    }
+
+    const questionData =
+      passage1?.question.find((q) => q._id === question.question_id) ||
+      passage2?.question.find((q) => q._id === question.question_id) ||
+      passage3?.question.find((q) => q._id === question.question_id);
+
+    if (!questionData) {
+      console.error("Question data not found for ID:", question.question_id);
+      return;
+    }
+
+    setAnswers((prev) => {
+      const updatedParts = prev.parts.map((part) => {
+        if (part.part_id === questionData.part_id) {
+          let updatedUserAnswers = part.user_answers;
+          if (
+            !updatedUserAnswers.some(
+              (ua) => ua.question_id === question.question_id
+            )
+          ) {
+            updatedUserAnswers = [
+              ...updatedUserAnswers,
+              { question_id: question.question_id, answer: [] },
+            ];
+          }
+
+          updatedUserAnswers = updatedUserAnswers.map((ua) => {
+            if (ua.question_id === question.question_id) {
+              const currentAnswer = ua.answer || [];
+              let newAnswer: string[];
+
+              if (question.isMultiple) {
+                newAnswer = currentAnswer.includes(option)
+                  ? currentAnswer.filter((opt) => opt !== option)
+                  : [...currentAnswer, option];
+              } else {
+                newAnswer = [option];
+              }
+
+              return {
+                ...ua,
+                answer: newAnswer,
+              };
+            }
+            return ua;
+          });
+
+          return { ...part, user_answers: updatedUserAnswers };
+        }
+        return part;
+      });
+
+      return { parts: updatedParts };
+    });
+
+    // Update questions state to reflect selection immediately
+    setQuestions((prevQuestions) =>
+      prevQuestions.map((q) =>
         q.id === questionId
           ? {
               ...q,
-              selectedOptions: q.isMultiple
+              selectedOptions: question.isMultiple
                 ? Array.isArray(q.selectedOptions)
                   ? q.selectedOptions.includes(option)
-                    ? q.selectedOptions.filter((opt) => opt !== option) // Deselect
-                    : [...q.selectedOptions, option] // Add selection
-                  : [option] // Initialize array for multiple-choice
-                : option, // Set string for single-choice
+                    ? q.selectedOptions.filter((opt) => opt !== option)
+                    : [...q.selectedOptions, option]
+                  : [option]
+                : option,
             }
           : q
       )
     );
+
+    updatePartCompletion(questionData.part_id);
+  };
+
+  const handleFillInAnswer = (questionId: number, answer: string) => {
+    const question = questions.find((q) => q.id === questionId);
+    if (!question) return;
+
+    const questionData =
+      passage1?.question.find((q) => q._id === question.question_id) ||
+      passage2?.question.find((q) => q._id === question.question_id) ||
+      passage3?.question.find((q) => q._id === question.question_id);
+
+    if (!questionData) return;
+
+    setAnswers((prev) => {
+      const updatedParts = prev.parts.map((part) => {
+        if (part.part_id === questionData.part_id) {
+          const updatedUserAnswers = part.user_answers.map((ua) =>
+            ua.question_id === question.question_id
+              ? { ...ua, answer: [answer] }
+              : ua
+          );
+          return { ...part, user_answers: updatedUserAnswers };
+        }
+        return part;
+      });
+      return { parts: updatedParts };
+    });
+
+    updatePartCompletion(questionData.part_id);
+  };
+
+  const handleSubmit = async () => {
+    const body = {
+      user_id: "",
+      parts: answers.parts,
+    };
+    const response = await SubmitService.submitTest(body);
+
+    const jsonData = JSON.stringify(response, null, 2);
+
+    console.log("Submitted answers:", jsonData);
+
+    // Store JSON data in localStorage
+    localStorage.setItem("readingTestAnswers", jsonData);
+
+    // Extract test ID from pathname
+    const segments = pathname.split("/").filter(Boolean);
+    const testId = segments[segments.length - 1];
+
+    // Navigate to reading-result page
+    router.push(`/reading-result/${testId}`);
   };
 
   return (
@@ -313,8 +504,8 @@ export default function ReadingTestClient() {
           />
         </div>
         <div className="text-center">
-          <div className="font-semibold">IELTS Reading Test</div>
-          <div className="text-sm text-gray-600">CAM13 - Reading Test 4</div>
+          <div className="font-semibold">{data?.name}</div>
+          <div className="text-sm text-gray-600">Reading Test</div>
         </div>
         <div className="flex items-center">
           <div className="bg-gray-100 px-3 py-1 rounded-full flex items-center">
@@ -354,89 +545,113 @@ export default function ReadingTestClient() {
       </header>
 
       {/* Main Content */}
-      <div className="fixed top-[0px] bottom-[0px] left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full overflow-y-auto pb-20 pt-14">
+      <div className="fixed top-[0px] bottom-[0px] left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full overflow-y-auto pb-28 pt-14">
         {/* Reading passage */}
         <div
-          className={`p-4 pt-8 overflow-y-auto border-r border-gray-200 ${
+          className={`p-4 pt-8 overflow-y-auto border-r border-gray-200 bg-white ${
             switchReading ? "" : "hidden lg:block"
           }`}
         >
           {selectedPassage === 1 && (
-            <div>
-              <h1 className="w-full text-xl font-bold mb-4">Title 1</h1>
-              <p className="mb-4 text-sm">Passage 1</p>
+            <div className="">
+              <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
+                Reading Part 1
+              </h1>
+              <p className="mb-4 text-base lg:text-lg">{passage1?.content}</p>
             </div>
           )}
           {selectedPassage === 2 && (
             <div>
-              <h1 className="w-full text-xl font-bold mb-4">Title 2</h1>
-              <p className="mb-4 text-sm">Passage 2</p>
+              <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
+                Reading Part 2
+              </h1>
+              <p className="mb-4 text-base lg:text-lg">{passage2?.content}</p>
             </div>
           )}
           {selectedPassage === 3 && (
             <div>
-              <h1 className="w-full text-xl font-bold mb-4">Title 3</h1>
-              <p className="mb-4 text-sm">Passage 3</p>
+              <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
+                Reading Part 3
+              </h1>
+              <p className="mb-4 text-base lg:text-lg">{passage3?.content}</p>
             </div>
           )}
         </div>
 
         {/* Questions */}
         <div
-          className={`bg-white p-4 pt-8 pb-10 overflow-y-auto h-full ${
+          className={`bg-white p-4 pt-8 pb-0 overflow-y-auto h-full ${
             switchReading ? "hidden lg:block" : ""
           }`}
         >
-          {currentQuestions.map((questionSet, index) => (
-            <div key={index} className="mb-6">
-              {questionSet.q_type === "MP" && (
-                <>
-                  <QuizHeader
-                    title={`Questions ${questionSet.question_data[0].id} - ${
-                      questionSet.question_data[
-                        questionSet.question_data.length - 1
-                      ].id
-                    }`}
-                    subtitle="Choose the correct answer"
-                  />
-                  {questionSet.question_data.map((q) => {
-                    const questionState = questions.find(
-                      (qs) => qs.id === q.id
-                    );
-                    return (
+          {questions.reduce((acc: JSX.Element[], question, index) => {
+            if (question.q_type === "MP") {
+              const mpQuestions = questions
+                .filter((q) => q.q_type === "MP")
+                .map((q) => ({
+                  id: q.id,
+                  question: q.question,
+                  options: q.options,
+                  isMultiple: q.isMultiple,
+                  selectedOptions: q.selectedOptions,
+                }));
+              if (index === questions.findIndex((q) => q.q_type === "MP")) {
+                acc.push(
+                  <div key={`mp-${index}`} className="mb-6">
+                    <QuizHeader
+                      title={`Questions ${mpQuestions[0].id} - ${
+                        mpQuestions[mpQuestions.length - 1].id
+                      }`}
+                      subtitle="Choose the correct answer"
+                    />
+                    {mpQuestions.map((q) => (
                       <QuizQuestion
                         key={q.id}
                         id={q.id}
-                        question={"question" in q ? q.question : ""}
-                        options={"choice" in q ? q.choice : []}
-                        isMultiple={"isMultiple" in q ? q.isMultiple : false}
-                        selectedOptions={questionState?.selectedOptions || null}
+                        question={q.question}
+                        options={q.options}
+                        isMultiple={q.isMultiple}
+                        selectedOptions={q.selectedOptions}
                         onSelectOption={(option) =>
                           handleSelectOption(q.id, option)
                         }
                       />
-                    );
-                  })}
-                </>
-              )}
-              {questionSet.q_type === "FI" && (
-                <ShortAnswerQuiz
-                  title={`Questions ${questionSet.question_data[0].id} - ${
-                    questionSet.question_data[
-                      questionSet.question_data.length - 1
-                    ].id
-                  }`}
-                  subtitle="Complete the sentences below"
-                  instructions="Write your answers in the boxes provided."
-                  questions={questionSet.question_data.map((q) => ({
-                    id: q.id,
-                    start_passage: "start_passage" in q ? q.start_passage : "",
-                    end_passage: "end_passage" in q ? q.end_passage : "",
-                  }))}
-                />
-              )}
-            </div>
-          ))}
+                    ))}
+                  </div>
+                );
+              }
+            } else if (question.q_type === "FB") {
+              const fbQuestions = questions
+                .filter((q) => q.q_type === "FB")
+                .map((q) => ({
+                  id: q.id,
+                  start_passage: q.start_passage || "",
+                  end_passage: q.end_passage || "",
+                  selectedAnswer: q.selectedOptions || "",
+                }));
+              if (index === questions.findIndex((q) => q.q_type === "FB")) {
+                acc.push(
+                  <div key={`fb-${index}`} className="mb-6">
+                    <ShortAnswerQuiz
+                      title={`Questions ${fbQuestions[0].id} - ${
+                        fbQuestions[fbQuestions.length - 1].id
+                      }`}
+                      subtitle="Complete the sentences below"
+                      instructions="Write your answers in the boxes provided."
+                      questions={fbQuestions.map((q) => ({
+                        ...q,
+                        selectedAnswer: Array.isArray(q.selectedAnswer)
+                          ? q.selectedAnswer.join(", ")
+                          : q.selectedAnswer,
+                      }))}
+                      onAnswerChange={handleFillInAnswer}
+                    />
+                  </div>
+                );
+              }
+            }
+            return acc;
+          }, [])}
         </div>
       </div>
 
@@ -504,12 +719,11 @@ export default function ReadingTestClient() {
             </div>
           </div>
 
-          {/* SUBMIT BUTTON */}
-          <Link
-            href="/reading-test/view-result"
+          <div
             className={`w-36 flex justify-center items-center ${
               selectedPassage === 3 ? "border border-[#FA812F]" : "hidden"
             } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
+            onClick={handleSubmit}
           >
             <div
               className={`font-medium text-md justify-center items-center ${
@@ -518,7 +732,7 @@ export default function ReadingTestClient() {
             >
               Nộp bài
             </div>
-          </Link>
+          </div>
         </div>
 
         {/* NAVIGATE MOBILE */}

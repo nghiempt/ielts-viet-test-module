@@ -11,18 +11,31 @@ import "swiper/css/effect-coverflow";
 import "@/styles/contact.css";
 import { ReadingService } from "@/services/reading";
 
+interface ReadingTestItem {
+  _id: string;
+  type: string;
+  parts: string[];
+  name: string;
+  thumbnail: string;
+  time: number;
+  created_at: string;
+}
+
 const ReadingTestLayout = () => {
-  const [readings, setReadings] = useState<any[]>([]);
+  const [readings, setReadings] = useState<ReadingTestItem[]>([]);
   const swiperRef = useRef<SwiperCore | null>(null);
 
-  const render = (data: any) => {
+  const render = (data: ReadingTestItem[]) => {
     setReadings(data);
   };
 
   const init = async () => {
     const res = await ReadingService.getAll();
     if (res && res.length > 0) {
-      render(res);
+      const filteredData = res.filter(
+        (item: ReadingTestItem) => item.thumbnail != null
+      );
+      render(filteredData);
     } else {
       setReadings([]);
     }
@@ -46,7 +59,7 @@ const ReadingTestLayout = () => {
 
   return (
     <div className="py-0">
-      <main>
+      <div>
         <h1 className="text-2xl lg:text-3xl font-bold text-black mb-8">
           Reading Test
         </h1>
@@ -78,14 +91,15 @@ const ReadingTestLayout = () => {
             modules={[Pagination, Navigation, Autoplay]}
             className="w-80 sm:w-96 lg:w-[100%] h-[400px] sm:h-[430px] lg:h-[380px]"
           >
-            {readings.map((book: any, index: number) => (
+            {readings?.map((book: ReadingTestItem, index: number) => (
               <SwiperSlide key={index} className="">
                 <ReadingTestCard
                   key={index}
-                  title={book?.name}
+                  id={book._id}
+                  title={book.name}
                   testCount={11}
                   attemptsCount={113}
-                  coverImage={book?.thumbnail}
+                  coverImage={book.thumbnail}
                 />
               </SwiperSlide>
             ))}
@@ -133,7 +147,7 @@ const ReadingTestLayout = () => {
             </svg>
           </button>
         </div>
-      </main>
+      </div>
     </div>
   );
 };

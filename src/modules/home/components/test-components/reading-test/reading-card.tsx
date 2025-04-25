@@ -1,9 +1,11 @@
 // components/TestBookCard.tsx
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 interface TestCardProps {
+  id: string;
   title: string;
   testCount: number;
   attemptsCount: number;
@@ -11,6 +13,7 @@ interface TestCardProps {
 }
 
 const ReadingTestCard: React.FC<TestCardProps> = ({
+  id,
   title,
   testCount,
   attemptsCount,
@@ -22,7 +25,7 @@ const ReadingTestCard: React.FC<TestCardProps> = ({
         <div className="relative w-full h-full">
           <Image
             src={coverImage}
-            alt={`${title}`}
+            alt={`kkkk`}
             width={1000}
             height={1000}
             className="object-cover rounded-lg shadow-lg w-full h-full"
@@ -36,7 +39,7 @@ const ReadingTestCard: React.FC<TestCardProps> = ({
           <span className="mx-2">•</span>
           <span>{attemptsCount}K lượt làm</span>
         </div>
-        <Link href={`/reading-test`}>
+        <Link href={`/reading-test/${id}`}>
           <div className="inline-flex items-center text-[#FA812F] font-medium mt-2">
             Xem bài test
             <svg

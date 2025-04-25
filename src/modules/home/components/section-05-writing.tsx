@@ -1,4 +1,5 @@
 // pages/index.tsx
+"use client";
 import React from "react";
 import WritingTestLayout from "./test-components/writing-test/writing-test-layout";
 

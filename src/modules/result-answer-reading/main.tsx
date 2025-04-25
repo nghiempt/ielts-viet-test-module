@@ -1,5 +1,4 @@
-// pages/ielts-test.tsx
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import { IMAGES } from "@/utils/images";
 import PassageProgressBar from "./components/processing-bar";
@@ -12,305 +11,313 @@ import {
 import Link from "next/link";
 import PassageProgressBarMobile from "./components/processing-bar-mobile";
 import { motion, AnimatePresence } from "framer-motion";
+import PopupMenu from "./components/pop-up";
+import {
+  QuizHeader,
+  QuizQuestion,
+} from "./components/test-type/multiple-choice/multiple-choice";
+import { ShortAnswerQuiz } from "./components/test-type/fil-in-the-blank/fill-in";
+import { usePathname } from "next/navigation";
+import { ReadingService } from "@/services/reading";
+import { QuestionsService } from "@/services/questions";
 
-// PopupMenu component remains unchanged
-const PopupMenu = ({
-  isOpen,
-  setIsOpen,
-}: {
-  isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
-}) => {
-  const [selectedTab, setSelectedTab] = useState(0);
+// Interfaces remain the same as provided
+interface Question {
+  id: number;
+  question: string;
+  options: string[];
+  isMultiple: boolean;
+  selectedOptions: string | string[] | null;
+  q_type: string;
+  start_passage?: string;
+  end_passage?: string;
+  question_id: string;
+}
 
-  const sections = [
-    {
-      id: 1,
-      answeredQuestions: 7,
-      totalQuestions: 13,
-      questionRange: Array.from({ length: 13 }, (_, i) => i + 1),
-    },
-    {
-      id: 2,
-      answeredQuestions: 4,
-      totalQuestions: 13,
-      questionRange: Array.from({ length: 13 }, (_, i) => i + 14),
-    },
-    {
-      id: 3,
-      answeredQuestions: 8,
-      totalQuestions: 14,
-      questionRange: Array.from({ length: 14 }, (_, i) => i + 27),
-    },
-  ];
+interface PassageSection {
+  _id: string;
+  stest_id: string;
+  type: string;
+  image: string;
+  content: string;
+  part_num: number;
+  question: Array<{
+    _id: string;
+    q_type: string;
+    part_id: string;
+    choices?: string[];
+    isMultiple?: boolean;
+    answer: string[];
+    created_at: string;
+    start_passage?: string;
+    end_passage?: string;
+  }>;
+  created_at: string;
+}
 
-  const getQuestionStatus = (sectionId: number, questionNum: number) => {
-    const section = sections.find((s) => s.id === sectionId);
-    const questionIndex = section ? questionNum - section.questionRange[0] : -1;
-    return section ? questionIndex < section.answeredQuestions : false;
-  };
+interface ReadingDetail {
+  _id: string;
+  type: string;
+  parts: string[];
+  name: string;
+  thumbnail: string;
+  time: number;
+  created_at: string;
+}
 
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ y: "100%" }}
-          animate={{ y: 0 }}
-          exit={{ y: "100%" }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="fixed bottom-0 left-0 right-0 z-30"
-        >
-          <div className="bg-white rounded-t-[40px] shadow-lg w-full max-w-md mx-auto overflow-hidden">
-            <div className="bg-black w-32 h-[4px] rounded-full mx-auto mt-3"></div>
-            <div className="px-6 pb-0 pt-3 flex justify-between items-center">
-              <h2 className="text-lg font-semibold">Lưu ý</h2>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div className="px-6 py-3">
-              <p className="text-gray-700 text-xs">
-                Bạn có thể review và sửa lại đáp án ở các sections 1, 2, và 3.
-              </p>
-            </div>
-            <div className="flex border-b">
-              <button
-                className={`flex-1 py-3 text-center font-medium text-sm ${
-                  selectedTab === 0
-                    ? "text-orange-500 border-b-2 border-orange-500"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-                onClick={() => setSelectedTab(0)}
-              >
-                Section 1
-              </button>
-              <button
-                className={`flex-1 py-3 text-center font-medium text-sm ${
-                  selectedTab === 1
-                    ? "text-orange-500 border-b-2 border-orange-500"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-                onClick={() => setSelectedTab(1)}
-              >
-                Section 2
-              </button>
-              <button
-                className={`flex-1 py-3 text-center font-medium text-sm ${
-                  selectedTab === 2
-                    ? "text-orange-500 border-b-2 border-orange-500"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-                onClick={() => setSelectedTab(2)}
-              >
-                Section 3
-              </button>
-            </div>
-            <div className="px-6 py-4 overflow-y-auto max-h-[60vh]">
-              {selectedTab === 0 && (
-                <div className="mb-5">
-                  <h3 className="text-sm font-bold mb-3">SECTION 1</h3>
-                  <div className="grid grid-cols-5 gap-4">
-                    {sections[0].questionRange.map((num) => (
-                      <div
-                        key={num}
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
-                          getQuestionStatus(1, num)
-                            ? "bg-green-500 text-white"
-                            : "bg-gray-200 text-gray-700"
-                        }`}
-                      >
-                        {num}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {selectedTab === 1 && (
-                <div className="mb-5">
-                  <h3 className="text-sm font-bold mb-3">SECTION 2</h3>
-                  <div className="grid grid-cols-5 gap-4">
-                    {sections[1].questionRange.map((num) => (
-                      <div
-                        key={num}
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
-                          getQuestionStatus(2, num)
-                            ? "bg-green-500 text-white"
-                            : "bg-gray-200 text-gray-700"
-                        }`}
-                      >
-                        {num}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {selectedTab === 2 && (
-                <div className="mb-5">
-                  <h3 className="text-sm font-bold mb-3">SECTION 3</h3>
-                  <div className="grid grid-cols-5 gap-4">
-                    {sections[2].questionRange.map((num) => (
-                      <div
-                        key={num}
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
-                          getQuestionStatus(3, num)
-                            ? "bg-green-500 text-white"
-                            : "bg-gray-200 text-gray-700"
-                        }`}
-                      >
-                        {num}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className="px-4 py-5">
-              <button
-                onClick={() => alert("Answers submitted!")}
-                className="w-full py-3 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 transition duration-150"
-              >
-                Submit
-              </button>
-            </div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-};
+interface UserAnswer {
+  question_id: string;
+  answer: string[];
+}
+
+interface PartAnswer {
+  part_id: string;
+  user_answers: UserAnswer[];
+  isComplete: boolean;
+}
+
+interface AnswerState {
+  parts: PartAnswer[];
+}
+
+interface PassageInfo {
+  id: number;
+  startQuestion: number;
+  endQuestion: number;
+  answeredQuestions: number;
+}
 
 export default function AnswerKeyReadingPage() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [timeLeft, setTimeLeft] = useState("57:25");
+  const pathname = usePathname();
+  const [data, setData] = useState<ReadingDetail | null>(null);
+  const [passage1, setPassage1] = useState<PassageSection | null>(null);
+  const [passage2, setPassage2] = useState<PassageSection | null>(null);
+  const [passage3, setPassage3] = useState<PassageSection | null>(null);
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [selectedPassage, setSelectedPassage] = useState(1);
-  const [selectedQuestion, setSelectedQuestion] = useState(1);
+  const [answers, setAnswers] = useState<AnswerState>({ parts: [] });
+  const [currentPage, setCurrentPage] = useState(1);
+  // const [timeLeft, setTimeLeft] = useState("57:25");
+  const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [switchReading, setSwitchReading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const passages = [
-    { id: 1, startQuestion: 1, endQuestion: 13, answeredQuestions: 7 },
-    { id: 2, startQuestion: 14, endQuestion: 26, answeredQuestions: 4 },
-    { id: 3, startQuestion: 27, endQuestion: 40, answeredQuestions: 8 },
-  ];
+  const calculatePassages = useMemo(() => {
+    return (): PassageInfo[] => {
+      const passagesInfo: PassageInfo[] = [];
+      const passageData = [passage1, passage2, passage3].filter(
+        (p): p is PassageSection => p !== null
+      );
 
-  const passageQuestions = [
-    [
-      { id: 1, text: "to direct the tunnelling" },
-      { id: 2, text: "water runs into a _____ used by local people" },
-      { id: 3, text: "vertical shafts to remove earth and for _____" },
-      { id: 4, text: "_____ made of wood or stone" },
-      { id: 5, text: "_____ attached to the plumb line" },
-      { id: 6, text: "handholds and footholds used for _____" },
-      { id: 7, text: "traditional irrigation system" },
-      { id: 8, text: "underground water channels" },
-      { id: 9, text: "mountain slope construction" },
-      { id: 10, text: "_____ for water distribution" },
-      { id: 11, text: "ancient engineering technique" },
-      { id: 12, text: "_____ used in arid regions" },
-      { id: 13, text: "maintenance of the system" },
-    ],
-    [
-      { id: 14, text: "early farming methods" },
-      { id: 15, text: "crop rotation benefits" },
-      { id: 16, text: "soil fertility was maintained by _____" },
-      { id: 17, text: "_____ used for plowing" },
-      { id: 18, text: "seasonal planting schedule" },
-      { id: 19, text: "irrigation improvements" },
-      { id: 20, text: "_____ increased crop yields" },
-      { id: 21, text: "traditional tools included _____" },
-      { id: 22, text: "harvesting techniques" },
-      { id: 23, text: "storage methods for _____" },
-      { id: 24, text: "_____ prevented soil erosion" },
-      { id: 25, text: "animal husbandry role" },
-      { id: 26, text: "_____ fertilizer source" },
-    ],
-    [
-      { id: 27, text: "industrial revolution impact" },
-      { id: 28, text: "steam engine was invented by _____" },
-      { id: 29, text: "factory system development" },
-      { id: 30, text: "_____ replaced hand tools" },
-      { id: 31, text: "urban population growth" },
-      { id: 32, text: "working conditions in _____" },
-      { id: 33, text: "child labor was common in _____" },
-      { id: 34, text: "_____ improved transportation" },
-      { id: 35, text: "coal mining expansion" },
-      { id: 36, text: "_____ powered machinery" },
-      { id: 37, text: "textile industry changes" },
-      { id: 38, text: "_____ invention increased production" },
-      { id: 39, text: "social reforms addressed _____" },
-      { id: 40, text: "economic growth factors" },
-    ],
-  ];
+      let questionCounter = 1;
+
+      passageData.forEach((passage, index) => {
+        const questionCount = passage.question.length;
+        const partId = passage._id;
+
+        const answeredQuestions = answers.parts
+          .filter((part) => part.part_id === partId)
+          .reduce((count, part) => {
+            return (
+              count +
+              part.user_answers.filter(
+                (ua) => ua.answer.length > 0 && ua.answer[0] !== ""
+              ).length
+            );
+          }, 0);
+
+        passagesInfo.push({
+          id: index + 1,
+          startQuestion: questionCounter,
+          endQuestion: questionCounter + questionCount - 1,
+          answeredQuestions,
+        });
+
+        questionCounter += questionCount;
+      });
+
+      return passagesInfo;
+    };
+  }, [passage1, passage2, passage3, answers]);
+
+  const passages = calculatePassages();
+
+  const render = (data: ReadingDetail) => {
+    setData(data);
+  };
+
+  const mapAndArrangeQuestions = (passage: PassageSection, startId: number) => {
+    const mappedQuestions = passage.question.map((q, index) => {
+      const partAnswer = answers.parts.find(
+        (part) => part.part_id === q.part_id
+      );
+      const userAnswer = partAnswer?.user_answers.find(
+        (ua) => ua.question_id === q._id
+      );
+
+      const selectedOptions = userAnswer?.answer?.length
+        ? q.q_type === "MP" && q.isMultiple
+          ? userAnswer.answer
+          : q.q_type === "MP"
+          ? userAnswer.answer[0]
+          : userAnswer.answer[0] || ""
+        : q.q_type === "MP"
+        ? q.isMultiple
+          ? []
+          : null
+        : "";
+
+      return {
+        id: startId + index,
+        question: q.q_type === "MP" ? `Question ${startId + index}` : "",
+        options: q.q_type === "MP" && q.choices ? q.choices : [],
+        isMultiple: q.q_type === "MP" ? q.isMultiple || false : false,
+        selectedOptions,
+        q_type: q.q_type,
+        start_passage: q.q_type === "FB" ? q.start_passage : undefined,
+        end_passage: q.q_type === "FB" ? q.end_passage : undefined,
+        question_id: q._id,
+      };
+    });
+
+    const firstQuestionType = passage.question[0]?.q_type;
+    const arrangedQuestions =
+      firstQuestionType === "MP"
+        ? [
+            ...mappedQuestions.filter((q) => q.q_type === "MP"),
+            ...mappedQuestions.filter((q) => q.q_type === "FB"),
+          ]
+        : [
+            ...mappedQuestions.filter((q) => q.q_type === "FB"),
+            ...mappedQuestions.filter((q) => q.q_type === "MP"),
+          ];
+
+    return arrangedQuestions.map((q, index) => ({
+      ...q,
+      id: startId + index,
+    }));
+  };
+
+  const init = async () => {
+    setIsLoading(true);
+    setError(null);
+    const segments = pathname.split("/").filter(Boolean);
+    const id = segments[segments.length - 1];
+
+    try {
+      const res = await ReadingService.getReadingById(id);
+      const [resP1, resP2, resP3] = await Promise.all([
+        QuestionsService.getQuestionsById(res.parts[0]),
+        QuestionsService.getQuestionsById(res.parts[1]),
+        QuestionsService.getQuestionsById(res.parts[2]),
+      ]);
+
+      if (res && resP1 && resP2 && resP3) {
+        setPassage1(resP1);
+        setPassage2(resP2);
+        setPassage3(resP3);
+        setData(res);
+
+        setAnswers((prev) => {
+          if (prev.parts.length > 0) return prev;
+
+          const allQuestions = [
+            ...resP1.question.map((q: any) => ({
+              part_id: q.part_id,
+              question_id: q._id,
+            })),
+            ...resP2.question.map((q: any) => ({
+              part_id: q.part_id,
+              question_id: q._id,
+            })),
+            ...resP3.question.map((q: any) => ({
+              part_id: q.part_id,
+              question_id: q._id,
+            })),
+          ];
+
+          const groupedByPartId = allQuestions.reduce(
+            (acc, { part_id, question_id }) => {
+              if (!acc[part_id]) {
+                acc[part_id] = {
+                  part_id,
+                  user_answers: [],
+                  isComplete: false,
+                };
+              }
+              acc[part_id].user_answers.push({ question_id, answer: [] });
+              return acc;
+            },
+            {} as Record<string, PartAnswer>
+          );
+
+          const initialParts: PartAnswer[] = Object.values(groupedByPartId);
+          if (process.env.NODE_ENV !== "production") {
+            console.log("Initialized answers:", initialParts);
+          }
+          return { parts: initialParts };
+        });
+
+        const passage1Questions = mapAndArrangeQuestions(resP1, 1);
+        setQuestions(passage1Questions);
+      } else {
+        setError("Failed to load reading test data.");
+      }
+    } catch (error) {
+      console.error("Error initializing reading test:", error);
+      setError("An error occurred while loading the test.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    init();
+  }, [pathname]);
+
+  useEffect(() => {
+    const startIds = passages.reduce(
+      (acc, passage) => ({
+        ...acc,
+        [passage.id]: passage.startQuestion,
+      }),
+      {} as { [key: number]: number }
+    );
+
+    const passageData = { 1: passage1, 2: passage2, 3: passage3 };
+    const selectedPassageData = passageData[selectedPassage as 1 | 2 | 3];
+    if (selectedPassageData) {
+      const updatedQuestions = mapAndArrangeQuestions(
+        selectedPassageData,
+        startIds[selectedPassage]
+      );
+      setQuestions(updatedQuestions);
+    }
+  }, [selectedPassage, passages, passage1, passage2, passage3]);
+
+  // useEffect(() => {
+  //   if (!data?.time) return;
+
+  //   let time = data.time * 60; // Convert minutes to seconds
+  //   const timer = setInterval(() => {
+  //     const minutes = Math.floor(time / 60);
+  //     const seconds = time % 60;
+  //     setTimeLeft(`${minutes}:${seconds.toString().padStart(2, "0")}`);
+  //     time -= 1;
+  //     if (time < 0) {
+  //       clearInterval(timer);
+  //       // Handle time up (e.g., auto-submit)
+  //     }
+  //   }, 1000);
+
+  //   return () => clearInterval(timer);
+  // }, [data]);
 
   const handlePassageSelect = (passageId: number) => {
     setSelectedPassage(passageId);
     setCurrentPage(passageId);
-    const passage = passages.find((p) => p.id === passageId);
-    if (
-      (passage && selectedQuestion < passage.startQuestion) ||
-      selectedQuestion > (passage?.endQuestion ?? 0)
-    ) {
-      setSelectedQuestion(passage?.startQuestion ?? 0);
-    }
-  };
-
-  const handleQuestionSelect = (questionNum: number) => {
-    // Find the passage that contains this question
-    const passage = passages.find(
-      (p) => questionNum >= p.startQuestion && questionNum <= p.endQuestion
-    );
-    if (passage) {
-      setSelectedPassage(passage.id);
-      setCurrentPage(passage.id);
-      setSelectedQuestion(questionNum);
-    }
-  };
-
-  const handleNextQuestion = () => {
-    // Check if there's a next question
-    if (selectedQuestion < passages[passages.length - 1].endQuestion) {
-      const nextQuestion = selectedQuestion + 1;
-      // Find the passage for the next question
-      const nextPassage = passages.find(
-        (p) => nextQuestion >= p.startQuestion && nextQuestion <= p.endQuestion
-      );
-      if (nextPassage) {
-        setSelectedPassage(nextPassage.id);
-        setCurrentPage(nextPassage.id);
-        setSelectedQuestion(nextQuestion);
-      }
-    }
-  };
-
-  const handlePreviousQuestion = () => {
-    // Check if there's a previous question
-    if (selectedQuestion > passages[0].startQuestion) {
-      const prevQuestion = selectedQuestion - 1;
-      // Find the passage for the previous question
-      const prevPassage = passages.find(
-        (p) => prevQuestion >= p.startQuestion && prevQuestion <= p.endQuestion
-      );
-      if (prevPassage) {
-        setSelectedPassage(prevPassage.id);
-        setCurrentPage(prevPassage.id);
-        setSelectedQuestion(prevQuestion);
-      }
-    }
   };
 
   const handleNextPassage = () => {
@@ -325,22 +332,194 @@ export default function AnswerKeyReadingPage() {
     handlePassageSelect(prevPassage);
   };
 
-  const currentPassage = passages[selectedPassage - 1];
-  const currentQuestions = passageQuestions[selectedPassage - 1];
+  const handleQuestionSelect = (questionId: number) => {
+    setSelectedQuestion(questionId);
+  };
 
-  const currentQuestionData = currentQuestions.find(
-    (q) => q.id === selectedQuestion
-  );
+  const handleNextQuestion = () => {
+    if (
+      selectedQuestion === null ||
+      selectedQuestion === passages[passages.length - 1].endQuestion
+    )
+      return;
+    setSelectedQuestion(selectedQuestion + 1);
+  };
+
+  const handlePreviousQuestion = () => {
+    if (
+      selectedQuestion === null ||
+      selectedQuestion === passages[0].startQuestion
+    )
+      return;
+    setSelectedQuestion(selectedQuestion - 1);
+  };
+
+  const currentPassage = passages[selectedPassage - 1] || {
+    startQuestion: 1,
+    endQuestion: 1,
+    answeredQuestions: 0,
+  };
 
   const passageQuestionNumbers = Array.from(
-    { length: currentPassage.endQuestion - currentPassage.startQuestion + 1 },
+    {
+      length: currentPassage.endQuestion - currentPassage.startQuestion + 1,
+    },
     (_, i) => currentPassage.startQuestion + i
   );
 
   const getAnsweredStatus = (questionNum: number) => {
-    const questionIndex = questionNum - currentPassage.startQuestion + 1;
-    return questionIndex <= currentPassage.answeredQuestions;
+    const question = questions.find((q) => q.id === questionNum);
+    if (!question) return false;
+
+    const questionData =
+      passage1?.question.find((q) => q._id === question.question_id) ||
+      passage2?.question.find((q) => q._id === question.question_id) ||
+      passage3?.question.find((q) => q._id === question.question_id);
+
+    if (!questionData) return false;
+
+    const partAnswer = answers.parts.find(
+      (part) => part.part_id === questionData.part_id
+    );
+    const userAnswer = partAnswer?.user_answers.find(
+      (ua) => ua.question_id === question.question_id
+    );
+
+    return (
+      (userAnswer?.answer?.length ?? 0) > 0 &&
+      (question.q_type === "FB" ? userAnswer?.answer[0] !== "" : true)
+    );
   };
+
+  const updatePartCompletion = (partId: string) => {
+    setAnswers((prev) => {
+      const updatedParts = prev.parts.map((part) => {
+        if (part.part_id === partId) {
+          const allAnswered = part.user_answers.every(
+            (ua) => ua.answer.length > 0 && ua.answer[0] !== ""
+          );
+          return { ...part, isComplete: allAnswered };
+        }
+        return part;
+      });
+      return { parts: updatedParts };
+    });
+  };
+
+  const handleSelectOption = (questionId: number, option: string) => {
+    const question = questions.find((q) => q.id === questionId);
+    if (!question) {
+      console.error("Question not found:", questionId);
+      return;
+    }
+
+    const questionData =
+      passage1?.question.find((q) => q._id === question.question_id) ||
+      passage2?.question.find((q) => q._id === question.question_id) ||
+      passage3?.question.find((q) => q._id === question.question_id);
+
+    if (!questionData) {
+      console.error("Question data not found for ID:", question.question_id);
+      return;
+    }
+
+    setAnswers((prev) => {
+      const updatedParts = prev.parts.map((part) => {
+        if (part.part_id === questionData.part_id) {
+          let updatedUserAnswers = [...part.user_answers];
+          const answerIndex = updatedUserAnswers.findIndex(
+            (ua) => ua.question_id === question.question_id
+          );
+
+          if (answerIndex === -1) {
+            updatedUserAnswers.push({
+              question_id: question.question_id,
+              answer: question.isMultiple ? [option] : [option],
+            });
+          } else {
+            updatedUserAnswers = updatedUserAnswers.map((ua, index) => {
+              if (index === answerIndex) {
+                const currentAnswer = ua.answer || [];
+                let newAnswer: string[];
+
+                if (question.isMultiple) {
+                  newAnswer = currentAnswer.includes(option)
+                    ? currentAnswer.filter((opt) => opt !== option)
+                    : [...currentAnswer, option];
+                } else {
+                  newAnswer = [option];
+                }
+
+                return { ...ua, answer: newAnswer };
+              }
+              return ua;
+            });
+          }
+
+          return { ...part, user_answers: updatedUserAnswers };
+        }
+        return part;
+      });
+
+      return { parts: updatedParts };
+    });
+
+    setQuestions((prevQuestions) =>
+      prevQuestions.map((q) =>
+        q.id === questionId
+          ? {
+              ...q,
+              selectedOptions: question.isMultiple
+                ? Array.isArray(q.selectedOptions)
+                  ? q.selectedOptions.includes(option)
+                    ? q.selectedOptions.filter((opt) => opt !== option)
+                    : [...q.selectedOptions, option]
+                  : [option]
+                : option,
+            }
+          : q
+      )
+    );
+
+    updatePartCompletion(questionData.part_id);
+  };
+
+  const handleFillInAnswer = (questionId: number, answer: string) => {
+    const question = questions.find((q) => q.id === questionId);
+    if (!question) return;
+
+    const questionData =
+      passage1?.question.find((q) => q._id === question.question_id) ||
+      passage2?.question.find((q) => q._id === question.question_id) ||
+      passage3?.question.find((q) => q._id === question.question_id);
+
+    if (!questionData) return;
+
+    setAnswers((prev) => {
+      const updatedParts = prev.parts.map((part) => {
+        if (part.part_id === questionData.part_id) {
+          const updatedUserAnswers = part.user_answers.map((ua) =>
+            ua.question_id === question.question_id
+              ? { ...ua, answer: [answer] }
+              : ua
+          );
+          return { ...part, user_answers: updatedUserAnswers };
+        }
+        return part;
+      });
+      return { parts: updatedParts };
+    });
+
+    updatePartCompletion(questionData.part_id);
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
 
   return (
     <div className="relative min-h-screen w-full bg-gray-50">
@@ -355,8 +534,8 @@ export default function AnswerKeyReadingPage() {
           />
         </div>
         <div className="text-center mr-28">
-          <div className="font-semibold">IELTS Reading Test</div>
-          <div className="text-sm text-gray-600">CAM13 - Reading Test 4</div>
+          <div className="font-semibold">{data?.name}</div>
+          <div className="text-sm text-gray-600">Reading Test Result</div>
         </div>
         <div className="flex items-center">
           <Link href="/" className="text-gray-400 hover:text-gray-600 ml-4">
@@ -386,33 +565,27 @@ export default function AnswerKeyReadingPage() {
           style={{ scrollbarWidth: "thin" }}
         >
           {selectedPassage === 1 && (
-            <div>
-              <h1 className="w-full text-xl font-bold mb-4">Title 1</h1>
-              <p className="mb-4 text-sm">
-                Passage 1 content goes here. This is a placeholder for the
-                actual reading passage text, which can be quite long and will
-                require scrolling independently of the questions section.
-              </p>
+            <div className="">
+              <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
+                Reading Part 1
+              </h1>
+              <p className="mb-4 text-base lg:text-lg">{passage1?.content}</p>
             </div>
           )}
           {selectedPassage === 2 && (
             <div>
-              <h1 className="w-full text-xl font-bold mb-4">Title 2</h1>
-              <p className="mb-4 text-sm">
-                Passage 2 content goes here. This is a placeholder for the
-                actual reading passage text, which can be quite long and will
-                require scrolling independently of the questions section.
-              </p>
+              <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
+                Reading Part 2
+              </h1>
+              <p className="mb-4 text-base lg:text-lg">{passage2?.content}</p>
             </div>
           )}
           {selectedPassage === 3 && (
             <div>
-              <h1 className="w-full text-xl font-bold mb-4">Title 3</h1>
-              <p className="mb-4 text-sm">
-                Passage 3 content goes here. This is a placeholder for the
-                actual reading passage text, which can be quite long and will
-                require scrolling independently of the questions section.
-              </p>
+              <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
+                Reading Part 3
+              </h1>
+              <p className="mb-4 text-base lg:text-lg">{passage3?.content}</p>
             </div>
           )}
         </div>
@@ -423,52 +596,74 @@ export default function AnswerKeyReadingPage() {
           }`}
           style={{ scrollbarWidth: "thin" }}
         >
-          <div className="mb-6">
-            <div className="bg-[#FA812F] text-white p-3 rounded-md flex justify-between items-center">
-              <div className="font-medium">
-                Questions {passages[selectedPassage - 1].startQuestion} -{" "}
-                {passages[selectedPassage - 1].endQuestion}
-              </div>
-              <div className="text-sm">
-                Write your answers in boxes on your answer sheet.
-              </div>
-            </div>
-
-            <div className="relative bg-gray-100 p-4 flex justify-center my-4 z-0">
-              <div className="relative w-full h-64">
-                <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs left-[10%] top-[10%]">
-                  {selectedPassage === 1
-                    ? "The Persian Qanat Method"
-                    : selectedPassage === 2
-                    ? "Agricultural Development"
-                    : "Industrial Revolution"}
-                </div>
-                <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs right-[10%] top-[10%]">
-                  2
-                </div>
-                <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs left-[40%] bottom-[40%]">
-                  3
-                </div>
-                <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs right-[30%] bottom-[30%]">
-                  4
-                </div>
-                <div className="absolute text-center bg-white border border-gray-300 rounded-md p-1 text-xs left-[20%] bottom-[10%]">
-                  5
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              {currentQuestions.map((question) => (
-                <div key={question.id} className="flex items-center">
-                  <div className="mr-2 w-6 h-6 bg-[#FA812F] text-white rounded-full flex items-center justify-center text-xs">
-                    {question.id}
+          {questions.reduce((acc: JSX.Element[], question, index) => {
+            if (question.q_type === "MP") {
+              const mpQuestions = questions
+                .filter((q) => q.q_type === "MP")
+                .map((q) => ({
+                  id: q.id,
+                  question: q.question,
+                  options: q.options,
+                  isMultiple: q.isMultiple,
+                  selectedOptions: q.selectedOptions,
+                }));
+              if (index === questions.findIndex((q) => q.q_type === "MP")) {
+                acc.push(
+                  <div key={`mp-${index}`} className="mb-6">
+                    <QuizHeader
+                      title={`Questions ${mpQuestions[0].id} - ${
+                        mpQuestions[mpQuestions.length - 1].id
+                      }`}
+                      subtitle="Choose the correct answer"
+                    />
+                    {mpQuestions.map((q) => (
+                      <QuizQuestion
+                        key={q.id}
+                        id={q.id}
+                        question={q.question}
+                        options={q.options}
+                        isMultiple={q.isMultiple}
+                        selectedOptions={q.selectedOptions}
+                        onSelectOption={(option) =>
+                          handleSelectOption(q.id, option)
+                        }
+                      />
+                    ))}
                   </div>
-                  <div className="flex-1">{question.text}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+                );
+              }
+            } else if (question.q_type === "FB") {
+              const fbQuestions = questions
+                .filter((q) => q.q_type === "FB")
+                .map((q) => ({
+                  id: q.id,
+                  start_passage: q.start_passage || "",
+                  end_passage: q.end_passage || "",
+                  selectedAnswer: q.selectedOptions || "",
+                }));
+              if (index === questions.findIndex((q) => q.q_type === "FB")) {
+                acc.push(
+                  <div key={`fb-${index}`} className="mb-6">
+                    <ShortAnswerQuiz
+                      title={`Questions ${fbQuestions[0].id} - ${
+                        fbQuestions[fbQuestions.length - 1].id
+                      }`}
+                      subtitle="Complete the sentences below"
+                      instructions="Write your answers in the boxes provided."
+                      questions={fbQuestions.map((q) => ({
+                        ...q,
+                        selectedAnswer: Array.isArray(q.selectedAnswer)
+                          ? q.selectedAnswer.join(", ")
+                          : q.selectedAnswer,
+                      }))}
+                      onAnswerChange={handleFillInAnswer}
+                    />
+                  </div>
+                );
+              }
+            }
+            return acc;
+          }, [])}
         </div>
       </div>
 
@@ -479,7 +674,7 @@ export default function AnswerKeyReadingPage() {
               <PassageProgressBar
                 key={passage.id}
                 passageNumber={passage.id}
-                currentQuestion={selectedQuestion}
+                currentQuestion={selectedQuestion ?? 0}
                 totalQuestions={passage.endQuestion - passage.startQuestion + 1}
                 startQuestion={passage.startQuestion}
                 endQuestion={passage.endQuestion}
@@ -497,6 +692,10 @@ export default function AnswerKeyReadingPage() {
                   : ""
               }`}
               onClick={handlePreviousQuestion}
+              role="button"
+              aria-label="Previous Question"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === "Enter" && handlePreviousQuestion()}
             >
               <div
                 className={`text-[#FA812F] font-medium text-md justify-center items-center px-5 py-1 rounded-md flex border border-[#FA812F]`}
@@ -511,6 +710,10 @@ export default function AnswerKeyReadingPage() {
                   : ""
               }`}
               onClick={handleNextQuestion}
+              role="button"
+              aria-label="Next Question"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === "Enter" && handleNextQuestion()}
             >
               <div
                 className={`text-[#FA812F] font-medium text-md justify-center items-center px-5 py-1 rounded-md flex border border-[#FA812F]`}
@@ -527,7 +730,7 @@ export default function AnswerKeyReadingPage() {
               <PassageProgressBarMobile
                 key={passage.id}
                 passageNumber={passage.id}
-                currentQuestion={selectedQuestion}
+                currentQuestion={selectedQuestion ?? 0}
                 totalQuestions={passage.endQuestion - passage.startQuestion + 1}
                 startQuestion={passage.startQuestion}
                 endQuestion={passage.endQuestion}
@@ -543,6 +746,10 @@ export default function AnswerKeyReadingPage() {
               <div
                 className={`w-11 h-11 border-2 border-gray-300 rounded-full bg-white cursor-pointer flex items-center justify-center`}
                 onClick={() => setIsPopupOpen(true)}
+                role="button"
+                aria-label="Reviews and Submit"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === "Enter" && setIsPopupOpen(true)}
               >
                 <Grid2x2Check color="#6B7280" size={17} />
               </div>
@@ -558,6 +765,14 @@ export default function AnswerKeyReadingPage() {
             <div
               className="p-3.5"
               onClick={() => setSwitchReading(!switchReading)}
+              role="button"
+              aria-label={
+                switchReading ? "Switch to Questions" : "Switch to Reading"
+              }
+              tabIndex={0}
+              onKeyDown={(e) =>
+                e.key === "Enter" && setSwitchReading(!switchReading)
+              }
             >
               {switchReading ? (
                 <Grid2x2Check color="white" />
