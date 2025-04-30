@@ -12,6 +12,10 @@ import {
 } from "lucide-react";
 import { FullTestService } from "@/services/full-test";
 import { usePathname } from "next/navigation";
+import { ReadingService } from "@/services/reading";
+import { ListeningService } from "@/services/listening";
+import { WritingService } from "@/services/writing";
+import { wrap } from "module";
 
 interface FullTestItem {
   _id: string;
@@ -24,40 +28,46 @@ interface FullTestItem {
   created_at: string;
 }
 
+interface WritingDetail {
+  _id: string;
+  type: string;
+  parts: string[];
+  name: string;
+  thumbnail: string;
+  time: number;
+  created_at: string;
+}
+interface ListenDetail {
+  _id: string;
+  type: string;
+  parts: string[];
+  name: string;
+  thumbnail: string;
+  time: number;
+  created_at: string;
+}
+interface ReadingDetail {
+  _id: string;
+  type: string;
+  parts: string[];
+  name: string;
+  thumbnail: string;
+  time: number;
+  created_at: string;
+}
+
 export default function Section01() {
   const pathname = usePathname();
   const [fullTestDetail, setFullTestDetail] = useState<FullTestItem | null>(
     null
   );
   const [fullTests, setFullTests] = useState<FullTestItem[]>([]);
-  const [totalPage, setTotalPage] = useState<number>(0);
-  const [currenPage, setCurrenPage] = useState<any>(1 as any);
-  const [currenData, setCurrenData] = useState<any>([] as any);
-
-  // const selectPage = (pageSelected: any) => {
-  //   setCurrenPage(pageSelected);
-  //   const start = (pageSelected - 1) * COUNT;
-  //   const end = pageSelected * COUNT;
-  //   setCurrenData(readings.slice(start, end));
-  // };
-
-  // const prevPage = () => {
-  //   if (currenPage > 1) {
-  //     selectPage(currenPage - 1);
-  //   }
-  // };
-
-  // const nextPage = () => {
-  //   if (currenPage < totalPage) {
-  //     selectPage(currenPage + 1);
-  //   }
-  // };
+  const [reading, setReading] = useState<ReadingDetail | null>(null);
+  const [listening, setListening] = useState<ListenDetail | null>(null);
+  const [writing, setWriting] = useState<WritingDetail | null>(null);
 
   const render = (data: FullTestItem[]) => {
     setFullTests(data);
-    // setTotalPage(Math.ceil(data.length / COUNT));
-    // setCurrenPage(1);
-    // setCurrenData(data.slice(0, COUNT));
   };
 
   const init = async () => {
@@ -66,20 +76,47 @@ export default function Section01() {
 
     try {
       const res = await FullTestService.getFullTestById(id);
-      if (!res) throw new Error("Reading data not found");
-      setFullTestDetail(res);
+
+      // Check if main response exists
+      if (!res) {
+        throw new Error("Full test data not found");
+      }
+
+      // Fetch additional data with null checks
+      const resReading = await ReadingService.getReadingById(res.r_id);
+      const resListening = await ListeningService.getListeningById(res.l_id);
+      const resWriting = await WritingService.getWritingById(res.w_id);
+
+      // Set states with fallback to null
+      setFullTestDetail(res || null);
+      setReading(resReading || null);
+      setListening(resListening || null);
+      setWriting(resWriting || null);
     } catch (error) {
       console.error("Error initializing reading test:", error);
       setFullTestDetail(null);
+      setReading(null);
+      setListening(null);
+      setWriting(null);
     }
 
-    const res = await FullTestService.getAll();
-    if (res && res.length > 0) {
+    try {
+      const res = await FullTestService.getAll();
+
+      // Handle null or empty response
+      if (!res || !Array.isArray(res) || res.length === 0) {
+        setFullTests([]);
+        return;
+      }
+
+      // Filter items with valid thumbnails
       const filteredData = res.filter(
-        (item: FullTestItem) => item.thumbnail != null
+        (item: FullTestItem) => item && item.thumbnail != null
       );
+
       render(filteredData);
-    } else {
+    } catch (error) {
+      console.error("Error fetching all tests:", error);
       setFullTests([]);
     }
   };
@@ -103,7 +140,7 @@ export default function Section01() {
             />
           </div>
           <div className="flex flex-col justify-between items-start">
-            <div className="">
+            <div className="flex flex-col justify-center items-center">
               <h1 className="text-3xl lg:text-4xl font-bold mb-2">
                 {fullTestDetail?.name}
               </h1>
@@ -143,79 +180,83 @@ export default function Section01() {
           </div>
 
           {/* Tests */}
-          {/* {tests.map((test) => (
-            <div
-              key={test.id}
-              className="flex flex-col lg:grid lg:grid-cols-4 gap-4 items-center py-3 border-b border-gray-200"
-            > */}
-          {/* Test ID */}
-          {/* <div className="w-full text-center mb-4 lg:mb-0">
-                <div className="font-medium text-lg lg:text-base">
-                  Test {test.id}
-                </div>
-              </div> */}
+          {/* {tests.map((test) => ( */}
+          <div className="flex flex-col lg:grid lg:grid-cols-4 gap-4 items-center py-3 border-b border-gray-200">
+            {/* Test ID */}
+            <div className="w-full text-center mb-4 lg:mb-0">
+              <div className="font-medium text-lg lg:text-base">Full Test</div>
+            </div>
 
-          {/* Mobile: Horizontal Scroll, Desktop: Grid */}
-          {/* <div className="w-full lg:col-span-3 flex overflow-x-auto lg:overflow-visible gap-4 lg:grid lg:grid-cols-3 pb-4 lg:pb-0 px-0 mx-0 snap-x snap-mandatory scrollbar scrollbar-thumb-gray-300 scrollbar-track-gray-100 scroll-bar-style"> */}
-          {/* Reading */}
-          {/* <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
-                  {test.hasReading ? (
-                    <div className="flex flex-col justify-center items-center gap-1">
-                      <div className="border-4 border-gray-200 p-3 rounded-full">
-                        <BookOpenText />
-                      </div>
-                      <button className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium">
-                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
-                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
-                        </div>
-                        <span>Làm bài</span>
-                      </button>
+            {/* Mobile: Horizontal Scroll, Desktop: Grid */}
+            <div className="w-full lg:col-span-3 flex overflow-x-auto lg:overflow-visible gap-4 lg:grid lg:grid-cols-3 pb-4 lg:pb-0 px-0 mx-0 snap-x snap-mandatory scrollbar scrollbar-thumb-gray-300 scrollbar-track-gray-100 scroll-bar-style">
+              {/* Reading */}
+              <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
+                {reading ? (
+                  <div className="flex flex-col justify-center items-center gap-1">
+                    <div className="border-4 border-gray-200 p-3 rounded-full">
+                      <BookOpenText />
                     </div>
-                  ) : (
-                    <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
-                  )}
-                </div> */}
+                    <Link
+                      href={`/reading-test/${fullTestDetail?.r_id}`}
+                      className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                    >
+                      <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                        <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
+                      </div>
+                      <span>Làm bài</span>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
+                )}
+              </div>
 
-          {/* Listening */}
-          {/* <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
-                  {test.hasListening ? (
-                    <div className="flex flex-col justify-center items-center gap-1">
-                      <div className="border-4 border-gray-200 p-3 rounded-full">
-                        <Headphones />
-                      </div>
-                      <button className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium">
-                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
-                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
-                        </div>
-                        <span>Làm bài</span>
-                      </button>
+              {/* Listening */}
+              <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
+                {listening ? (
+                  <div className="flex flex-col justify-center items-center gap-1">
+                    <div className="border-4 border-gray-200 p-3 rounded-full">
+                      <Headphones />
                     </div>
-                  ) : (
-                    <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
-                  )}
-                </div> */}
+                    <Link
+                      href={`/listening-test/${fullTestDetail?.l_id}`}
+                      className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                    >
+                      <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                        <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
+                      </div>
+                      <span>Làm bài</span>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
+                )}
+              </div>
 
-          {/* Writing */}
-          {/* <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
-                  {test.hasWriting ? (
-                    <div className="flex flex-col justify-center items-center gap-1">
-                      <div className="border-4 border-gray-200 p-3 rounded-full">
-                        <PenLine />
-                      </div>
-                      <button className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium">
-                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
-                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
-                        </div>
-                        <span>Làm bài</span>
-                      </button>
+              {/* Writing */}
+              <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
+                {writing ? (
+                  <div className="flex flex-col justify-center items-center gap-1">
+                    <div className="border-4 border-gray-200 p-3 rounded-full">
+                      <PenLine />
                     </div>
-                  ) : (
-                    <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
-                  )}
-                </div>
+                    <Link
+                      href={`/writing-test/${fullTestDetail?.w_id}`}
+                      className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                    >
+                      <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                        <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
+                      </div>
+                      <span>Làm bài</span>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
+                )}
               </div>
             </div>
-          ))} */}
+          </div>
+          {/* ))} */}
         </div>
 
         {/* Book Series */}
@@ -248,7 +289,7 @@ export default function Section01() {
                 <p className="text-gray-600 mt-1 text-sm">
                   20K bài tests • 16K lượt làm
                 </p>
-                <Link href={`/tests/${item._id}`}>
+                <Link href={`/full-ielts-test/${item._id}`}>
                   <div className="flex flex-row items-center text-[#FA812F] mt-2 font-medium text-sm">
                     Xem bài test{" "}
                     <svg
