@@ -37,7 +37,7 @@ const WritingTestCard: React.FC<WritingTestCardProps> = ({ book }) => {
           </p>
 
           <Link
-            href={`/writing-test`}
+            href={`/writing-test/${book?._id}`}
             className="text-sm lg:text-base text-[#FA812F] font-medium flex items-center mt-4"
           >
             Xem bài test

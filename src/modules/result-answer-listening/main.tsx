@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import Head from "next/head";
+import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { IMAGES } from "@/utils/images";
 import PassageProgressBar from "./components/processing-bar";
@@ -7,760 +6,416 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight, Grid2x2Check } from "lucide-react";
 import PassageProgressBarMobile from "./components/processing-bar-mobile";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { ListeningService } from "@/services/listening";
+import { QuestionsService } from "@/services/questions";
+import {
+  ResultHeader,
+  ResultShortAnswerQuestion,
+} from "./components/questions-type/fil-in-the-blank/fill-in";
+import { ResultQuestion } from "./components/questions-type/multiple-choice/multiple-choice";
+import PopupMenu from "./components/pop-up";
 
-interface QuestionOption {
-  id: string;
-  text: string;
-}
-
-interface MatchingQuestion {
+interface Question {
   id: number;
-  city: string;
-  options: { id: string; text: string }[];
-  selectedAnswer?: string;
+  question: string;
+  options: string[];
+  isMultiple: boolean;
+  selectedOptions: string | string[] | null;
+  q_type: string;
+  start_passage?: string;
+  end_passage?: string;
+  question_id: string;
+  correct_answer?: string | string[];
+  is_correct?: boolean;
 }
 
-interface MultipleChoiceQuestion {
-  id: string;
-  text: string;
-  options: QuestionOption[];
-  selectedAnswers: string[];
+interface QuestionStatus {
+  questionId: number;
+  isAnswered: boolean;
+  isCorrect: boolean | null;
 }
 
-interface PopupMenuProps {
-  isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
-  onQuestionSelect: (questionNum: number) => void;
+interface PassageSection {
+  _id: string;
+  stest_id: string;
+  type: string;
+  image: string;
+  content: string;
+  part_num: number;
+  question: Array<{
+    _id: string;
+    q_type: string;
+    part_id: string;
+    question: string;
+    choices?: string[];
+    isMultiple?: boolean;
+    answer: string[];
+    created_at: string;
+    start_passage?: string;
+    end_passage?: string;
+  }>;
+  created_at: string;
 }
 
-const PopupMenu: React.FC<PopupMenuProps> = ({
-  isOpen,
-  setIsOpen,
-  onQuestionSelect,
-}) => {
-  const [selectedTab, setSelectedTab] = useState(0);
+interface ReadingDetail {
+  _id: string;
+  type: string;
+  parts: string[];
+  name: string;
+  thumbnail: string;
+  time: number;
+  created_at: string;
+}
 
-  // Section data from your original code
-  const sections = [
-    {
-      id: 1,
-      answeredQuestions: 7,
-      totalQuestions: 10,
-      questionRange: Array.from({ length: 10 }, (_, i) => i + 1),
-    },
-    {
-      id: 2,
-      answeredQuestions: 4,
-      totalQuestions: 10,
-      questionRange: Array.from({ length: 10 }, (_, i) => i + 11),
-    },
-    {
-      id: 3,
-      answeredQuestions: 8,
-      totalQuestions: 10,
-      questionRange: Array.from({ length: 10 }, (_, i) => i + 21),
-    },
-    {
-      id: 4,
-      answeredQuestions: 6,
-      totalQuestions: 10,
-      questionRange: Array.from({ length: 10 }, (_, i) => i + 31),
-    },
-  ];
+interface UserAnswer {
+  question_id: string;
+  answer: string[];
+}
 
-  const getQuestionStatus = (sectionId: number, questionNum: number) => {
-    const section = sections.find((s) => s.id === sectionId);
-    const questionIndex = section ? questionNum - section.questionRange[0] : -1;
-    return section ? questionIndex < section.answeredQuestions : false;
-  };
+interface PartAnswer {
+  part_id: string;
+  user_answers: UserAnswer[];
+  isComplete: boolean;
+}
 
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ y: "100%" }}
-          animate={{ y: 0 }}
-          exit={{ y: "100%" }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="fixed bottom-0 left-0 right-0 z-30"
-        >
-          <div className="bg-white rounded-t-[40px] shadow-lg w-full max-w-md mx-auto overflow-hidden">
-            <div className="bg-black w-32 h-[4px] rounded-full mx-auto mt-3"></div>
-            <div className="px-6 pb-0 pt-3 flex justify-between items-center">
-              <h2 className="text-lg font-semibold">Lưu ý</h2>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div className="px-6 py-3">
-              <p className="text-gray-700 text-xs">
-                Bạn có 10 câu hỏi để review và sửa lại đáp án ở các sections 1,
-                2, 3 và 4.
-              </p>
-            </div>
-            <div className="flex border-b">
-              <button
-                className={`flex-1 py-3 text-center font-medium text-sm ${
-                  selectedTab === 0
-                    ? "text-orange-500 border-b-2 border-orange-500"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-                onClick={() => setSelectedTab(0)}
-              >
-                Sections 1-2
-              </button>
-              <button
-                className={`flex-1 py-3 text-center font-medium text-sm ${
-                  selectedTab === 1
-                    ? "text-orange-500 border-b-2 border-orange-500"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-                onClick={() => setSelectedTab(1)}
-              >
-                Sections 3-4
-              </button>
-            </div>
-            <div className="px-6 py-4 overflow-y-auto max-h-[60vh]">
-              {selectedTab === 0 && (
-                <>
-                  <div className="mb-5">
-                    <h3 className="text-sm font-bold mb-3">SECTION 1</h3>
-                    <div className="grid grid-cols-5 gap-4">
-                      {sections[0].questionRange.map((num) => (
-                        <div
-                          key={num}
-                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium cursor-pointer ${
-                            getQuestionStatus(1, num)
-                              ? "bg-green-500 text-white"
-                              : "bg-gray-200 text-gray-700"
-                          }`}
-                          onClick={() => {
-                            onQuestionSelect(num);
-                            setIsOpen(false);
-                          }}
-                        >
-                          {num}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold mb-3">SECTION 2</h3>
-                    <div className="grid grid-cols-5 gap-4">
-                      {sections[1].questionRange.map((num) => (
-                        <div
-                          key={num}
-                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium cursor-pointer ${
-                            getQuestionStatus(2, num)
-                              ? "bg-green-500 text-white"
-                              : "bg-gray-200 text-gray-700"
-                          }`}
-                          onClick={() => {
-                            onQuestionSelect(num);
-                            setIsOpen(false);
-                          }}
-                        >
-                          {num}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-              {selectedTab === 1 && (
-                <>
-                  <div className="mb-5">
-                    <h3 className="text-sm font-bold mb-3">SECTION 3</h3>
-                    <div className="grid grid-cols-5 gap-4">
-                      {sections[2].questionRange.map((num) => (
-                        <div
-                          key={num}
-                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium cursor-pointer ${
-                            getQuestionStatus(3, num)
-                              ? "bg-green-500 text-white"
-                              : "bg-gray-200 text-gray-700"
-                          }`}
-                          onClick={() => {
-                            onQuestionSelect(num);
-                            setIsOpen(false);
-                          }}
-                        >
-                          {num}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold mb-3">SECTION 4</h3>
-                    <div className="grid grid-cols-5 gap-4">
-                      {sections[3].questionRange.map((num) => (
-                        <div
-                          key={num}
-                          className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium cursor-pointer ${
-                            getQuestionStatus(4, num)
-                              ? "bg-green-500 text-white"
-                              : "bg-gray-200 text-gray-700"
-                          }`}
-                          onClick={() => {
-                            onQuestionSelect(num);
-                            setIsOpen(false);
-                          }}
-                        >
-                          {num}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-            <div className="px-4 py-5">
-              <button
-                onClick={() => alert("Answers submitted!")}
-                className="w-full py-3 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 transition duration-150"
-              >
-                Submit
-              </button>
-            </div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-};
+interface AnswerState {
+  parts: PartAnswer[];
+}
+
+interface PassageInfo {
+  id: number;
+  startQuestion: number;
+  endQuestion: number;
+  answeredQuestions: number;
+}
+
+interface QuestionAnswer {
+  question_id: string;
+  q_type: string;
+  answer: string[];
+  correct_answer: string | string[];
+  is_correct: boolean;
+  is_pass: boolean;
+}
+
+interface PartResult {
+  type: string;
+  part_id: string;
+  user_answers: QuestionAnswer[];
+  correct_count: number;
+  incorrect_count: number;
+  pass_count: number;
+}
+
+interface ResultData {
+  submit_id: string;
+  result: PartResult[];
+}
 
 const ListeningTestClient: React.FC = () => {
-  const [activeSection, setActiveSection] = useState(1);
+  const pathname = usePathname();
+  const [data, setData] = useState<ReadingDetail | null>(null);
+  const [passage1, setPassage1] = useState<PassageSection | null>(null);
+  const [passage2, setPassage2] = useState<PassageSection | null>(null);
+  const [passage3, setPassage3] = useState<PassageSection | null>(null);
+  const [passage4, setPassage4] = useState<PassageSection | null>(null);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [selectedPassage, setSelectedPassage] = useState(1);
+  const [answers, setAnswers] = useState<AnswerState>({ parts: [] });
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedQuestion, setSelectedQuestion] = useState(1);
-  const [timeLeft, setTimeLeft] = useState("57:25");
+  const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [switchReading, setSwitchReading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [response, setResponse] = useState<ResultData | null>(null);
 
-  const multipleChoiceQuestions: MultipleChoiceQuestion[] = [
-    // Section 1
-    {
-      id: "1-2",
-      text: "Which TWO benefits of city bike-sharing schemes do the students agree are the most important?",
-      options: [
-        { id: "A", text: "reducing noise pollution" },
-        { id: "B", text: "reducing traffic congestion" },
-        { id: "C", text: "improving air quality" },
-        { id: "D", text: "encouraging health and fitness" },
-        { id: "E", text: "making cycling affordable" },
-      ],
-      selectedAnswers: [],
-    },
-    {
-      id: "3-4",
-      text: "Which TWO things do the students think are necessary for successful bike-sharing schemes?",
-      options: [
-        { id: "A", text: "Bikes should have a GPS system." },
-        { id: "B", text: "The app should be easy to use." },
-        { id: "C", text: "Public awareness should be raised." },
-        { id: "D", text: "Only one scheme should be available." },
-        { id: "E", text: "There should be a large network of cycle lanes." },
-      ],
-      selectedAnswers: [],
-    },
-    // Section 2
-    {
-      id: "11-12",
-      text: "Which TWO benefits of city bike-sharing schemes do the students agree are the most important?",
-      options: [
-        { id: "A", text: "reducing noise pollution" },
-        { id: "B", text: "reducing traffic congestion" },
-        { id: "C", text: "improving air quality" },
-        { id: "D", text: "encouraging health and fitness" },
-        { id: "E", text: "making cycling affordable" },
-      ],
-      selectedAnswers: [],
-    },
-    {
-      id: "13-14",
-      text: "Which TWO things do the students think are necessary for successful bike-sharing schemes?",
-      options: [
-        { id: "A", text: "Bikes should have a GPS system." },
-        { id: "B", text: "The app should be easy to use." },
-        { id: "C", text: "Public awareness should be raised." },
-        { id: "D", text: "Only one scheme should be available." },
-        { id: "E", text: "There should be a large network of cycle lanes." },
-      ],
-      selectedAnswers: [],
-    },
-    // Section 3
-    {
-      id: "21-22",
-      text: "Which TWO benefits of city bike-sharing schemes do the students agree are the most important?",
-      options: [
-        { id: "A", text: "reducing noise pollution" },
-        { id: "B", text: "reducing traffic congestion" },
-        { id: "C", text: "improving air quality" },
-        { id: "D", text: "encouraging health and fitness" },
-        { id: "E", text: "making cycling affordable" },
-      ],
-      selectedAnswers: [],
-    },
-    {
-      id: "23-24",
-      text: "Which TWO things do the students think are necessary for successful bike-sharing schemes?",
-      options: [
-        { id: "A", text: "Bikes should have a GPS system." },
-        { id: "B", text: "The app should be easy to use." },
-        { id: "C", text: "Public awareness should be raised." },
-        { id: "D", text: "Only one scheme should be available." },
-        { id: "E", text: "There should be a large network of cycle lanes." },
-      ],
-      selectedAnswers: [],
-    },
-    // Section 4
-    {
-      id: "31-32",
-      text: "Which TWO benefits of city bike-sharing schemes do the students agree are the most important?",
-      options: [
-        { id: "A", text: "reducing noise pollution" },
-        { id: "B", text: "reducing traffic congestion" },
-        { id: "C", text: "improving air quality" },
-        { id: "D", text: "encouraging health and fitness" },
-        { id: "E", text: "making cycling affordable" },
-      ],
-      selectedAnswers: [],
-    },
-    {
-      id: "33-34",
-      text: "Which TWO things do the students think are necessary for successful bike-sharing schemes?",
-      options: [
-        { id: "A", text: "Bikes should have a GPS system." },
-        { id: "B", text: "The app should be easy to use." },
-        { id: "C", text: "Public awareness should be raised." },
-        { id: "D", text: "Only one scheme should be available." },
-        { id: "E", text: "There should be a large network of cycle lanes." },
-      ],
-      selectedAnswers: [],
-    },
-  ];
+  const calculatePassages = useMemo(() => {
+    return (): PassageInfo[] => {
+      const passagesInfo: PassageInfo[] = [];
+      const passageData = [passage1, passage2, passage3, passage4].filter(
+        (p): p is PassageSection => p !== null
+      );
 
-  const matchingQuestions: MatchingQuestion[] = [
-    // Section 1
-    {
-      id: 5,
-      city: "Amsterdam",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 6,
-      city: "Dublin",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 7,
-      city: "London",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 8,
-      city: "Buenos Aires",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 9,
-      city: "New York",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 10,
-      city: "Sydney",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    // Section 2
-    {
-      id: 15,
-      city: "Amsterdam",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 16,
-      city: "Dublin",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 17,
-      city: "London",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 18,
-      city: "Buenos Aires",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 19,
-      city: "New York",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 20,
-      city: "Sydney",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    // Section 3
-    {
-      id: 25,
-      city: "Amsterdam",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 26,
-      city: "Dublin",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 27,
-      city: "London",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 28,
-      city: "Buenos Aires",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 29,
-      city: "New York",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 30,
-      city: "Sydney",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    // Section 4
-    {
-      id: 35,
-      city: "Amsterdam",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 36,
-      city: "Dublin",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 37,
-      city: "London",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 38,
-      city: "Buenos Aires",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 39,
-      city: "New York",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-    {
-      id: 40,
-      city: "Sydney",
-      options: [
-        { id: "A", text: "They agree it has been disappointing." },
-        { id: "B", text: "They think it should be cheaper." },
-        { id: "C", text: "They are surprised it has been so successful." },
-        { id: "D", text: "They agree that more investment is required." },
-        { id: "E", text: "They think the system has been well designed." },
-      ],
-      selectedAnswer: "",
-    },
-  ];
+      let questionCounter = 1;
 
-  const sections = [
-    {
-      id: 1,
-      answeredQuestions: 7, // Renamed from currentQuestion
-      totalQuestions: 10,
-      choosenPassage: true,
-      mcQuestions: ["1-2", "3-4"],
-      matchQuestions: [5, 6, 7, 8, 9, 10],
-      questionRange: Array.from({ length: 10 }, (_, i) => i + 1),
-    },
-    {
-      id: 2,
-      answeredQuestions: 4, // Renamed from currentQuestion
-      totalQuestions: 10,
-      choosenPassage: false,
-      mcQuestions: ["11-12", "13-14"],
-      matchQuestions: [15, 16, 17, 18, 19, 20],
-      questionRange: Array.from({ length: 10 }, (_, i) => i + 11),
-    },
-    {
-      id: 3,
-      answeredQuestions: 8, // Renamed from currentQuestion
-      totalQuestions: 10,
-      choosenPassage: false,
-      mcQuestions: ["21-22", "23-24"],
-      matchQuestions: [25, 26, 27, 28, 29, 30],
-      questionRange: Array.from({ length: 10 }, (_, i) => i + 21),
-    },
-    {
-      id: 4,
-      answeredQuestions: 6, // Renamed from currentQuestion
-      totalQuestions: 10,
-      choosenPassage: false,
-      mcQuestions: ["31-32", "33-34"],
-      matchQuestions: [35, 36, 37, 38, 39, 40],
-      questionRange: Array.from({ length: 10 }, (_, i) => i + 31),
-    },
-  ];
+      passageData.forEach((passage, index) => {
+        const questionCount = passage.question.length;
+        const partId = passage._id;
 
-  const handleSectionSelect = (sectionId: number) => {
-    setActiveSection(sectionId);
-    setCurrentPage(sectionId);
-    const section = sections.find((s) => s.id === sectionId);
-    if (
-      section &&
-      (selectedQuestion < section.questionRange[0] ||
-        selectedQuestion >
-          section.questionRange[section.questionRange.length - 1])
-    ) {
-      setSelectedQuestion(section.questionRange[0]);
+        const answeredQuestions = answers.parts
+          .filter((part) => part.part_id === partId)
+          .reduce((count, part) => {
+            return (
+              count +
+              part.user_answers.filter(
+                (ua) => ua.answer.length > 0 && ua.answer[0] !== ""
+              ).length
+            );
+          }, 0);
+
+        passagesInfo.push({
+          id: index + 1,
+          startQuestion: questionCounter,
+          endQuestion: questionCounter + questionCount - 1,
+          answeredQuestions,
+        });
+
+        questionCounter += questionCount;
+      });
+
+      return passagesInfo;
+    };
+  }, [passage1, passage2, passage3, passage4, answers]);
+
+  const passages = calculatePassages();
+
+  const mapAndArrangeQuestions = (
+    passage: PassageSection | null,
+    startId: number
+  ): Question[] => {
+    // Return empty array if passage or passage.question is null/undefined
+    if (!passage || !passage.question) {
+      return [];
+    }
+
+    const mappedQuestions = passage.question.map((q, index) => {
+      const partAnswer = answers.parts.find(
+        (part) => part.part_id === q.part_id
+      );
+      const userAnswer = partAnswer?.user_answers.find(
+        (ua) => ua.question_id === q._id
+      );
+
+      // Get result data for this question
+      const partResult = response?.result.find(
+        (part) => part.part_id === q.part_id
+      );
+      const questionResult = partResult?.user_answers.find(
+        (ua) => ua.question_id === q._id
+      );
+
+      const selectedOptions = questionResult?.answer?.length
+        ? q.q_type === "MP" && q.isMultiple
+          ? questionResult.answer
+          : q.q_type === "MP"
+          ? questionResult.answer[0]
+          : questionResult.answer[0] || ""
+        : q.q_type === "MP"
+        ? q.isMultiple
+          ? []
+          : null
+        : "";
+
+      return {
+        id: startId + index,
+        question:
+          q.q_type === "MP" ? q.question || `Question ${startId + index}` : "",
+        options: q.q_type === "MP" && q.choices ? q.choices : [],
+        isMultiple: q.q_type === "MP" ? q.isMultiple || false : false,
+        selectedOptions,
+        q_type: q.q_type,
+        start_passage: q.q_type === "FB" ? q.start_passage : undefined,
+        end_passage: q.q_type === "FB" ? q.end_passage : undefined,
+        question_id: q._id,
+        correct_answer: questionResult?.correct_answer || [],
+        is_correct: questionResult?.is_correct || false,
+      };
+    });
+
+    // Arrange questions: MP first if first question is MP, else FB first
+    const firstQuestionType = passage.question[0]?.q_type;
+    const arrangedQuestions =
+      firstQuestionType === "MP"
+        ? [
+            ...mappedQuestions.filter((q) => q.q_type === "MP"),
+            ...mappedQuestions.filter((q) => q.q_type === "FB"),
+          ]
+        : [
+            ...mappedQuestions.filter((q) => q.q_type === "FB"),
+            ...mappedQuestions.filter((q) => q.q_type === "MP"),
+          ];
+
+    return arrangedQuestions.map((q, index) => ({
+      ...q,
+      id: startId + index,
+    }));
+  };
+
+  const init = async () => {
+    const storedAnswers = localStorage.getItem("listeningTestAnswers");
+    const parsedAnswers = storedAnswers ? JSON.parse(storedAnswers) : null;
+    setResponse(parsedAnswers?.data || null);
+
+    setError(null);
+    const segments = pathname.split("/").filter(Boolean);
+    const id = segments[segments.length - 1];
+
+    try {
+      const res = await ListeningService.getListeningById(id);
+      const [resP1, resP2, resP3, resP4] = await Promise.all([
+        QuestionsService.getQuestionsById(res.parts[0]),
+        QuestionsService.getQuestionsById(res.parts[1]),
+        QuestionsService.getQuestionsById(res.parts[2]),
+        QuestionsService.getQuestionsById(res.parts[3]),
+      ]);
+
+      if (res && resP1 && resP2 && resP3 && resP4) {
+        setPassage1(resP1);
+        setPassage2(resP2);
+        setPassage3(resP3);
+        setPassage4(resP4);
+        setData(res);
+
+        setAnswers((prev) => {
+          if (prev.parts.length > 0) return prev;
+
+          const allQuestions = [
+            ...resP1.question.map((q: any) => ({
+              part_id: q.part_id,
+              question_id: q._id,
+            })),
+            ...resP2.question.map((q: any) => ({
+              part_id: q.part_id,
+              question_id: q._id,
+            })),
+            ...resP3.question.map((q: any) => ({
+              part_id: q.part_id,
+              question_id: q._id,
+            })),
+            ...resP4.question.map((q: any) => ({
+              part_id: q.part_id,
+              question_id: q._id,
+            })),
+          ];
+
+          const groupedByPartId = allQuestions.reduce(
+            (acc, { part_id, question_id }) => {
+              if (!acc[part_id]) {
+                acc[part_id] = {
+                  part_id,
+                  user_answers: [],
+                  isComplete: false,
+                };
+              }
+              acc[part_id].user_answers.push({ question_id, answer: [] });
+              return acc;
+            },
+            {} as Record<string, PartAnswer>
+          );
+
+          const initialParts: PartAnswer[] = Object.values(groupedByPartId);
+          return { parts: initialParts };
+        });
+
+        const passage1Questions = mapAndArrangeQuestions(resP1, 1);
+        setQuestions(passage1Questions);
+      } else {
+        setError("Failed to load reading test data.");
+      }
+    } catch (error) {
+      console.error("Error initializing reading test:", error);
+      setError("An error occurred while loading the test.");
     }
   };
 
-  const handleQuestionSelect = (questionNum: number) => {
-    const section = sections.find(
-      (s) =>
-        questionNum >= s.questionRange[0] &&
-        questionNum <= s.questionRange[s.questionRange.length - 1]
+  useEffect(() => {
+    init();
+  }, [pathname]);
+
+  useEffect(() => {
+    const startIds = passages.reduce(
+      (acc, passage) => ({
+        ...acc,
+        [passage.id]: passage.startQuestion,
+      }),
+      {} as { [key: number]: number }
     );
-    if (section) {
-      setActiveSection(section.id);
-      setCurrentPage(section.id);
-      setSelectedQuestion(questionNum);
+
+    const passageData = { 1: passage1, 2: passage2, 3: passage3, 4: passage4 };
+    const selectedPassageData = passageData[selectedPassage as 1 | 2 | 3 | 4];
+    if (selectedPassageData) {
+      const updatedQuestions = mapAndArrangeQuestions(
+        selectedPassageData,
+        startIds[selectedPassage] || 1
+      );
+      setQuestions(updatedQuestions);
+    } else {
+      setQuestions([]); // Fallback to empty array if no passage data
     }
+  }, [
+    selectedPassage,
+    passages,
+    passage1,
+    passage2,
+    passage3,
+    passage4,
+    response,
+  ]);
+
+  const handlePassageSelect = (passageId: number) => {
+    setSelectedPassage(passageId);
+    setCurrentPage(passageId);
+  };
+
+  const handleQuestionSelect = (questionId: number) => {
+    setSelectedQuestion(questionId);
   };
 
   const handleNextQuestion = () => {
-    if (selectedQuestion < sections[sections.length - 1].questionRange[9]) {
-      const nextQuestion = selectedQuestion + 1;
-      const nextSection = sections.find(
-        (s) =>
-          nextQuestion >= s.questionRange[0] &&
-          nextQuestion <= s.questionRange[s.questionRange.length - 1]
-      );
-      if (nextSection) {
-        setActiveSection(nextSection.id);
-        setCurrentPage(nextSection.id);
-        setSelectedQuestion(nextQuestion);
-      }
+    if (selectedQuestion === null) {
+      // If no question is selected, select the first question of the current passage
+      setSelectedQuestion(passages[selectedPassage - 1].startQuestion);
+      return;
     }
+
+    // Find the passage of the next question
+    const nextQuestionId = selectedQuestion + 1;
+    const nextPassage = passages.find(
+      (p) =>
+        nextQuestionId >= p.startQuestion && nextQuestionId <= p.endQuestion
+    );
+
+    if (!nextPassage) {
+      // No next question available (end of all questions)
+      return;
+    }
+
+    // If the next question is in a different passage, switch to that passage
+    if (nextPassage.id !== selectedPassage) {
+      setSelectedPassage(nextPassage.id);
+      setCurrentPage(nextPassage.id);
+    }
+
+    setSelectedQuestion(nextQuestionId);
   };
 
   const handlePreviousQuestion = () => {
-    if (selectedQuestion > sections[0].questionRange[0]) {
-      const prevQuestion = selectedQuestion - 1;
-      const prevSection = sections.find(
-        (s) =>
-          prevQuestion >= s.questionRange[0] &&
-          prevQuestion <= s.questionRange[s.questionRange.length - 1]
-      );
-      if (prevSection) {
-        setActiveSection(prevSection.id);
-        setCurrentPage(prevSection.id);
-        setSelectedQuestion(prevQuestion);
-      }
+    if (selectedQuestion === null) {
+      // If no question is selected, select the last question of the current passage
+      setSelectedQuestion(passages[selectedPassage - 1].endQuestion);
+      return;
     }
-  };
 
-  const currentSection = sections.find(
-    (section) => section.id === activeSection
-  );
-  const currentMCQuestions = multipleChoiceQuestions.filter((q) =>
-    currentSection?.mcQuestions.includes(q.id)
-  );
-  const currentMatchQuestions = matchingQuestions.filter((q) =>
-    currentSection?.matchQuestions.includes(q.id)
-  );
+    // Find the passage of the previous question
+    const prevQuestionId = selectedQuestion - 1;
+    const prevPassage = passages.find(
+      (p) =>
+        prevQuestionId >= p.startQuestion && prevQuestionId <= p.endQuestion
+    );
 
-  const getAnsweredStatus = (questionNum: number) => {
-    const questionIndex =
-      questionNum - (currentSection?.questionRange[0] || 1) + 1;
-    return questionIndex <= (currentSection?.answeredQuestions || 0);
+    if (!prevPassage) {
+      // No previous question available (start of all questions)
+      return;
+    }
+
+    // If the previous question is in a different passage, switch to that passage
+    if (prevPassage.id !== selectedPassage) {
+      setSelectedPassage(prevPassage.id);
+      setCurrentPage(prevPassage.id);
+    }
+
+    setSelectedQuestion(prevQuestionId);
   };
 
   return (
@@ -778,10 +433,14 @@ const ListeningTestClient: React.FC = () => {
         </div>
         <div className="text-center mr-28">
           <div className="font-semibold">IELTS Reading Test</div>
-          <div className="text-sm text-gray-600">CAM13 - Reading Test 4</div>
+          <div className="text-sm text-gray-600">{data?.name}</div>
         </div>
         <div className="flex items-center">
-          <Link href="/" className="text-gray-400 hover:text-gray-600 ml-4">
+          <Link
+            href={"/"}
+            target="_blank"
+            className="text-gray-400 hover:text-gray-600 ml-4"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -799,127 +458,151 @@ const ListeningTestClient: React.FC = () => {
       </header>
 
       <div className="fixed top-[0] bottom-[0] left-0 right-0 overflow-y-auto pt-20 pb-28">
-        <div className="container mx-auto w-full lg:w-[65%] p-3 lg:p-4 pt-5 pb-3">
-          <div className="mb-4">
-            <div className="bg-[#FA812F] text-white py-4 px-4 rounded-md flex justify-between items-center mb-2">
-              <h2 className="font-medium">
-                Questions {currentSection?.mcQuestions[0].charAt(0)} -{" "}
-                {currentSection?.mcQuestions[1].charAt(2)}
-              </h2>
-              <span className="text-sm ml-5">Choose TWO letters, A-E.</span>
-            </div>
-            <div className="bg-white p-6 rounded-md shadow-sm">
-              {currentMCQuestions.map((question) => (
-                <div key={question.id} className="mb-8">
-                  <div className="flex items-start mb-4">
-                    <div className="w-24 text-blue-600 font-medium mr-4">
-                      {question.id}
-                    </div>
-                    <div>{question.text}</div>
-                  </div>
-                  <div className="ml-0 lg:ml-10 space-y-3">
-                    {question.options.map((option) => (
-                      <div key={option.id} className="flex items-center">
-                        <div className="w-6 h-6 flex items-center justify-center text-gray-500 mr-3">
-                          {option.id}
-                        </div>
-                        <div>{option.text}</div>
-                      </div>
+        <div className="container mx-auto w-full lg:w-[65%] p-3 lg:p-4 pt-5 lg:pt-10 pb-3 lg:pb-16">
+          {questions.reduce((acc: JSX.Element[], question, index) => {
+            if (question.q_type === "MP") {
+              const mpQuestions = questions
+                .filter((q) => q.q_type === "MP")
+                .map((q) => ({
+                  id: q.id,
+                  question: q.question,
+                  options: q.options,
+                  isMultiple: q.isMultiple,
+                  selectedOptions: q.selectedOptions,
+                  correct_answer: q.correct_answer,
+                  is_correct: q.is_correct,
+                }));
+              if (index === questions.findIndex((q) => q.q_type === "MP")) {
+                acc.push(
+                  <div key={`mp-${index}`} className="mb-6">
+                    <ResultHeader
+                      title={`Questions ${mpQuestions[0].id} - ${
+                        mpQuestions[mpQuestions.length - 1].id
+                      }`}
+                      subtitle="Review your answers"
+                    />
+                    {mpQuestions.map((q) => (
+                      <ResultQuestion
+                        key={q.id}
+                        id={q.id}
+                        question={q.question}
+                        options={q.options}
+                        selectedOptions={q.selectedOptions}
+                        correctAnswer={q.correct_answer || []}
+                        isCorrect={q.is_correct ?? false}
+                      />
                     ))}
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="mb-4">
-            <div className="bg-[#FA812F] text-white py-4 px-4 rounded-md flex justify-between items-center mb-2">
-              <h2 className="font-medium">
-                Questions {currentSection?.matchQuestions[0]} -{" "}
-                {
-                  currentSection?.matchQuestions[
-                    currentSection.matchQuestions.length - 1
-                  ]
-                }
-              </h2>
-              <span className="text-sm ml-5">
-                Choose SIX answers from the box and write the correct letter,
-                A-E.
-              </span>
-            </div>
-            <div className="bg-white p-6 rounded-md shadow-sm">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-6">
-                  {currentMatchQuestions.map((question) => (
-                    <div key={question.id} className="flex items-start">
-                      <div className="text-blue-600 font-medium mr-4">
-                        {question.id}
-                      </div>
-                      <div className="flex-1">
-                        <div className="mb-2">{question.city}</div>
-                        <div className="flex items-center">
-                          <div className="w-8 h-8 rounded-full border border-gray-300 bg-gray-100 flex items-center justify-center mr-2">
-                            <span className="text-gray-400 text-sm">?</span>
-                          </div>
-                          <div className="flex-1 h-10 px-3 py-2 bg-gray-100 text-gray-400 rounded">
-                            Drop your answer here
-                          </div>
-                        </div>
-                      </div>
+                );
+              }
+            } else if (question.q_type === "FB") {
+              const fbQuestions = questions
+                .filter((q) => q.q_type === "FB")
+                .map((q) => ({
+                  id: q.id,
+                  start_passage: q.start_passage || "",
+                  end_passage: q.end_passage || "",
+                  selectedAnswer: q.selectedOptions || "",
+                  correct_answer: q.correct_answer,
+                  is_correct: q.is_correct,
+                }));
+              if (index === questions.findIndex((q) => q.q_type === "FB")) {
+                acc.push(
+                  <div key={`fb-${index}`} className="mb-6">
+                    <ResultHeader
+                      title={`Questions ${fbQuestions[0].id} - ${
+                        fbQuestions[fbQuestions.length - 1].id
+                      }`}
+                      subtitle="Review your answers"
+                    />
+                    <div className="">
+                      {fbQuestions.map((q) => (
+                        <ResultShortAnswerQuestion
+                          key={q.id}
+                          id={q.id}
+                          start_passage={q.start_passage}
+                          end_passage={q.end_passage}
+                          selectedAnswer={
+                            Array.isArray(q.selectedAnswer)
+                              ? q.selectedAnswer.join(", ")
+                              : q.selectedAnswer || "No answer provided"
+                          }
+                          correctAnswer={
+                            Array.isArray(q.correct_answer)
+                              ? q.correct_answer.join(", ")
+                              : q.correct_answer || ""
+                          }
+                          isCorrect={q.is_correct ?? false}
+                        />
+                      ))}
                     </div>
-                  ))}
-                </div>
-                <div className="bg-gray-50 p-4 rounded-md">
-                  <h3 className="text-center mb-4 font-medium text-gray-700">
-                    Kéo option vào câu hỏi
-                  </h3>
-                  <div className="space-y-4">
-                    {currentMatchQuestions[0].options.map((option) => (
-                      <div
-                        key={option.id}
-                        className="flex items-center bg-white p-3 rounded shadow-sm"
-                      >
-                        <div className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center mr-3">
-                          {option.id}
-                        </div>
-                        <div>{option.text}</div>
-                      </div>
-                    ))}
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                );
+              }
+            }
+            return acc;
+          }, [])}
         </div>
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 bg-white pt-0 pb-2 lg:pt-0 lg:pb-2 z-10">
         <div className="hidden lg:flex justify-between mt-0 text-sm border-t border-gray-100 pt-0">
           <div className="flex justify-center items-center">
-            {sections.map((section) => (
-              <PassageProgressBar
-                key={section.id}
-                passageNumber={section.id}
-                currentQuestion={selectedQuestion}
-                totalQuestions={section.totalQuestions}
-                startQuestion={section.questionRange[0]}
-                endQuestion={
-                  section.questionRange[section.questionRange.length - 1]
-                }
-                choosenPassage={section.id === activeSection}
-                onClick={() => handleSectionSelect(section.id)}
-                onQuestionClick={handleQuestionSelect}
-              />
-            ))}
+            {passages.map((passage) => {
+              // Get the questions for this passage directly
+              const passageData = [passage1, passage2, passage3].filter(
+                (p): p is PassageSection => p !== null
+              )[passage.id - 1];
+              const passageQuestions = mapAndArrangeQuestions(
+                passageData,
+                passage.startQuestion
+              );
+
+              // Calculate question statuses
+              const questionStatuses = passageQuestions.map((question) => {
+                const isAnswered =
+                  (Array.isArray(question.selectedOptions) &&
+                    question.selectedOptions.length > 0) ||
+                  (typeof question.selectedOptions === "string" &&
+                    question.selectedOptions !== "");
+
+                return {
+                  questionId: question.id,
+                  isAnswered,
+                  isCorrect: isAnswered ? question.is_correct ?? false : null,
+                };
+              });
+
+              return (
+                <PassageProgressBar
+                  key={passage.id}
+                  passageNumber={passage.id}
+                  currentQuestion={selectedQuestion ?? 0}
+                  totalQuestions={
+                    passage.endQuestion - passage.startQuestion + 1
+                  }
+                  startQuestion={passage.startQuestion}
+                  endQuestion={passage.endQuestion}
+                  choosenPassage={selectedPassage === passage.id}
+                  onClick={() => handlePassageSelect(passage.id)}
+                  onQuestionClick={handleQuestionSelect}
+                  questionStatuses={questionStatuses}
+                />
+              );
+            })}
           </div>
           <div className="flex flex-row">
             <div
               className={`w-full flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer ${
-                selectedQuestion === sections[0].questionRange[0]
+                selectedQuestion === passages[0]?.startQuestion
                   ? "opacity-50"
                   : ""
               }`}
               onClick={handlePreviousQuestion}
+              role="button"
+              aria-label="Previous Question"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === "Enter" && handlePreviousQuestion()}
             >
               <div
                 className={`text-[#FA812F] font-medium text-md justify-center items-center px-5 py-1 rounded-md flex border border-[#FA812F]`}
@@ -929,12 +612,15 @@ const ListeningTestClient: React.FC = () => {
             </div>
             <div
               className={`w-full flex justify-center items-center rounded-lg my-2 bg-white mr-4 cursor-pointer ${
-                selectedQuestion ===
-                sections[sections.length - 1].questionRange[9]
+                selectedQuestion === passages[passages.length - 1]?.endQuestion
                   ? "opacity-50"
                   : ""
               }`}
               onClick={handleNextQuestion}
+              role="button"
+              aria-label="Next Question"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === "Enter" && handleNextQuestion()}
             >
               <div
                 className={`text-[#FA812F] font-medium text-md justify-center items-center px-5 py-1 rounded-md flex border border-[#FA812F]`}
@@ -947,19 +633,40 @@ const ListeningTestClient: React.FC = () => {
 
         <div className="lg:hidden flex justify-center items-center py-0 pt-2 border-t border-gray-200">
           <div className="flex justify-center text-sm">
-            {sections.map((section) => (
+            {passages.map((passage) => (
               <PassageProgressBarMobile
-                key={section.id}
-                passageNumber={section.id}
-                currentQuestion={selectedQuestion}
-                totalQuestions={section.totalQuestions}
-                startQuestion={section.questionRange[0]}
-                endQuestion={
-                  section.questionRange[section.questionRange.length - 1]
-                }
-                choosenPassage={section.id === activeSection}
-                onClick={() => handleSectionSelect(section.id)}
+                key={passage.id}
+                passageNumber={passage.id}
+                currentQuestion={selectedQuestion ?? 0}
+                totalQuestions={passage.endQuestion - passage.startQuestion + 1}
+                startQuestion={passage.startQuestion}
+                endQuestion={passage.endQuestion}
+                choosenPassage={passage.id === selectedPassage}
+                onClick={() => handlePassageSelect(passage.id)}
                 onQuestionClick={handleQuestionSelect}
+                questionStatuses={(() => {
+                  const passageData = [passage1, passage2, passage3].filter(
+                    (p): p is PassageSection => p !== null
+                  )[passage.id - 1];
+                  const passageQuestions = mapAndArrangeQuestions(
+                    passageData,
+                    passage.startQuestion
+                  );
+                  return passageQuestions.map((question) => {
+                    const isAnswered =
+                      (Array.isArray(question.selectedOptions) &&
+                        question.selectedOptions.length > 0) ||
+                      (typeof question.selectedOptions === "string" &&
+                        question.selectedOptions !== "");
+                    return {
+                      questionId: question.id,
+                      isAnswered,
+                      isCorrect: isAnswered
+                        ? question.is_correct ?? false
+                        : null,
+                    };
+                  });
+                })()}
               />
             ))}
           </div>
@@ -981,7 +688,7 @@ const ListeningTestClient: React.FC = () => {
           </div>
         </div>
 
-        <AnimatePresence>
+        {/* <AnimatePresence>
           {isPopupOpen && (
             <>
               <motion.div
@@ -998,20 +705,56 @@ const ListeningTestClient: React.FC = () => {
               />
             </>
           )}
-        </AnimatePresence>
+        </AnimatePresence> */}
       </div>
 
       {/* POPUP MENU QUESTIONS  */}
-      <div className="fixed bottom-0 left-0 right-0 z-30">
-        <PopupMenu
-          isOpen={isPopupOpen}
-          setIsOpen={setIsPopupOpen}
-          onQuestionSelect={handleQuestionSelect}
-        />
-      </div>
-      {isPopupOpen && (
-        <div className="absolute bottom-0 top-0 left-0 right-0 bg-black opacity-30 z-20"></div>
-      )}
+      <AnimatePresence>
+        {isPopupOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.3 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed bottom-0 top-0 left-0 right-0 bg-black z-20"
+            />
+            <PopupMenu
+              isOpen={isPopupOpen}
+              setIsOpen={setIsPopupOpen}
+              passages={passages}
+              questionStatuses={(() => {
+                const statuses: { [passageId: number]: QuestionStatus[] } = {};
+                passages.forEach((passage) => {
+                  const passageData = [passage1, passage2, passage3].filter(
+                    (p): p is PassageSection => p !== null
+                  )[passage.id - 1];
+                  const passageQuestions = mapAndArrangeQuestions(
+                    passageData,
+                    passage.startQuestion
+                  );
+                  statuses[passage.id] = passageQuestions.map((question) => {
+                    const isAnswered =
+                      (Array.isArray(question.selectedOptions) &&
+                        question.selectedOptions.length > 0) ||
+                      (typeof question.selectedOptions === "string" &&
+                        question.selectedOptions !== "");
+                    return {
+                      questionId: question.id,
+                      isAnswered,
+                      isCorrect: isAnswered
+                        ? question.is_correct ?? false
+                        : null,
+                    };
+                  });
+                });
+                return statuses;
+              })()}
+              onQuestionClick={handleQuestionSelect}
+            />
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

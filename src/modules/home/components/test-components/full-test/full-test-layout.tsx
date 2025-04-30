@@ -51,6 +51,7 @@ const FullTestLayout: React.FC = () => {
             viewCount={20}
             description={item.description}
             thumbnail={item.thumbnail}
+            id={item._id}
           />
         ))}
       </div>

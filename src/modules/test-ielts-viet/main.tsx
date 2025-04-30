@@ -1,5 +1,5 @@
 // pages/ielts-test.tsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { IMAGES } from "@/utils/images";
 import PassageProgressBar from "./components/processing-bar";
@@ -12,230 +12,191 @@ import {
 import Link from "next/link";
 import PassageProgressBarMobile from "./components/processing-bar-mobile";
 import { motion, AnimatePresence } from "framer-motion";
+import PopupMenu from "./components/pop-up-";
+import { usePathname } from "next/navigation";
+import { WritingService } from "@/services/writing";
+import { QuestionsService } from "@/services/questions";
 
-const PopupMenu = ({
-  isOpen,
-  setIsOpen,
-}: {
-  isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
-}) => {
-  const [selectedTab, setSelectedTab] = useState(0);
+interface PassageSection {
+  _id: string;
+  stest_id: string;
+  type: string;
+  part_num: number;
+  question: Array<{
+    question: any;
+    _id: string;
+    q_type: string;
+    part_id: string;
+    image?: string;
+    content: string;
+    created_at: string;
+  }>;
+  created_at: string;
+}
 
-  // Section data
-  const sections = [
-    {
-      id: 1,
-      answeredQuestions: 7,
-      totalQuestions: 13,
-      questionRange: Array.from({ length: 13 }, (_, i) => i + 1),
-    },
-    {
-      id: 2,
-      answeredQuestions: 4,
-      totalQuestions: 13,
-      questionRange: Array.from({ length: 13 }, (_, i) => i + 14),
-    },
-  ];
-
-  const getQuestionStatus = (sectionId: number, questionNum: number) => {
-    const section = sections.find((s) => s.id === sectionId);
-    const questionIndex = section ? questionNum - section.questionRange[0] : -1;
-    return section ? questionIndex < section.answeredQuestions : false;
-  };
-
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ y: "100%" }}
-          animate={{ y: 0 }}
-          exit={{ y: "100%" }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="fixed bottom-0 left-0 right-0 z-30"
-        >
-          <div className="bg-white rounded-t-[40px] shadow-lg w-full max-w-md mx-auto overflow-hidden">
-            <div className="bg-black w-32 h-[4px] rounded-full mx-auto mt-3"></div>
-            {/* Header */}
-            <div className="px-6 pb-0 pt-3 flex justify-between items-center">
-              <h2 className="text-lg font-semibold">Lưu ý</h2>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            {/* Instruction */}
-            <div className="px-6 py-3">
-              <p className="text-gray-700 text-xs">
-                Bạn có thể review và sửa lại đáp án ở các sections 1, 2, và 3.
-              </p>
-            </div>
-
-            {/* Tabs */}
-            <div className="flex border-b">
-              <button
-                className={`flex-1 py-3 text-center font-medium text-sm ${
-                  selectedTab === 0
-                    ? "text-orange-500 border-b-2 border-orange-500"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-                onClick={() => setSelectedTab(0)}
-              >
-                Task 1
-              </button>
-              <button
-                className={`flex-1 py-3 text-center font-medium text-sm ${
-                  selectedTab === 1
-                    ? "text-orange-500 border-b-2 border-orange-500"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-                onClick={() => setSelectedTab(1)}
-              >
-                Task 2
-              </button>
-            </div>
-
-            {/* Tab Content */}
-            <div className="px-6 py-4 overflow-y-auto max-h-[60vh]">
-              {selectedTab === 0 && (
-                <div className="mb-5">
-                  <h3 className="text-sm font-bold mb-3">SECTION 1</h3>
-                  <div className="grid grid-cols-5 gap-4">
-                    {sections[0].questionRange.map((num) => (
-                      <div
-                        key={num}
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
-                          getQuestionStatus(1, num)
-                            ? "bg-green-500 text-white"
-                            : "bg-gray-200 text-gray-700"
-                        }`}
-                      >
-                        {num}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {selectedTab === 1 && (
-                <div className="mb-5">
-                  <h3 className="text-sm font-bold mb-3">SECTION 2</h3>
-                  <div className="grid grid-cols-5 gap-4">
-                    {sections[1].questionRange.map((num) => (
-                      <div
-                        key={num}
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium ${
-                          getQuestionStatus(2, num)
-                            ? "bg-green-500 text-white"
-                            : "bg-gray-200 text-gray-700"
-                        }`}
-                      >
-                        {num}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Submit Button */}
-            <div className="px-4 py-5">
-              <button
-                onClick={() => alert("Answers submitted!")}
-                className="w-full py-3 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 transition duration-150"
-              >
-                Submit
-              </button>
-            </div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-};
+interface WritingDetail {
+  _id: string;
+  type: string;
+  parts: string[];
+  name: string;
+  thumbnail: string;
+  time: number;
+  created_at: string;
+}
 
 export default function WritingTestClient() {
-  const [timeLeft, setTimeLeft] = useState("57:25");
+  const pathname = usePathname();
+  const [data, setData] = useState<WritingDetail | null>(null);
+  const [timeLeft, setTimeLeft] = useState("60:00");
+
   const [currentPage, setCurrentPage] = useState(1);
-  const [text, setText] = useState("");
+  const [answers, setAnswers] = useState<{ [key: number]: string }>({
+    1: "",
+    2: "",
+  });
   const [selectedPassage, setSelectedPassage] = useState(1);
+  const [passage1, setPassage1] = useState<PassageSection | null>(null);
+  const [passage2, setPassage2] = useState<PassageSection | null>(null);
   const [wordCount, setWordCount] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [switchWriting, setSwitchWriting] = useState(true);
 
+  // COUNTING DOWN TIMER
+  useEffect(() => {
+    // Parse initial time "60:00" into seconds
+    const [minutes, seconds] = timeLeft.split(":").map(Number);
+    let totalSeconds = minutes * 60 + seconds;
+
+    // Only start the timer if there's time remaining
+    if (totalSeconds <= 0) return;
+
+    // Set up the interval to decrease time every second
+    const timer = setInterval(() => {
+      totalSeconds -= 1;
+
+      // Calculate new minutes and seconds
+      const newMinutes = Math.floor(totalSeconds / 60);
+      const newSeconds = totalSeconds % 60;
+
+      // Format the time as MM:SS
+      const formattedTime = `${newMinutes
+        .toString()
+        .padStart(2, "0")}:${newSeconds.toString().padStart(2, "0")}`;
+      setTimeLeft(formattedTime);
+
+      // Stop the timer when it reaches 0
+      if (totalSeconds <= 0) {
+        clearInterval(timer);
+        setTimeLeft("00:00");
+      }
+    }, 1000);
+
+    // Cleanup: Clear the interval when the component unmounts
+    return () => clearInterval(timer);
+  }, []);
+
+  // ALERT ON PAGE RELOAD OR CLOSE
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = ""; // Standard way to trigger the browser's confirmation dialog
+      return "Are you sure you want to leave? Your answers will not be saved.";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Cleanup: Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+  // HANDLE EXIT LINK CLICK
+  const handleExitClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to leave? Your answers will not be saved."
+    );
+    if (!confirmed) {
+      e.preventDefault();
+    }
+  };
+
+  const init = async () => {
+    const segments = pathname.split("/").filter(Boolean);
+    const id = segments[segments.length - 1];
+
+    try {
+      const res = await WritingService.getWritingById(id);
+      if (!res) throw new Error("Writing data not found");
+
+      const [resP1, resP2] = await Promise.all([
+        QuestionsService.getQuestionsById(res.parts[0]),
+        QuestionsService.getQuestionsById(res.parts[1]),
+      ]);
+
+      if (!resP1 || !resP2) {
+        throw new Error("One or more passages not found");
+      }
+      if (res && resP1 && resP2) {
+        setPassage1(resP1);
+        setPassage2(resP2);
+        setData(res);
+      } else {
+        setData(null);
+      }
+    } catch (error) {
+      console.error("Error initializing writing test:", error);
+      setData(null);
+    }
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
   const passages = [
-    { id: 1, startQuestion: 1, endQuestion: 1, answeredQuestions: 1 },
-    { id: 2, startQuestion: 1, endQuestion: 1, answeredQuestions: 0 },
+    {
+      id: 1,
+      startQuestion: 1,
+      endQuestion: 1,
+      answeredQuestions: answers[1].trim() ? 1 : 0,
+    },
+    {
+      id: 2,
+      startQuestion: 1,
+      endQuestion: 1,
+      answeredQuestions: answers[2].trim() ? 1 : 0,
+    },
   ];
 
   const handlePassageSelect = (passageId: number) => {
     setSelectedPassage(passageId);
     setCurrentPage(passageId);
+    setWordCount(countWords(answers[passageId]));
   };
 
-  // Move to next passage
   const handleNextPassage = () => {
     const nextPassage =
       selectedPassage < passages.length ? selectedPassage + 1 : 1;
     handlePassageSelect(nextPassage);
   };
 
-  // Move to previous passage
   const handlePreviousPassage = () => {
     const prevPassage =
       selectedPassage > 1 ? selectedPassage - 1 : passages.length;
     handlePassageSelect(prevPassage);
   };
 
-  const currentPassage = passages[selectedPassage - 1];
-
-  // Sample IELTS reading passage data
-  const passage1 = {
-    id: 1,
-    title: "Writing Task 1",
-    content: [
-      "The Romans, who once controlled areas of Europe, North Africa and Asia Minor, adopted the construction techniques of other civilizations to build tunnels in their territories",
-    ],
-  };
-
-  const passage2 = {
-    id: 2,
-    title: "Writing Task 2",
-    content: [
-      "The Romans, who once controlled areas of Europe, North Africa and Asia Minor, adopted the construction techniques of other civilizations to build tunnels in their territories",
-    ],
-  };
-
   const countWords = (input: string) => {
-    // Trim the input to remove leading/trailing whitespace
     const trimmedText = input.trim();
-
-    // If empty or only whitespace, return 0
     if (!trimmedText) return 0;
-
-    // Split by one or more whitespace characters and filter out empty strings
     const words = trimmedText.split(/\s+/).filter((word) => word.length > 0);
     return words.length;
   };
 
-  // Handle textarea change
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
-    setText(newText);
+    setAnswers((prev) => ({ ...prev, [selectedPassage]: newText }));
     setWordCount(countWords(newText));
   };
 
@@ -254,7 +215,7 @@ export default function WritingTestClient() {
         </div>
         <div className="text-center">
           <div className="font-semibold">IELTS Writing Test</div>
-          <div className="text-sm text-gray-600">CAM13 - Writing Test 4</div>
+          <div className="text-sm text-gray-600">{data?.name}</div>
         </div>
         <div className="flex items-center">
           <div className="bg-gray-100 px-3 py-1 rounded-full flex items-center">
@@ -272,9 +233,9 @@ export default function WritingTestClient() {
                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <span>{timeLeft}</span>
+            <span className="text-[#FA812F] font-semibold">{timeLeft}</span>
           </div>
-          <Link href="/" className="ml-4">
+          <Link href="/" className="ml-4" onClick={handleExitClick}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 text-gray-500"
@@ -303,12 +264,15 @@ export default function WritingTestClient() {
         >
           {selectedPassage === 1 && (
             <div>
-              <h1 className="text-xl font-bold mb-4">{passage1.title}</h1>
-              {passage1.content.map((paragraph, index) => (
-                <p key={index} className="mb-4 text-sm">
-                  {paragraph}
-                </p>
-              ))}
+              <h1 className="text-2xl font-bold mb-4">Writing Task 1</h1>
+              {passage1 && (
+                <h1 className="text-xl font-bold mb-4">
+                  {passage1.question[0].question}
+                </h1>
+              )}
+              {passage1 && passage1.question[0] && (
+                <p className="mb-4 text-sm">{passage1.question[0].content}</p>
+              )}
               <div>
                 <Image
                   src="https://edmicro.edu.vn/wp-content/uploads/2023/11/ielts-writing-task-1-bar-chart-vi-du.png"
@@ -322,12 +286,15 @@ export default function WritingTestClient() {
           )}
           {selectedPassage === 2 && (
             <div>
-              <h1 className="text-xl font-bold mb-4">{passage2.title}</h1>
-              {passage2.content.map((paragraph, index) => (
-                <p key={index} className="mb-4 text-sm">
-                  {paragraph}
-                </p>
-              ))}
+              <h1 className="text-2xl font-bold mb-4">Writing Task 2</h1>
+              {passage2 && (
+                <h1 className="text-xl font-bold mb-4">
+                  {passage2.question[0].question}
+                </h1>
+              )}
+              {passage2 && passage2.question[0] && (
+                <p className="mb-4 text-sm">{passage2.question[0].content}</p>
+              )}
               <div>
                 <Image
                   src="https://edmicro.edu.vn/wp-content/uploads/2023/11/ielts-writing-task-1-bar-chart-vi-du.png"
@@ -343,7 +310,7 @@ export default function WritingTestClient() {
 
         {/* Writing Area */}
         <div
-          className={`bg-white p-4 pt-8 ${
+          className={`bg-white px-4 pt-8 overflow-y-auto ${
             switchWriting ? "hidden lg:block" : ""
           }`}
         >
@@ -351,7 +318,7 @@ export default function WritingTestClient() {
           <div className="w-full h-full">
             <textarea
               id="title"
-              value={text}
+              value={answers[selectedPassage]}
               onChange={handleTextChange}
               placeholder="Nhập bài viết của bạn"
               className="w-full h-2/3 lg:h-3/4 p-2 border rounded"

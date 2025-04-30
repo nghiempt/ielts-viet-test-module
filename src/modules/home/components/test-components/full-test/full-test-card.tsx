@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface FullTestProps {
+  id: string;
   title: string;
   testCount: number;
   viewCount: number;
@@ -11,6 +12,7 @@ interface FullTestProps {
 }
 
 const FullTestCard: React.FC<FullTestProps> = ({
+  id,
   title,
   testCount,
   viewCount,
@@ -40,7 +42,7 @@ const FullTestCard: React.FC<FullTestProps> = ({
         </div>
         <p className="text-sm lg:text-base mt-2 text-gray-700">{description}</p>
         <Link
-          href="/full-ielts-test"
+          href={`/full-ielts-test/${id}`}
           className="text-sm lg:text-base inline-flex items-center mt-4 text-[#FA812F] font-medium"
         >
           Xem bài test{" "}

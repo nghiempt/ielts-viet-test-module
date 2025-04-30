@@ -9,6 +9,11 @@ interface PassageProgressBarProps {
   choosenPassage?: boolean;
   onClick?: () => void;
   onQuestionClick?: (questionNum: number) => void;
+  questionStatuses: {
+    questionId: number;
+    isAnswered: boolean;
+    isCorrect: boolean | null;
+  }[];
 }
 
 const PassageProgressBarMobile: React.FC<PassageProgressBarProps> = ({
@@ -20,11 +25,12 @@ const PassageProgressBarMobile: React.FC<PassageProgressBarProps> = ({
   choosenPassage,
   onClick,
   onQuestionClick,
+  questionStatuses,
 }) => {
-  const questionNumbers = Array.from(
-    { length: totalQuestions },
-    (_, index) => startQuestion + index
-  );
+  // Calculate the number of correct answers
+  const correctAnswers = questionStatuses.reduce((count, status) => {
+    return status.isAnswered && status.isCorrect ? count + 1 : count;
+  }, 0);
 
   return (
     <div className="mr-4">
@@ -40,14 +46,14 @@ const PassageProgressBarMobile: React.FC<PassageProgressBarProps> = ({
               choosenPassage ? "text-[#FA812F]" : "text-gray-500"
             } font-medium text-[9px]`}
           >
-            {currentQuestion}/{totalQuestions}
+            {correctAnswers}/{totalQuestions}
           </span>
         </div>
       </div>
       <div
         className={`${
           choosenPassage ? "text-[#FA812F]" : "text-gray-500"
-        } font-bold text-[9px]`}
+        } font-bold text-[9px] text-center`}
       >
         Section {passageNumber}
       </div>

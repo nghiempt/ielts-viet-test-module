@@ -1,5 +1,5 @@
 // pages/index.tsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { IMAGES } from "@/utils/images";
@@ -10,48 +10,83 @@ import {
   PenLine,
   PlayIcon,
 } from "lucide-react";
+import { FullTestService } from "@/services/full-test";
+import { usePathname } from "next/navigation";
 
-interface TestItem {
-  id: number;
-  hasReading: boolean;
-  hasListening: boolean;
-  hasWriting: boolean;
-}
-
-interface BookItem {
-  id: number;
-  title: string;
-  testCount: number;
-  attemptCount: string;
+interface FullTestItem {
+  _id: string;
+  name: string;
+  thumbnail: string;
+  description: string;
+  r_id: string;
+  l_id: string;
+  w_id: string;
+  created_at: string;
 }
 
 export default function Section01() {
-  const tests: TestItem[] = [
-    { id: 1, hasReading: true, hasListening: true, hasWriting: true },
-    { id: 2, hasReading: true, hasListening: true, hasWriting: true },
-    { id: 3, hasReading: true, hasListening: true, hasWriting: true },
-  ];
+  const pathname = usePathname();
+  const [fullTestDetail, setFullTestDetail] = useState<FullTestItem | null>(
+    null
+  );
+  const [fullTests, setFullTests] = useState<FullTestItem[]>([]);
+  const [totalPage, setTotalPage] = useState<number>(0);
+  const [currenPage, setCurrenPage] = useState<any>(1 as any);
+  const [currenData, setCurrenData] = useState<any>([] as any);
 
-  const books: BookItem[] = [
-    { id: 10, title: "Cambridge IELTS 10", testCount: 8, attemptCount: "4.9M" },
-    { id: 11, title: "Cambridge IELTS 11", testCount: 8, attemptCount: "4.1M" },
-    { id: 12, title: "Cambridge IELTS 12", testCount: 8, attemptCount: "4.3M" },
-    { id: 13, title: "Cambridge IELTS 13", testCount: 8, attemptCount: "5.6M" },
-    {
-      id: 15,
-      title: "Cambridge IELTS 15",
-      testCount: 8,
-      attemptCount: "1.25M",
-    },
-    {
-      id: 17,
-      title: "Cambridge IELTS 17",
-      testCount: 8,
-      attemptCount: "1.56M",
-    },
-    { id: 18, title: "Cambridge IELTS 18", testCount: 8, attemptCount: "1.6M" },
-    { id: 9, title: "Cambridge IELTS 9", testCount: 8, attemptCount: "3.7M" },
-  ];
+  // const selectPage = (pageSelected: any) => {
+  //   setCurrenPage(pageSelected);
+  //   const start = (pageSelected - 1) * COUNT;
+  //   const end = pageSelected * COUNT;
+  //   setCurrenData(readings.slice(start, end));
+  // };
+
+  // const prevPage = () => {
+  //   if (currenPage > 1) {
+  //     selectPage(currenPage - 1);
+  //   }
+  // };
+
+  // const nextPage = () => {
+  //   if (currenPage < totalPage) {
+  //     selectPage(currenPage + 1);
+  //   }
+  // };
+
+  const render = (data: FullTestItem[]) => {
+    setFullTests(data);
+    // setTotalPage(Math.ceil(data.length / COUNT));
+    // setCurrenPage(1);
+    // setCurrenData(data.slice(0, COUNT));
+  };
+
+  const init = async () => {
+    const segments = pathname.split("/").filter(Boolean);
+    const id = segments[segments.length - 1];
+
+    try {
+      const res = await FullTestService.getFullTestById(id);
+      if (!res) throw new Error("Reading data not found");
+      setFullTestDetail(res);
+    } catch (error) {
+      console.error("Error initializing reading test:", error);
+      setFullTestDetail(null);
+    }
+
+    const res = await FullTestService.getAll();
+    if (res && res.length > 0) {
+      const filteredData = res.filter(
+        (item: FullTestItem) => item.thumbnail != null
+      );
+      render(filteredData);
+    } else {
+      setFullTests([]);
+    }
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
 
   return (
     <div className="w-full mx-auto px-6">
@@ -60,7 +95,7 @@ export default function Section01() {
         <div className="flex flex-col justify-center items-center lg:justify-start lg:items-start lg:flex-row mb-4">
           <div className="w-full lg:w-40 h-full mr-0 lg:mr-4 mb-5 lg:mb-0">
             <Image
-              src={IMAGES.THUMBNAIL}
+              src={fullTestDetail?.thumbnail || IMAGES.THUMBNAIL}
               alt=""
               width={280}
               height={180}
@@ -70,7 +105,7 @@ export default function Section01() {
           <div className="flex flex-col justify-between items-start">
             <div className="">
               <h1 className="text-3xl lg:text-4xl font-bold mb-2">
-                Cambridge IELTS 18
+                {fullTestDetail?.name}
               </h1>
               <div className="flex justify-center lg:justify-start items-center text-sm text-gray-600">
                 <span>8 bài tests</span>
@@ -94,10 +129,7 @@ export default function Section01() {
 
         {/* Description */}
         <p className="text-sm lg:text-lg text-justify lg:text-left text-gray-700 mb-6">
-          Cambridge IELTS 18 với đề thi IELTS Reading Listening Test được thiết
-          kế dưới dạng bài thi thử IELTS Online Test kèm Answer key giúp thiết
-          đặc ăn chế bảng Listeningpractice, lật lý tưởng IELTS các học trong
-          bài và Free PDF download.
+          {fullTestDetail?.description}
         </p>
 
         {/* Test Sections */}
@@ -111,22 +143,22 @@ export default function Section01() {
           </div>
 
           {/* Tests */}
-          {tests.map((test) => (
+          {/* {tests.map((test) => (
             <div
               key={test.id}
               className="flex flex-col lg:grid lg:grid-cols-4 gap-4 items-center py-3 border-b border-gray-200"
-            >
-              {/* Test ID */}
-              <div className="w-full text-center mb-4 lg:mb-0">
+            > */}
+          {/* Test ID */}
+          {/* <div className="w-full text-center mb-4 lg:mb-0">
                 <div className="font-medium text-lg lg:text-base">
                   Test {test.id}
                 </div>
-              </div>
+              </div> */}
 
-              {/* Mobile: Horizontal Scroll, Desktop: Grid */}
-              <div className="w-full lg:col-span-3 flex overflow-x-auto lg:overflow-visible gap-4 lg:grid lg:grid-cols-3 pb-4 lg:pb-0 px-0 mx-0 snap-x snap-mandatory scrollbar scrollbar-thumb-gray-300 scrollbar-track-gray-100 scroll-bar-style">
-                {/* Reading */}
-                <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
+          {/* Mobile: Horizontal Scroll, Desktop: Grid */}
+          {/* <div className="w-full lg:col-span-3 flex overflow-x-auto lg:overflow-visible gap-4 lg:grid lg:grid-cols-3 pb-4 lg:pb-0 px-0 mx-0 snap-x snap-mandatory scrollbar scrollbar-thumb-gray-300 scrollbar-track-gray-100 scroll-bar-style"> */}
+          {/* Reading */}
+          {/* <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
                   {test.hasReading ? (
                     <div className="flex flex-col justify-center items-center gap-1">
                       <div className="border-4 border-gray-200 p-3 rounded-full">
@@ -142,10 +174,10 @@ export default function Section01() {
                   ) : (
                     <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
                   )}
-                </div>
+                </div> */}
 
-                {/* Listening */}
-                <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
+          {/* Listening */}
+          {/* <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
                   {test.hasListening ? (
                     <div className="flex flex-col justify-center items-center gap-1">
                       <div className="border-4 border-gray-200 p-3 rounded-full">
@@ -161,10 +193,10 @@ export default function Section01() {
                   ) : (
                     <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
                   )}
-                </div>
+                </div> */}
 
-                {/* Writing */}
-                <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
+          {/* Writing */}
+          {/* <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
                   {test.hasWriting ? (
                     <div className="flex flex-col justify-center items-center gap-1">
                       <div className="border-4 border-gray-200 p-3 rounded-full">
@@ -183,7 +215,7 @@ export default function Section01() {
                 </div>
               </div>
             </div>
-          ))}
+          ))} */}
         </div>
 
         {/* Book Series */}
@@ -191,9 +223,9 @@ export default function Section01() {
           Sách cùng bộ Cambridge
         </h2>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-          {books.slice(0, 4).map((item, index) => (
+          {fullTests.slice(0, 4).map((item, index) => (
             <div
-              key={item.id}
+              key={item._id}
               className="grid grid-rows-1 gap-5 rounded-lg overflow-hidden"
             >
               <div
@@ -202,7 +234,7 @@ export default function Section01() {
                 <div className="w-full h-full relative">
                   <Image
                     src={IMAGES.THUMBNAIL}
-                    alt={`IELTS Test ${item.id}`}
+                    alt={`IELTS Test ${item._id}`}
                     width={1000}
                     height={1000}
                     className="object-cover rounded-lg h-full w-full"
@@ -211,12 +243,12 @@ export default function Section01() {
               </div>
               <div className="col-span-12 lg:col-span-8 flex-1 p-0">
                 <h2 className="text-lg lg:text-xl font-semibold">
-                  {item.title}
+                  {item.name}
                 </h2>
                 <p className="text-gray-600 mt-1 text-sm">
-                  {item.testCount} bài tests • {item.attemptCount} lượt làm
+                  20K bài tests • 16K lượt làm
                 </p>
-                <Link href={`/tests/${item.id}`}>
+                <Link href={`/tests/${item._id}`}>
                   <div className="flex flex-row items-center text-[#FA812F] mt-2 font-medium text-sm">
                     Xem bài test{" "}
                     <svg

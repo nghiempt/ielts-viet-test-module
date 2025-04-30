@@ -16,6 +16,22 @@ const getAll = async () => {
   }
 };
 
+const getListeningById = async (id: string) => {
+  try {
+    const response = await fetch(`${API.GET_READING_PART_BY_ID}/${id}`, {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error(`Failed - Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.data;
+  } catch (error: any) {
+    console.error("========= Error Get Blog By Id:", error);
+    return false;
+  }
+};
+
 // const getBlogById = async (blogId: string) => {
 //   try {
 //     const response = await fetch(`${API.GET_BLOG_BY_ID}/${blogId}`, {
@@ -53,4 +69,5 @@ const getAll = async () => {
 
 export const ListeningService = {
   getAll,
+  getListeningById,
 };

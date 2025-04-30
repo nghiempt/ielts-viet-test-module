@@ -48,6 +48,7 @@ const ListeningTest: React.FC = () => {
         {listenings.slice(0, 6)?.map((item, index) => (
           <ListeningTestCard
             key={index}
+            id={item?._id}
             title={item?.name}
             testCount={11}
             attemptsCount={113}

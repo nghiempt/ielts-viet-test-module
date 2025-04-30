@@ -1,6 +1,6 @@
 "use client";
 
-import ResultStatistic from "@/modules/test-ielts-doc/result-statistic/main";
+import ResultStatistic from "@/modules/test-ielts-nghe/result-statistic/main";
 import { Loader } from "lucide-react";
 import React, { Suspense } from "react";
 

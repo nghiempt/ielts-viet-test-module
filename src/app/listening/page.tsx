@@ -1,10 +1,8 @@
 "use client";
 
 import ListeningClient from "@/modules/test-nghe";
-import { Loader } from "lucide-react";
-import React, { Suspense } from "react";
-import ListeningContent from "@/modules/test-doc";
+import React from "react";
 
 export default function ListeningPage() {
-  return <ListeningContent />;
+  return <ListeningClient />;
 }

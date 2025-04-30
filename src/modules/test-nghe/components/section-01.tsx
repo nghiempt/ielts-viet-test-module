@@ -3,165 +3,22 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Search, ChevronRight, ChevronDown } from "lucide-react";
-import { IMAGES } from "@/utils/images";
+import { Search, ChevronDown } from "lucide-react";
+import { ListeningService } from "@/services/listening";
 
 // Define interfaces for our data structures
-interface ListeningTest {
-  id: string;
-  title: string;
-  viewCount: number;
-  difficulty: string;
-  imageUrl: string;
-}
-
-interface FilterOption {
-  id: string;
-  label: string;
+interface ListeningTestItem {
+  _id: string;
+  type: string;
+  parts: string[];
+  name: string;
+  thumbnail: string;
+  time: number;
+  created_at: string;
 }
 
 const ListeningSection: React.FC = () => {
-  // Recommended tests data
-  const recommendedTests: ListeningTest[] = [
-    {
-      id: "1",
-      title: "Why zoos are good",
-      viewCount: 1400,
-      difficulty: "13 câu",
-      imageUrl: "/images/zoo.jpg",
-    },
-    {
-      id: "2",
-      title: "The impact of the Potato",
-      viewCount: 770,
-      difficulty: "13 câu",
-      imageUrl: "/images/potato.jpg",
-    },
-    {
-      id: "3",
-      title: "Ancient Chinese Chariots",
-      viewCount: 441,
-      difficulty: "13 câu",
-      imageUrl: "/images/chariot.jpg",
-    },
-    {
-      id: "4",
-      title: "Stealth Forces in Weight Loss",
-      viewCount: 470,
-      difficulty: "14 câu",
-      imageUrl: "/images/weight-scale.jpg",
-    },
-  ];
-
-  // Reading test collection data
-  const readingTests: ListeningTest[] = [
-    {
-      id: "5",
-      title: "Urban farming",
-      viewCount: 154,
-      difficulty: "",
-      imageUrl: "/images/urban-farming.jpg",
-    },
-    {
-      id: "6",
-      title: "Forest management in Pennsylvania, USA",
-      viewCount: 98,
-      difficulty: "",
-      imageUrl: "/images/forest.jpg",
-    },
-    {
-      id: "7",
-      title: "Conquering Earth's space junk problem",
-      viewCount: 96,
-      difficulty: "14 câu",
-      imageUrl: "/images/space-junk.jpg",
-    },
-    {
-      id: "8",
-      title: "Stonehenge",
-      viewCount: 71,
-      difficulty: "",
-      imageUrl: "/images/stonehenge.jpg",
-    },
-    {
-      id: "9",
-      title: "Living with artificial intelligence",
-      viewCount: 93,
-      difficulty: "",
-      imageUrl: "/images/ai.jpg",
-    },
-    {
-      id: "10",
-      title: "An ideal city",
-      viewCount: 86,
-      difficulty: "14 câu",
-      imageUrl: "/images/city.jpg",
-    },
-    {
-      id: "11",
-      title: "Materials to take us beyond concrete",
-      viewCount: 36,
-      difficulty: "",
-      imageUrl: "/images/materials.jpg",
-    },
-    {
-      id: "12",
-      title: "The steam car",
-      viewCount: 49,
-      difficulty: "",
-      imageUrl: "/images/steam-car.jpg",
-    },
-    {
-      id: "13",
-      title: "The case for mixed-ability classes",
-      viewCount: 36,
-      difficulty: "",
-      imageUrl: "/images/classroom.jpg",
-    },
-    {
-      id: "14",
-      title: "Green roofs",
-      viewCount: 46,
-      difficulty: "",
-      imageUrl: "/images/green-roofs.jpg",
-    },
-    {
-      id: "15",
-      title:
-        "Alfred Wegener: science, exploration and the theory of continental drift",
-      viewCount: 36,
-      difficulty: "13 câu",
-      imageUrl: "/images/earth.jpg",
-    },
-    {
-      id: "16",
-      title: "The growth mindset",
-      viewCount: 45,
-      difficulty: "",
-      imageUrl: "/images/mindset.jpg",
-    },
-    {
-      id: "17",
-      title: "How tennis rackets have changed",
-      viewCount: 71,
-      difficulty: "13 câu",
-      imageUrl: "/images/tennis.jpg",
-    },
-    {
-      id: "18",
-      title: "The pirates of the ancient Mediterranean",
-      viewCount: 60,
-      difficulty: "13 câu",
-      imageUrl: "/images/pirates.jpg",
-    },
-    {
-      id: "19",
-      title: "The persistence and peril of misinformation",
-      viewCount: 47,
-      difficulty: "14 câu",
-      imageUrl: "/images/misinformation.jpg",
-    },
-  ];
+  const COUNT = 6;
 
   // Filter categories
   const filterCategories = [
@@ -195,30 +52,75 @@ const ListeningSection: React.FC = () => {
     },
   ];
 
+  const [listening, setListening] = useState<ListeningTestItem[]>([]);
+  const [totalPage, setTotalPage] = useState<number>(0);
+  const [currenPage, setCurrenPage] = useState<any>(1 as any);
+  const [currenData, setCurrenData] = useState<any>([] as any);
+
+  const selectPage = (pageSelected: any) => {
+    setCurrenPage(pageSelected);
+    const start = (pageSelected - 1) * COUNT;
+    const end = pageSelected * COUNT;
+    setCurrenData(listening.slice(start, end));
+  };
+
+  const prevPage = () => {
+    if (currenPage > 1) {
+      selectPage(currenPage - 1);
+    }
+  };
+
+  const nextPage = () => {
+    if (currenPage < totalPage) {
+      selectPage(currenPage + 1);
+    }
+  };
+
+  const render = (data: ListeningTestItem[]) => {
+    setListening(data);
+    setTotalPage(Math.ceil(data.length / COUNT));
+    setCurrenPage(1);
+    setCurrenData(data.slice(0, COUNT));
+  };
+
+  const init = async () => {
+    const res = await ListeningService.getAll();
+    if (res && res.length > 0) {
+      const filteredData = res.filter(
+        (item: ListeningTestItem) => item.thumbnail != null
+      );
+      render(filteredData);
+    } else {
+      setListening([]);
+    }
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
   // Test card component
-  const TestCard: React.FC<{ test: ListeningTest }> = ({ test }) => {
+  const TestCard: React.FC<{ test: ListeningTestItem }> = ({ test }) => {
     return (
       <div className="flex flex-col">
         <div className="relative mb-2">
           <Image
-            src={IMAGES.THUMBNAIL}
-            alt={test.title}
+            src={test.thumbnail}
+            alt={test.name}
             width={280}
             height={180}
             className="rounded-lg w-full object-cover h-40"
           />
-          {test.difficulty && (
+          {/* {test.difficulty && (
             <div className="absolute top-2 left-2 bg-white text-gray-800 text-xs py-1 px-2 rounded">
               {test.difficulty}
             </div>
-          )}
+          )} */}
         </div>
         <div className="flex flex-col justify-between h-full">
           <div>
-            <h3 className="font-medium text-sm mb-1">{test.title}</h3>
-            <p className="text-gray-500 text-xs mb-2">
-              {test.viewCount} lượt làm
-            </p>
+            <h3 className="font-medium text-sm mb-1">{test.name}</h3>
+            <p className="text-gray-500 text-xs mb-2">12K lượt làm</p>
           </div>
           <button className="flex items-center text-sm text-[#FA812F]">
             <span className="mr-1">Làm bài</span>
@@ -269,8 +171,8 @@ const ListeningSection: React.FC = () => {
       <section className="mb-12">
         <h2 className="text-xl font-medium mb-6">Gợi ý cho bạn</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {recommendedTests.map((test) => (
-            <TestCard key={test.id} test={test} />
+          {listening.slice(0, 4).map((test) => (
+            <TestCard key={test._id} test={test} />
           ))}
         </div>
       </section>
@@ -379,34 +281,81 @@ const ListeningSection: React.FC = () => {
           {/* Right side with test grid */}
           <div className="flex-1">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {readingTests.map((test) => (
-                <TestCard key={test.id} test={test} />
+              {currenData.map((test: ListeningTestItem, index: number) => (
+                <TestCard key={test._id} test={test} />
               ))}
             </div>
 
             {/* Pagination */}
-            <div className="mt-8 flex justify-center">
-              <div className="flex items-center gap-2">
-                <span className="w-8 h-8 flex items-center justify-center bg-[#FA812F] text-white rounded-full">
-                  1
-                </span>
-                {[2, 3, 4, 5].map((page) => (
-                  <span
-                    key={page}
-                    className="w-8 h-8 flex items-center justify-center text-gray-700 hover:bg-gray-100 rounded-full cursor-pointer"
+            <nav
+              className="flex flex-col items-start justify-center mt-4 p-4 space-y-3 md:flex-row md:items-center md:space-y-0"
+              aria-label="Table navigation"
+            >
+              <ul className="inline-flex items-stretch -space-x-px">
+                <li>
+                  <button
+                    onClick={prevPage}
+                    disabled={currenPage === 1}
+                    className="cursor-pointer flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                   >
-                    {page}
-                  </span>
-                ))}
-                <span className="mx-2">...</span>
-                <span className="w-8 h-8 flex items-center justify-center text-gray-700 hover:bg-gray-100 rounded-full cursor-pointer">
-                  20
-                </span>
-                <span className="w-8 h-8 flex items-center justify-center text-gray-700 hover:bg-gray-100 rounded-full cursor-pointer">
-                  <ChevronRight size={16} />
-                </span>
-              </div>
-            </div>
+                    <span className="sr-only">Previous</span>
+                    <svg
+                      className="w-5 h-5"
+                      aria-hidden="true"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </li>
+                {Array.from({ length: totalPage }, (_, i) => i + 1)?.map(
+                  (item: any, index: any) => {
+                    return (
+                      <li key={index} onClick={() => selectPage(item)}>
+                        <a
+                          href="#"
+                          className={`${
+                            item === currenPage
+                              ? "bg-indigo-50 hover:bg-indigo-100 text-gray-700"
+                              : "bg-white"
+                          } flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700`}
+                        >
+                          {item}
+                        </a>
+                      </li>
+                    );
+                  }
+                )}
+                <li>
+                  <button
+                    onClick={nextPage}
+                    disabled={currenPage === totalPage}
+                    className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  >
+                    <span className="sr-only">Next</span>
+                    <svg
+                      className="w-5 h-5"
+                      aria-hidden="true"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
       </section>

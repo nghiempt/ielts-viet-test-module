@@ -105,6 +105,7 @@ export default function ReadingTestClient() {
   const [switchReading, setSwitchReading] = useState(true);
   const router = useRouter();
 
+  // COUNTING DOWN TIMER
   useEffect(() => {
     // Parse initial time "60:00" into seconds
     const [minutes, seconds] = timeLeft.split(":").map(Number);
@@ -175,10 +176,6 @@ export default function ReadingTestClient() {
   };
 
   const passages = calculatePassages();
-
-  const render = (data: any) => {
-    setData(data);
-  };
 
   const mapAndArrangeQuestions = (passage: PassageSection, startId: number) => {
     const mappedQuestions = passage.question.map((q, index) => {
@@ -587,30 +584,9 @@ export default function ReadingTestClient() {
       const segments = pathname.split("/").filter(Boolean);
       const testId = segments[segments.length - 1];
 
-      // // Check if the device is mobile
-      // const isMobile =
-      //   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      //     navigator.userAgent
-      //   );
-
-      // // Open new tab or navigate
-      // if (isMobile) {
-      //   // For mobile, attempt to open a new tab
-      //   const newWindow = window.open("", "_blank");
-      //   if (newWindow) {
-      //     newWindow.location = `/reading-result/${testId}`;
-      //   } else {
-      //     // Fallback: navigate in the same tab if window.open fails
-      //     window.location.href = `/reading-result/${testId}`;
-      //   }
-      // } else {
-      //   // For desktop, use window.open
-      //   window.open(`/reading-result/${testId}`, "_blank");
-      // }
       router.push(`/reading-result/${testId}`);
     } catch (error) {
       console.error("Error submitting test:", error);
-      // Optionally handle the error (e.g., show a user message)
     }
   };
 
@@ -647,7 +623,7 @@ export default function ReadingTestClient() {
                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <span>{timeLeft}</span>
+            <span className="text-[#FA812F] font-semibold">{timeLeft}</span>
           </div>
           <Link href="/" className="text-gray-400 hover:text-gray-600 ml-4">
             <svg
@@ -828,6 +804,7 @@ export default function ReadingTestClient() {
               />
             ))}
           </div>
+
           <div
             className={`w-36 flex justify-center items-center ${
               selectedPassage === 3 ? "hidden" : "border border-[#FA812F]"

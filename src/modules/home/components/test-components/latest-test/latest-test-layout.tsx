@@ -33,6 +33,8 @@ const LatestTestLayout = () => {
         0,
         Math.min(5, shuffledData.length)
       );
+      console.log("randomData", randomData);
+
       render(randomData);
       render(filteredData);
     } else {
@@ -53,7 +55,16 @@ const LatestTestLayout = () => {
       </div>
       <div className="flex md:grid overflow-x-auto md:overflow-visible gap-4 md:gap-6 md:grid-cols-3 pb-4 md:pb-0 px-0 mx-0 snap-x snap-mandatory scrollbar scrollbar-thumb-gray-300 scrollbar-track-gray-100 scroll-bar-style h-56 lg:h-full">
         {latest.slice(0, 6)?.map((item, index) => (
-          <Link key={index} href="/listening-test">
+          <Link
+            key={index}
+            href={
+              item.type === "R"
+                ? `/reading-test/${item._id}`
+                : item.type === "L"
+                ? `/listening-test/${item._id}`
+                : `/writing-test/${item._id}`
+            }
+          >
             <LatestTestCard
               testName={item.name}
               attempts={19}

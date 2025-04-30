@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface TestCardProps {
+  id: string;
   title: string;
   testCount: number;
   attemptsCount: number;
@@ -12,6 +13,7 @@ interface TestCardProps {
 }
 
 const ListeningTestCard: React.FC<TestCardProps> = ({
+  id,
   title,
   testCount,
   attemptsCount,
@@ -37,7 +39,7 @@ const ListeningTestCard: React.FC<TestCardProps> = ({
         <p className="text-gray-600 mt-1 text-sm lg:text-base">
           {testCount} bài tests • {attemptsCount}K lượt làm
         </p>
-        <Link href={`/listening-test`}>
+        <Link href={`/listening-test/${id}`}>
           <div className="flex flex-row items-center text-[#FA812F] mt-2 font-medium text-sm lg:text-base">
             Xem bài test
             <svg
