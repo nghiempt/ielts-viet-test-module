@@ -1,4 +1,4 @@
-import { IMAGES } from "@/utils/images";
+import { ROUTES } from "@/utils/routes";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -42,7 +42,7 @@ const FullTestCard: React.FC<FullTestProps> = ({
         </div>
         <p className="text-sm lg:text-base mt-2 text-gray-700">{description}</p>
         <Link
-          href={`/full-ielts-test/${id}`}
+          href={`${ROUTES.FULLTEST_DETAIL}/${id}`}
           className="text-sm lg:text-base inline-flex items-center mt-4 text-[#FA812F] font-medium"
         >
           Xem bài test{" "}

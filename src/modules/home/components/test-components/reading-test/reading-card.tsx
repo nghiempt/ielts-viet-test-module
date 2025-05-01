@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ROUTES } from "@/utils/routes";
 
 interface TestCardProps {
   id: string;
@@ -39,7 +40,7 @@ const ReadingTestCard: React.FC<TestCardProps> = ({
           <span className="mx-2">•</span>
           <span>{attemptsCount}K lượt làm</span>
         </div>
-        <Link href={`/reading-test/${id}`}>
+        <Link href={`${ROUTES.READING_TEST}/${id}`}>
           <div className="inline-flex items-center text-[#FA812F] font-medium mt-2">
             Xem bài test
             <svg

@@ -41,7 +41,7 @@ export const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
 
 interface ShortAnswerQuizProps {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   instructions: string;
   questions: Array<{
     id: number;
@@ -54,7 +54,6 @@ interface ShortAnswerQuizProps {
 
 export const ShortAnswerQuiz: React.FC<ShortAnswerQuizProps> = ({
   title,
-  subtitle,
   instructions,
   questions,
   onAnswerChange,

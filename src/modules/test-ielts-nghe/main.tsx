@@ -1,15 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import Head from "next/head";
 import Image from "next/image";
 import { IMAGES } from "@/utils/images";
 import PassageProgressBar from "./components/processing-bar";
 import Link from "next/link";
-import {
-  ChevronLeft,
-  ChevronRight,
-  FileText,
-  Grid2x2Check,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, Grid2x2Check } from "lucide-react";
 import PassageProgressBarMobile from "./components/processing-bar-mobile";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShortAnswerQuiz } from "./components/test-type/fil-in-the-blank/fill-in";
@@ -22,6 +16,7 @@ import {
   QuizHeader,
   QuizQuestion,
 } from "../test-ielts-doc/components/test-type/multiple-choice/multiple-choice";
+import { ROUTES } from "@/utils/routes";
 
 interface Question {
   id: number;
@@ -126,7 +121,6 @@ const ListeningTestClient: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [timeLeft, setTimeLeft] = useState<string | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [switchReading, setSwitchReading] = useState(true);
   const [showConfirmDialog, setShowConfirmDialog] = useState(true);
   const [currentAudioIndex, setCurrentAudioIndex] = useState(-1);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -134,6 +128,33 @@ const ListeningTestClient: React.FC = () => {
   const [initialTotalTime, setInitialTotalTime] = useState<number | null>(null);
   const [progress, setProgress] = useState(100);
   const [currentAudio, setCurrentAudio] = useState<string | null>(null);
+
+  // ALERT ON PAGE RELOAD OR CLOSE
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = ""; // Standard way to trigger the browser's confirmation dialog
+      return "Are you sure you want to leave? Your answers will not be saved.";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+  // HANDLE EXIT LINK CLICK
+  const handleExitClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const confirmExit = window.confirm(
+      "Are you sure you want to leave? Your answers will not be saved."
+    );
+
+    if (confirmExit) {
+      router.push(ROUTES.HOME);
+    }
+  };
 
   // Memoize audio sources to prevent re-computation on every render
   const audioSources = useMemo(() => {
@@ -751,7 +772,7 @@ const ListeningTestClient: React.FC = () => {
       const segments = pathname.split("/").filter(Boolean);
       const testId = segments[segments.length - 1];
 
-      router.push(`/listening-result/${testId}`);
+      router.push(`${ROUTES.LISTENING_RESULT}/${testId}`);
     } catch (error) {
       console.error("Error submitting test:", error);
     }
@@ -820,7 +841,10 @@ const ListeningTestClient: React.FC = () => {
 
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 flex items-center justify-between bg-white py-2 px-4 shadow-sm z-10">
-        <div className="hidden lg:flex items-center w-[10%] py-3">
+        <Link
+          href={ROUTES.HOME}
+          className="hidden lg:flex items-center w-[10%] py-3"
+        >
           <Image
             src={IMAGES.LOGO}
             alt="DOL DINH LUC"
@@ -828,7 +852,7 @@ const ListeningTestClient: React.FC = () => {
             height={1000}
             className="w-full h-full"
           />
-        </div>
+        </Link>
         <div className="text-center">
           <div className="font-semibold">IELTS Online Test</div>
           <div className="text-sm text-gray-600">{data?.name}</div>
@@ -855,7 +879,11 @@ const ListeningTestClient: React.FC = () => {
             <div className="text-xs mt-1">Audio: {currentAudio}</div>
           </div>
 
-          <Link href={"/"} className="text-gray-400 hover:text-gray-600 ml-4">
+          <Link
+            href={ROUTES.HOME}
+            className="text-gray-400 hover:text-gray-600 ml-4"
+            onClick={handleExitClick}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -947,7 +975,7 @@ const ListeningTestClient: React.FC = () => {
       </div>
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-[8.2%] left-0 right-0 z-20">
+      <div className="fixed bottom-[9.3%] left-0 right-0 z-20">
         <div className="relative w-full flex">
           <div className="absolute -top-10 lg:-top-2">
             <TimeProgressBar
@@ -956,7 +984,7 @@ const ListeningTestClient: React.FC = () => {
             />
           </div>
         </div>
-        <div className="hidden lg:flex flex-wrap justify-center mt-0 gap-1 w-full bg-white mx-auto pb-2 pt-7">
+        <div className="hidden lg:flex flex-wrap justify-center mt-0 gap-1 w-full bg-white mx-auto pb-2 pt-5 border-b border-gray-200">
           {passageQuestionNumbers.map((questionNum) => {
             const isAnswered = getAnsweredStatus(questionNum);
             return (

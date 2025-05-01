@@ -7,6 +7,7 @@ import { Search, ChevronDown } from "lucide-react";
 import { IMAGES } from "@/utils/images";
 import { ReadingService } from "@/services/reading";
 import Link from "next/link";
+import { ROUTES } from "@/utils/routes";
 
 // Define interfaces for our data structures
 
@@ -58,7 +59,7 @@ const ReadingSection: React.FC = () => {
   const [readings, setReadings] = useState<ReadingTestItem[]>([]);
   const [totalPage, setTotalPage] = useState<number>(0);
   const [currenPage, setCurrenPage] = useState<any>(1 as any);
-  const [currenData, setCurrenData] = useState<any>([] as any);
+  const [currenData, setCurrenData] = useState<ReadingTestItem[]>([] as any);
 
   const selectPage = (pageSelected: any) => {
     setCurrenPage(pageSelected);
@@ -126,7 +127,7 @@ const ReadingSection: React.FC = () => {
             <p className="text-gray-500 text-xs mb-2">20K lượt làm</p>
           </div>
           <Link
-            href={`/reading-test/${test._id}`}
+            href={`${ROUTES.READING_TEST}/${test._id}`}
             className="flex items-center text-sm text-[#FA812F]"
           >
             <span className="mr-1">Làm bài</span>
@@ -154,7 +155,6 @@ const ReadingSection: React.FC = () => {
   );
 
   useEffect(() => {
-    // Only run this in the browser
     if (typeof window !== "undefined") {
       const handleResize = () => {
         setIsMobile(window.innerWidth <= 768);
@@ -287,7 +287,7 @@ const ReadingSection: React.FC = () => {
           {/* Right side with test grid */}
           <div className="flex-1">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {currenData.map((test: any, index: number) => (
+              {currenData.map((test: ReadingTestItem, index: number) => (
                 <TestCard key={test._id} test={test} />
               ))}
             </div>

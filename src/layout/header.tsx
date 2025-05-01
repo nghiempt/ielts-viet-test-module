@@ -14,6 +14,7 @@ import {
 import { IMAGES } from "@/utils/images";
 import { usePathname } from "next/navigation";
 import LoginForm from "./login-form";
+import { ROUTES } from "@/utils/routes";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -22,17 +23,17 @@ const Header = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const navigationItems = [
-    { label: "IELTS ONLINE TEST", href: "/" },
+    { label: "IELTS ONLINE TEST", href: ROUTES.HOME },
     {
       label: "SKILL TEST",
       href: "#",
       subItems: [
-        { label: "READING TEST", href: "/reading" },
-        { label: "LISTENING TEST", href: "/listening" },
-        { label: "WRITING TEST", href: "/writing" },
+        { label: "READING TEST", href: ROUTES.READING_HOME },
+        { label: "LISTENING TEST", href: ROUTES.LISTENING_HOME },
+        { label: "WRITING TEST", href: ROUTES.WRITING_HOME },
       ],
     },
-    { label: "FULL IELTS TEST", href: "/full-ielts-test" },
+    { label: "FULL IELTS TEST", href: "#" },
   ];
 
   useEffect(() => {
@@ -80,7 +81,7 @@ const Header = () => {
               </div>
             </button>
           </div>
-          <Link href="/" className="flex items-center gap-2">
+          <Link href={ROUTES.HOME} className="flex items-center gap-2">
             <Image
               src={IMAGES.LOGO}
               alt="alt"
@@ -159,34 +160,40 @@ const Header = () => {
           <ul className="flex flex-col space-y-10 py-10 px-5">
             <li className="font-bold flex flex-row items-center gap-3">
               <House size={20} />
-              <a href={`/`} className="text-gray-700 hover:text-black">
+              <a href={ROUTES.HOME} className="text-gray-700 hover:text-black">
                 Trang chủ
               </a>
             </li>
             <li className="font-bold flex flex-row items-center gap-3">
               <BookOpenText size={20} />
-              <a href={`/reading`} className="text-gray-700 hover:text-black">
+              <a
+                href={ROUTES.READING_HOME}
+                className="text-gray-700 hover:text-black"
+              >
                 Reading Test
               </a>
             </li>
             <li className="font-bold flex flex-row items-center gap-3">
               <SquarePen size={20} />
-              <a href={`/writing`} className="text-gray-700 hover:text-black">
+              <a
+                href={ROUTES.WRITING_HOME}
+                className="text-gray-700 hover:text-black"
+              >
                 Writing Test
               </a>
             </li>
             <li className="font-bold flex flex-row items-center gap-3">
               <Headphones size={20} />
-              <a href={`/listening`} className="text-gray-700 hover:text-black">
+              <a
+                href={ROUTES.LISTENING_HOME}
+                className="text-gray-700 hover:text-black"
+              >
                 Listening Test
               </a>
             </li>
             <li className="font-bold flex flex-row items-center gap-3">
               <BookCheck size={20} />
-              <a
-                href={`/full-ielts-test`}
-                className="text-gray-700 hover:text-black"
-              >
+              <a href={`#`} className="text-gray-700 hover:text-black">
                 Full IELTS Test
               </a>
             </li>

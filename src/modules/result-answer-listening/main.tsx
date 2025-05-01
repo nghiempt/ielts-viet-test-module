@@ -15,6 +15,7 @@ import {
 } from "./components/questions-type/fil-in-the-blank/fill-in";
 import { ResultQuestion } from "./components/questions-type/multiple-choice/multiple-choice";
 import PopupMenu from "./components/pop-up";
+import { ROUTES } from "@/utils/routes";
 
 interface Question {
   id: number;
@@ -126,7 +127,6 @@ const ListeningTestClient: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [switchReading, setSwitchReading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [response, setResponse] = useState<ResultData | null>(null);
 
@@ -245,9 +245,10 @@ const ListeningTestClient: React.FC = () => {
   const init = async () => {
     const storedAnswers = localStorage.getItem("listeningTestAnswers");
     const parsedAnswers = storedAnswers ? JSON.parse(storedAnswers) : null;
-    setResponse(parsedAnswers?.data || null);
 
+    setResponse(parsedAnswers?.data || null);
     setError(null);
+
     const segments = pathname.split("/").filter(Boolean);
     const id = segments[segments.length - 1];
 
@@ -403,7 +404,6 @@ const ListeningTestClient: React.FC = () => {
       (p) =>
         prevQuestionId >= p.startQuestion && prevQuestionId <= p.endQuestion
     );
-
     if (!prevPassage) {
       // No previous question available (start of all questions)
       return;
@@ -414,7 +414,6 @@ const ListeningTestClient: React.FC = () => {
       setSelectedPassage(prevPassage.id);
       setCurrentPage(prevPassage.id);
     }
-
     setSelectedQuestion(prevQuestionId);
   };
 
@@ -422,7 +421,10 @@ const ListeningTestClient: React.FC = () => {
     <div className="relative bg-gray-100 min-h-screen w-full">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 flex items-center justify-between bg-white py-2 px-4 shadow-sm z-10">
-        <div className="hidden lg:flex items-center w-[10%] py-3">
+        <Link
+          href={ROUTES.HOME}
+          className="hidden lg:flex items-center w-[10%] py-3"
+        >
           <Image
             src={IMAGES.LOGO}
             alt="DOL DINH LUC"
@@ -430,14 +432,14 @@ const ListeningTestClient: React.FC = () => {
             height={1000}
             className="w-full h-full"
           />
-        </div>
+        </Link>
         <div className="text-center mr-28">
           <div className="font-semibold">IELTS Reading Test</div>
           <div className="text-sm text-gray-600">{data?.name}</div>
         </div>
         <div className="flex items-center">
           <Link
-            href={"/"}
+            href={ROUTES.HOME}
             target="_blank"
             className="text-gray-400 hover:text-gray-600 ml-4"
           >
@@ -456,99 +458,101 @@ const ListeningTestClient: React.FC = () => {
           </Link>
         </div>
       </header>
-
       <div className="fixed top-[0] bottom-[0] left-0 right-0 overflow-y-auto pt-20 pb-28">
         <div className="container mx-auto w-full lg:w-[65%] p-3 lg:p-4 pt-5 lg:pt-10 pb-3 lg:pb-16">
-          {questions.reduce((acc: JSX.Element[], question, index) => {
-            if (question.q_type === "MP") {
-              const mpQuestions = questions
-                .filter((q) => q.q_type === "MP")
-                .map((q) => ({
-                  id: q.id,
-                  question: q.question,
-                  options: q.options,
-                  isMultiple: q.isMultiple,
-                  selectedOptions: q.selectedOptions,
-                  correct_answer: q.correct_answer,
-                  is_correct: q.is_correct,
-                }));
-              if (index === questions.findIndex((q) => q.q_type === "MP")) {
-                acc.push(
-                  <div key={`mp-${index}`} className="mb-6">
-                    <ResultHeader
-                      title={`Questions ${mpQuestions[0].id} - ${
-                        mpQuestions[mpQuestions.length - 1].id
-                      }`}
-                      subtitle="Review your answers"
-                    />
-                    {mpQuestions.map((q) => (
-                      <ResultQuestion
-                        key={q.id}
-                        id={q.id}
-                        question={q.question}
-                        options={q.options}
-                        selectedOptions={q.selectedOptions}
-                        correctAnswer={q.correct_answer || []}
-                        isCorrect={q.is_correct ?? false}
+          {questions?.reduce(
+            (acc: JSX.Element[], question: Question, index: number) => {
+              if (question.q_type === "MP") {
+                const mpQuestions = questions
+                  ?.filter((q) => q.q_type === "MP")
+                  ?.map((q) => ({
+                    id: q?.id,
+                    question: q?.question,
+                    options: q?.options,
+                    isMultiple: q?.isMultiple,
+                    selectedOptions: q?.selectedOptions,
+                    correct_answer: q?.correct_answer,
+                    is_correct: q?.is_correct,
+                  }));
+                if (index === questions?.findIndex((q) => q?.q_type === "MP")) {
+                  acc.push(
+                    <div key={`mp-${index}`} className="mb-6">
+                      <ResultHeader
+                        title={`Questions ${mpQuestions[0]?.id} - ${
+                          mpQuestions[mpQuestions.length - 1]?.id
+                        }`}
+                        subtitle="Review your answers"
                       />
-                    ))}
-                  </div>
-                );
-              }
-            } else if (question.q_type === "FB") {
-              const fbQuestions = questions
-                .filter((q) => q.q_type === "FB")
-                .map((q) => ({
-                  id: q.id,
-                  start_passage: q.start_passage || "",
-                  end_passage: q.end_passage || "",
-                  selectedAnswer: q.selectedOptions || "",
-                  correct_answer: q.correct_answer,
-                  is_correct: q.is_correct,
-                }));
-              if (index === questions.findIndex((q) => q.q_type === "FB")) {
-                acc.push(
-                  <div key={`fb-${index}`} className="mb-6">
-                    <ResultHeader
-                      title={`Questions ${fbQuestions[0].id} - ${
-                        fbQuestions[fbQuestions.length - 1].id
-                      }`}
-                      subtitle="Review your answers"
-                    />
-                    <div className="">
-                      {fbQuestions.map((q) => (
-                        <ResultShortAnswerQuestion
+                      {mpQuestions?.map((q) => (
+                        <ResultQuestion
                           key={q.id}
                           id={q.id}
-                          start_passage={q.start_passage}
-                          end_passage={q.end_passage}
-                          selectedAnswer={
-                            Array.isArray(q.selectedAnswer)
-                              ? q.selectedAnswer.join(", ")
-                              : q.selectedAnswer || "No answer provided"
-                          }
-                          correctAnswer={
-                            Array.isArray(q.correct_answer)
-                              ? q.correct_answer.join(", ")
-                              : q.correct_answer || ""
-                          }
+                          question={q.question}
+                          options={q.options}
+                          selectedOptions={q.selectedOptions}
+                          correctAnswer={q.correct_answer || []}
                           isCorrect={q.is_correct ?? false}
                         />
                       ))}
                     </div>
-                  </div>
-                );
+                  );
+                }
+              } else if (question?.q_type === "FB") {
+                const fbQuestions = questions
+                  .filter((q) => q?.q_type === "FB")
+                  .map((q) => ({
+                    id: q?.id,
+                    start_passage: q?.start_passage || "",
+                    end_passage: q?.end_passage || "",
+                    selectedAnswer: q?.selectedOptions || "",
+                    correct_answer: q?.correct_answer,
+                    is_correct: q?.is_correct,
+                  }));
+                if (index === questions.findIndex((q) => q?.q_type === "FB")) {
+                  acc.push(
+                    <div key={`fb-${index}`} className="mb-6">
+                      <ResultHeader
+                        title={`Questions ${fbQuestions[0].id} - ${
+                          fbQuestions[fbQuestions.length - 1].id
+                        }`}
+                        subtitle="Review your answers"
+                      />
+                      <div className="">
+                        {fbQuestions.map((q) => (
+                          <ResultShortAnswerQuestion
+                            key={q?.id}
+                            id={q?.id}
+                            start_passage={q?.start_passage}
+                            end_passage={q?.end_passage}
+                            selectedAnswer={
+                              Array.isArray(q?.selectedAnswer)
+                                ? q?.selectedAnswer.join(", ")
+                                : q?.selectedAnswer || "No answer provided"
+                            }
+                            correctAnswer={
+                              Array.isArray(q?.correct_answer)
+                                ? q?.correct_answer.join(", ")
+                                : q?.correct_answer || ""
+                            }
+                            isCorrect={q?.is_correct ?? false}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  );
+                }
               }
-            }
-            return acc;
-          }, [])}
+              return acc;
+            },
+            []
+          )}
         </div>
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 bg-white pt-0 pb-2 lg:pt-0 lg:pb-2 z-10">
         <div className="hidden lg:flex justify-between mt-0 text-sm border-t border-gray-100 pt-0">
           <div className="flex justify-center items-center">
-            {passages.map((passage) => {
+            {passages.map((passage: PassageInfo, index: number) => {
               // Get the questions for this passage directly
               const passageData = [passage1, passage2, passage3].filter(
                 (p): p is PassageSection => p !== null
@@ -559,32 +563,34 @@ const ListeningTestClient: React.FC = () => {
               );
 
               // Calculate question statuses
-              const questionStatuses = passageQuestions.map((question) => {
-                const isAnswered =
-                  (Array.isArray(question.selectedOptions) &&
-                    question.selectedOptions.length > 0) ||
-                  (typeof question.selectedOptions === "string" &&
-                    question.selectedOptions !== "");
+              const questionStatuses = passageQuestions.map(
+                (question: Question) => {
+                  const isAnswered =
+                    (Array.isArray(question.selectedOptions) &&
+                      question.selectedOptions.length > 0) ||
+                    (typeof question.selectedOptions === "string" &&
+                      question.selectedOptions !== "");
 
-                return {
-                  questionId: question.id,
-                  isAnswered,
-                  isCorrect: isAnswered ? question.is_correct ?? false : null,
-                };
-              });
+                  return {
+                    questionId: question.id,
+                    isAnswered,
+                    isCorrect: isAnswered ? question.is_correct ?? false : null,
+                  };
+                }
+              );
 
               return (
                 <PassageProgressBar
-                  key={passage.id}
-                  passageNumber={passage.id}
+                  key={passage?.id}
+                  passageNumber={passage?.id}
                   currentQuestion={selectedQuestion ?? 0}
                   totalQuestions={
-                    passage.endQuestion - passage.startQuestion + 1
+                    passage?.endQuestion - passage?.startQuestion + 1
                   }
-                  startQuestion={passage.startQuestion}
-                  endQuestion={passage.endQuestion}
-                  choosenPassage={selectedPassage === passage.id}
-                  onClick={() => handlePassageSelect(passage.id)}
+                  startQuestion={passage?.startQuestion}
+                  endQuestion={passage?.endQuestion}
+                  choosenPassage={selectedPassage === passage?.id}
+                  onClick={() => handlePassageSelect(passage?.id)}
                   onQuestionClick={handleQuestionSelect}
                   questionStatuses={questionStatuses}
                 />
@@ -633,36 +639,38 @@ const ListeningTestClient: React.FC = () => {
 
         <div className="lg:hidden flex justify-center items-center py-0 pt-2 border-t border-gray-200">
           <div className="flex justify-center text-sm">
-            {passages.map((passage) => (
+            {passages.map((passage: PassageInfo) => (
               <PassageProgressBarMobile
-                key={passage.id}
-                passageNumber={passage.id}
+                key={passage?.id}
+                passageNumber={passage?.id}
                 currentQuestion={selectedQuestion ?? 0}
-                totalQuestions={passage.endQuestion - passage.startQuestion + 1}
-                startQuestion={passage.startQuestion}
-                endQuestion={passage.endQuestion}
-                choosenPassage={passage.id === selectedPassage}
-                onClick={() => handlePassageSelect(passage.id)}
+                totalQuestions={
+                  passage?.endQuestion - passage?.startQuestion + 1
+                }
+                startQuestion={passage?.startQuestion}
+                endQuestion={passage?.endQuestion}
+                choosenPassage={passage?.id === selectedPassage}
+                onClick={() => handlePassageSelect(passage?.id)}
                 onQuestionClick={handleQuestionSelect}
                 questionStatuses={(() => {
                   const passageData = [passage1, passage2, passage3].filter(
                     (p): p is PassageSection => p !== null
-                  )[passage.id - 1];
+                  )[passage?.id - 1];
                   const passageQuestions = mapAndArrangeQuestions(
                     passageData,
-                    passage.startQuestion
+                    passage?.startQuestion
                   );
-                  return passageQuestions.map((question) => {
+                  return passageQuestions.map((question: Question) => {
                     const isAnswered =
-                      (Array.isArray(question.selectedOptions) &&
-                        question.selectedOptions.length > 0) ||
-                      (typeof question.selectedOptions === "string" &&
-                        question.selectedOptions !== "");
+                      (Array.isArray(question?.selectedOptions) &&
+                        question?.selectedOptions.length > 0) ||
+                      (typeof question?.selectedOptions === "string" &&
+                        question?.selectedOptions !== "");
                     return {
-                      questionId: question.id,
+                      questionId: question?.id,
                       isAnswered,
                       isCorrect: isAnswered
-                        ? question.is_correct ?? false
+                        ? question?.is_correct ?? false
                         : null,
                     };
                   });
@@ -725,7 +733,7 @@ const ListeningTestClient: React.FC = () => {
               passages={passages}
               questionStatuses={(() => {
                 const statuses: { [passageId: number]: QuestionStatus[] } = {};
-                passages.forEach((passage) => {
+                passages.forEach((passage: PassageInfo) => {
                   const passageData = [passage1, passage2, passage3].filter(
                     (p): p is PassageSection => p !== null
                   )[passage.id - 1];
@@ -733,20 +741,22 @@ const ListeningTestClient: React.FC = () => {
                     passageData,
                     passage.startQuestion
                   );
-                  statuses[passage.id] = passageQuestions.map((question) => {
-                    const isAnswered =
-                      (Array.isArray(question.selectedOptions) &&
-                        question.selectedOptions.length > 0) ||
-                      (typeof question.selectedOptions === "string" &&
-                        question.selectedOptions !== "");
-                    return {
-                      questionId: question.id,
-                      isAnswered,
-                      isCorrect: isAnswered
-                        ? question.is_correct ?? false
-                        : null,
-                    };
-                  });
+                  statuses[passage.id] = passageQuestions.map(
+                    (question: Question) => {
+                      const isAnswered =
+                        (Array.isArray(question.selectedOptions) &&
+                          question.selectedOptions.length > 0) ||
+                        (typeof question.selectedOptions === "string" &&
+                          question.selectedOptions !== "");
+                      return {
+                        questionId: question.id,
+                        isAnswered,
+                        isCorrect: isAnswered
+                          ? question.is_correct ?? false
+                          : null,
+                      };
+                    }
+                  );
                 });
                 return statuses;
               })()}

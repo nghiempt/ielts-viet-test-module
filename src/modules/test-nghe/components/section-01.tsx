@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Search, ChevronDown } from "lucide-react";
 import { ListeningService } from "@/services/listening";
+import Link from "next/link";
+import { ROUTES } from "@/utils/routes";
 
 // Define interfaces for our data structures
 interface ListeningTestItem {
@@ -122,7 +124,10 @@ const ListeningSection: React.FC = () => {
             <h3 className="font-medium text-sm mb-1">{test.name}</h3>
             <p className="text-gray-500 text-xs mb-2">12K lượt làm</p>
           </div>
-          <button className="flex items-center text-sm text-[#FA812F]">
+          <Link
+            href={`${ROUTES.LISTENING_TEST}/${test._id}`}
+            className="flex items-center text-sm text-[#FA812F]"
+          >
             <span className="mr-1">Làm bài</span>
             <svg
               width="12"
@@ -136,7 +141,7 @@ const ListeningSection: React.FC = () => {
             >
               <polyline points="9 18 15 12 9 6" />
             </svg>
-          </button>
+          </Link>
         </div>
       </div>
     );
@@ -228,7 +233,6 @@ const ListeningSection: React.FC = () => {
                 </div>
               ))}
             </div>
-
             <div className="flex lg:hidden justify-center relative">
               {!expanded && (
                 <div className="absolute bottom-[135%] left-0 right-0 h-20 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none" />

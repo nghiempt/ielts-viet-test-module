@@ -1,5 +1,6 @@
 "use client";
 
+import { ROUTES } from "@/utils/routes";
 import Section01 from "./components/section-01";
 import SectionFooter from "./components/section-footer";
 import Link from "next/link";
@@ -21,7 +22,10 @@ export default function FullIeltsTestContent() {
             Full IELTS Test
           </h1>
           <nav className="flex justify-center items-center space-x-2 text-gray-600">
-            <Link href="/" className="hover:text-gray-900 transition-colors">
+            <Link
+              href={ROUTES.HOME}
+              className="hover:text-gray-900 transition-colors"
+            >
               Trang Chủ
             </Link>
             <span className="text-gray-400">•</span>

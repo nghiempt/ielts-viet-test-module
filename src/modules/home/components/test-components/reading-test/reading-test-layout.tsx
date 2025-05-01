@@ -95,11 +95,11 @@ const ReadingTestLayout = () => {
               <SwiperSlide key={index} className="">
                 <ReadingTestCard
                   key={index}
-                  id={book._id}
-                  title={book.name}
+                  id={book?._id}
+                  title={book?.name}
                   testCount={11}
                   attemptsCount={113}
-                  coverImage={book.thumbnail}
+                  coverImage={book?.thumbnail}
                 />
               </SwiperSlide>
             ))}

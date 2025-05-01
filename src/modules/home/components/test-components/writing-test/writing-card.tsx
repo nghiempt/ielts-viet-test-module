@@ -2,6 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ROUTES } from "@/utils/routes";
 
 interface WritingTest {
   _id: string;
@@ -37,7 +38,7 @@ const WritingTestCard: React.FC<WritingTestCardProps> = ({ book }) => {
           </p>
 
           <Link
-            href={`/writing-test/${book?._id}`}
+            href={`${ROUTES.WRITING_TEST}/${book?._id}`}
             className="text-sm lg:text-base text-[#FA812F] font-medium flex items-center mt-4"
           >
             Xem bài test

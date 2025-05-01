@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-
 import { Button } from "@/components/ui/button";
 
 const SectionFooter = () => {
@@ -13,7 +12,6 @@ const SectionFooter = () => {
           backgroundSize: "24px 24px",
         }}
       />
-
       <div className="relative z-10 container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center space-y-8">
           <h2 className="text-2xl md:text-4xl lg:text-4xl font-bold text-white leading-tight">
@@ -25,7 +23,6 @@ const SectionFooter = () => {
                 Kết bạn 0939217718
               </div>
             </div>
-
             <Button
               onClick={() => window.open("https://zalo.me/0939217718")}
               className="h-12 px-8 bg-white text-[rgb(var(--secondary-rgb))] hover:bg-amber-50 font-semibold cursor-pointer"

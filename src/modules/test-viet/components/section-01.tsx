@@ -6,6 +6,8 @@ import Image from "next/image";
 import { Search, ChevronRight, ChevronDown } from "lucide-react";
 import { IMAGES } from "@/utils/images";
 import { WritingService } from "@/services/writing";
+import Link from "next/link";
+import { ROUTES } from "@/utils/routes";
 
 // Define interfaces for our data structures
 interface WritingTestItem {
@@ -123,7 +125,10 @@ const WritingSection: React.FC = () => {
             <h3 className="font-medium text-sm mb-1">{test.name}</h3>
             <p className="text-gray-500 text-xs mb-2">17K lượt làm</p>
           </div>
-          <button className="flex items-center text-sm text-[#FA812F]">
+          <Link
+            href={`${ROUTES.WRITING_TEST}/${test._id}`}
+            className="flex items-center text-sm text-[#FA812F]"
+          >
             <span className="mr-1">Làm bài</span>
             <svg
               width="12"
@@ -137,7 +142,7 @@ const WritingSection: React.FC = () => {
             >
               <polyline points="9 18 15 12 9 6" />
             </svg>
-          </button>
+          </Link>
         </div>
       </div>
     );

@@ -12,10 +12,11 @@ import {
 import Link from "next/link";
 import PassageProgressBarMobile from "./components/processing-bar-mobile";
 import { motion, AnimatePresence } from "framer-motion";
-import PopupMenu from "./components/pop-up-";
-import { usePathname } from "next/navigation";
+import PopupMenu from "./components/pop-up";
+import { usePathname, useRouter } from "next/navigation";
 import { WritingService } from "@/services/writing";
 import { QuestionsService } from "@/services/questions";
+import { ROUTES } from "@/utils/routes";
 
 interface PassageSection {
   _id: string;
@@ -46,9 +47,9 @@ interface WritingDetail {
 
 export default function WritingTestClient() {
   const pathname = usePathname();
+  const router = useRouter();
   const [data, setData] = useState<WritingDetail | null>(null);
   const [timeLeft, setTimeLeft] = useState("60:00");
-
   const [currentPage, setCurrentPage] = useState(1);
   const [answers, setAnswers] = useState<{ [key: number]: string }>({
     1: "",
@@ -105,7 +106,6 @@ export default function WritingTestClient() {
 
     window.addEventListener("beforeunload", handleBeforeUnload);
 
-    // Cleanup: Remove the event listener when the component unmounts
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
@@ -113,11 +113,13 @@ export default function WritingTestClient() {
 
   // HANDLE EXIT LINK CLICK
   const handleExitClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const confirmed = window.confirm(
+    e.preventDefault();
+    const confirmExit = window.confirm(
       "Are you sure you want to leave? Your answers will not be saved."
     );
-    if (!confirmed) {
-      e.preventDefault();
+
+    if (confirmExit) {
+      router.push(ROUTES.HOME);
     }
   };
 
@@ -200,11 +202,24 @@ export default function WritingTestClient() {
     setWordCount(countWords(newText));
   };
 
+  // const handleSubmit = () => {
+  //   const confirmSubmit = window.confirm(
+  //     "Are you sure you want to submit your answers?"
+  //   );
+  //   if (confirmSubmit) {
+  //     alert("Answers submitted!");
+  //     router.push(ROUTES.HOME); // Redirect after submission
+  //   }
+  // };
+
   return (
     <div className="relative min-h-screen w-full bg-gray-50">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 flex items-center justify-between bg-white border-b border-gray-200 px-4 py-2 z-20">
-        <div className="hidden lg:flex items-center w-[10%] py-3">
+        <Link
+          href={ROUTES.HOME}
+          className="hidden lg:flex items-center w-[10%] py-3"
+        >
           <Image
             src={IMAGES.LOGO}
             alt="DOL DINH LUC"
@@ -212,7 +227,7 @@ export default function WritingTestClient() {
             height={1000}
             className="w-full h-full"
           />
-        </div>
+        </Link>
         <div className="text-center">
           <div className="font-semibold">IELTS Writing Test</div>
           <div className="text-sm text-gray-600">{data?.name}</div>
@@ -235,7 +250,7 @@ export default function WritingTestClient() {
             </svg>
             <span className="text-[#FA812F] font-semibold">{timeLeft}</span>
           </div>
-          <Link href="/" className="ml-4" onClick={handleExitClick}>
+          <Link href={ROUTES.HOME} className="ml-4" onClick={handleExitClick}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 text-gray-500"
@@ -435,23 +450,28 @@ export default function WritingTestClient() {
             </div>
           </div>
         </div>
-
-        {/* POPUP MENU QUESTIONS */}
-        <AnimatePresence>
-          {isPopupOpen && (
-            <>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.3 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="fixed bottom-0 top-0 left-0 right-0 bg-black z-20"
-              />
-              <PopupMenu isOpen={isPopupOpen} setIsOpen={setIsPopupOpen} />
-            </>
-          )}
-        </AnimatePresence>
       </div>
+      {/* POPUP MENU QUESTIONS */}
+      <AnimatePresence>
+        {isPopupOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.3 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed bottom-0 top-0 left-0 right-0 bg-black z-20"
+            />
+            <PopupMenu
+              isOpen={isPopupOpen}
+              setIsOpen={setIsPopupOpen}
+              answers={answers}
+              onSelectTask={handlePassageSelect}
+              onSubmit={() => {}}
+            />
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

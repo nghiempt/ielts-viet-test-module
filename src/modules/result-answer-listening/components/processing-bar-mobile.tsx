@@ -2,10 +2,10 @@ import React from "react";
 
 interface PassageProgressBarProps {
   passageNumber: number;
-  currentQuestion: number;
+  currentQuestion?: number;
   totalQuestions: number;
-  startQuestion: number;
-  endQuestion: number;
+  startQuestion?: number;
+  endQuestion?: number;
   choosenPassage?: boolean;
   onClick?: () => void;
   onQuestionClick?: (questionNum: number) => void;
@@ -18,13 +18,9 @@ interface PassageProgressBarProps {
 
 const PassageProgressBarMobile: React.FC<PassageProgressBarProps> = ({
   passageNumber,
-  currentQuestion,
   totalQuestions,
-  startQuestion,
-  endQuestion,
   choosenPassage,
   onClick,
-  onQuestionClick,
   questionStatuses,
 }) => {
   // Calculate the number of correct answers

@@ -21,6 +21,7 @@ import { ReadingService } from "@/services/reading";
 import { QuestionsService } from "@/services/questions";
 import "@/styles/hide-scroll.css";
 import { ResultQuestion } from "./components/test-type/multiple-choice/multiple-choice";
+import { ROUTES } from "@/utils/routes";
 
 // Interfaces remain the same as provided
 interface Question {
@@ -146,7 +147,7 @@ export default function AnswerKeyReadingPage() {
 
       let questionCounter = 1;
 
-      passageData.forEach((passage, index) => {
+      passageData.forEach((passage: PassageSection, index) => {
         const questionCount = passage.question.length;
         const partId = passage._id;
 
@@ -245,7 +246,6 @@ export default function AnswerKeyReadingPage() {
     const storedAnswers = localStorage.getItem("readingTestAnswers");
     const parsedAnswers = storedAnswers ? JSON.parse(storedAnswers) : null;
     setResponse(parsedAnswers?.data || null);
-
     setIsLoading(true);
     setError(null);
     const segments = pathname.split("/").filter(Boolean);
@@ -415,7 +415,10 @@ export default function AnswerKeyReadingPage() {
   return (
     <div className="relative min-h-screen w-full bg-gray-50">
       <header className="fixed top-0 left-0 right-0 flex items-center justify-between bg-white border-b border-gray-200 px-4 py-2 z-20">
-        <div className="hidden lg:flex items-center w-[10%] py-3">
+        <Link
+          href={ROUTES.HOME}
+          className="hidden lg:flex items-center w-[10%] py-3"
+        >
           <Image
             src={IMAGES.LOGO}
             alt="DOL DINH LUC"
@@ -423,12 +426,12 @@ export default function AnswerKeyReadingPage() {
             height={1000}
             className="w-full h-full"
           />
-        </div>
+        </Link>
         <div className="text-center mr-28">
           <div className="font-semibold">{data?.name}</div>
           <div className="text-sm text-gray-600">Reading Test Result</div>
         </div>
-        <Link href={"/"} target="_blank" className="flex items-center">
+        <Link href={ROUTES.HOME} target="_blank" className="flex items-center">
           <div className="text-gray-400 hover:text-gray-600 ml-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -447,7 +450,6 @@ export default function AnswerKeyReadingPage() {
           </div>
         </Link>
       </header>
-
       <div className="fixed top-0 bottom-0 left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full">
         <div
           className={`p-4 py-24 pb-32 overflow-y-auto scroll-bar-style border-r border-gray-200 ${
@@ -479,102 +481,103 @@ export default function AnswerKeyReadingPage() {
             </div>
           )}
         </div>
-
         <div
           className={`bg-white p-4 pt-24 pb-32 overflow-y-auto scroll-bar-style ${
             switchReading ? "hidden lg:block" : ""
           }`}
         >
-          {questions.reduce((acc: JSX.Element[], question, index) => {
-            if (question.q_type === "MP") {
-              const mpQuestions = questions
-                .filter((q) => q.q_type === "MP")
-                .map((q) => ({
-                  id: q.id,
-                  question: q.question,
-                  options: q.options,
-                  isMultiple: q.isMultiple,
-                  selectedOptions: q.selectedOptions,
-                  correct_answer: q.correct_answer,
-                  is_correct: q.is_correct,
-                }));
-              if (index === questions.findIndex((q) => q.q_type === "MP")) {
-                acc.push(
-                  <div key={`mp-${index}`} className="mb-6">
-                    <ResultHeader
-                      title={`Questions ${mpQuestions[0].id} - ${
-                        mpQuestions[mpQuestions.length - 1].id
-                      }`}
-                      subtitle="Review your answers"
-                    />
-                    {mpQuestions.map((q) => (
-                      <ResultQuestion
-                        key={q.id}
-                        id={q.id}
-                        question={q.question}
-                        options={q.options}
-                        selectedOptions={q.selectedOptions}
-                        correctAnswer={q.correct_answer || []}
-                        isCorrect={q.is_correct ?? false}
+          {questions.reduce(
+            (acc: JSX.Element[], question: Question, index: number) => {
+              if (question?.q_type === "MP") {
+                const mpQuestions = questions
+                  .filter((q) => q?.q_type === "MP")
+                  .map((q) => ({
+                    id: q?.id,
+                    question: q?.question,
+                    options: q?.options,
+                    isMultiple: q?.isMultiple,
+                    selectedOptions: q?.selectedOptions,
+                    correct_answer: q?.correct_answer,
+                    is_correct: q?.is_correct,
+                  }));
+                if (index === questions.findIndex((q) => q.q_type === "MP")) {
+                  acc.push(
+                    <div key={`mp-${index}`} className="mb-6">
+                      <ResultHeader
+                        title={`Questions ${mpQuestions[0].id} - ${
+                          mpQuestions[mpQuestions.length - 1].id
+                        }`}
+                        subtitle="Review your answers"
                       />
-                    ))}
-                  </div>
-                );
-              }
-            } else if (question.q_type === "FB") {
-              const fbQuestions = questions
-                .filter((q) => q.q_type === "FB")
-                .map((q) => ({
-                  id: q.id,
-                  start_passage: q.start_passage || "",
-                  end_passage: q.end_passage || "",
-                  selectedAnswer: q.selectedOptions || "",
-                  correct_answer: q.correct_answer,
-                  is_correct: q.is_correct,
-                }));
-              if (index === questions.findIndex((q) => q.q_type === "FB")) {
-                acc.push(
-                  <div key={`fb-${index}`} className="mb-6">
-                    <ResultHeader
-                      title={`Questions ${fbQuestions[0].id} - ${
-                        fbQuestions[fbQuestions.length - 1].id
-                      }`}
-                      subtitle="Review your answers"
-                    />
-                    <div className="">
-                      {fbQuestions.map((q) => (
-                        <ResultShortAnswerQuestion
-                          key={q.id}
-                          id={q.id}
-                          start_passage={q.start_passage}
-                          end_passage={q.end_passage}
-                          selectedAnswer={
-                            Array.isArray(q.selectedAnswer)
-                              ? q.selectedAnswer.join(", ")
-                              : q.selectedAnswer || "No answer provided"
-                          }
-                          correctAnswer={
-                            Array.isArray(q.correct_answer)
-                              ? q.correct_answer.join(", ")
-                              : q.correct_answer || ""
-                          }
-                          isCorrect={q.is_correct ?? false}
+                      {mpQuestions.map((q) => (
+                        <ResultQuestion
+                          key={q?.id}
+                          id={q?.id}
+                          question={q?.question}
+                          options={q?.options}
+                          selectedOptions={q?.selectedOptions}
+                          correctAnswer={q?.correct_answer || []}
+                          isCorrect={q?.is_correct ?? false}
                         />
                       ))}
                     </div>
-                  </div>
-                );
+                  );
+                }
+              } else if (question.q_type === "FB") {
+                const fbQuestions = questions
+                  .filter((q) => q.q_type === "FB")
+                  .map((q) => ({
+                    id: q?.id,
+                    start_passage: q?.start_passage || "",
+                    end_passage: q?.end_passage || "",
+                    selectedAnswer: q?.selectedOptions || "",
+                    correct_answer: q?.correct_answer,
+                    is_correct: q?.is_correct,
+                  }));
+                if (index === questions.findIndex((q) => q.q_type === "FB")) {
+                  acc.push(
+                    <div key={`fb-${index}`} className="mb-6">
+                      <ResultHeader
+                        title={`Questions ${fbQuestions[0].id} - ${
+                          fbQuestions[fbQuestions.length - 1].id
+                        }`}
+                        subtitle="Review your answers"
+                      />
+                      <div className="">
+                        {fbQuestions.map((q) => (
+                          <ResultShortAnswerQuestion
+                            key={q?.id}
+                            id={q?.id}
+                            start_passage={q?.start_passage}
+                            end_passage={q?.end_passage}
+                            selectedAnswer={
+                              Array.isArray(q?.selectedAnswer)
+                                ? q?.selectedAnswer.join(", ")
+                                : q?.selectedAnswer || "No answer provided"
+                            }
+                            correctAnswer={
+                              Array.isArray(q?.correct_answer)
+                                ? q?.correct_answer.join(", ")
+                                : q?.correct_answer || ""
+                            }
+                            isCorrect={q?.is_correct ?? false}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  );
+                }
               }
-            }
-            return acc;
-          }, [])}
+              return acc;
+            },
+            []
+          )}
         </div>
       </div>
-
       <div className="fixed bottom-0 left-0 right-0 bg-white pt-0 pb-2 lg:pt-0 lg:pb-2 z-10">
         <div className="hidden lg:flex justify-between mt-0 text-sm border-t border-gray-100 pt-0">
           <div className="flex justify-center items-center">
-            {passages.map((passage) => {
+            {passages?.map((passage: PassageInfo) => {
               // Get the questions for this passage directly
               const passageData = [passage1, passage2, passage3].filter(
                 (p): p is PassageSection => p !== null
@@ -585,32 +588,33 @@ export default function AnswerKeyReadingPage() {
               );
 
               // Calculate question statuses
-              const questionStatuses = passageQuestions.map((question) => {
-                const isAnswered =
-                  (Array.isArray(question.selectedOptions) &&
-                    question.selectedOptions.length > 0) ||
-                  (typeof question.selectedOptions === "string" &&
-                    question.selectedOptions !== "");
+              const questionStatuses = passageQuestions.map(
+                (question: Question) => {
+                  const isAnswered =
+                    (Array.isArray(question.selectedOptions) &&
+                      question.selectedOptions.length > 0) ||
+                    (typeof question.selectedOptions === "string" &&
+                      question.selectedOptions !== "");
 
-                return {
-                  questionId: question.id,
-                  isAnswered,
-                  isCorrect: isAnswered ? question.is_correct ?? false : null,
-                };
-              });
-
+                  return {
+                    questionId: question.id,
+                    isAnswered,
+                    isCorrect: isAnswered ? question.is_correct ?? false : null,
+                  };
+                }
+              );
               return (
                 <PassageProgressBar
-                  key={passage.id}
-                  passageNumber={passage.id}
+                  key={passage?.id}
+                  passageNumber={passage?.id}
                   currentQuestion={selectedQuestion ?? 0}
                   totalQuestions={
-                    passage.endQuestion - passage.startQuestion + 1
+                    passage?.endQuestion - passage?.startQuestion + 1
                   }
-                  startQuestion={passage.startQuestion}
-                  endQuestion={passage.endQuestion}
-                  choosenPassage={selectedPassage === passage.id}
-                  onClick={() => handlePassageSelect(passage.id)}
+                  startQuestion={passage?.startQuestion}
+                  endQuestion={passage?.endQuestion}
+                  choosenPassage={selectedPassage === passage?.id}
+                  onClick={() => handlePassageSelect(passage?.id)}
                   onQuestionClick={handleQuestionSelect}
                   questionStatuses={questionStatuses}
                 />
@@ -620,7 +624,7 @@ export default function AnswerKeyReadingPage() {
           <div className="flex flex-row">
             <div
               className={`w-full flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer ${
-                selectedQuestion === passages[0].startQuestion
+                selectedQuestion === passages[0]?.startQuestion
                   ? "opacity-50"
                   : ""
               }`}
@@ -656,39 +660,40 @@ export default function AnswerKeyReadingPage() {
             </div>
           </div>
         </div>
-
         <div className="lg:hidden relative flex justify-center items-center py-0 pt-2 border-t border-gray-200">
           <div className="flex justify-center text-sm">
-            {passages.map((passage) => (
+            {passages?.map((passage: PassageInfo) => (
               <PassageProgressBarMobile
-                key={passage.id}
-                passageNumber={passage.id}
+                key={passage?.id}
+                passageNumber={passage?.id}
                 currentQuestion={selectedQuestion ?? 0}
-                totalQuestions={passage.endQuestion - passage.startQuestion + 1}
-                startQuestion={passage.startQuestion}
-                endQuestion={passage.endQuestion}
-                choosenPassage={passage.id === selectedPassage}
-                onClick={() => handlePassageSelect(passage.id)}
+                totalQuestions={
+                  passage?.endQuestion - passage?.startQuestion + 1
+                }
+                startQuestion={passage?.startQuestion}
+                endQuestion={passage?.endQuestion}
+                choosenPassage={passage?.id === selectedPassage}
+                onClick={() => handlePassageSelect(passage?.id)}
                 onQuestionClick={handleQuestionSelect}
                 questionStatuses={(() => {
                   const passageData = [passage1, passage2, passage3].filter(
                     (p): p is PassageSection => p !== null
-                  )[passage.id - 1];
+                  )[passage?.id - 1];
                   const passageQuestions = mapAndArrangeQuestions(
                     passageData,
-                    passage.startQuestion
+                    passage?.startQuestion
                   );
-                  return passageQuestions.map((question) => {
+                  return passageQuestions?.map((question: Question) => {
                     const isAnswered =
-                      (Array.isArray(question.selectedOptions) &&
-                        question.selectedOptions.length > 0) ||
-                      (typeof question.selectedOptions === "string" &&
-                        question.selectedOptions !== "");
+                      (Array.isArray(question?.selectedOptions) &&
+                        question?.selectedOptions.length > 0) ||
+                      (typeof question?.selectedOptions === "string" &&
+                        question?.selectedOptions !== "");
                     return {
-                      questionId: question.id,
+                      questionId: question?.id,
                       isAnswered,
                       isCorrect: isAnswered
-                        ? question.is_correct ?? false
+                        ? question?.is_correct ?? false
                         : null,
                     };
                   });
@@ -696,7 +701,6 @@ export default function AnswerKeyReadingPage() {
               />
             ))}
           </div>
-
           <div className="flex flex-col justify-center -translate-y-[2px]">
             <div className="w-full flex justify-center">
               <div
@@ -716,7 +720,6 @@ export default function AnswerKeyReadingPage() {
               Reviews & Submit
             </div>
           </div>
-
           <div className="lg:hidden absolute bg-[#FA812F] rounded-full bottom-[0%] -translate-y-24 right-[5%] z-30">
             <div
               className="p-3.5"
@@ -738,7 +741,6 @@ export default function AnswerKeyReadingPage() {
             </div>
           </div>
         </div>
-
         <AnimatePresence>
           {isPopupOpen && (
             <>
@@ -756,7 +758,7 @@ export default function AnswerKeyReadingPage() {
                 questionStatuses={(() => {
                   const statuses: { [passageId: number]: QuestionStatus[] } =
                     {};
-                  passages.forEach((passage) => {
+                  passages.forEach((passage: PassageInfo) => {
                     const passageData = [passage1, passage2, passage3].filter(
                       (p): p is PassageSection => p !== null
                     )[passage.id - 1];

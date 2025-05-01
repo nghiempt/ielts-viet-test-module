@@ -22,6 +22,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { ReadingService } from "@/services/reading";
 import { QuestionsService } from "@/services/questions";
 import { SubmitService } from "@/services/submit";
+import { ROUTES } from "@/utils/routes";
 
 interface Question {
   id: number;
@@ -138,6 +139,33 @@ export default function ReadingTestClient() {
     // Cleanup: Clear the interval when the component unmounts
     return () => clearInterval(timer);
   }, []);
+
+  // ALERT ON PAGE RELOAD OR CLOSE
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = ""; // Standard way to trigger the browser's confirmation dialog
+      return "Are you sure you want to leave? Your answers will not be saved.";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+  // HANDLE EXIT LINK CLICK
+  const handleExitClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const confirmExit = window.confirm(
+      "Are you sure you want to leave? Your answers will not be saved."
+    );
+
+    if (confirmExit) {
+      router.push(ROUTES.HOME);
+    }
+  };
 
   const calculatePassages = (): PassageInfo[] => {
     const passagesInfo: PassageInfo[] = [];
@@ -286,7 +314,6 @@ export default function ReadingTestClient() {
           );
 
           const initialParts: PartAnswer[] = Object.values(groupedByPartId);
-          console.log("Initialized answers:", initialParts);
           return { parts: initialParts };
         });
 
@@ -575,16 +602,13 @@ export default function ReadingTestClient() {
       const response = await SubmitService.submitTest(body);
 
       const jsonData = JSON.stringify(response, null, 2);
-      const jsonData2 = JSON.stringify(body, null, 2);
-
-      console.log("Submitted answers:", jsonData2);
 
       localStorage.setItem("readingTestAnswers", jsonData);
 
       const segments = pathname.split("/").filter(Boolean);
       const testId = segments[segments.length - 1];
 
-      router.push(`/reading-result/${testId}`);
+      router.push(`${ROUTES.READING_STATISTIC}/${testId}`);
     } catch (error) {
       console.error("Error submitting test:", error);
     }
@@ -594,7 +618,10 @@ export default function ReadingTestClient() {
     <div className="relative min-h-screen w-full bg-gray-50">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 flex items-center justify-between bg-white border-b border-gray-200 px-4 py-2 z-20">
-        <div className="hidden lg:flex items-center w-[10%] py-3">
+        <Link
+          href={ROUTES.HOME}
+          className="hidden lg:flex items-center w-[10%] py-3"
+        >
           <Image
             src={IMAGES.LOGO}
             alt="DOL DINH LUC"
@@ -602,7 +629,7 @@ export default function ReadingTestClient() {
             height={1000}
             className="w-full h-full"
           />
-        </div>
+        </Link>
         <div className="text-center">
           <div className="font-semibold">{data?.name}</div>
           <div className="text-sm text-gray-600">Reading Test</div>
@@ -625,7 +652,11 @@ export default function ReadingTestClient() {
             </svg>
             <span className="text-[#FA812F] font-semibold">{timeLeft}</span>
           </div>
-          <Link href="/" className="text-gray-400 hover:text-gray-600 ml-4">
+          <Link
+            href={ROUTES.HOME}
+            className="text-gray-400 hover:text-gray-600 ml-4"
+            onClick={handleExitClick}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 text-gray-500"
@@ -791,7 +822,6 @@ export default function ReadingTestClient() {
               <ChevronLeft color="#FA812F" /> Passage {selectedPassage - 1}
             </div>
           </div>
-
           <div className="flex justify-center items-center">
             {passages.map((passage) => (
               <PassageProgressBar
@@ -804,7 +834,6 @@ export default function ReadingTestClient() {
               />
             ))}
           </div>
-
           <div
             className={`w-36 flex justify-center items-center ${
               selectedPassage === 3 ? "hidden" : "border border-[#FA812F]"
@@ -819,7 +848,6 @@ export default function ReadingTestClient() {
               Passage {selectedPassage + 1} <ChevronRight color="#FA812F" />
             </div>
           </div>
-
           <div
             className={`w-36 flex justify-center items-center ${
               selectedPassage === 3 ? "border border-[#FA812F]" : "hidden"

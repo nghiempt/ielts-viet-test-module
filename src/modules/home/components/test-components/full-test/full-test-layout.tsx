@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import FullTestCard from "./full-test-card";
 import { FullTestService } from "@/services/full-test";
 
@@ -43,15 +43,15 @@ const FullTestLayout: React.FC = () => {
       </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-5">
-        {fullTest.slice(0, 2).map((item, index) => (
+        {fullTest?.slice(0, 2)?.map((item: FullTestItem, index: number) => (
           <FullTestCard
             key={index}
-            title={item.name}
+            title={item?.name}
             testCount={3}
             viewCount={20}
-            description={item.description}
-            thumbnail={item.thumbnail}
-            id={item._id}
+            description={item?.description}
+            thumbnail={item?.thumbnail}
+            id={item?._id}
           />
         ))}
       </div>

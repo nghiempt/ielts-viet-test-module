@@ -91,7 +91,7 @@ const WritingTestLayout = () => {
           modules={[Pagination, Navigation, Autoplay]}
           className="w-80 sm:w-96 lg:w-[100%] h-[400px] sm:h-[430px] lg:h-[470px]"
         >
-          {writings?.map((item, index) => (
+          {writings?.map((item: WritingTestItem, index: number) => (
             <SwiperSlide key={index} className="">
               <TestBookCard key={index} book={item} />
             </SwiperSlide>

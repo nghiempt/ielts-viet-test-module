@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ROUTES } from "@/utils/routes";
 
 interface TestCardProps {
   id: string;
@@ -39,7 +40,7 @@ const ListeningTestCard: React.FC<TestCardProps> = ({
         <p className="text-gray-600 mt-1 text-sm lg:text-base">
           {testCount} bài tests • {attemptsCount}K lượt làm
         </p>
-        <Link href={`/listening-test/${id}`}>
+        <Link href={`${ROUTES.LISTENING_TEST}/${id}`}>
           <div className="flex flex-row items-center text-[#FA812F] mt-2 font-medium text-sm lg:text-base">
             Xem bài test
             <svg

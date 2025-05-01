@@ -1,4 +1,3 @@
-// pages/index.tsx
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,7 +14,7 @@ import { usePathname } from "next/navigation";
 import { ReadingService } from "@/services/reading";
 import { ListeningService } from "@/services/listening";
 import { WritingService } from "@/services/writing";
-import { wrap } from "module";
+import { ROUTES } from "@/utils/routes";
 
 interface FullTestItem {
   _id: string;
@@ -65,10 +64,22 @@ export default function Section01() {
   const [reading, setReading] = useState<ReadingDetail | null>(null);
   const [listening, setListening] = useState<ListenDetail | null>(null);
   const [writing, setWriting] = useState<WritingDetail | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const render = (data: FullTestItem[]) => {
     setFullTests(data);
   };
+
+  // Detect mobile device based on window width
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024); // lg breakpoint
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const init = async () => {
     const segments = pathname.split("/").filter(Boolean);
@@ -77,17 +88,14 @@ export default function Section01() {
     try {
       const res = await FullTestService.getFullTestById(id);
 
-      // Check if main response exists
       if (!res) {
         throw new Error("Full test data not found");
       }
 
-      // Fetch additional data with null checks
       const resReading = await ReadingService.getReadingById(res.r_id);
       const resListening = await ListeningService.getListeningById(res.l_id);
       const resWriting = await WritingService.getWritingById(res.w_id);
 
-      // Set states with fallback to null
       setFullTestDetail(res || null);
       setReading(resReading || null);
       setListening(resListening || null);
@@ -103,13 +111,11 @@ export default function Section01() {
     try {
       const res = await FullTestService.getAll();
 
-      // Handle null or empty response
       if (!res || !Array.isArray(res) || res.length === 0) {
         setFullTests([]);
         return;
       }
 
-      // Filter items with valid thumbnails
       const filteredData = res.filter(
         (item: FullTestItem) => item && item.thumbnail != null
       );
@@ -124,6 +130,13 @@ export default function Section01() {
   useEffect(() => {
     init();
   }, []);
+
+  // Handler for opening test in new window on mobile
+  const handleTestClick = (url: string) => {
+    if (isMobile) {
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+  };
 
   return (
     <div className="w-full mx-auto px-6">
@@ -151,7 +164,7 @@ export default function Section01() {
               </div>
             </div>
             <div className="mt-1 flex justify-center lg:justify-start items-center w-full">
-              <button className="bg-blue-500 text-white text-xs px-3 py-1 rounded-sm flex  items-center">
+              <button className="bg-blue-500 text-white text-xs px-3 py-1 rounded-sm flex items-center">
                 <Facebook
                   size={15}
                   color="#ffffff"
@@ -180,7 +193,6 @@ export default function Section01() {
           </div>
 
           {/* Tests */}
-          {/* {tests.map((test) => ( */}
           <div className="flex flex-col lg:grid lg:grid-cols-4 gap-4 items-center py-3 border-b border-gray-200">
             {/* Test ID */}
             <div className="w-full text-center mb-4 lg:mb-0">
@@ -196,15 +208,32 @@ export default function Section01() {
                     <div className="border-4 border-gray-200 p-3 rounded-full">
                       <BookOpenText />
                     </div>
-                    <Link
-                      href={`/reading-test/${fullTestDetail?.r_id}`}
-                      className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
-                    >
-                      <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
-                        <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
-                      </div>
-                      <span>Làm bài</span>
-                    </Link>
+                    {isMobile ? (
+                      <button
+                        onClick={() =>
+                          handleTestClick(
+                            `${ROUTES.READING_TEST}/${fullTestDetail?.r_id}`
+                          )
+                        }
+                        className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                      >
+                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
+                        </div>
+                        <span>Làm bài</span>
+                      </button>
+                    ) : (
+                      <Link
+                        href={`${ROUTES.READING_TEST}/${fullTestDetail?.r_id}`}
+                        target="_blank"
+                        className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                      >
+                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
+                        </div>
+                        <span>Làm bài</span>
+                      </Link>
+                    )}
                   </div>
                 ) : (
                   <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
@@ -218,15 +247,32 @@ export default function Section01() {
                     <div className="border-4 border-gray-200 p-3 rounded-full">
                       <Headphones />
                     </div>
-                    <Link
-                      href={`/listening-test/${fullTestDetail?.l_id}`}
-                      className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
-                    >
-                      <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
-                        <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
-                      </div>
-                      <span>Làm bài</span>
-                    </Link>
+                    {isMobile ? (
+                      <button
+                        onClick={() =>
+                          handleTestClick(
+                            `${ROUTES.LISTENING_TEST}/${fullTestDetail?.l_id}`
+                          )
+                        }
+                        className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                      >
+                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
+                        </div>
+                        <span>Làm bài</span>
+                      </button>
+                    ) : (
+                      <Link
+                        href={`${ROUTES.LISTENING_TEST}/${fullTestDetail?.l_id}`}
+                        target="_blank"
+                        className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                      >
+                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
+                        </div>
+                        <span>Làm bài</span>
+                      </Link>
+                    )}
                   </div>
                 ) : (
                   <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
@@ -240,15 +286,32 @@ export default function Section01() {
                     <div className="border-4 border-gray-200 p-3 rounded-full">
                       <PenLine />
                     </div>
-                    <Link
-                      href={`/writing-test/${fullTestDetail?.w_id}`}
-                      className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
-                    >
-                      <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
-                        <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
-                      </div>
-                      <span>Làm bài</span>
-                    </Link>
+                    {isMobile ? (
+                      <button
+                        onClick={() =>
+                          handleTestClick(
+                            `${ROUTES.WRITING_TEST}/${fullTestDetail?.w_id}`
+                          )
+                        }
+                        className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                      >
+                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
+                        </div>
+                        <span>Làm bài</span>
+                      </button>
+                    ) : (
+                      <Link
+                        href={`${ROUTES.WRITING_TEST}/${fullTestDetail?.w_id}`}
+                        target="_blank"
+                        className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                      >
+                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
+                        </div>
+                        <span>Làm bài</span>
+                      </Link>
+                    )}
                   </div>
                 ) : (
                   <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
@@ -256,26 +319,23 @@ export default function Section01() {
               </div>
             </div>
           </div>
-          {/* ))} */}
         </div>
 
         {/* Book Series */}
         <h2 className="text-xl lg:text-3xl font-bold mb-4">
-          Sách cùng bộ Cambridge
+          Các bộ đề test liên quan
         </h2>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-          {fullTests.slice(0, 4).map((item, index) => (
+          {fullTests.slice(0, 4).map((item) => (
             <div
               key={item._id}
               className="grid grid-rows-1 gap-5 rounded-lg overflow-hidden"
             >
-              <div
-                className={`col-span-12 lg:col-span-4 p-0 w-full h-full flex items-center justify-center`}
-              >
+              <div className="col-span-12 lg:col-span-4 p-0 w-full h-full flex items-center justify-center">
                 <div className="w-full h-full relative">
                   <Image
-                    src={IMAGES.THUMBNAIL}
-                    alt={`IELTS Test ${item._id}`}
+                    src={item?.thumbnail}
+                    alt={`IELTS Test ${item?._id}`}
                     width={1000}
                     height={1000}
                     className="object-cover rounded-lg h-full w-full"
@@ -284,12 +344,12 @@ export default function Section01() {
               </div>
               <div className="col-span-12 lg:col-span-8 flex-1 p-0">
                 <h2 className="text-lg lg:text-xl font-semibold">
-                  {item.name}
+                  {item?.name}
                 </h2>
                 <p className="text-gray-600 mt-1 text-sm">
                   20K bài tests • 16K lượt làm
                 </p>
-                <Link href={`/full-ielts-test/${item._id}`}>
+                <Link href={`${ROUTES.FULLTEST_DETAIL}/${item?._id}`}>
                   <div className="flex flex-row items-center text-[#FA812F] mt-2 font-medium text-sm">
                     Xem bài test{" "}
                     <svg

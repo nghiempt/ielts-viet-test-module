@@ -37,7 +37,7 @@ const Marquee = () => {
     <section className="w-full py-0 lg:py-8 overflow-hidden">
       <div className="hidden lg:flex justify-center items-center gap-4 whitespace-nowrap">
         <FastMarquee loop={0} speed={70}>
-          {data.map((item, index) => (
+          {data?.map((item: Slider, index: number) => (
             <Image
               key={`marquee-image-${index}`}
               src={item?.image}
@@ -51,7 +51,7 @@ const Marquee = () => {
       </div>
       <div className="flex lg:hidden justify-center items-center gap-4 whitespace-nowrap">
         <FastMarquee loop={0} speed={70}>
-          {data.map((item, index) => (
+          {data?.map((item: Slider, index: number) => (
             <Image
               key={`marquee-image-${index}`}
               src={item?.image}

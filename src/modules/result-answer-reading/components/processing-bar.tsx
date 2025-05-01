@@ -11,7 +11,7 @@ interface PassageProgressBarProps {
   currentQuestion: number;
   totalQuestions: number;
   startQuestion: number;
-  endQuestion: number;
+  endQuestion?: number;
   choosenPassage?: boolean;
   onClick?: () => void;
   onQuestionClick?: (questionNum: number) => void;
@@ -23,7 +23,6 @@ const PassageProgressBar: React.FC<PassageProgressBarProps> = ({
   currentQuestion,
   totalQuestions,
   startQuestion,
-  endQuestion,
   choosenPassage,
   onClick,
   onQuestionClick,

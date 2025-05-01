@@ -41,7 +41,7 @@ const PopupMenu = ({
     if (!status || !status.isAnswered) {
       return "bg-yellow-500"; // Unanswered
     }
-    return status.isCorrect ? "bg-green-500" : "bg-red-500"; // Correct or Incorrect
+    return status.isCorrect ? "bg-green-500" : "bg-red-500"; // Correct | Incorrect
   };
 
   return (

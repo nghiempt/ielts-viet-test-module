@@ -5,6 +5,8 @@ import "@/styles/hide-scroll.css";
 import { IMAGES } from "@/utils/images";
 import { Check } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
+import { ROUTES } from "@/utils/routes";
+import Link from "next/link";
 
 interface QuestionAnswer {
   question_id: string;
@@ -45,9 +47,6 @@ const ResultStatistic = () => {
     if (storedAnswers) {
       try {
         const parsedAnswers = JSON.parse(storedAnswers);
-        console.log("Parsed answers:", parsedAnswers);
-        console.log("Parsed answers kkk:", storedAnswers);
-
         setResponse(parsedAnswers);
 
         if (parsedAnswers?.data) {
@@ -112,7 +111,6 @@ const ResultStatistic = () => {
           } else if (totals.correct >= 39 && totals.correct <= 40) {
             setScore(9);
           }
-          // localStorage.removeItem("readingTestAnswers");
         } else {
           console.error("Invalid data structure in parsedAnswers");
         }
@@ -140,32 +138,10 @@ const ResultStatistic = () => {
   const handleSubmit = async () => {
     const jsonData = JSON.stringify(response, null, 2);
 
-    console.log("Submitted answers:", jsonData);
-
     // Store JSON data in localStorage
     localStorage.setItem("readingTestAnswers", jsonData);
 
-    // // Check if the device is mobile
-    // const isMobile =
-    //   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    //     navigator.userAgent
-    //   );
-
-    // if (isMobile) {
-    //   // For mobile, attempt to open a new tab
-    //   const newWindow = window.open("", "_blank");
-    //   if (newWindow) {
-    //     newWindow.location = `/test-result-reading/${id}`;
-    //   } else {
-    //     // Fallback: navigate in the same tab if window.open fails
-    //     window.location.href = `/test-result-reading/${id}`;
-    //   }
-    // } else {
-    //   // For desktop, use original window.open
-    //   window.open(`/test-result-reading/${id}`, "_blank");
-    // }
-
-    router.push(`/test-result-reading/${id}`);
+    router.push(`${ROUTES.READING_RESULT}/${id}`);
   };
 
   // Helper to render passage answers
@@ -220,7 +196,7 @@ const ResultStatistic = () => {
     <div className="bg-gray-50 min-h-screen w-full">
       <header className="fixed top-0 left-0 right-0 bg-white shadow p-2 flex justify-between items-center z-20">
         <div className="flex items-center">
-          <div className="hidden lg:flex">
+          <Link href={ROUTES.HOME} className="hidden lg:flex">
             <Image
               src={IMAGES.LOGO}
               alt="Dinh Luc Logo"
@@ -228,13 +204,13 @@ const ResultStatistic = () => {
               height={1000}
               className="mr-2 w-full h-10"
             />
-          </div>
+          </Link>
         </div>
         <div className="text-center font-medium mr-24">
           Answer key
           <div className="text-xs text-gray-500">CAM16 - Reading Test 4</div>
         </div>
-        <button className="text-gray-600">
+        <Link href={ROUTES.HOME} className="text-gray-600">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -249,7 +225,7 @@ const ResultStatistic = () => {
               d="M6 18L18 6M6 6l12 12"
             />
           </svg>
-        </button>
+        </Link>
       </header>
 
       <main
@@ -346,7 +322,6 @@ const ResultStatistic = () => {
                 />
               </div>
             </div>
-
             <div
               onClick={handleSubmit}
               className="cursor-pointer bg-red-600 text-white rounded-md px-4 py-2 text-sm mt-4"
@@ -360,7 +335,6 @@ const ResultStatistic = () => {
         <div className="bg-white rounded-lg shadow mb-16 lg:mb-0">
           <div className="p-6">
             <h2 className="font-medium text-lg mb-4">Answer key</h2>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {result?.result.map((part, index) => (
                 <div key={part.part_id}>
