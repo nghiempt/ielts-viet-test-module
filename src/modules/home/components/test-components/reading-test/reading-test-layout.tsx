@@ -10,6 +10,7 @@ import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
 import "@/styles/contact.css";
 import { ReadingService } from "@/services/reading";
+import SkeletonReading from "./components/skeleton-reading";
 
 interface ReadingTestItem {
   _id: string;
@@ -24,20 +25,24 @@ interface ReadingTestItem {
 const ReadingTestLayout = () => {
   const [readings, setReadings] = useState<ReadingTestItem[]>([]);
   const swiperRef = useRef<SwiperCore | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const render = (data: ReadingTestItem[]) => {
     setReadings(data);
   };
 
   const init = async () => {
+    setIsLoading(true);
     const res = await ReadingService.getAll();
     if (res && res.length > 0) {
       const filteredData = res.filter(
         (item: ReadingTestItem) => item.thumbnail != null
       );
       render(filteredData);
+      setIsLoading(false);
     } else {
       setReadings([]);
+      setIsLoading(false);
     }
   };
 
@@ -58,11 +63,13 @@ const ReadingTestLayout = () => {
   };
 
   return (
-    <div className="py-0">
-      <div>
-        <h1 className="text-2xl lg:text-3xl font-bold text-black mb-8">
-          Reading Test
-        </h1>
+    <div className="py-0 flex flex-col w-full">
+      <h1 className="text-2xl lg:text-3xl font-bold text-black mb-8">
+        Reading Test
+      </h1>
+      {isLoading ? (
+        <SkeletonReading />
+      ) : (
         <div className="relative">
           <Swiper
             onSwiper={(swiper) => (swiperRef.current = swiper)}
@@ -147,7 +154,7 @@ const ReadingTestLayout = () => {
             </svg>
           </button>
         </div>
-      </div>
+      )}
     </div>
   );
 };

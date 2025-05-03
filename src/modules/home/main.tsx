@@ -17,16 +17,16 @@ export default function HomeContent() {
       <section className="lg:w-3/4">
         <Section02 />
       </section>
-      <section className="lg:w-3/4">
+      <section className="w-full lg:w-3/4">
         <Section03 />
       </section>
       <section className="lg:w-3/4">
         <Section04 />
       </section>
-      <section className="lg:w-3/4">
+      <section className="w-full lg:w-3/4">
         <Section05 />
       </section>
-      <section className="lg:w-3/4">
+      <section className="w-full lg:w-3/4">
         <Section06 />
       </section>
       <section className="w-full lg:w-3/4">

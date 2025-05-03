@@ -5,7 +5,7 @@ import ListeningTest from "./test-components/listening-test/listening-test-layou
 const Section04 = () => {
   return (
     <div>
-      <main>
+      <main className="px-5 lg:px-0">
         <ListeningTest />
       </main>
     </div>

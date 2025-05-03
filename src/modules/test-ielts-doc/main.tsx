@@ -23,6 +23,7 @@ import { ReadingService } from "@/services/reading";
 import { QuestionsService } from "@/services/questions";
 import { SubmitService } from "@/services/submit";
 import { ROUTES } from "@/utils/routes";
+import "@/styles/hide-scroll.css";
 
 interface Question {
   id: number;

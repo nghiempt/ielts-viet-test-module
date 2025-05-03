@@ -5,6 +5,7 @@ import "@/styles/contact.css";
 import Link from "next/link";
 import { LatestService } from "@/services/latest";
 import { ROUTES } from "@/utils/routes";
+import SkeletonLatest from "./components/skeleton-latest";
 
 interface LatestTestItem {
   _id: string;
@@ -18,12 +19,14 @@ interface LatestTestItem {
 
 const LatestTestLayout = () => {
   const [latest, setLatest] = useState<LatestTestItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const render = (data: any) => {
     setLatest(data);
   };
 
   const init = async () => {
+    setIsLoading(true);
     const res = await LatestService.getAll();
     if (res && res.length > 0) {
       const filteredData = res.filter(
@@ -37,8 +40,10 @@ const LatestTestLayout = () => {
 
       render(randomData);
       render(filteredData);
+      setIsLoading(false);
     } else {
       setLatest([]);
+      setIsLoading(false);
     }
   };
 
@@ -53,26 +58,30 @@ const LatestTestLayout = () => {
           Bài test mới nhất
         </h1>
       </div>
-      <div className="flex md:grid overflow-x-auto md:overflow-visible gap-4 md:gap-6 md:grid-cols-3 pb-4 md:pb-0 px-0 mx-0 snap-x snap-mandatory scrollbar scrollbar-thumb-gray-300 scrollbar-track-gray-100 scroll-bar-style h-56 lg:h-full">
-        {latest?.slice(0, 6)?.map((item: LatestTestItem, index: number) => (
-          <Link
-            key={index}
-            href={
-              item.type === "R"
-                ? `${ROUTES.READING_TEST}/${item?._id}`
-                : item.type === "L"
-                ? `${ROUTES.LISTENING_TEST}/${item?._id}`
-                : `${ROUTES.WRITING_TEST}/${item?._id}`
-            }
-          >
-            <LatestTestCard
-              testName={item?.name}
-              attempts={19}
-              totalQuestions={40}
-            />
-          </Link>
-        ))}
-      </div>
+      {isLoading ? (
+        <SkeletonLatest />
+      ) : (
+        <div className="flex md:grid overflow-x-auto md:overflow-visible gap-4 md:gap-6 md:grid-cols-3 pb-4 md:pb-0 px-0 mx-0 snap-x snap-mandatory scrollbar scrollbar-thumb-gray-300 scrollbar-track-gray-100 scroll-bar-style h-56 lg:h-full">
+          {latest?.slice(0, 6)?.map((item: LatestTestItem, index: number) => (
+            <Link
+              key={index}
+              href={
+                item.type === "R"
+                  ? `${ROUTES.READING_TEST}/${item?._id}`
+                  : item.type === "L"
+                  ? `${ROUTES.LISTENING_TEST}/${item?._id}`
+                  : `${ROUTES.WRITING_TEST}/${item?._id}`
+              }
+            >
+              <LatestTestCard
+                testName={item?.name}
+                attempts={19}
+                totalQuestions={40}
+              />
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -17,6 +17,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { WritingService } from "@/services/writing";
 import { QuestionsService } from "@/services/questions";
 import { ROUTES } from "@/utils/routes";
+import "@/styles/hide-scroll.css";
 
 interface PassageSection {
   _id: string;
@@ -229,8 +230,8 @@ export default function WritingTestClient() {
           />
         </Link>
         <div className="text-center">
-          <div className="font-semibold">IELTS Writing Test</div>
-          <div className="text-sm text-gray-600">{data?.name}</div>
+          <div className="font-semibold">{data?.name}</div>
+          <div className="text-sm text-gray-600">Writing Test</div>
         </div>
         <div className="flex items-center">
           <div className="bg-gray-100 px-3 py-1 rounded-full flex items-center">
@@ -273,7 +274,7 @@ export default function WritingTestClient() {
       <div className="fixed top-[8%] bottom-[0%] left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full overflow-y-auto">
         {/* Reading passage */}
         <div
-          className={`p-4 overflow-y-auto border-r border-gray-200 pt-8 ${
+          className={`p-4 overflow-y-auto scroll-bar-style border-r border-gray-200 pt-8 ${
             switchWriting ? "" : "hidden lg:block"
           }`}
         >
@@ -285,18 +286,28 @@ export default function WritingTestClient() {
                   {passage1.question[0].question}
                 </h1>
               )}
+              <p className="mb-4 text-sm lg:text-[15px]">
+                You should spend about 20 minutes on this task.
+              </p>
               {passage1 && passage1.question[0] && (
-                <p className="mb-4 text-sm">{passage1.question[0].content}</p>
+                <div className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full">
+                  {passage1.question[0].content}
+                </div>
               )}
-              <div>
-                <Image
-                  src="https://edmicro.edu.vn/wp-content/uploads/2023/11/ielts-writing-task-1-bar-chart-vi-du.png"
-                  alt=""
-                  width={1000}
-                  height={1000}
-                  className="w-full h-full"
-                />
-              </div>
+              <p className="mb-4 text-sm lg:text-[15px]">
+                Write at least 150 words.
+              </p>
+              {passage1?.question[0]?.image && (
+                <div>
+                  <Image
+                    src={passage1?.question[0]?.image || ""}
+                    alt=""
+                    width={1000}
+                    height={1000}
+                    className="w-full h-full"
+                  />
+                </div>
+              )}
             </div>
           )}
           {selectedPassage === 2 && (
@@ -307,25 +318,35 @@ export default function WritingTestClient() {
                   {passage2.question[0].question}
                 </h1>
               )}
+              <p className="mb-4 text-sm lg:text-[15px]">
+                You should spend about 40 minutes on this task.
+              </p>
               {passage2 && passage2.question[0] && (
-                <p className="mb-4 text-sm">{passage2.question[0].content}</p>
+                <div className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full">
+                  {passage2.question[0].content}
+                </div>
               )}
-              <div>
-                <Image
-                  src="https://edmicro.edu.vn/wp-content/uploads/2023/11/ielts-writing-task-1-bar-chart-vi-du.png"
-                  alt=""
-                  width={1000}
-                  height={1000}
-                  className="w-full h-full"
-                />
-              </div>
+              <p className="mb-4 text-sm lg:text-[15px]">
+                Write at least 250 words.
+              </p>
+              {passage2?.question[0]?.image && (
+                <div>
+                  <Image
+                    src={passage2?.question[0]?.image || ""}
+                    alt=""
+                    width={1000}
+                    height={1000}
+                    className="w-full h-full"
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>
 
         {/* Writing Area */}
         <div
-          className={`bg-white px-4 pt-8 overflow-y-auto ${
+          className={`bg-white px-4 pt-8 overflow-y-auto scroll-bar-style ${
             switchWriting ? "hidden lg:block" : ""
           }`}
         >

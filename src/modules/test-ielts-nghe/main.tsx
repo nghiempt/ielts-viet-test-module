@@ -854,8 +854,8 @@ const ListeningTestClient: React.FC = () => {
           />
         </Link>
         <div className="text-center">
-          <div className="font-semibold">IELTS Online Test</div>
-          <div className="text-sm text-gray-600">{data?.name}</div>
+          <div className="font-semibold">{data?.name}</div>
+          <div className="text-sm text-gray-600">Listening Test</div>
         </div>
         <div className="flex items-center">
           <div>

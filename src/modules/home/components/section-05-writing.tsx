@@ -6,7 +6,7 @@ import WritingTestLayout from "./test-components/writing-test/writing-test-layou
 const Section05 = () => {
   return (
     <div>
-      <main>
+      <main className="px-5 lg:px-0">
         <WritingTestLayout />
       </main>
     </div>
