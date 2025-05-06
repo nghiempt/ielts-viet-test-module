@@ -24,30 +24,30 @@ const ListeningSection: React.FC = () => {
 
   // Filter categories
   const filterCategories = [
-    {
-      title: "BỘ LỌC TRẠNG THÁI",
-      options: [
-        { id: "chua-lam", label: "Bài chưa làm" },
-        { id: "dang-lam", label: "Bài đang làm" },
-        { id: "da-lam", label: "Bài đã làm" },
-      ],
-    },
-    {
-      title: "DẠNG CÂU HỎI (15)",
-      options: [
-        { id: "summary", label: "Summary Completion" },
-        { id: "true-false", label: "True/ False/ Not Given" },
-        { id: "multiple-choice", label: "Multiple Choice" },
-        { id: "matching-paragraph", label: "Matching Paragraph Information" },
-        { id: "matching-name", label: "Matching Name" },
-      ],
-    },
+    // {
+    //   title: "BỘ LỌC TRẠNG THÁI",
+    //   options: [
+    //     { id: "chua-lam", label: "Bài chưa làm" },
+    //     { id: "dang-lam", label: "Bài đang làm" },
+    //     { id: "da-lam", label: "Bài đã làm" },
+    //   ],
+    // },
+    // {
+    //   title: "DẠNG CÂU HỎI (15)",
+    //   options: [
+    //     { id: "summary", label: "Summary Completion" },
+    //     { id: "true-false", label: "True/ False/ Not Given" },
+    //     { id: "multiple-choice", label: "Multiple Choice" },
+    //     { id: "matching-paragraph", label: "Matching Paragraph Information" },
+    //     { id: "matching-name", label: "Matching Name" },
+    //   ],
+    // },
     {
       title: "SẮP XẾP THEO",
       options: [
         { id: "moi-nhat", label: "Mới nhất" },
         { id: "cu-nhat", label: "Cũ nhất" },
-        { id: "nhieu-luot", label: "Nhiều lượt làm nhất" },
+        // { id: "nhieu-luot", label: "Nhiều lượt làm nhất" },
         { id: "tu-a-z", label: "Từ A → Z" },
         { id: "tu-z-a", label: "Từ Z → A" },
       ],
@@ -55,15 +55,20 @@ const ListeningSection: React.FC = () => {
   ];
 
   const [listening, setListening] = useState<ListeningTestItem[]>([]);
+  const [filteredListenings, setFilteredListenings] = useState<
+    ListeningTestItem[]
+  >([]);
   const [totalPage, setTotalPage] = useState<number>(0);
   const [currenPage, setCurrenPage] = useState<any>(1 as any);
   const [currenData, setCurrenData] = useState<any>([] as any);
+  const [selectedFilter, setSelectedFilter] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const selectPage = (pageSelected: any) => {
     setCurrenPage(pageSelected);
     const start = (pageSelected - 1) * COUNT;
     const end = pageSelected * COUNT;
-    setCurrenData(listening.slice(start, end));
+    setCurrenData(filteredListenings.slice(start, end));
   };
 
   const prevPage = () => {
@@ -78,11 +83,47 @@ const ListeningSection: React.FC = () => {
     }
   };
 
+  const handleFilterChange = (filterId: string) => {
+    setSelectedFilter((prev) => (prev === filterId ? "" : filterId));
+  };
+
+  const applyFilters = (data: ListeningTestItem[]) => {
+    let filteredData = [...data];
+
+    // Apply search filter
+    if (searchQuery) {
+      filteredData = filteredData.filter((item) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Apply sorting based on selected filter
+    if (selectedFilter === "moi-nhat") {
+      filteredData.sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+    } else if (selectedFilter === "cu-nhat") {
+      filteredData.sort(
+        (a, b) =>
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+      );
+    } else if (selectedFilter === "tu-a-z") {
+      filteredData.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (selectedFilter === "tu-z-a") {
+      filteredData.sort((a, b) => b.name.localeCompare(a.name));
+    }
+
+    return filteredData;
+  };
+
   const render = (data: ListeningTestItem[]) => {
-    setListening(data);
-    setTotalPage(Math.ceil(data.length / COUNT));
+    const filteredData = applyFilters(data);
+    setFilteredListenings(filteredData);
+    // setListening(filteredData);
+    setTotalPage(Math.ceil(filteredData.length / COUNT));
     setCurrenPage(1);
-    setCurrenData(data.slice(0, COUNT));
+    setCurrenData(filteredData.slice(0, COUNT));
   };
 
   const init = async () => {
@@ -91,15 +132,23 @@ const ListeningSection: React.FC = () => {
       const filteredData = res.filter(
         (item: ListeningTestItem) => item.thumbnail != null
       );
+      setListening(filteredData);
       render(filteredData);
     } else {
       setListening([]);
+      setFilteredListenings([]);
     }
   };
 
   useEffect(() => {
     init();
   }, []);
+
+  useEffect(() => {
+    if (listening.length > 0) {
+      render(listening);
+    }
+  }, [selectedFilter, searchQuery]);
 
   // Test card component
   const TestCard: React.FC<{ test: ListeningTestItem }> = ({ test }) => {
@@ -175,11 +224,18 @@ const ListeningSection: React.FC = () => {
       {/* Recommended tests section */}
       <section className="mb-12">
         <h2 className="text-xl font-medium mb-6">Gợi ý cho bạn</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {listening.slice(0, 4).map((test) => (
-            <TestCard key={test._id} test={test} />
-          ))}
-        </div>
+
+        {filteredListenings.length === 0 ? (
+          <div className="flex justify-center items-center">
+            Không tìm thấy bài nghe.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {filteredListenings.slice(0, 4).map((test) => (
+              <TestCard key={test._id} test={test} />
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Reading test collection section */}
@@ -193,7 +249,9 @@ const ListeningSection: React.FC = () => {
               <div className="flex flex-row gap-3">
                 <input
                   type="text"
-                  placeholder="Search"
+                  placeholder="Search by name"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="border border-gray-300 rounded-md p-2 text-sm w-full"
                 />
                 <button className="bg-gray-700 hover:bg-gray-800 text-white px-3 rounded-full">
@@ -223,7 +281,9 @@ const ListeningSection: React.FC = () => {
                       <input
                         type="checkbox"
                         id={option.id}
-                        className="h-4 w-4 text-red-600 focus:ring-red-500"
+                        checked={selectedFilter === option.id}
+                        onChange={() => handleFilterChange(option.id)}
+                        className="h-4 w-4 text-[#FA812F]"
                       />
                       <label htmlFor={option.id} className="ml-2 text-sm">
                         {option.label}
@@ -284,11 +344,17 @@ const ListeningSection: React.FC = () => {
 
           {/* Right side with test grid */}
           <div className="flex-1">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {currenData.map((test: ListeningTestItem, index: number) => (
-                <TestCard key={test._id} test={test} />
-              ))}
-            </div>
+            {currenData.length === 0 ? (
+              <div className="flex justify-center items-center">
+                Không tìm thấy bài nghe.
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {currenData.map((test: ListeningTestItem, index: number) => (
+                  <TestCard key={test._id} test={test} />
+                ))}
+              </div>
+            )}
 
             {/* Pagination */}
             <nav
