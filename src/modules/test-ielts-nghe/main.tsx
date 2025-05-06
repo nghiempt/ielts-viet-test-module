@@ -772,7 +772,7 @@ const ListeningTestClient: React.FC = () => {
       const segments = pathname.split("/").filter(Boolean);
       const testId = segments[segments.length - 1];
 
-      router.push(`${ROUTES.LISTENING_RESULT}/${testId}`);
+      router.push(`${ROUTES.LISTENING_STATISTIC}/${testId}`);
     } catch (error) {
       console.error("Error submitting test:", error);
     }

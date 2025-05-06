@@ -142,7 +142,7 @@ const ResultStatistic = () => {
     // Store JSON data in localStorage
     localStorage.setItem("listeningTestAnswers", jsonData);
 
-    router.push(`${ROUTES.LISTENING_STATISTIC}/${id}`);
+    router.push(`${ROUTES.LISTENING_RESULT}/${id}`);
   };
 
   // Helper to render passage answers
