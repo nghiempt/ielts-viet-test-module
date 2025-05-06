@@ -1,4 +1,6 @@
+import { ROUTES } from "@/utils/routes";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { useState } from "react";
 
 interface PopupMenuProps {
@@ -162,12 +164,13 @@ const PopupMenu = ({
 
             {/* Submit Button */}
             <div className="px-4 py-5">
-              <button
+              <Link
+                href={ROUTES.WRITING_RESULT}
                 onClick={onSubmit}
                 className="w-full py-3 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 transition duration-150"
               >
                 Submit
-              </button>
+              </Link>
             </div>
           </div>
         </motion.div>

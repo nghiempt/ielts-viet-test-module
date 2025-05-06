@@ -18,6 +18,7 @@ import { WritingService } from "@/services/writing";
 import { QuestionsService } from "@/services/questions";
 import { ROUTES } from "@/utils/routes";
 import "@/styles/hide-scroll.css";
+import { SubmitService } from "@/services/submit";
 
 interface PassageSection {
   _id: string;
@@ -65,35 +66,28 @@ export default function WritingTestClient() {
 
   // COUNTING DOWN TIMER
   useEffect(() => {
-    // Parse initial time "60:00" into seconds
     const [minutes, seconds] = timeLeft.split(":").map(Number);
     let totalSeconds = minutes * 60 + seconds;
 
-    // Only start the timer if there's time remaining
     if (totalSeconds <= 0) return;
 
-    // Set up the interval to decrease time every second
     const timer = setInterval(() => {
       totalSeconds -= 1;
 
-      // Calculate new minutes and seconds
       const newMinutes = Math.floor(totalSeconds / 60);
       const newSeconds = totalSeconds % 60;
 
-      // Format the time as MM:SS
       const formattedTime = `${newMinutes
         .toString()
         .padStart(2, "0")}:${newSeconds.toString().padStart(2, "0")}`;
       setTimeLeft(formattedTime);
 
-      // Stop the timer when it reaches 0
       if (totalSeconds <= 0) {
         clearInterval(timer);
         setTimeLeft("00:00");
       }
     }, 1000);
 
-    // Cleanup: Clear the interval when the component unmounts
     return () => clearInterval(timer);
   }, []);
 
@@ -101,7 +95,7 @@ export default function WritingTestClient() {
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       event.preventDefault();
-      event.returnValue = ""; // Standard way to trigger the browser's confirmation dialog
+      event.returnValue = "";
       return "Are you sure you want to leave? Your answers will not be saved.";
     };
 
@@ -203,15 +197,44 @@ export default function WritingTestClient() {
     setWordCount(countWords(newText));
   };
 
-  // const handleSubmit = () => {
-  //   const confirmSubmit = window.confirm(
-  //     "Are you sure you want to submit your answers?"
-  //   );
-  //   if (confirmSubmit) {
-  //     alert("Answers submitted!");
-  //     router.push(ROUTES.HOME); // Redirect after submission
-  //   }
-  // };
+  const handleSubmit = async () => {
+    const body = {
+      user_id: "",
+      parts: [
+        {
+          part_id: data?.parts[0] || "",
+          user_answers: [
+            {
+              question_id: passage1?.question[0]._id || "",
+              answer: [answers[1]],
+            },
+          ],
+          isComplete: answers[1].trim() !== "",
+        },
+        {
+          part_id: data?.parts[1] || "",
+          user_answers: [
+            {
+              question_id: passage2?.question[0]._id || "",
+              answer: answers[2],
+            },
+          ],
+          isComplete: answers[2].trim() !== "",
+        },
+      ],
+    };
+
+    try {
+      const response = await SubmitService.submitTest(body);
+      const jsonData = JSON.stringify(response, null, 2);
+      localStorage.setItem("readingTestAnswers", jsonData);
+      const segments = pathname.split("/").filter(Boolean);
+      const testId = segments[segments.length - 1];
+      router.push(`${ROUTES.WRITING_RESULT}`);
+    } catch (error) {
+      console.error("Error submitting test:", error);
+    }
+  };
 
   return (
     <div className="relative min-h-screen w-full bg-gray-50">
@@ -411,6 +434,7 @@ export default function WritingTestClient() {
 
           {/* SUBMIT BUTTON */}
           <div
+            onClick={handleSubmit}
             className={`w-36 flex justify-center items-center ${
               selectedPassage === 2 ? "border border-[#FA812F]" : "hidden"
             } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
