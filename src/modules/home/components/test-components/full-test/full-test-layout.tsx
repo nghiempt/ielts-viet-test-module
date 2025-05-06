@@ -50,7 +50,7 @@ const FullTestLayout: React.FC = () => {
         <SkeletonFullTest />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-5">
-          {fullTest?.slice(0, 2)?.map((item: FullTestItem, index: number) => (
+          {fullTest?.slice(0, 4)?.map((item: FullTestItem, index: number) => (
             <FullTestCard
               key={index}
               title={item?.name}
