@@ -353,7 +353,7 @@ const ReadingSection: React.FC = () => {
 
             {/* Pagination */}
             <nav
-              className="flex flex-col items-start justify-center mt-4 p-4 space-y-3 md:flex-row md:items-center md:space-y-0"
+              className="flex flex-col items-center justify-center mt-4 p-4 space-y-3 md:flex-row md:items-center md:space-y-0"
               aria-label="Table navigation"
             >
               <ul className="inline-flex items-stretch -space-x-px">

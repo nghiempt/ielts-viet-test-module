@@ -1,5 +1,6 @@
 "use client";
 
+import FullTestClient from "@/modules/test-toan-bo";
 import { Loader } from "lucide-react";
 import React, { Suspense } from "react";
 
@@ -13,7 +14,7 @@ export default function Contact() {
           </div>
         }
       >
-        {/* <ContactClient /> */}
+        <FullTestClient />
       </Suspense>
     </div>
   );

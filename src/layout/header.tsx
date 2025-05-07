@@ -33,7 +33,7 @@ const Header = () => {
         { label: "WRITING TEST", href: ROUTES.WRITING_HOME },
       ],
     },
-    { label: "FULL IELTS TEST", href: "#" },
+    { label: "FULL IELTS TEST", href: ROUTES.FULLTEST_HOME },
   ];
 
   useEffect(() => {
@@ -193,7 +193,10 @@ const Header = () => {
             </li>
             <li className="font-bold flex flex-row items-center gap-3">
               <BookCheck size={20} />
-              <a href={`#`} className="text-gray-700 hover:text-black">
+              <a
+                href={ROUTES.FULLTEST_HOME}
+                className="text-gray-700 hover:text-black"
+              >
                 Full IELTS Test
               </a>
             </li>

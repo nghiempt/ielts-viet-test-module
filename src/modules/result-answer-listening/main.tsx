@@ -417,6 +417,34 @@ const ListeningTestClient: React.FC = () => {
     setSelectedQuestion(prevQuestionId);
   };
 
+  const handleNextPassage = () => {
+    const nextPassageId = selectedPassage + 1;
+    const nextPassage = passages.find((p) => p.id === nextPassageId);
+
+    if (!nextPassage) {
+      // No next passage available
+      return;
+    }
+
+    setSelectedPassage(nextPassageId);
+    setCurrentPage(nextPassageId);
+    setSelectedQuestion(nextPassage.startQuestion);
+  };
+
+  const handlePreviousPassage = () => {
+    const prevPassageId = selectedPassage - 1;
+    const prevPassage = passages.find((p) => p.id === prevPassageId);
+
+    if (!prevPassage) {
+      // No previous passage available
+      return;
+    }
+
+    setSelectedPassage(prevPassageId);
+    setCurrentPage(prevPassageId);
+    setSelectedQuestion(prevPassage.startQuestion);
+  };
+
   return (
     <div className="relative bg-gray-100 min-h-screen w-full">
       {/* Header */}
@@ -434,7 +462,7 @@ const ListeningTestClient: React.FC = () => {
           />
         </Link>
         <div className="text-center mr-28">
-          <div className="font-semibold">IELTS Reading Test</div>
+          <div className="font-semibold">IELTS Listening Test</div>
           <div className="text-sm text-gray-600">{data?.name}</div>
         </div>
         <div className="flex items-center">
@@ -604,11 +632,11 @@ const ListeningTestClient: React.FC = () => {
                   ? "opacity-50"
                   : ""
               }`}
-              onClick={handlePreviousQuestion}
+              onClick={handlePreviousPassage}
               role="button"
               aria-label="Previous Question"
               tabIndex={0}
-              onKeyDown={(e) => e.key === "Enter" && handlePreviousQuestion()}
+              onKeyDown={(e) => e.key === "Enter" && handlePreviousPassage()}
             >
               <div
                 className={`text-[#FA812F] font-medium text-md justify-center items-center px-5 py-1 rounded-md flex border border-[#FA812F]`}
@@ -622,11 +650,11 @@ const ListeningTestClient: React.FC = () => {
                   ? "opacity-50"
                   : ""
               }`}
-              onClick={handleNextQuestion}
+              onClick={handleNextPassage}
               role="button"
               aria-label="Next Question"
               tabIndex={0}
-              onKeyDown={(e) => e.key === "Enter" && handleNextQuestion()}
+              onKeyDown={(e) => e.key === "Enter" && handleNextPassage()}
             >
               <div
                 className={`text-[#FA812F] font-medium text-md justify-center items-center px-5 py-1 rounded-md flex border border-[#FA812F]`}

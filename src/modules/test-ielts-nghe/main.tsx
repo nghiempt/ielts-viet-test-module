@@ -976,13 +976,8 @@ const ListeningTestClient: React.FC = () => {
 
       {/* Bottom Navigation */}
       <div className="fixed bottom-[9.3%] left-0 right-0 z-20">
-        <div className="relative w-full flex">
-          <div className="absolute -top-10 lg:-top-2">
-            <TimeProgressBar
-              progress={progress}
-              timeLeft={timeLeft || "00:00"}
-            />
-          </div>
+        <div className="-translate-y-[52%] sm:translate-y-0 lg:translate-y-[52%]">
+          <TimeProgressBar progress={progress} timeLeft={timeLeft || "00:00"} />
         </div>
         <div className="hidden lg:flex flex-wrap justify-center mt-0 gap-1 w-full bg-white mx-auto pb-2 pt-5 border-b border-gray-200">
           {passageQuestionNumbers.map((questionNum) => {

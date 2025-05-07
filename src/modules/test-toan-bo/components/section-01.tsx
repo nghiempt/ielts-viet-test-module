@@ -3,24 +3,27 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Search, ChevronRight, ChevronDown } from "lucide-react";
+import { Search, ChevronDown } from "lucide-react";
 import { IMAGES } from "@/utils/images";
-import { WritingService } from "@/services/writing";
+import { ReadingService } from "@/services/reading";
 import Link from "next/link";
 import { ROUTES } from "@/utils/routes";
+import { FullTestService } from "@/services/full-test";
 
 // Define interfaces for our data structures
-interface WritingTestItem {
+
+interface FullTestItem {
   _id: string;
-  type: string;
-  parts: string[];
   name: string;
   thumbnail: string;
-  time: number;
+  description: string;
+  r_id: string;
+  l_id: string;
+  w_id: string;
   created_at: string;
 }
 
-const WritingSection: React.FC = () => {
+const FullTestSection: React.FC = () => {
   const COUNT = 6;
 
   // Filter categories
@@ -55,32 +58,30 @@ const WritingSection: React.FC = () => {
     },
   ];
 
-  const [writings, setWritings] = useState<WritingTestItem[]>([]);
-  const [filteredWritings, setFilteredWritings] = useState<WritingTestItem[]>(
-    []
-  );
+  const [fullTests, setFullTests] = useState<FullTestItem[]>([]);
+  const [filteredReadings, setFilteredReadings] = useState<FullTestItem[]>([]);
   const [totalPage, setTotalPage] = useState<number>(0);
-  const [currenPage, setCurrenPage] = useState<any>(1 as any);
-  const [currenData, setCurrenData] = useState<any>([] as any);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentData, setCurrentData] = useState<FullTestItem[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const selectPage = (pageSelected: any) => {
-    setCurrenPage(pageSelected);
+  const selectPage = (pageSelected: number) => {
+    setCurrentPage(pageSelected);
     const start = (pageSelected - 1) * COUNT;
     const end = pageSelected * COUNT;
-    setCurrenData(filteredWritings.slice(start, end));
+    setCurrentData(filteredReadings.slice(start, end));
   };
 
   const prevPage = () => {
-    if (currenPage > 1) {
-      selectPage(currenPage - 1);
+    if (currentPage > 1) {
+      selectPage(currentPage - 1);
     }
   };
 
   const nextPage = () => {
-    if (currenPage < totalPage) {
-      selectPage(currenPage + 1);
+    if (currentPage < totalPage) {
+      selectPage(currentPage + 1);
     }
   };
 
@@ -88,7 +89,7 @@ const WritingSection: React.FC = () => {
     setSelectedFilter((prev) => (prev === filterId ? "" : filterId));
   };
 
-  const applyFilters = (data: WritingTestItem[]) => {
+  const applyFilters = (data: FullTestItem[]) => {
     let filteredData = [...data];
 
     // Apply search filter
@@ -118,26 +119,25 @@ const WritingSection: React.FC = () => {
     return filteredData;
   };
 
-  const render = (data: WritingTestItem[]) => {
+  const render = (data: FullTestItem[]) => {
     const filteredData = applyFilters(data);
-    setFilteredWritings(filteredData);
-    // setWritings(data);
+    setFilteredReadings(filteredData);
     setTotalPage(Math.ceil(filteredData.length / COUNT));
-    setCurrenPage(1);
-    setCurrenData(filteredData.slice(0, COUNT));
+    setCurrentPage(1);
+    setCurrentData(filteredData.slice(0, COUNT));
   };
 
   const init = async () => {
-    const res = await WritingService.getAll();
+    const res = await FullTestService.getAll();
     if (res && res.length > 0) {
       const filteredData = res.filter(
-        (item: WritingTestItem) => item.thumbnail != null
+        (item: FullTestItem) => item.thumbnail != null
       );
-      setWritings(filteredData);
+      setFullTests(filteredData);
       render(filteredData);
     } else {
-      setWritings([]);
-      setFilteredWritings([]);
+      setFullTests([]);
+      setFilteredReadings([]);
     }
   };
 
@@ -146,36 +146,31 @@ const WritingSection: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (writings.length > 0) {
-      render(writings);
+    if (fullTests.length > 0) {
+      render(fullTests);
     }
   }, [selectedFilter, searchQuery]);
 
   // Test card component
-  const TestCard: React.FC<{ test: WritingTestItem }> = ({ test }) => {
+  const TestCard: React.FC<{ test: FullTestItem }> = ({ test }) => {
     return (
       <div className="flex flex-col">
         <div className="relative mb-2">
           <Image
-            src={test.thumbnail}
+            src={test.thumbnail || IMAGES.THUMBNAIL}
             alt={test.name}
             width={280}
             height={180}
             className="rounded-lg w-full object-cover h-40"
           />
-          {/* {test.difficulty && (
-            <div className="absolute top-2 left-2 bg-white text-gray-800 text-xs py-1 px-2 rounded">
-              {test.difficulty}
-            </div>
-          )} */}
         </div>
         <div className="flex flex-col justify-between h-full">
           <div>
             <h3 className="font-medium text-sm mb-1">{test.name}</h3>
-            <p className="text-gray-500 text-xs mb-2">17K lượt làm</p>
+            <p className="text-gray-500 text-xs mb-2">20K lượt làm</p>
           </div>
           <Link
-            href={`${ROUTES.WRITING_TEST}/${test._id}`}
+            href={`${ROUTES.FULLTEST_DETAIL}/${test._id}`}
             className="flex items-center text-sm text-[#FA812F]"
           >
             <span className="mr-1">Làm bài</span>
@@ -203,7 +198,6 @@ const WritingSection: React.FC = () => {
   );
 
   useEffect(() => {
-    // Only run this in the browser
     if (typeof window !== "undefined") {
       const handleResize = () => {
         setIsMobile(window.innerWidth <= 768);
@@ -225,13 +219,13 @@ const WritingSection: React.FC = () => {
       {/* Recommended tests section */}
       <section className="mb-12">
         <h2 className="text-xl font-medium mb-6">Gợi ý cho bạn</h2>
-        {filteredWritings.length === 0 ? (
+        {filteredReadings.length === 0 ? (
           <div className="flex justify-center items-center">
-            Không tìm thấy bài viết.
+            Không tìm thấy bài test.
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredWritings.map((test: WritingTestItem, index: number) => (
+            {filteredReadings.slice(0, 4).map((test) => (
               <TestCard key={test._id} test={test} />
             ))}
           </div>
@@ -240,7 +234,7 @@ const WritingSection: React.FC = () => {
 
       {/* Reading test collection section */}
       <section>
-        <h2 className="text-xl font-medium mb-6">Kho Writing Test</h2>
+        <h2 className="text-xl font-medium mb-6">Kho Full Test</h2>
         <div className="flex flex-col md:flex-row gap-6">
           {/* Left sidebar with filters */}
           <div className="w-full md:w-64 flex-shrink-0">
@@ -345,13 +339,13 @@ const WritingSection: React.FC = () => {
 
           {/* Right side with test grid */}
           <div className="flex-1">
-            {currenData.length === 0 ? (
+            {currentData.length === 0 ? (
               <div className="flex justify-center items-center">
-                Không tìm thấy bài viết.
+                Không tìm thấy bài test.
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {currenData.map((test: WritingTestItem, index: number) => (
+                {currentData.map((test: FullTestItem) => (
                   <TestCard key={test._id} test={test} />
                 ))}
               </div>
@@ -366,7 +360,7 @@ const WritingSection: React.FC = () => {
                 <li>
                   <button
                     onClick={prevPage}
-                    disabled={currenPage === 1}
+                    disabled={currentPage === 1}
                     className="cursor-pointer flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                   >
                     <span className="sr-only">Previous</span>
@@ -385,28 +379,26 @@ const WritingSection: React.FC = () => {
                     </svg>
                   </button>
                 </li>
-                {Array.from({ length: totalPage }, (_, i) => i + 1)?.map(
-                  (item: any, index: any) => {
-                    return (
-                      <li key={index} onClick={() => selectPage(item)}>
-                        <a
-                          href="#"
-                          className={`${
-                            item === currenPage
-                              ? "bg-indigo-50 hover:bg-indigo-100 text-gray-700"
-                              : "bg-white"
-                          } flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700`}
-                        >
-                          {item}
-                        </a>
-                      </li>
-                    );
-                  }
+                {Array.from({ length: totalPage }, (_, i) => i + 1).map(
+                  (item, index) => (
+                    <li key={index} onClick={() => selectPage(item)}>
+                      <a
+                        href="#"
+                        className={`${
+                          item === currentPage
+                            ? "bg-indigo-50 hover:bg-indigo-100 text-gray-700"
+                            : "bg-white"
+                        } flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700`}
+                      >
+                        {item}
+                      </a>
+                    </li>
+                  )
                 )}
                 <li>
                   <button
                     onClick={nextPage}
-                    disabled={currenPage === totalPage}
+                    disabled={currentPage === totalPage}
                     className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                   >
                     <span className="sr-only">Next</span>
@@ -434,4 +426,4 @@ const WritingSection: React.FC = () => {
   );
 };
 
-export default WritingSection;
+export default FullTestSection;

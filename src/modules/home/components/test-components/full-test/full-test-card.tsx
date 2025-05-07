@@ -40,7 +40,9 @@ const FullTestCard: React.FC<FullTestProps> = ({
           <span className="text-gray-400">•</span>
           <span>{viewCount}K lượt làm</span>
         </div>
-        <p className="text-sm lg:text-base mt-2 text-gray-700">{description}</p>
+        <p className="text-sm lg:text-base mt-2 text-gray-700 line-clamp-3">
+          {description}
+        </p>
         <Link
           href={`${ROUTES.FULLTEST_DETAIL}/${id}`}
           className="text-sm lg:text-base inline-flex items-center mt-4 text-[#FA812F] font-medium"

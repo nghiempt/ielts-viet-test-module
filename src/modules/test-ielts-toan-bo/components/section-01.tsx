@@ -153,7 +153,7 @@ export default function Section01() {
             />
           </div>
           <div className="flex flex-col justify-between items-start">
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col lg:items-start justify-center items-center">
               <h1 className="text-3xl lg:text-4xl font-bold mb-2">
                 {fullTestDetail?.name}
               </h1>
