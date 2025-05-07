@@ -976,7 +976,7 @@ const ListeningTestClient: React.FC = () => {
 
       {/* Bottom Navigation */}
       <div className="fixed bottom-[9.3%] left-0 right-0 z-20">
-        <div className="-translate-y-[52%] sm:translate-y-0 lg:translate-y-[52%]">
+        <div className="-translate-y-[50%] sm:translate-y-0 lg:translate-y-[50%]">
           <TimeProgressBar progress={progress} timeLeft={timeLeft || "00:00"} />
         </div>
         <div className="hidden lg:flex flex-wrap justify-center mt-0 gap-1 w-full bg-white mx-auto pb-2 pt-5 border-b border-gray-200">

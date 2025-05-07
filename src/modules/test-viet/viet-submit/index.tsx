@@ -16,13 +16,13 @@ export default function WritingSubmission() {
           alt=""
           width={1000}
           height={1000}
-          className="w-1/3 h-full"
+          className="w-full lg:w-1/3 h-full"
         />
       </div>
-      <div className="font-medium text-xl">
+      <div className="text-center font-medium text-xl">
         Bài viết của bạn đã nộp thành công và đang chờ chấm điểm.
       </div>
-      <div className="font-medium text-xl">
+      <div className="text-center font-medium text-xl">
         Điểm của bạn sẽ được phản hồi qua Email trong 2-3 ngày tới nhé!
       </div>
       <Link

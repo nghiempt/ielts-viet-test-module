@@ -86,7 +86,7 @@ const PopupMenu = ({
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="fixed bottom-0 left-0 right-0 z-30"
         >
-          <div className="bg-white rounded-t-[40px] shadow-lg w-full max-w-md mx-auto overflow-hidden">
+          <div className="bg-white rounded-t-[40px] shadow-lg w-full mx-auto overflow-hidden">
             {/* Drag handle */}
             <div className="bg-black w-32 h-[4px] rounded-full mx-auto mt-3"></div>
 
@@ -138,7 +138,7 @@ const PopupMenu = ({
             </div>
 
             {/* Tab Content */}
-            <div className="px-6 py-4 overflow-y-auto max-h-[40vh]">
+            <div className="w-full px-6 py-4">
               {tasks[selectedTab] && (
                 <div className="mb-5">
                   <h3 className="text-sm font-bold mb-3">
@@ -163,14 +163,13 @@ const PopupMenu = ({
             </div>
 
             {/* Submit Button */}
-            <div className="px-4 py-5">
-              <Link
-                href={ROUTES.WRITING_RESULT}
+            <div className="w-full px-4 py-5">
+              <div
                 onClick={onSubmit}
-                className="w-full py-3 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 transition duration-150"
+                className="text-center w-full py-3 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 transition duration-150"
               >
                 Submit
-              </Link>
+              </div>
             </div>
           </div>
         </motion.div>

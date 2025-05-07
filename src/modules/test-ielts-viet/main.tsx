@@ -512,7 +512,9 @@ export default function WritingTestClient() {
               setIsOpen={setIsPopupOpen}
               answers={answers}
               onSelectTask={handlePassageSelect}
-              onSubmit={() => {}}
+              onSubmit={() => {
+                handleSubmit();
+              }}
             />
           </>
         )}
