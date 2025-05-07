@@ -489,7 +489,12 @@ export default function AnswerKeyReadingPage() {
               <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
                 Reading Part 1
               </h1>
-              <p className="mb-4 text-base lg:text-lg">{passage1?.content}</p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: (passage1?.content || "").replace(/\\/g, ""),
+                }}
+              />
+              {/* <p className="mb-4 text-base lg:text-lg">{passage1?.content}</p> */}
             </div>
           )}
           {selectedPassage === 2 && (
@@ -497,7 +502,12 @@ export default function AnswerKeyReadingPage() {
               <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
                 Reading Part 2
               </h1>
-              <p className="mb-4 text-base lg:text-lg">{passage2?.content}</p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: (passage2?.content || "").replace(/\\/g, ""),
+                }}
+              />
+              {/* <p className="mb-4 text-base lg:text-lg">{passage2?.content}</p> */}
             </div>
           )}
           {selectedPassage === 3 && (
@@ -505,7 +515,12 @@ export default function AnswerKeyReadingPage() {
               <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
                 Reading Part 3
               </h1>
-              <p className="mb-4 text-base lg:text-lg">{passage3?.content}</p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: (passage3?.content || "").replace(/\\/g, ""),
+                }}
+              />
+              {/* <p className="mb-4 text-base lg:text-lg">{passage3?.content}</p> */}
             </div>
           )}
         </div>
