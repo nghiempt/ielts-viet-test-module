@@ -40,9 +40,6 @@ export default function FullIeltsTestContent() {
         <div className="w-full lg:w-3/4 py-12">
           <Section01 />
         </div>
-        <div className="w-full lg:w-3/4 pt-4">
-          <SectionFooter />
-        </div>
       </div>
     </main>
   );

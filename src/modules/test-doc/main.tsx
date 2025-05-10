@@ -40,9 +40,6 @@ export default function ReadingContent() {
         <div className="w-full lg:w-3/4 py-12">
           <ReadingSection />
         </div>
-        <div className="w-full lg:w-3/4 pt-4">
-          <SectionFooter />
-        </div>
       </div>
     </main>
   );

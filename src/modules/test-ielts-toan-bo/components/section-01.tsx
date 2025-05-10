@@ -183,7 +183,7 @@ export default function Section01() {
         </p>
 
         {/* Test Sections */}
-        <div className="mb-8 w-full">
+        <div className="mt-10 mb-8 w-full">
           {/* Desktop Header */}
           <div className="hidden lg:grid lg:grid-cols-4 gap-4 mb-4 text-base lg:text-lg border-b border-gray-200 pb-2">
             <div className="font-bold text-gray-800 text-center">BÀI TEST</div>
@@ -319,56 +319,6 @@ export default function Section01() {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Book Series */}
-        <h2 className="text-xl lg:text-3xl font-bold mb-4">
-          Các bộ đề test liên quan
-        </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-          {fullTests.slice(0, 4).map((item) => (
-            <div
-              key={item._id}
-              className="grid grid-rows-1 gap-5 rounded-lg overflow-hidden"
-            >
-              <div className="col-span-12 lg:col-span-4 p-0 w-full h-full flex items-center justify-center">
-                <div className="w-full h-full relative">
-                  <Image
-                    src={item?.thumbnail}
-                    alt={`IELTS Test ${item?._id}`}
-                    width={1000}
-                    height={1000}
-                    className="object-cover rounded-lg h-full w-full"
-                  />
-                </div>
-              </div>
-              <div className="col-span-12 lg:col-span-8 flex-1 p-0">
-                <h2 className="text-lg lg:text-xl font-semibold">
-                  {item?.name}
-                </h2>
-                <p className="text-gray-600 mt-1 text-sm">
-                  20K bài tests • 16K lượt làm
-                </p>
-                <Link href={`${ROUTES.FULLTEST_DETAIL}/${item?._id}`}>
-                  <div className="flex flex-row items-center text-[#FA812F] mt-2 font-medium text-sm">
-                    Xem bài test{" "}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 ml-1"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                </Link>
-              </div>
-            </div>
-          ))}
         </div>
       </main>
     </div>

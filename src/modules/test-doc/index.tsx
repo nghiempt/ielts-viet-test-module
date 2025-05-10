@@ -8,7 +8,7 @@ export default function ReadingClient() {
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <Header />
-      <div className="w-full mb-20">
+      <div className="w-full mb-0">
         <ReadingContent />
       </div>
       <Footer />

@@ -3,7 +3,6 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Search, ChevronDown } from "lucide-react";
 import { IMAGES } from "@/utils/images";
 import { ReadingService } from "@/services/reading";
 import Link from "next/link";
@@ -22,39 +21,7 @@ interface ReadingTestItem {
 }
 
 const ReadingSection: React.FC = () => {
-  const COUNT = 6;
-
-  // Filter categories
-  const filterCategories = [
-    // {
-    //   title: "BỘ LỌC TRẠNG THÁI",
-    //   options: [
-    //     { id: "chua-lam", label: "Bài chưa làm" },
-    //     { id: "dang-lam", label: "Bài đang làm" },
-    //     { id: "da-lam", label: "Bài đã làm" },
-    //   ],
-    // },
-    // {
-    //   title: "DẠNG CÂU HỎI (15)",
-    //   options: [
-    //     { id: "summary", label: "Summary Completion" },
-    //     { id: "true-false", label: "True/ False/ Not Given" },
-    //     { id: "multiple-choice", label: "Multiple Choice" },
-    //     { id: "matching-paragraph", label: "Matching Paragraph Information" },
-    //     { id: "matching-name", label: "Matching Name" },
-    //   ],
-    // },
-    {
-      title: "SẮP XẾP THEO",
-      options: [
-        { id: "moi-nhat", label: "Mới nhất" },
-        { id: "cu-nhat", label: "Cũ nhất" },
-        // { id: "nhieu-luot", label: "Nhiều lượt làm nhất" },
-        { id: "tu-a-z", label: "Từ A → Z" },
-        { id: "tu-z-a", label: "Từ Z → A" },
-      ],
-    },
-  ];
+  const COUNT = 12;
 
   const [readings, setReadings] = useState<ReadingTestItem[]>([]);
   const [filteredReadings, setFilteredReadings] = useState<ReadingTestItem[]>(
@@ -63,8 +30,6 @@ const ReadingSection: React.FC = () => {
   const [totalPage, setTotalPage] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<ReadingTestItem[]>([]);
-  const [selectedFilter, setSelectedFilter] = useState<string>("");
-  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const selectPage = (pageSelected: number) => {
     setCurrentPage(pageSelected);
@@ -85,46 +50,11 @@ const ReadingSection: React.FC = () => {
     }
   };
 
-  const handleFilterChange = (filterId: string) => {
-    setSelectedFilter((prev) => (prev === filterId ? "" : filterId));
-  };
-
-  const applyFilters = (data: ReadingTestItem[]) => {
-    let filteredData = [...data];
-
-    // Apply search filter
-    if (searchQuery) {
-      filteredData = filteredData.filter((item) =>
-        item.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    // Apply sorting based on selected filter
-    if (selectedFilter === "moi-nhat") {
-      filteredData.sort(
-        (a, b) =>
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-      );
-    } else if (selectedFilter === "cu-nhat") {
-      filteredData.sort(
-        (a, b) =>
-          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
-      );
-    } else if (selectedFilter === "tu-a-z") {
-      filteredData.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (selectedFilter === "tu-z-a") {
-      filteredData.sort((a, b) => b.name.localeCompare(a.name));
-    }
-
-    return filteredData;
-  };
-
   const render = (data: ReadingTestItem[]) => {
-    const filteredData = applyFilters(data);
-    setFilteredReadings(filteredData);
-    setTotalPage(Math.ceil(filteredData.length / COUNT));
+    setFilteredReadings(data);
+    setTotalPage(Math.ceil(data.length / COUNT));
     setCurrentPage(1);
-    setCurrentData(filteredData.slice(0, COUNT));
+    setCurrentData(data.slice(0, COUNT));
   };
 
   const init = async () => {
@@ -145,12 +75,6 @@ const ReadingSection: React.FC = () => {
     init();
   }, []);
 
-  useEffect(() => {
-    if (readings.length > 0) {
-      render(readings);
-    }
-  }, [selectedFilter, searchQuery]);
-
   // Test card component
   const TestCard: React.FC<{ test: ReadingTestItem }> = ({ test }) => {
     return (
@@ -159,19 +83,21 @@ const ReadingSection: React.FC = () => {
           <Image
             src={test.thumbnail || IMAGES.THUMBNAIL}
             alt={test.name}
-            width={280}
-            height={180}
-            className="rounded-lg w-full object-cover h-40"
+            width={1000}
+            height={1000}
+            className="rounded-lg w-full object-cover h-60 lg:h-40"
           />
         </div>
         <div className="flex flex-col justify-between h-full">
           <div>
-            <h3 className="font-medium text-sm mb-1">{test.name}</h3>
-            <p className="text-gray-500 text-xs mb-2">20K lượt làm</p>
+            <h3 className="font-medium text-xl lg:text-sm mb-1">{test.name}</h3>
+            <p className="text-gray-500 text-sm lg:text-xs mb-2">
+              20K lượt làm
+            </p>
           </div>
           <Link
             href={`${ROUTES.READING_TEST}/${test._id}`}
-            className="flex items-center text-sm text-[#FA812F]"
+            className="flex items-center text-md lg:text-sm text-[#FA812F]"
           >
             <span className="mr-1">Làm bài</span>
             <svg
@@ -192,166 +118,22 @@ const ReadingSection: React.FC = () => {
     );
   };
 
-  const [expanded, setExpanded] = useState(false);
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" ? window.innerWidth <= 768 : true
-  );
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const handleResize = () => {
-        setIsMobile(window.innerWidth <= 768);
-      };
-
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }
-  }, []);
-
-  const expandedFilter = isMobile
-    ? expanded
-      ? filterCategories
-      : filterCategories.slice(0, 1)
-    : filterCategories;
-
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
-      {/* Recommended tests section */}
-      <section className="mb-12">
-        <h2 className="text-xl font-medium mb-6">Gợi ý cho bạn</h2>
-        {filteredReadings.length === 0 ? (
-          <div className="flex justify-center items-center">
-            Không tìm thấy bài đọc.
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredReadings.slice(0, 4).map((test) => (
-              <TestCard key={test._id} test={test} />
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* Reading test collection section */}
       <section>
-        <h2 className="text-xl font-medium mb-6">Kho Reading Test</h2>
         <div className="flex flex-col md:flex-row gap-6">
-          {/* Left sidebar with filters */}
-          <div className="w-full md:w-64 flex-shrink-0">
-            <div className="mb-4">
-              <h3 className="text-sm font-medium mb-2">Tìm kiếm</h3>
-              <div className="flex flex-row gap-3">
-                <input
-                  type="text"
-                  placeholder="Search by name"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="border border-gray-300 rounded-md p-2 text-sm w-full"
-                />
-                <button className="bg-gray-700 hover:bg-gray-800 text-white px-3 rounded-full">
-                  <Search size={16} />
-                </button>
-              </div>
-            </div>
-
-            {/* Filters with smooth transition */}
-            <div
-              className="overflow-hidden transition-all duration-700 ease-in-out"
-              style={{
-                maxHeight: isMobile
-                  ? expanded
-                    ? "1000px"
-                    : "200px"
-                  : "1000px",
-              }}
-            >
-              {expandedFilter.map((category, index) => (
-                <div key={index} className="mb-6">
-                  <h3 className="text-xs font-medium text-gray-500 mb-2">
-                    {category.title}
-                  </h3>
-                  {category.options.map((option, optIndex) => (
-                    <div key={optIndex} className="flex items-center py-1">
-                      <input
-                        type="checkbox"
-                        id={option.id}
-                        checked={selectedFilter === option.id}
-                        onChange={() => handleFilterChange(option.id)}
-                        className="h-4 w-4 text-[#FA812F]"
-                      />
-                      <label htmlFor={option.id} className="ml-2 text-sm">
-                        {option.label}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-
-            <div className="flex lg:hidden justify-center relative">
-              {!expanded && (
-                <div className="absolute bottom-[135%] left-0 right-0 h-20 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none" />
-              )}
-              <button
-                className="text-black cursor-pointer font-semibold px-4 py-2 lg:py-4 lg:px-8 flex items-center gap-4 rounded-md"
-                onClick={() => setExpanded(!expanded)}
-              >
-                {expanded ? (
-                  <>
-                    <p className="text-[12px] lg:text-sm text-[#FA812F]">
-                      Thu gọn
-                    </p>
-                    <div className="flex flex-col items-center gap-2">
-                      <ChevronDown
-                        size={16}
-                        className="translate-y-1 updown-animation3 delay-0"
-                        color="#FA812F"
-                      />
-                      <ChevronDown
-                        size={16}
-                        className="-translate-y-1 updown-animation4 delay-1"
-                        color="#FA812F"
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <p className="text-[12px] lg:text-sm text-[#FA812F]">
-                      Xem thêm
-                    </p>
-                    <div className="flex flex-col items-center gap-2">
-                      <ChevronDown
-                        size={16}
-                        className="translate-y-1 updown-animation1 delay-0"
-                        color="#FA812F"
-                      />
-                      <ChevronDown
-                        size={16}
-                        className="-translate-y-1 updown-animation2 delay-1"
-                        color="#FA812F"
-                      />
-                    </div>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Right side with test grid */}
           <div className="flex-1">
             {currentData.length === 0 ? (
               <div className="flex justify-center items-center">
                 Không tìm thấy bài đọc.
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {currentData.map((test: ReadingTestItem) => (
                   <TestCard key={test._id} test={test} />
                 ))}
               </div>
             )}
-
-            {/* Pagination */}
             <nav
               className="flex flex-col items-center justify-center mt-4 p-4 space-y-3 md:flex-row md:items-center md:space-y-0"
               aria-label="Table navigation"

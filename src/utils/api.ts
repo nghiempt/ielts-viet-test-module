@@ -1,3 +1,5 @@
+import { LogIn } from "lucide-react";
+
 const BASE_URL = "https://api.farmcode.io.vn/v1";
 // const BASE_URL = 'http://localhost:8000/api/v1';
 
@@ -29,4 +31,8 @@ export const API = {
 
   //SUBMIT TEST
   SUBMIT_TEST: `${BASE_URL}/ielts-viet/test/submit`,
+
+  // LOGIN
+  LOGIN: `${BASE_URL}/ielts-viet/user/login`,
+  GET_USER_BY_ID: `${BASE_URL}/ielts-viet/user`,
 };

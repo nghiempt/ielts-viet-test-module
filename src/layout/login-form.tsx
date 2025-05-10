@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import { toast } from "@/hooks/use-toast";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -14,13 +15,60 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { IMAGES } from "@/utils/images";
+import Cookies from "js-cookie";
+import { UserService } from "@/services/user";
+import { usePathname } from "next/navigation";
 
 const LoginForm = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [logined, setLogined] = useState(false);
+  const pathname = usePathname();
+
+  const validateForm = () => {
+    if (email === "" || password === "") {
+      toast({
+        variant: "destructive",
+        title: "Vui lòng điền đầy đủ thông tin",
+      });
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!validateForm()) return;
+    setIsLoading(true);
+
+    try {
+      const data = await UserService.loginUserEmail(email, password);
+
+      if (data?.message === "SUCCESS") {
+        Cookies.set("isLogin", data?.data._id, { expires: 7 });
+        Cookies.set("userLogin", data?.data._id, { expires: 7 });
+        setLogined(true);
+        window.location.href = pathname;
+      } else {
+        throw new Error("Email hoặc mật khẩu chưa chính xác");
+      }
+    } catch (error) {
+      console.error("========= Error Login:", error);
+      toast({
+        variant: "destructive",
+        title: "Email hoặc mật khẩu chưa chính xác",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
         <div className="flex items-center gap-3">
-          <Button className="hidden lg:flex text-[18px] bg-[rgb(var(--secondary-rgb))] text-white rounded-full px-6 hover:opacity-80 hover:bg-[rgb(var(--secondary-rgb))]">
+          <Button className="flex text-[14px] lg:text-[18px] bg-[rgb(var(--secondary-rgb))] text-white rounded-full px-6 hover:opacity-80 hover:bg-[rgb(var(--secondary-rgb))]">
             Đăng nhập
           </Button>
         </div>
@@ -33,7 +81,7 @@ const LoginForm = () => {
               alt=""
               width={1000}
               height={1000}
-              className="w-[40%] h-full"
+              className="w-[50%] h-full"
             />
             <div className="font-semibold text-2xl mt-2">Đăng nhập</div>
           </div>
@@ -46,7 +94,8 @@ const LoginForm = () => {
             <Input
               id="username"
               placeholder="Nhập Email"
-              value=""
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="col-span-4"
             />
           </div>
@@ -57,13 +106,16 @@ const LoginForm = () => {
             <Input
               id="password"
               placeholder="Nhập mật khẩu"
-              value=""
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="col-span-4"
             />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Đăng nhập</Button>
+          <Button type="submit" onClick={handleSubmit} className="bg-[#FA812F]">
+            Đăng nhập
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -247,6 +247,8 @@ const ListeningTestClient: React.FC = () => {
     const parsedAnswers = storedAnswers ? JSON.parse(storedAnswers) : null;
 
     setResponse(parsedAnswers?.data || null);
+    console.log("Response:", parsedAnswers?.data);
+
     setError(null);
 
     const segments = pathname.split("/").filter(Boolean);
@@ -300,6 +302,7 @@ const ListeningTestClient: React.FC = () => {
                 };
               }
               acc[part_id].user_answers.push({ question_id, answer: [] });
+
               return acc;
             },
             {} as Record<string, PartAnswer>
@@ -582,9 +585,12 @@ const ListeningTestClient: React.FC = () => {
           <div className="flex justify-center items-center">
             {passages.map((passage: PassageInfo, index: number) => {
               // Get the questions for this passage directly
-              const passageData = [passage1, passage2, passage3].filter(
-                (p): p is PassageSection => p !== null
-              )[passage.id - 1];
+              const passageData = [
+                passage1,
+                passage2,
+                passage3,
+                passage4,
+              ].filter((p): p is PassageSection => p !== null)[passage.id - 1];
               const passageQuestions = mapAndArrangeQuestions(
                 passageData,
                 passage.startQuestion
@@ -681,9 +687,14 @@ const ListeningTestClient: React.FC = () => {
                 onClick={() => handlePassageSelect(passage?.id)}
                 onQuestionClick={handleQuestionSelect}
                 questionStatuses={(() => {
-                  const passageData = [passage1, passage2, passage3].filter(
-                    (p): p is PassageSection => p !== null
-                  )[passage?.id - 1];
+                  const passageData = [
+                    passage1,
+                    passage2,
+                    passage3,
+                    passage4,
+                  ].filter((p): p is PassageSection => p !== null)[
+                    passage?.id - 1
+                  ];
                   const passageQuestions = mapAndArrangeQuestions(
                     passageData,
                     passage?.startQuestion
