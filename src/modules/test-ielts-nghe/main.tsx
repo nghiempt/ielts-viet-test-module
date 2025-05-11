@@ -122,6 +122,7 @@ const ListeningTestClient: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<string | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(true);
+  const [showConfirmSubmitDialog, setShowConfirmSubmitDialog] = useState(false);
   const [currentAudioIndex, setCurrentAudioIndex] = useState(-1);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
@@ -793,6 +794,14 @@ const ListeningTestClient: React.FC = () => {
     router.push("/");
   };
 
+  const handleSubmitTest = () => {
+    handleSubmit();
+  };
+
+  const handleCancelSubmitTest = () => {
+    setShowConfirmSubmitDialog(false);
+  };
+
   return (
     <div className="relative bg-gray-100 min-h-screen w-full">
       {/* Confirmation Dialog */}
@@ -814,24 +823,68 @@ const ListeningTestClient: React.FC = () => {
               className="fixed top-[37%] left-[4%] lg:left-[37%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-md"
             >
               <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                Start Listening Test
+                Bắt đầu bài kiểm tra Nghe
               </h2>
               <p className="text-gray-600 mb-6">
-                Are you ready to begin the listening test? The audio will start
-                playing once you confirm.
+                Hãy bấm Bắt đầu để làm bài kiểm tra. Audio sẽ tự động phát khi
+                bạn xác nhận bắt đầu.
               </p>
               <div className="flex justify-end space-x-4">
                 <button
                   onClick={handleCancelTest}
                   className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition"
                 >
-                  Cancel
+                  Hủy
                 </button>
                 <button
                   onClick={handleStartTest}
                   className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
                 >
-                  Start
+                  Bắt đầu
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Confirmation Submit Dialog */}
+      <AnimatePresence>
+        {showConfirmSubmitDialog && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black z-50"
+            />
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed top-[37%] left-[4%] lg:left-[37%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-md"
+            >
+              <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                Xác nhận nộp bài
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Bạn có chắc chắn muốn nộp bài kiểm tra này không? Sau khi nộp,
+                bạn sẽ không thể chỉnh sửa bài làm của mình.
+              </p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={handleCancelSubmitTest}
+                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition"
+                >
+                  Hủy
+                </button>
+                <button
+                  onClick={handleSubmitTest}
+                  className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
+                >
+                  Nộp bài
                 </button>
               </div>
             </motion.div>
@@ -1049,7 +1102,7 @@ const ListeningTestClient: React.FC = () => {
             className={`w-36 flex justify-center items-center ${
               selectedPassage === 4 ? "border border-[#FA812F]" : "hidden"
             } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
-            onClick={handleSubmit}
+            onClick={() => setShowConfirmSubmitDialog(true)}
           >
             <div
               className={`font-medium text-md justify-center items-center ${
@@ -1124,7 +1177,7 @@ const ListeningTestClient: React.FC = () => {
               setIsOpen={setIsPopupOpen}
               passages={passages}
               getAnsweredStatus={getAnsweredStatus}
-              onSubmit={handleSubmit}
+              onSubmit={() => setShowConfirmSubmitDialog(true)}
               onQuestionSelect={handleQuestionSelect}
             />
           </>

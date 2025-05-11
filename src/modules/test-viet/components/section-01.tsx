@@ -6,8 +6,8 @@ import Image from "next/image";
 import { WritingService } from "@/services/writing";
 import Link from "next/link";
 import { ROUTES } from "@/utils/routes";
+import Skeleton from "@/components/ui/skeleton";
 
-// Define interfaces for our data structures
 interface WritingTestItem {
   _id: string;
   type: string;
@@ -28,6 +28,7 @@ const WritingSection: React.FC = () => {
   const [totalPage, setTotalPage] = useState<number>(0);
   const [currenPage, setCurrenPage] = useState<any>(1 as any);
   const [currenData, setCurrenData] = useState<any>([] as any);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const selectPage = (pageSelected: any) => {
     setCurrenPage(pageSelected);
@@ -57,6 +58,7 @@ const WritingSection: React.FC = () => {
   };
 
   const init = async () => {
+    setLoading(true);
     const res = await WritingService.getAll();
     if (res && res.length > 0) {
       const filteredData = res.filter(
@@ -64,9 +66,11 @@ const WritingSection: React.FC = () => {
       );
       setWritings(filteredData);
       render(filteredData);
+      setLoading(false);
     } else {
       setWritings([]);
       setFilteredWritings([]);
+      setLoading(false);
     }
   };
 
@@ -127,7 +131,9 @@ const WritingSection: React.FC = () => {
       <section>
         <div className="flex flex-col md:flex-row gap-6">
           <div className="flex-1">
-            {currenData.length === 0 ? (
+            {loading ? (
+              <Skeleton />
+            ) : currenData.length === 0 ? (
               <div className="flex justify-center items-center">
                 Không tìm thấy bài viết.
               </div>

@@ -7,8 +7,7 @@ import { IMAGES } from "@/utils/images";
 import { ReadingService } from "@/services/reading";
 import Link from "next/link";
 import { ROUTES } from "@/utils/routes";
-
-// Define interfaces for our data structures
+import Skeleton from "../../../components/ui/skeleton";
 
 interface ReadingTestItem {
   _id: string;
@@ -30,6 +29,7 @@ const ReadingSection: React.FC = () => {
   const [totalPage, setTotalPage] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<ReadingTestItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const selectPage = (pageSelected: number) => {
     setCurrentPage(pageSelected);
@@ -58,6 +58,7 @@ const ReadingSection: React.FC = () => {
   };
 
   const init = async () => {
+    setLoading(true);
     const res = await ReadingService.getAll();
     if (res && res.length > 0) {
       const filteredData = res.filter(
@@ -65,9 +66,11 @@ const ReadingSection: React.FC = () => {
       );
       setReadings(filteredData);
       render(filteredData);
+      setLoading(false);
     } else {
       setReadings([]);
       setFilteredReadings([]);
+      setLoading(false);
     }
   };
 
@@ -123,7 +126,9 @@ const ReadingSection: React.FC = () => {
       <section>
         <div className="flex flex-col md:flex-row gap-6">
           <div className="flex-1">
-            {currentData.length === 0 ? (
+            {loading ? (
+              <Skeleton />
+            ) : currentData.length === 0 ? (
               <div className="flex justify-center items-center">
                 Không tìm thấy bài đọc.
               </div>

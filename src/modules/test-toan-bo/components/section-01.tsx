@@ -7,6 +7,7 @@ import { IMAGES } from "@/utils/images";
 import Link from "next/link";
 import { ROUTES } from "@/utils/routes";
 import { FullTestService } from "@/services/full-test";
+import Skeleton from "@/components/ui/skeleton";
 
 interface FullTestItem {
   _id: string;
@@ -27,6 +28,7 @@ const FullTestSection: React.FC = () => {
   const [totalPage, setTotalPage] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<FullTestItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const selectPage = (pageSelected: number) => {
     setCurrentPage(pageSelected);
@@ -55,6 +57,7 @@ const FullTestSection: React.FC = () => {
   };
 
   const init = async () => {
+    setLoading(true);
     const res = await FullTestService.getAll();
     if (res && res.length > 0) {
       const filteredData = res.filter(
@@ -62,9 +65,11 @@ const FullTestSection: React.FC = () => {
       );
       setFullTests(filteredData);
       render(filteredData);
+      setLoading(false);
     } else {
       setFullTests([]);
       setFilteredReadings([]);
+      setLoading(false);
     }
   };
 
@@ -120,7 +125,9 @@ const FullTestSection: React.FC = () => {
       <section>
         <div className="flex flex-col md:flex-row gap-6">
           <div className="flex-1">
-            {currentData.length === 0 ? (
+            {loading ? (
+              <Skeleton />
+            ) : currentData.length === 0 ? (
               <div className="flex justify-center items-center">
                 Không tìm thấy bài test.
               </div>

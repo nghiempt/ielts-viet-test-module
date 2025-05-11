@@ -63,20 +63,27 @@ export default function WritingTestClient() {
   const [wordCount, setWordCount] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [switchWriting, setSwitchWriting] = useState(true);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(true);
+  const [showConfirmSubmitDialog, setShowConfirmSubmitDialog] = useState(false);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
 
   // COUNTING DOWN TIMER
   useEffect(() => {
+    if (!timeLeft || !isTimerRunning) return;
+
     const [minutes, seconds] = timeLeft.split(":").map(Number);
     let totalSeconds = minutes * 60 + seconds;
 
-    if (totalSeconds <= 0) return;
+    if (totalSeconds <= 0) {
+      setTimeLeft("00:00");
+      return;
+    }
 
     const timer = setInterval(() => {
       totalSeconds -= 1;
 
       const newMinutes = Math.floor(totalSeconds / 60);
       const newSeconds = totalSeconds % 60;
-
       const formattedTime = `${newMinutes
         .toString()
         .padStart(2, "0")}:${newSeconds.toString().padStart(2, "0")}`;
@@ -89,7 +96,7 @@ export default function WritingTestClient() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [timeLeft, isTimerRunning]);
 
   // ALERT ON PAGE RELOAD OR CLOSE
   useEffect(() => {
@@ -236,8 +243,113 @@ export default function WritingTestClient() {
     }
   };
 
+  const handleStartTest = () => {
+    setShowConfirmDialog(false);
+    setIsTimerRunning(true); // Start the timer
+  };
+
+  const handleCancelTest = () => {
+    setShowConfirmDialog(false);
+    router.push("/");
+  };
+
+  const handleSubmitTest = () => {
+    handleSubmit();
+  };
+
+  const handleCancelSubmitTest = () => {
+    setShowConfirmSubmitDialog(false);
+  };
+
   return (
     <div className="relative min-h-screen w-full bg-gray-50">
+      {/* Confirmation Dialog */}
+      <AnimatePresence>
+        {showConfirmDialog && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black z-50"
+            />
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed top-[37%] left-[4%] lg:left-[37%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-md"
+            >
+              <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                Bắt đầu bài kiểm tra Viết
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Hãy bấm Bắt đầu khi bạn đã sẵn sàng làm bài kiểm tra. Bạn sẽ có
+                60 phút để hoàn thành bài kiểm tra này.
+              </p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={handleCancelTest}
+                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition"
+                >
+                  Hủy
+                </button>
+                <button
+                  onClick={handleStartTest}
+                  className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
+                >
+                  Bắt đầu
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Confirmation Submit Dialog */}
+      <AnimatePresence>
+        {showConfirmSubmitDialog && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black z-50"
+            />
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed top-[37%] left-[4%] lg:left-[37%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-md"
+            >
+              <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                Xác nhận nộp bài
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Bạn có chắc chắn muốn nộp bài kiểm tra này không? Sau khi nộp,
+                bạn sẽ không thể chỉnh sửa bài viết của mình.
+              </p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={handleCancelSubmitTest}
+                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition"
+                >
+                  Hủy
+                </button>
+                <button
+                  onClick={handleSubmitTest}
+                  className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
+                >
+                  Nộp bài
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 flex items-center justify-between bg-white border-b border-gray-200 px-4 py-2 z-20">
         <Link
@@ -434,7 +546,7 @@ export default function WritingTestClient() {
 
           {/* SUBMIT BUTTON */}
           <div
-            onClick={handleSubmit}
+            onClick={() => setShowConfirmSubmitDialog(true)}
             className={`w-36 flex justify-center items-center ${
               selectedPassage === 2 ? "border border-[#FA812F]" : "hidden"
             } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
@@ -512,9 +624,7 @@ export default function WritingTestClient() {
               setIsOpen={setIsPopupOpen}
               answers={answers}
               onSelectTask={handlePassageSelect}
-              onSubmit={() => {
-                handleSubmit();
-              }}
+              onSubmit={() => setShowConfirmSubmitDialog(true)}
             />
           </>
         )}
