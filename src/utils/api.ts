@@ -35,4 +35,8 @@ export const API = {
   // LOGIN
   LOGIN: `${BASE_URL}/ielts-viet/user/login`,
   GET_USER_BY_ID: `${BASE_URL}/ielts-viet/user`,
+
+  // USER
+  GET_COMPLETED_USER_TEST: `${BASE_URL}/ielts-viet/complete-user-test`,
+  GET_COMPLETED_TEST: `${BASE_URL}/ielts-viet/complete-test`,
 };

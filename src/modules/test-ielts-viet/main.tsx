@@ -205,8 +205,13 @@ export default function WritingTestClient() {
   };
 
   const handleSubmit = async () => {
+    const segments = pathname.split("/").filter(Boolean);
+    const id = segments[segments.length - 1];
+
     const body = {
       user_id: "",
+      test_id: id,
+      user_email: "",
       parts: [
         {
           part_id: data?.parts[0] || "",

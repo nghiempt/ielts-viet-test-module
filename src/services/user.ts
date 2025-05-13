@@ -106,7 +106,53 @@ const getUserById = async (id: string) => {
   }
 };
 
+const getCompleteUserTestById = async (id: string) => {
+  try {
+    const response = await fetch(`${API.GET_COMPLETED_USER_TEST}/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      console.error(`Login failed - Status: ${response.status}`);
+      throw new Error(`Get Account Failed - Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error("========= Error Get Account:", error);
+    throw error;
+  }
+};
+
+const getCompleteTestById = async (id: string, user_id: string) => {
+  try {
+    const response = await fetch(`${API.GET_COMPLETED_TEST}/${id}/${user_id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      console.error(`Login failed - Status: ${response.status}`);
+      throw new Error(`Get Account Failed - Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("========= Error Get Account:", error);
+    throw error;
+  }
+};
+
 export const UserService = {
   loginUserEmail,
   getUserById,
+  getCompleteUserTestById,
+  getCompleteTestById,
 };

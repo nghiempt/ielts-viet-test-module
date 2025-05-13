@@ -24,6 +24,7 @@ import { QuestionsService } from "@/services/questions";
 import { SubmitService } from "@/services/submit";
 import { ROUTES } from "@/utils/routes";
 import "@/styles/hide-scroll.css";
+import Cookies from "js-cookie";
 
 interface Question {
   id: number;
@@ -109,6 +110,7 @@ export default function ReadingTestClient() {
   const [showConfirmDialog, setShowConfirmDialog] = useState(true);
   const [showConfirmSubmitDialog, setShowConfirmSubmitDialog] = useState(false);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const isLogin = Cookies.get("isLogin");
 
   // COUNTING DOWN TIMER
   useEffect(() => {
@@ -594,8 +596,19 @@ export default function ReadingTestClient() {
   };
 
   const handleSubmit = async () => {
+    const segments = pathname.split("/").filter(Boolean);
+    const id = segments[segments.length - 1];
+
+    let userId = "";
+
+    if (isLogin) {
+      userId = isLogin;
+    }
+
     const body = {
-      user_id: "",
+      user_id: userId,
+      test_id: id,
+      user_email: "",
       parts: answers.parts,
     };
 
@@ -605,6 +618,8 @@ export default function ReadingTestClient() {
       const jsonData = JSON.stringify(response, null, 2);
 
       localStorage.setItem("readingTestAnswers", jsonData);
+
+      // console.log("Test submitted successfully:", jsonData);
 
       const segments = pathname.split("/").filter(Boolean);
       const testId = segments[segments.length - 1];

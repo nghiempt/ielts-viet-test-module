@@ -758,22 +758,27 @@ const ListeningTestClient: React.FC = () => {
   };
 
   const handleSubmit = async () => {
+    const segments = pathname.split("/").filter(Boolean);
+    const id = segments[segments.length - 1];
+
     const body = {
       user_id: "",
+      test_id: id,
+      user_email: "",
       parts: answers.parts,
     };
 
+    const jsonData = JSON.stringify(body, null, 2);
+
+    console.log("Submit data:", jsonData);
+
     try {
-      const response = await SubmitService.submitTest(body);
-
-      const jsonData = JSON.stringify(response, null, 2);
-
-      localStorage.setItem("listeningTestAnswers", jsonData);
-
-      const segments = pathname.split("/").filter(Boolean);
-      const testId = segments[segments.length - 1];
-
-      router.push(`${ROUTES.LISTENING_STATISTIC}/${testId}`);
+      // const response = await SubmitService.submitTest(body);
+      // const jsonData = JSON.stringify(response, null, 2);
+      // localStorage.setItem("listeningTestAnswers", jsonData);
+      // const segments = pathname.split("/").filter(Boolean);
+      // const testId = segments[segments.length - 1];
+      // router.push(`${ROUTES.LISTENING_STATISTIC}/${testId}`);
     } catch (error) {
       console.error("Error submitting test:", error);
     }

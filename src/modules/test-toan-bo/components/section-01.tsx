@@ -8,6 +8,7 @@ import Link from "next/link";
 import { ROUTES } from "@/utils/routes";
 import { FullTestService } from "@/services/full-test";
 import Skeleton from "@/components/ui/skeleton";
+import { CircleCheckBig, PlayIcon, RotateCw } from "lucide-react";
 
 interface FullTestItem {
   _id: string;
@@ -101,19 +102,38 @@ const FullTestSection: React.FC = () => {
             href={`${ROUTES.FULLTEST_DETAIL}/${test._id}`}
             className="flex items-center text-md lg:text-sm text-[#FA812F]"
           >
-            <span className="mr-1">Làm bài</span>
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
+            <div className="flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
+              <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
+                <PlayIcon
+                  size={14}
+                  fill="#FA812F"
+                  className="group-hover:fill-white transition-colors duration-200 ease-in-out"
+                />
+              </div>
+              <span className="mr-1 text-[#FA812F] group-hover:text-white">
+                Làm bài
+              </span>
+            </div>
+            {/* <div className="flex flex-row items-center gap-3">
+              <div className="flex flex-row items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
+                <RotateCw
+                  size={14}
+                  className="text-[#0D5293] group-hover:text-white transition-colors duration-200 ease-in-out"
+                />
+                <span className="mr-1 text-[#0D5293] group-hover:text-white">
+                  Làm lại
+                </span>
+              </div>
+              <div className="flex flex-row items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
+                <CircleCheckBig
+                  size={14}
+                  className="text-[#58c558] group-hover:text-white transition-colors duration-200 ease-in-out"
+                />
+                <span className="mr-1 text-[#58c558] group-hover:text-white">
+                  Xem kết quả
+                </span>
+              </div>
+            </div> */}
           </Link>
         </div>
       </div>

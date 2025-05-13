@@ -27,7 +27,12 @@ interface PartResult {
 }
 
 interface ResultData {
-  submit_id: string;
+  _id?: string;
+  user_id?: string;
+  user_email?: string;
+  test_id?: string;
+  test_type?: string;
+  submit_id?: string;
   result: PartResult[];
 }
 
@@ -67,7 +72,6 @@ const ResultStatistic = () => {
           setIncorrectCount(totals.incorrect);
           setUnanswerCount(totals.unanswered);
 
-          // Calculate score (e.g., 9.0 max, based on correct answers)
           const totalQuestions = resultData.result.reduce(
             (acc, part) =>
               acc + part.correct_count + part.incorrect_count + part.pass_count,

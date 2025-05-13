@@ -8,6 +8,10 @@ import { ReadingService } from "@/services/reading";
 import Link from "next/link";
 import { ROUTES } from "@/utils/routes";
 import Skeleton from "../../../components/ui/skeleton";
+import Cookies from "js-cookie";
+import { CircleCheckBig, PlayIcon, RotateCw } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { UserService } from "@/services/user";
 
 interface ReadingTestItem {
   _id: string;
@@ -17,6 +21,11 @@ interface ReadingTestItem {
   thumbnail: string;
   time: number;
   created_at: string;
+}
+
+interface CompletedTest {
+  test_id: string;
+  // Add other relevant fields from completed test if needed
 }
 
 const ReadingSection: React.FC = () => {
@@ -30,6 +39,10 @@ const ReadingSection: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<ReadingTestItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [completedTests, setCompletedTests] = useState<string[]>([]);
+
+  const isLogin = Cookies.get("isLogin");
+  const router = useRouter();
 
   const selectPage = (pageSelected: number) => {
     setCurrentPage(pageSelected);
@@ -57,19 +70,54 @@ const ReadingSection: React.FC = () => {
     setCurrentData(data.slice(0, COUNT));
   };
 
+  // const init = async () => {
+  //   setLoading(true);
+  //   const res = await ReadingService.getAll();
+  //   if (res && res.length > 0) {
+  //     const filteredData = res.filter(
+  //       (item: ReadingTestItem) => item.thumbnail != null
+  //     );
+  //     setReadings(filteredData);
+  //     render(filteredData);
+  //     setLoading(false);
+  //   } else {
+  //     setReadings([]);
+  //     setFilteredReadings([]);
+  //     setLoading(false);
+  //   }
+  // };
+
   const init = async () => {
     setLoading(true);
-    const res = await ReadingService.getAll();
-    if (res && res.length > 0) {
-      const filteredData = res.filter(
-        (item: ReadingTestItem) => item.thumbnail != null
-      );
-      setReadings(filteredData);
-      render(filteredData);
-      setLoading(false);
-    } else {
+    try {
+      const res = await ReadingService.getAll();
+      if (res && res.length > 0) {
+        const filteredData = res.filter(
+          (item: ReadingTestItem) => item.thumbnail != null
+        );
+        setReadings(filteredData);
+        render(filteredData);
+
+        if (isLogin) {
+          const completedRes = await UserService.getCompleteUserTestById(
+            isLogin
+          );
+          if (completedRes && completedRes.length > 0) {
+            const completedTestIds = completedRes.map(
+              (test: CompletedTest) => test.test_id
+            );
+            setCompletedTests(completedTestIds);
+          }
+        }
+      } else {
+        setReadings([]);
+        setFilteredReadings([]);
+      }
+    } catch (error) {
+      console.error("Error initializing data:", error);
       setReadings([]);
       setFilteredReadings([]);
+    } finally {
       setLoading(false);
     }
   };
@@ -78,8 +126,21 @@ const ReadingSection: React.FC = () => {
     init();
   }, []);
 
-  // Test card component
+  const handleViewResult = async (testId: string) => {
+    if (isLogin) {
+      const response = await UserService.getCompleteTestById(testId, isLogin);
+      const jsonData = JSON.stringify(response, null, 2);
+
+      console.log("jsonData", jsonData);
+
+      localStorage.setItem("readingTestAnswers", jsonData);
+
+      router.push(`${ROUTES.READING_STATISTIC}/${testId}`);
+    }
+  };
+
   const TestCard: React.FC<{ test: ReadingTestItem }> = ({ test }) => {
+    const isCompleted = completedTests.includes(test._id);
     return (
       <div className="flex flex-col">
         <div className="relative mb-2">
@@ -98,24 +159,53 @@ const ReadingSection: React.FC = () => {
               20K lượt làm
             </p>
           </div>
-          <Link
-            href={`${ROUTES.READING_TEST}/${test._id}`}
-            className="flex items-center text-md lg:text-sm text-[#FA812F]"
-          >
-            <span className="mr-1">Làm bài</span>
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </Link>
+          <div className="flex flex-row items-center gap-3">
+            {isLogin && isCompleted ? (
+              <>
+                <div className="grid grid-cols-12 items-center gap-3">
+                  <div className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
+                    <RotateCw
+                      size={15}
+                      className="text-[#0D5293] group-hover:text-white transition-colors duration-200 ease-in-out"
+                    />
+                    <span className="text-sm mr-1 text-[#0D5293] group-hover:text-white">
+                      Làm lại
+                    </span>
+                  </div>
+                  <div
+                    onClick={() => handleViewResult(test._id)}
+                    className="cursor-pointer col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out"
+                  >
+                    <CircleCheckBig
+                      size={15}
+                      className="text-[#58c558] group-hover:text-white transition-colors duration-200 ease-in-out"
+                    />
+                    <span className="text-sm mr-1 text-[#58c558] group-hover:text-white">
+                      Xem kết quả
+                    </span>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <Link
+                href={`${ROUTES.READING_TEST}/${test._id}`}
+                className="flex items-center text-md lg:text-sm"
+              >
+                <div className="flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
+                  <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out text-[#FA812F] group-hover:text-white">
+                    <PlayIcon
+                      size={12}
+                      fill="#FA812F"
+                      className="group-hover:fill-white transition-colors duration-200 ease-in-out"
+                    />
+                  </div>
+                  <span className="text-sm mr-1 text-[#FA812F] group-hover:text-white">
+                    Làm bài
+                  </span>
+                </div>
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     );
