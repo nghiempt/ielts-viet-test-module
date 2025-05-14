@@ -130,11 +130,7 @@ const ReadingSection: React.FC = () => {
     if (isLogin) {
       const response = await UserService.getCompleteTestById(testId, isLogin);
       const jsonData = JSON.stringify(response, null, 2);
-
-      console.log("jsonData", jsonData);
-
       localStorage.setItem("readingTestAnswers", jsonData);
-
       router.push(`${ROUTES.READING_STATISTIC}/${testId}`);
     }
   };
@@ -163,7 +159,10 @@ const ReadingSection: React.FC = () => {
             {isLogin && isCompleted ? (
               <>
                 <div className="grid grid-cols-12 items-center gap-3">
-                  <div className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
+                  <Link
+                    href={`${ROUTES.READING_TEST}/${test._id}`}
+                    className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out"
+                  >
                     <RotateCw
                       size={15}
                       className="text-[#0D5293] group-hover:text-white transition-colors duration-200 ease-in-out"
@@ -171,7 +170,7 @@ const ReadingSection: React.FC = () => {
                     <span className="text-sm mr-1 text-[#0D5293] group-hover:text-white">
                       Làm lại
                     </span>
-                  </div>
+                  </Link>
                   <div
                     onClick={() => handleViewResult(test._id)}
                     className="cursor-pointer col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out"

@@ -1,4 +1,5 @@
 // pages/ielts-test.tsx
+import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { IMAGES } from "@/utils/images";
@@ -25,6 +26,16 @@ import { SubmitService } from "@/services/submit";
 import { ROUTES } from "@/utils/routes";
 import "@/styles/hide-scroll.css";
 import Cookies from "js-cookie";
+import { UserService } from "@/services/user";
+
+interface UserAccount {
+  _id: string;
+  user_name: string;
+  avatar: string;
+  email: string;
+  password: string;
+  created_at: string;
+}
 
 interface Question {
   id: number;
@@ -109,7 +120,10 @@ export default function ReadingTestClient() {
   const router = useRouter();
   const [showConfirmDialog, setShowConfirmDialog] = useState(true);
   const [showConfirmSubmitDialog, setShowConfirmSubmitDialog] = useState(false);
+  const [showGetInfoDialog, setShowGetInfoDialog] = useState(false);
+  const [guestGmail, setGuestGmail] = useState("");
   const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const [userAccount, setUserAccount] = useState<UserAccount | null>(null);
   const isLogin = Cookies.get("isLogin");
 
   // COUNTING DOWN TIMER
@@ -265,6 +279,19 @@ export default function ReadingTestClient() {
     const id = segments[segments.length - 1];
 
     try {
+      if (isLogin) {
+        try {
+          const data = await UserService.getUserById(isLogin);
+          if (data) {
+            setUserAccount(data);
+          } else {
+            setUserAccount(null);
+          }
+        } catch (error) {
+          console.error("Error fetching account:", error);
+        }
+      }
+
       const res = await ReadingService.getReadingById(id);
       if (!res) throw new Error("Reading data not found");
 
@@ -600,15 +627,33 @@ export default function ReadingTestClient() {
     const id = segments[segments.length - 1];
 
     let userId = "";
+    let userEmail = "";
 
     if (isLogin) {
       userId = isLogin;
+      userEmail = userAccount?.email || "";
+    } else {
+      userEmail = guestGmail;
+    }
+
+    if (!isLogin && !userEmail) {
+      alert("Vui lòng nhập Gmail để nộp bài");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (userEmail && !emailRegex.test(userEmail)) {
+      toast({
+        variant: "destructive",
+        title: "Vui lòng nhập địa chỉ Gmail hợp lệ",
+      });
+      return;
     }
 
     const body = {
       user_id: userId,
       test_id: id,
-      user_email: "",
+      user_email: userEmail,
       parts: answers.parts,
     };
 
@@ -618,8 +663,6 @@ export default function ReadingTestClient() {
       const jsonData = JSON.stringify(response, null, 2);
 
       localStorage.setItem("readingTestAnswers", jsonData);
-
-      // console.log("Test submitted successfully:", jsonData);
 
       const segments = pathname.split("/").filter(Boolean);
       const testId = segments[segments.length - 1];
@@ -632,7 +675,7 @@ export default function ReadingTestClient() {
 
   const handleStartTest = () => {
     setShowConfirmDialog(false);
-    setIsTimerRunning(true); // Start the timer
+    setIsTimerRunning(true);
   };
 
   const handleCancelTest = () => {
@@ -646,6 +689,7 @@ export default function ReadingTestClient() {
 
   const handleCancelSubmitTest = () => {
     setShowConfirmSubmitDialog(false);
+    setShowGetInfoDialog(false);
   };
 
   return (
@@ -719,6 +763,56 @@ export default function ReadingTestClient() {
                 Bạn có chắc chắn muốn nộp bài kiểm tra này không? Sau khi nộp,
                 bạn sẽ không thể chỉnh sửa bài làm của mình.
               </p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={handleCancelSubmitTest}
+                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition"
+                >
+                  Hủy
+                </button>
+                <button
+                  onClick={handleSubmitTest}
+                  className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
+                >
+                  Nộp bài
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Get non Login Info Dialog */}
+      <AnimatePresence>
+        {showGetInfoDialog && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black z-50"
+            />
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed top-[37%] left-[4%] lg:left-[37%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-md"
+            >
+              <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                Bạn chưa có thông tin tài khoản
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Vui lòng cung cấp thông tin Gmail của bạn để nộp bài
+              </p>
+              <input
+                type="text"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-[#FA812F] focus:border-transparent"
+                placeholder="Vui lòng nhập Gmail"
+                value={guestGmail}
+                onChange={(e) => setGuestGmail(e.target.value)}
+              />
               <div className="flex justify-end space-x-4">
                 <button
                   onClick={handleCancelSubmitTest}
@@ -989,7 +1083,13 @@ export default function ReadingTestClient() {
             className={`w-36 flex justify-center items-center ${
               selectedPassage === 3 ? "border border-[#FA812F]" : "hidden"
             } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
-            onClick={() => setShowConfirmSubmitDialog(true)}
+            onClick={() => {
+              if (isLogin) {
+                setShowConfirmSubmitDialog(true);
+              } else {
+                setShowGetInfoDialog(true);
+              }
+            }}
           >
             <div
               className={`font-medium text-md justify-center items-center ${
