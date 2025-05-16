@@ -7,7 +7,10 @@ import { ListeningService } from "@/services/listening";
 import Link from "next/link";
 import { ROUTES } from "@/utils/routes";
 import Skeleton from "@/components/ui/skeleton";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 import { CircleCheckBig, PlayIcon, RotateCw } from "lucide-react";
+import { UserService } from "@/services/user";
 
 interface ListeningTestItem {
   _id: string;
@@ -17,6 +20,11 @@ interface ListeningTestItem {
   thumbnail: string;
   time: number;
   created_at: string;
+}
+
+interface CompletedTest {
+  test_id: string;
+  // Add other relevant fields from completed test if needed
 }
 
 const ListeningSection: React.FC = () => {
@@ -30,6 +38,10 @@ const ListeningSection: React.FC = () => {
   const [currenPage, setCurrenPage] = useState<any>(1 as any);
   const [currenData, setCurrenData] = useState<any>([] as any);
   const [loading, setLoading] = useState<boolean>(true);
+  const [completedTests, setCompletedTests] = useState<string[]>([]);
+
+  const isLogin = Cookies.get("isLogin");
+  const router = useRouter();
 
   const selectPage = (pageSelected: any) => {
     setCurrenPage(pageSelected);
@@ -59,17 +71,35 @@ const ListeningSection: React.FC = () => {
 
   const init = async () => {
     setLoading(true);
-    const res = await ListeningService.getAll();
-    if (res && res.length > 0) {
-      const filteredData = res.filter(
-        (item: ListeningTestItem) => item.thumbnail != null
-      );
-      setListening(filteredData);
-      render(filteredData);
-      setLoading(false);
-    } else {
+    try {
+      const res = await ListeningService.getAll();
+      if (res && res.length > 0) {
+        const filteredData = res.filter(
+          (item: ListeningTestItem) => item.thumbnail != ""
+        );
+        setListening(filteredData);
+        render(filteredData);
+
+        if (isLogin) {
+          const completedRes = await UserService.getCompleteUserTestById(
+            isLogin
+          );
+          if (completedRes && completedRes.length > 0) {
+            const completedTestIds = completedRes.map(
+              (test: CompletedTest) => test.test_id
+            );
+            setCompletedTests(completedTestIds);
+          }
+        }
+      } else {
+        setListening([]);
+        setFilteredListenings([]);
+      }
+    } catch (error) {
+      console.error("Error initializing data:", error);
       setListening([]);
       setFilteredListenings([]);
+    } finally {
       setLoading(false);
     }
   };
@@ -78,8 +108,19 @@ const ListeningSection: React.FC = () => {
     init();
   }, []);
 
+  const handleViewResult = async (testId: string) => {
+    if (isLogin) {
+      const response = await UserService.getCompleteTestById(testId, isLogin);
+
+      const jsonData = JSON.stringify(response, null, 2);
+      localStorage.setItem("listeningTestAnswers", jsonData);
+      router.push(`${ROUTES.LISTENING_STATISTIC}/${testId}`);
+    }
+  };
+
   // Test card component
   const TestCard: React.FC<{ test: ListeningTestItem }> = ({ test }) => {
+    const isCompleted = completedTests.includes(test._id);
     return (
       <div className="flex flex-col">
         <div className="relative mb-2">
@@ -103,43 +144,54 @@ const ListeningSection: React.FC = () => {
               12K lượt làm
             </p>
           </div>
-          <Link
-            href={`${ROUTES.LISTENING_TEST}/${test._id}`}
-            className="flex items-center text-md lg:text-sm text-[#FA812F]"
-          >
-            <div className="flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
-              <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
-                <PlayIcon
-                  size={14}
-                  fill="#FA812F"
-                  className="group-hover:fill-white transition-colors duration-200 ease-in-out"
-                />
+          {isLogin && isCompleted ? (
+            <>
+              <div className="grid grid-cols-12 items-center gap-3">
+                <Link
+                  href={`${ROUTES.LISTENING_TEST}/${test._id}?isRetake=true`}
+                  className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out"
+                >
+                  <RotateCw
+                    size={15}
+                    className="text-[#0D5293] group-hover:text-white transition-colors duration-200 ease-in-out"
+                  />
+                  <span className="text-sm mr-1 text-[#0D5293] group-hover:text-white">
+                    Làm lại
+                  </span>
+                </Link>
+                <div
+                  onClick={() => handleViewResult(test._id)}
+                  className="cursor-pointer col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out"
+                >
+                  <CircleCheckBig
+                    size={15}
+                    className="text-[#58c558] group-hover:text-white transition-colors duration-200 ease-in-out"
+                  />
+                  <span className="text-sm mr-1 text-[#58c558] group-hover:text-white">
+                    Xem kết quả
+                  </span>
+                </div>
               </div>
-              <span className="mr-1 text-[#FA812F] group-hover:text-white">
-                Làm bài
-              </span>
-            </div>
-            {/* <div className="flex flex-row items-center gap-3">
-              <div className="flex flex-row items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
-                <RotateCw
-                  size={14}
-                  className="text-[#0D5293] group-hover:text-white transition-colors duration-200 ease-in-out"
-                />
-                <span className="mr-1 text-[#0D5293] group-hover:text-white">
-                  Làm lại
+            </>
+          ) : (
+            <Link
+              href={`${ROUTES.LISTENING_TEST}/${test._id}`}
+              className="flex items-center text-md lg:text-sm"
+            >
+              <div className="flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
+                <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out text-[#FA812F] group-hover:text-white">
+                  <PlayIcon
+                    size={12}
+                    fill="#FA812F"
+                    className="group-hover:fill-white transition-colors duration-200 ease-in-out"
+                  />
+                </div>
+                <span className="text-sm mr-1 text-[#FA812F] group-hover:text-white">
+                  Làm bài
                 </span>
               </div>
-              <div className="flex flex-row items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
-                <CircleCheckBig
-                  size={14}
-                  className="text-[#58c558] group-hover:text-white transition-colors duration-200 ease-in-out"
-                />
-                <span className="mr-1 text-[#58c558] group-hover:text-white">
-                  Xem kết quả
-                </span>
-              </div>
-            </div> */}
-          </Link>
+            </Link>
+          )}
         </div>
       </div>
     );

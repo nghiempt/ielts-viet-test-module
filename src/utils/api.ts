@@ -31,6 +31,7 @@ export const API = {
 
   //SUBMIT TEST
   SUBMIT_TEST: `${BASE_URL}/ielts-viet/test/submit`,
+  UPDATE_SUBMIT_TEST: `${BASE_URL}/ielts-viet/test/submit/`,
 
   // LOGIN
   LOGIN: `${BASE_URL}/ielts-viet/user/login`,

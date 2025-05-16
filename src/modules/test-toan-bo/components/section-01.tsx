@@ -8,7 +8,10 @@ import Link from "next/link";
 import { ROUTES } from "@/utils/routes";
 import { FullTestService } from "@/services/full-test";
 import Skeleton from "@/components/ui/skeleton";
-import { CircleCheckBig, PlayIcon, RotateCw } from "lucide-react";
+import { BookCheck, Headphones, PencilLine, PlayIcon } from "lucide-react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { UserService } from "@/services/user";
 
 interface FullTestItem {
   _id: string;
@@ -21,21 +24,32 @@ interface FullTestItem {
   created_at: string;
 }
 
+interface CompletedTest {
+  test_id: string;
+  // Add other relevant fields from completed test if needed
+}
+
 const FullTestSection: React.FC = () => {
   const COUNT = 12;
 
   const [fullTests, setFullTests] = useState<FullTestItem[]>([]);
-  const [filteredReadings, setFilteredReadings] = useState<FullTestItem[]>([]);
+  const [filteredFullTests, setFilteredFullTests] = useState<FullTestItem[]>(
+    []
+  );
   const [totalPage, setTotalPage] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<FullTestItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [completedTests, setCompletedTests] = useState<string[]>([]);
+
+  const isLogin = Cookies.get("isLogin");
+  const router = useRouter();
 
   const selectPage = (pageSelected: number) => {
     setCurrentPage(pageSelected);
     const start = (pageSelected - 1) * COUNT;
     const end = pageSelected * COUNT;
-    setCurrentData(filteredReadings.slice(start, end));
+    setCurrentData(filteredFullTests.slice(start, end));
   };
 
   const prevPage = () => {
@@ -51,7 +65,7 @@ const FullTestSection: React.FC = () => {
   };
 
   const render = (data: FullTestItem[]) => {
-    setFilteredReadings(data);
+    setFilteredFullTests(data);
     setTotalPage(Math.ceil(data.length / COUNT));
     setCurrentPage(1);
     setCurrentData(data.slice(0, COUNT));
@@ -59,17 +73,35 @@ const FullTestSection: React.FC = () => {
 
   const init = async () => {
     setLoading(true);
-    const res = await FullTestService.getAll();
-    if (res && res.length > 0) {
-      const filteredData = res.filter(
-        (item: FullTestItem) => item.thumbnail != null
-      );
-      setFullTests(filteredData);
-      render(filteredData);
-      setLoading(false);
-    } else {
+    try {
+      const res = await FullTestService.getAll();
+      if (res && res.length > 0) {
+        const filteredData = res.filter(
+          (item: FullTestItem) => item.thumbnail != null
+        );
+        setFullTests(filteredData);
+        render(filteredData);
+
+        if (isLogin) {
+          const completedRes = await UserService.getCompleteUserTestById(
+            isLogin
+          );
+          if (completedRes && completedRes.length > 0) {
+            const completedTestIds = completedRes.map(
+              (test: CompletedTest) => test.test_id
+            );
+            setCompletedTests(completedTestIds);
+          }
+        }
+      } else {
+        setFullTests([]);
+        setFilteredFullTests([]);
+      }
+    } catch (error) {
+      console.error("Error initializing data:", error);
       setFullTests([]);
-      setFilteredReadings([]);
+      setFilteredFullTests([]);
+    } finally {
       setLoading(false);
     }
   };
@@ -80,6 +112,9 @@ const FullTestSection: React.FC = () => {
 
   // Test card component
   const TestCard: React.FC<{ test: FullTestItem }> = ({ test }) => {
+    const isReadingCompleted = completedTests.includes(test.r_id);
+    const isListeningCompleted = completedTests.includes(test.l_id);
+    const isWritingCompleted = completedTests.includes(test.w_id);
     return (
       <div className="flex flex-col">
         <div className="relative mb-2">
@@ -100,9 +135,9 @@ const FullTestSection: React.FC = () => {
           </div>
           <Link
             href={`${ROUTES.FULLTEST_DETAIL}/${test._id}`}
-            className="flex items-center text-md lg:text-sm text-[#FA812F]"
+            className="flex items-center text-md lg:text-sm "
           >
-            <div className="flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
+            <div className="text-[#FA812F] flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
               <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
                 <PlayIcon
                   size={14}
@@ -114,26 +149,35 @@ const FullTestSection: React.FC = () => {
                 Làm bài
               </span>
             </div>
-            {/* <div className="flex flex-row items-center gap-3">
-              <div className="flex flex-row items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
-                <RotateCw
-                  size={14}
-                  className="text-[#0D5293] group-hover:text-white transition-colors duration-200 ease-in-out"
-                />
-                <span className="mr-1 text-[#0D5293] group-hover:text-white">
-                  Làm lại
-                </span>
+            <div className="flex flex-row items-center gap-3 ml-5">
+              <div
+                className={`border p-1.5 rounded-full ${
+                  isReadingCompleted
+                    ? "text-white border-white bg-[#58c558]"
+                    : "text-gray-500 border-gray-500"
+                }`}
+              >
+                <BookCheck size={15} />
               </div>
-              <div className="flex flex-row items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
-                <CircleCheckBig
-                  size={14}
-                  className="text-[#58c558] group-hover:text-white transition-colors duration-200 ease-in-out"
-                />
-                <span className="mr-1 text-[#58c558] group-hover:text-white">
-                  Xem kết quả
-                </span>
+              <div
+                className={`border p-1.5 rounded-full ${
+                  isListeningCompleted
+                    ? "text-white border-white bg-[#58c558]"
+                    : "text-gray-500 border-gray-500"
+                }`}
+              >
+                <Headphones size={15} />
               </div>
-            </div> */}
+              <div
+                className={`border p-1.5 rounded-full ${
+                  isWritingCompleted
+                    ? "text-white border-white bg-[#58c558]"
+                    : "text-gray-500 border-gray-500"
+                }`}
+              >
+                <PencilLine size={15} />
+              </div>
+            </div>
           </Link>
         </div>
       </div>

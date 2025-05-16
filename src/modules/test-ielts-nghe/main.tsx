@@ -1,3 +1,4 @@
+import { toast } from "@/hooks/use-toast";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { IMAGES } from "@/utils/images";
@@ -8,7 +9,7 @@ import PassageProgressBarMobile from "./components/processing-bar-mobile";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShortAnswerQuiz } from "./components/test-type/fil-in-the-blank/fill-in";
 import PopupMenu from "./components/pop-up";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ListeningService } from "@/services/listening";
 import { QuestionsService } from "@/services/questions";
 import { SubmitService } from "@/services/submit";
@@ -17,6 +18,17 @@ import {
   QuizQuestion,
 } from "../test-ielts-doc/components/test-type/multiple-choice/multiple-choice";
 import { ROUTES } from "@/utils/routes";
+import Cookies from "js-cookie";
+import { UserService } from "@/services/user";
+
+interface UserAccount {
+  _id: string;
+  user_name: string;
+  avatar: string;
+  email: string;
+  password: string;
+  created_at: string;
+}
 
 interface Question {
   id: number;
@@ -109,6 +121,8 @@ const TimeProgressBar: React.FC<{ progress: number; timeLeft: string }> = ({
 const ListeningTestClient: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isRetake = searchParams.get("isRetake") === "true";
   const [data, setData] = useState<ListenDetail | null>(null);
   const [passage1, setPassage1] = useState<PassageSection | null>(null);
   const [passage2, setPassage2] = useState<PassageSection | null>(null);
@@ -129,6 +143,10 @@ const ListeningTestClient: React.FC = () => {
   const [initialTotalTime, setInitialTotalTime] = useState<number | null>(null);
   const [progress, setProgress] = useState(100);
   const [currentAudio, setCurrentAudio] = useState<string | null>(null);
+  const [showGetInfoDialog, setShowGetInfoDialog] = useState(false);
+  const [userAccount, setUserAccount] = useState<UserAccount | null>(null);
+  const [guestGmail, setGuestGmail] = useState("");
+  const isLogin = Cookies.get("isLogin");
 
   // ALERT ON PAGE RELOAD OR CLOSE
   useEffect(() => {
@@ -153,7 +171,7 @@ const ListeningTestClient: React.FC = () => {
     );
 
     if (confirmExit) {
-      router.push(ROUTES.HOME);
+      router.push(ROUTES.LISTENING_HOME);
     }
   };
 
@@ -416,6 +434,19 @@ const ListeningTestClient: React.FC = () => {
     const id = segments[segments.length - 1];
 
     try {
+      if (isLogin) {
+        try {
+          const data = await UserService.getUserById(isLogin);
+          if (data) {
+            setUserAccount(data);
+          } else {
+            setUserAccount(null);
+          }
+        } catch (error) {
+          console.error("Error fetching account:", error);
+        }
+      }
+
       const res = await ListeningService.getListeningById(id);
       if (!res) throw new Error("Listening data not found");
 
@@ -761,24 +792,49 @@ const ListeningTestClient: React.FC = () => {
     const segments = pathname.split("/").filter(Boolean);
     const id = segments[segments.length - 1];
 
+    let userId = "";
+    let userEmail = "";
+
+    if (isLogin) {
+      userId = isLogin;
+      userEmail = userAccount?.email || "";
+    } else {
+      userEmail = guestGmail;
+    }
+
+    if (!isLogin && !userEmail) {
+      alert("Vui lòng nhập Gmail để nộp bài");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (userEmail && !emailRegex.test(userEmail)) {
+      toast({
+        variant: "destructive",
+        title: "Vui lòng nhập địa chỉ Gmail hợp lệ",
+      });
+      return;
+    }
+
     const body = {
-      user_id: "",
+      user_id: userId,
       test_id: id,
-      user_email: "",
+      user_email: userEmail,
       parts: answers.parts,
     };
 
     const jsonData = JSON.stringify(body, null, 2);
 
-    console.log("Submit data:", jsonData);
-
     try {
       // const response = await SubmitService.submitTest(body);
-      // const jsonData = JSON.stringify(response, null, 2);
-      // localStorage.setItem("listeningTestAnswers", jsonData);
-      // const segments = pathname.split("/").filter(Boolean);
-      // const testId = segments[segments.length - 1];
-      // router.push(`${ROUTES.LISTENING_STATISTIC}/${testId}`);
+      const response = await (isRetake
+        ? SubmitService.updateSubmitTest(body)
+        : SubmitService.submitTest(body));
+      const jsonData = JSON.stringify(response, null, 2);
+      localStorage.setItem("listeningTestAnswers", jsonData);
+      const segments = pathname.split("/").filter(Boolean);
+      const testId = segments[segments.length - 1];
+      router.push(`${ROUTES.LISTENING_STATISTIC}/${testId}`);
     } catch (error) {
       console.error("Error submitting test:", error);
     }
@@ -805,6 +861,7 @@ const ListeningTestClient: React.FC = () => {
 
   const handleCancelSubmitTest = () => {
     setShowConfirmSubmitDialog(false);
+    setShowGetInfoDialog(false);
   };
 
   return (
@@ -897,6 +954,56 @@ const ListeningTestClient: React.FC = () => {
         )}
       </AnimatePresence>
 
+      {/* Get non Login Info Dialog */}
+      <AnimatePresence>
+        {showGetInfoDialog && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black z-50"
+            />
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed top-[37%] left-[4%] lg:left-[37%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-md"
+            >
+              <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                Bạn chưa có thông tin tài khoản
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Vui lòng cung cấp thông tin Gmail của bạn để nộp bài
+              </p>
+              <input
+                type="text"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-[#FA812F] focus:border-transparent"
+                placeholder="Vui lòng nhập Gmail"
+                value={guestGmail}
+                onChange={(e) => setGuestGmail(e.target.value)}
+              />
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={handleCancelSubmitTest}
+                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition"
+                >
+                  Hủy
+                </button>
+                <button
+                  onClick={handleSubmitTest}
+                  className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
+                >
+                  Nộp bài
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 flex items-center justify-between bg-white py-2 px-4 shadow-sm z-10">
         <Link
@@ -938,7 +1045,7 @@ const ListeningTestClient: React.FC = () => {
           </div>
 
           <Link
-            href={ROUTES.HOME}
+            href={ROUTES.LISTENING_HOME}
             className="text-gray-400 hover:text-gray-600 ml-4"
             onClick={handleExitClick}
           >
@@ -1107,7 +1214,13 @@ const ListeningTestClient: React.FC = () => {
             className={`w-36 flex justify-center items-center ${
               selectedPassage === 4 ? "border border-[#FA812F]" : "hidden"
             } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
-            onClick={() => setShowConfirmSubmitDialog(true)}
+            onClick={() => {
+              if (isLogin) {
+                setShowConfirmSubmitDialog(true);
+              } else {
+                setShowGetInfoDialog(true);
+              }
+            }}
           >
             <div
               className={`font-medium text-md justify-center items-center ${

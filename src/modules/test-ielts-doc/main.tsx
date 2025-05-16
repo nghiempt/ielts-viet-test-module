@@ -19,7 +19,7 @@ import {
 } from "./components/test-type/multiple-choice/multiple-choice";
 import { ShortAnswerQuiz } from "./components/test-type/fil-in-the-blank/fill-in";
 import PopupMenu from "./components/pop-up";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ReadingService } from "@/services/reading";
 import { QuestionsService } from "@/services/questions";
 import { SubmitService } from "@/services/submit";
@@ -105,6 +105,8 @@ interface PassageInfo {
 
 export default function ReadingTestClient() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const isRetake = searchParams.get("isRetake") === "true";
   const [data, setData] = useState<ReadingDetail | null>(null);
   const [passage1, setPassage1] = useState<PassageSection | null>(null);
   const [passage2, setPassage2] = useState<PassageSection | null>(null);
@@ -658,15 +660,13 @@ export default function ReadingTestClient() {
     };
 
     try {
-      const response = await SubmitService.submitTest(body);
-
+      const response = await (isRetake
+        ? SubmitService.updateSubmitTest(body)
+        : SubmitService.submitTest(body));
       const jsonData = JSON.stringify(response, null, 2);
-
       localStorage.setItem("readingTestAnswers", jsonData);
-
       const segments = pathname.split("/").filter(Boolean);
       const testId = segments[segments.length - 1];
-
       router.push(`${ROUTES.READING_STATISTIC}/${testId}`);
     } catch (error) {
       console.error("Error submitting test:", error);

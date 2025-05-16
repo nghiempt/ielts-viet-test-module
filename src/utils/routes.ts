@@ -20,6 +20,7 @@ const READING_STATISTIC = "/reading-result";
 const LISTENING_RESULT = "/test-result-listening";
 const READING_RESULT = "/test-result-reading";
 const WRITING_RESULT = "/writing-submit";
+const TEST_WRITING_RESULT = "/test-result-writing";
 
 export const ROUTES = {
   HOME,
@@ -36,4 +37,5 @@ export const ROUTES = {
   LISTENING_STATISTIC,
   READING_STATISTIC,
   WRITING_RESULT,
+  TEST_WRITING_RESULT,
 };

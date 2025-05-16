@@ -162,35 +162,41 @@ const ResultStatistic = () => {
       const questionNumber = index + 1 + (passageNum - 1) * 13; // Assuming 13 questions per passage
       return (
         <div key={answer.question_id} className="flex items-center text-sm">
-          <div className="flex items-center justify-center w-6 h-6 rounded-full bg-gray-200 text-gray-800 mr-2">
-            {questionNumber}
+          <div className="grid grid-cols-12 gap-5 items-center justify-start w-full mt-2">
+            <div className="col-span-1 flex items-center justify-center w-6 h-6 rounded-full bg-gray-200 text-gray-800 mr-2">
+              {questionNumber}
+            </div>
+            <div className="col-span-11">
+              <div>
+                <span
+                  className={`${
+                    answer.is_pass
+                      ? "text-yellow-600"
+                      : answer.is_correct
+                      ? "text-green-500"
+                      : "text-red-500"
+                  } mr-2`}
+                >
+                  {answer.is_pass
+                    ? "Skipped"
+                    : answer.is_correct
+                    ? "Correct"
+                    : "Incorrect"}
+                </span>
+                <span className="text-green-600 font-medium">
+                  {Array.isArray(answer.correct_answer)
+                    ? answer.correct_answer.join(", ")
+                    : answer.correct_answer}
+                </span>
+              </div>
+              {!answer.is_pass && !answer.is_correct && (
+                <span className="text-gray-600 ml-2">
+                  (Your answer:{" "}
+                  {answer.answer.length ? answer.answer.join(", ") : "None"})
+                </span>
+              )}
+            </div>
           </div>
-          <span
-            className={`${
-              answer.is_pass
-                ? "text-yellow-600"
-                : answer.is_correct
-                ? "text-green-500"
-                : "text-red-500"
-            } mr-2`}
-          >
-            {answer.is_pass
-              ? "Skipped"
-              : answer.is_correct
-              ? "Correct"
-              : "Incorrect"}
-          </span>
-          <span className="text-green-600 font-medium">
-            {Array.isArray(answer.correct_answer)
-              ? answer.correct_answer.join(", ")
-              : answer.correct_answer}
-          </span>
-          {!answer.is_pass && !answer.is_correct && (
-            <span className="text-gray-600 ml-2">
-              (Your answer:{" "}
-              {answer.answer.length ? answer.answer.join(", ") : "None"})
-            </span>
-          )}
         </div>
       );
     });
@@ -212,7 +218,7 @@ const ResultStatistic = () => {
         </div>
         <div className="text-center font-medium mr-24">
           Answer key
-          <div className="text-xs text-gray-500">CAM16 - Reading Test 4</div>
+          <div className="text-xs text-gray-500">Reading Test</div>
         </div>
         <Link href={ROUTES.HOME} className="text-gray-600">
           <svg

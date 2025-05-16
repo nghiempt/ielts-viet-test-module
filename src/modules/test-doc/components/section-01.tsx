@@ -70,30 +70,13 @@ const ReadingSection: React.FC = () => {
     setCurrentData(data.slice(0, COUNT));
   };
 
-  // const init = async () => {
-  //   setLoading(true);
-  //   const res = await ReadingService.getAll();
-  //   if (res && res.length > 0) {
-  //     const filteredData = res.filter(
-  //       (item: ReadingTestItem) => item.thumbnail != null
-  //     );
-  //     setReadings(filteredData);
-  //     render(filteredData);
-  //     setLoading(false);
-  //   } else {
-  //     setReadings([]);
-  //     setFilteredReadings([]);
-  //     setLoading(false);
-  //   }
-  // };
-
   const init = async () => {
     setLoading(true);
     try {
       const res = await ReadingService.getAll();
       if (res && res.length > 0) {
         const filteredData = res.filter(
-          (item: ReadingTestItem) => item.thumbnail != null
+          (item: ReadingTestItem) => item.thumbnail != ""
         );
         setReadings(filteredData);
         render(filteredData);
@@ -129,6 +112,7 @@ const ReadingSection: React.FC = () => {
   const handleViewResult = async (testId: string) => {
     if (isLogin) {
       const response = await UserService.getCompleteTestById(testId, isLogin);
+
       const jsonData = JSON.stringify(response, null, 2);
       localStorage.setItem("readingTestAnswers", jsonData);
       router.push(`${ROUTES.READING_STATISTIC}/${testId}`);
@@ -160,7 +144,7 @@ const ReadingSection: React.FC = () => {
               <>
                 <div className="grid grid-cols-12 items-center gap-3">
                   <Link
-                    href={`${ROUTES.READING_TEST}/${test._id}`}
+                    href={`${ROUTES.READING_TEST}/${test._id}?isRetake=true`}
                     className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out"
                   >
                     <RotateCw

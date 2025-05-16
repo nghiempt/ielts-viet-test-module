@@ -4,10 +4,12 @@ import Link from "next/link";
 import { IMAGES } from "@/utils/images";
 import {
   BookOpenText,
+  CircleCheckBig,
   Facebook,
   Headphones,
   PenLine,
   PlayIcon,
+  RotateCw,
 } from "lucide-react";
 import { FullTestService } from "@/services/full-test";
 import { usePathname } from "next/navigation";
@@ -15,6 +17,9 @@ import { ReadingService } from "@/services/reading";
 import { ListeningService } from "@/services/listening";
 import { WritingService } from "@/services/writing";
 import { ROUTES } from "@/utils/routes";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { UserService } from "@/services/user";
 
 interface FullTestItem {
   _id: string;
@@ -55,6 +60,10 @@ interface ReadingDetail {
   created_at: string;
 }
 
+interface CompletedTest {
+  test_id: string;
+}
+
 export default function Section01() {
   const pathname = usePathname();
   const [fullTestDetail, setFullTestDetail] = useState<FullTestItem | null>(
@@ -65,18 +74,21 @@ export default function Section01() {
   const [listening, setListening] = useState<ListenDetail | null>(null);
   const [writing, setWriting] = useState<WritingDetail | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [completedTests, setCompletedTests] = useState<string[]>([]);
+
+  const isLogin = Cookies.get("isLogin");
+  const router = useRouter();
 
   const render = (data: FullTestItem[]) => {
     setFullTests(data);
   };
 
-  // Detect mobile device based on window width
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 1024); // lg breakpoint
+      setIsMobile(window.innerWidth < 1024);
     };
 
-    handleResize(); // Initial check
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -96,6 +108,16 @@ export default function Section01() {
       const resListening = await ListeningService.getListeningById(res.l_id);
       const resWriting = await WritingService.getWritingById(res.w_id);
 
+      if (isLogin) {
+        const completedRes = await UserService.getCompleteUserTestById(isLogin);
+        if (completedRes && completedRes.length > 0) {
+          const completedTestIds = completedRes.map(
+            (test: CompletedTest) => test.test_id
+          );
+          setCompletedTests(completedTestIds);
+        }
+      }
+
       setFullTestDetail(res || null);
       setReading(resReading || null);
       setListening(resListening || null);
@@ -110,16 +132,13 @@ export default function Section01() {
 
     try {
       const res = await FullTestService.getAll();
-
       if (!res || !Array.isArray(res) || res.length === 0) {
         setFullTests([]);
         return;
       }
-
       const filteredData = res.filter(
         (item: FullTestItem) => item && item.thumbnail != null
       );
-
       render(filteredData);
     } catch (error) {
       console.error("Error fetching all tests:", error);
@@ -131,17 +150,52 @@ export default function Section01() {
     init();
   }, []);
 
-  // Handler for opening test in new window on mobile
   const handleTestClick = (url: string) => {
     if (isMobile) {
       window.open(url, "_blank", "noopener,noreferrer");
     }
   };
 
+  const handleViewReadingResult = async (testId: string) => {
+    if (isLogin) {
+      const response = await UserService.getCompleteTestById(testId, isLogin);
+      const jsonData = JSON.stringify(response, null, 2);
+      localStorage.setItem("readingTestAnswers", jsonData);
+      router.push(`${ROUTES.READING_STATISTIC}/${testId}`);
+    }
+  };
+
+  const handleViewListeningResult = async (testId: string) => {
+    if (isLogin) {
+      const response = await UserService.getCompleteTestById(testId, isLogin);
+      const jsonData = JSON.stringify(response, null, 2);
+      localStorage.setItem("listeningTestAnswers", jsonData);
+      router.push(`${ROUTES.LISTENING_STATISTIC}/${testId}`);
+    }
+  };
+
+  const handleViewWritingResult = async (testId: string) => {
+    if (isLogin) {
+      const response = await UserService.getCompleteTestById(testId, isLogin);
+      const jsonData = JSON.stringify(response, null, 2);
+      localStorage.setItem("writingTestAnswers", jsonData);
+      router.push(`${ROUTES.WRITING_RESULT}/${testId}`);
+    }
+  };
+
+  const isReadingCompleted = completedTests.includes(
+    fullTestDetail?.r_id || ""
+  );
+  const isListeningCompleted = completedTests.includes(
+    fullTestDetail?.l_id || ""
+  );
+  const isWritingCompleted = completedTests.includes(
+    fullTestDetail?.w_id || ""
+  );
+
   return (
     <div className="w-full mx-auto px-6">
       <main>
-        {/* Header */}
         <div className="flex flex-col justify-center items-center lg:justify-start lg:items-start lg:flex-row mb-4">
           <div className="w-full lg:w-40 h-full mr-0 lg:mr-4 mb-5 lg:mb-0">
             <Image
@@ -163,7 +217,11 @@ export default function Section01() {
                 <span>74,734 lượt làm</span>
               </div>
             </div>
-            <div className="mt-1 flex justify-center lg:justify-start items-center w-full">
+            <div
+              className="mt-1 flex justify-center lg:justify-start
+
+ items-center w-full"
+            >
               <button className="bg-blue-500 text-white text-xs px-3 py-1 rounded-sm flex items-center">
                 <Facebook
                   size={15}
@@ -177,14 +235,11 @@ export default function Section01() {
           </div>
         </div>
 
-        {/* Description */}
         <p className="text-sm lg:text-lg text-justify lg:text-left text-gray-700 mb-6">
           {fullTestDetail?.description}
         </p>
 
-        {/* Test Sections */}
         <div className="mt-10 mb-8 w-full">
-          {/* Desktop Header */}
           <div className="hidden lg:grid lg:grid-cols-4 gap-4 mb-4 text-base lg:text-lg border-b border-gray-200 pb-2">
             <div className="font-bold text-gray-800 text-center">BÀI TEST</div>
             <div className="font-bold text-gray-800 text-center">READING</div>
@@ -192,36 +247,99 @@ export default function Section01() {
             <div className="font-bold text-gray-800 text-center">WRITING</div>
           </div>
 
-          {/* Tests */}
           <div className="flex flex-col lg:grid lg:grid-cols-4 gap-4 items-center py-3 border-b border-gray-200">
-            {/* Test ID */}
             <div className="w-full text-center mb-4 lg:mb-0">
               <div className="font-medium text-lg lg:text-base">Full Test</div>
             </div>
 
-            {/* Mobile: Horizontal Scroll, Desktop: Grid */}
-            <div className="w-full lg:col-span-3 flex overflow-x-auto lg:overflow-visible gap-4 lg:grid lg:grid-cols-3 pb-4 lg:pb-0 px-0 mx-0 snap-x snap-mandatory scrollbar scrollbar-thumb-gray-300 scrollbar-track-gray-100 scroll-bar-style">
+            <div className="items-start w-full lg:col-span-3 flex overflow-x-auto lg:overflow-visible gap-4 lg:grid lg:grid-cols-3 pb-4 lg:pb-0 px-0 mx-0 snap-x snap-mandatory scrollbar scrollbar-thumb-gray-300 scrollbar-track-gray-100 scroll-bar-style">
               {/* Reading */}
-              <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
+              <div className="flex-shrink-0 flex justify-center items-center w-36 lg:w-auto">
                 {reading ? (
                   <div className="flex flex-col justify-center items-center gap-1">
                     <div className="border-4 border-gray-200 p-3 rounded-full">
                       <BookOpenText />
                     </div>
                     {isMobile ? (
-                      <button
-                        onClick={() =>
-                          handleTestClick(
-                            `${ROUTES.READING_TEST}/${fullTestDetail?.r_id}`
-                          )
-                        }
-                        className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
-                      >
-                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
-                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
+                      isLogin && isReadingCompleted ? (
+                        <div className="grid grid-cols-12 items-center gap-3 mt-4">
+                          <Link
+                            href={`${ROUTES.READING_TEST}/${fullTestDetail?.r_id}?isRetake=true`}
+                            className="col-span-12 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-3 group transition-all duration-200 ease-in-out"
+                          >
+                            <RotateCw
+                              size={17}
+                              className="text-[#0D5293] group-hover:text-white transition-colors duration-200 ease-in-out"
+                            />
+                            <span className="text-sm mr-1 text-[#0D5293] group-hover:text-white">
+                              Làm lại
+                            </span>
+                          </Link>
+                          <div
+                            onClick={() =>
+                              handleViewReadingResult(
+                                fullTestDetail?.r_id || ""
+                              )
+                            }
+                            className="cursor-pointer col-span-12 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-3 group transition-all duration-200 ease-in-out"
+                          >
+                            <CircleCheckBig
+                              size={17}
+                              className="text-[#58c558] group-hover:text-white transition-colors duration-200 ease-in-out"
+                            />
+                            <span className="text-sm text-center mr-1 text-[#58c558] group-hover:text-white">
+                              Xem kết quả
+                            </span>
+                          </div>
                         </div>
-                        <span>Làm bài</span>
-                      </button>
+                      ) : (
+                        <button
+                          onClick={() =>
+                            handleTestClick(
+                              `${ROUTES.READING_TEST}/${fullTestDetail?.r_id}`
+                            )
+                          }
+                          className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                        >
+                          <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                            <PlayIcon
+                              color="#FA812F"
+                              fill="#FA812F"
+                              size={18}
+                            />
+                          </div>
+                          <span>Làm bài</span>
+                        </button>
+                      )
+                    ) : isLogin && isReadingCompleted ? (
+                      <div className="grid grid-cols-12 items-center gap-3">
+                        <Link
+                          href={`${ROUTES.READING_TEST}/${fullTestDetail?.r_id}?isRetake=true`}
+                          className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-3 mt-4 group transition-all duration-200 ease-in-out"
+                        >
+                          <RotateCw
+                            size={17}
+                            className="text-[#0D5293] group-hover:text-white transition-colors duration-200 ease-in-out"
+                          />
+                          <span className="text-sm mr-1 text-[#0D5293] group-hover:text-white">
+                            Làm lại
+                          </span>
+                        </Link>
+                        <div
+                          onClick={() =>
+                            handleViewReadingResult(fullTestDetail?.r_id || "")
+                          }
+                          className="cursor-pointer col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-3 mt-4 group transition-all duration-200 ease-in-out"
+                        >
+                          <CircleCheckBig
+                            size={17}
+                            className="text-[#58c558] group-hover:text-white transition-colors duration-200 ease-in-out"
+                          />
+                          <span className="text-sm mr-1 text-[#58c558] group-hover:text-white">
+                            Xem kết quả
+                          </span>
+                        </div>
+                      </div>
                     ) : (
                       <Link
                         href={`${ROUTES.READING_TEST}/${fullTestDetail?.r_id}`}
@@ -236,31 +354,99 @@ export default function Section01() {
                     )}
                   </div>
                 ) : (
-                  <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
+                  <div className="h-[104px] lg:h-[120px]" />
                 )}
               </div>
 
               {/* Listening */}
-              <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
+              <div className="flex-shrink-0 flex justify-center items-center w-36 lg:w-auto">
                 {listening ? (
                   <div className="flex flex-col justify-center items-center gap-1">
                     <div className="border-4 border-gray-200 p-3 rounded-full">
                       <Headphones />
                     </div>
                     {isMobile ? (
-                      <button
-                        onClick={() =>
-                          handleTestClick(
-                            `${ROUTES.LISTENING_TEST}/${fullTestDetail?.l_id}`
-                          )
-                        }
-                        className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
-                      >
-                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
-                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
+                      isLogin && isListeningCompleted ? (
+                        <div className="grid grid-cols-12 items-center gap-3 mt-4">
+                          <Link
+                            href={`${ROUTES.LISTENING_TEST}/${fullTestDetail?.l_id}?isRetake=true`}
+                            className="col-span-12 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-3 group transition-all duration-200 ease-in-out"
+                          >
+                            <RotateCw
+                              size={17}
+                              className="text-[#0D5293] group-hover:text-white transition-colors duration-200 ease-in-out"
+                            />
+                            <span className="text-sm mr-1 text-[#0D5293] group-hover:text-white">
+                              Làm lại
+                            </span>
+                          </Link>
+                          <div
+                            onClick={() =>
+                              handleViewListeningResult(
+                                fullTestDetail?.l_id || ""
+                              )
+                            }
+                            className="cursor-pointer col-span-12 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-3 group transition-all duration-200 ease-in-out"
+                          >
+                            <CircleCheckBig
+                              size={17}
+                              className="text-[#58c558] group-hover:text-white transition-colors duration-200 ease-in-out"
+                            />
+                            <span className="text-sm text-center mr-1 text-[#58c558] group-hover:text-white">
+                              Xem kết quả
+                            </span>
+                          </div>
                         </div>
-                        <span>Làm bài</span>
-                      </button>
+                      ) : (
+                        <button
+                          onClick={() =>
+                            handleTestClick(
+                              `${ROUTES.LISTENING_TEST}/${fullTestDetail?.l_id}`
+                            )
+                          }
+                          className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                        >
+                          <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                            <PlayIcon
+                              color="#FA812F"
+                              fill="#FA812F"
+                              size={18}
+                            />
+                          </div>
+                          <span>Làm bài</span>
+                        </button>
+                      )
+                    ) : isLogin && isListeningCompleted ? (
+                      <div className="grid grid-cols-12 items-center gap-3">
+                        <Link
+                          href={`${ROUTES.LISTENING_TEST}/${fullTestDetail?.l_id}?isRetake=true`}
+                          className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-3 mt-4 group transition-all duration-200 ease-in-out"
+                        >
+                          <RotateCw
+                            size={17}
+                            className="text-[#0D5293] group-hover:text-white transition-colors duration-200 ease-in-out"
+                          />
+                          <span className="text-sm mr-1 text-[#0D5293] group-hover:text-white">
+                            Làm lại
+                          </span>
+                        </Link>
+                        <div
+                          onClick={() =>
+                            handleViewListeningResult(
+                              fullTestDetail?.l_id || ""
+                            )
+                          }
+                          className="cursor-pointer col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-3 mt-4 group transition-all duration-200 ease-in-out"
+                        >
+                          <CircleCheckBig
+                            size={17}
+                            className="text-[#58c558] group-hover:text-white transition-colors duration-200 ease-in-out"
+                          />
+                          <span className="text-sm mr-1 text-[#58c558] group-hover:text-white">
+                            Xem kết quả
+                          </span>
+                        </div>
+                      </div>
                     ) : (
                       <Link
                         href={`${ROUTES.LISTENING_TEST}/${fullTestDetail?.l_id}`}
@@ -275,31 +461,97 @@ export default function Section01() {
                     )}
                   </div>
                 ) : (
-                  <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
+                  <div className="h-[104px] lg:h-[120px]" />
                 )}
               </div>
 
               {/* Writing */}
-              <div className="flex-shrink-0 flex justify-center items-center w-32 lg:w-auto">
+              <div className="flex-shrink-0 flex justify-center items-center w-36 lg:w-auto">
                 {writing ? (
                   <div className="flex flex-col justify-center items-center gap-1">
                     <div className="border-4 border-gray-200 p-3 rounded-full">
                       <PenLine />
                     </div>
                     {isMobile ? (
-                      <button
-                        onClick={() =>
-                          handleTestClick(
-                            `${ROUTES.WRITING_TEST}/${fullTestDetail?.w_id}`
-                          )
-                        }
-                        className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
-                      >
-                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
-                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
+                      isLogin && isWritingCompleted ? (
+                        <div className="grid grid-cols-12 items-center gap-3 mt-4">
+                          <Link
+                            href={`${ROUTES.WRITING_TEST}/${fullTestDetail?.w_id}?isRetake=true`}
+                            className="col-span-12 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-3 group transition-all duration-200 ease-in-out"
+                          >
+                            <RotateCw
+                              size={17}
+                              className="text-[#0D5293] group-hover:text-white transition-colors duration-200 ease-in-out"
+                            />
+                            <span className="text-sm mr-1 text-[#0D5293] group-hover:text-white">
+                              Làm lại
+                            </span>
+                          </Link>
+                          <div
+                            onClick={() =>
+                              handleViewWritingResult(
+                                fullTestDetail?.w_id || ""
+                              )
+                            }
+                            className="cursor-pointer col-span-12 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-3 group transition-all duration-200 ease-in-out"
+                          >
+                            <CircleCheckBig
+                              size={17}
+                              className="text-[#58c558] group-hover:text-white transition-colors duration-200 ease-in-out"
+                            />
+                            <span className="text-sm mr-1 text-[#58c558] group-hover:text-white">
+                              Xem kết quả
+                            </span>
+                          </div>
                         </div>
-                        <span>Làm bài</span>
-                      </button>
+                      ) : (
+                        <button
+                          onClick={() =>
+                            handleTestClick(
+                              `${ROUTES.WRITING_TEST}/${fullTestDetail?.w_id}`
+                            )
+                          }
+                          className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                        >
+                          <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                            <PlayIcon
+                              color="#FA812F"
+                              fill="#FA812F"
+                              size={18}
+                            />
+                          </div>
+                          <span>Làm bài</span>
+                        </button>
+                      )
+                    ) : isLogin && isWritingCompleted ? (
+                      <div className="grid grid-cols-12 items-center gap-3">
+                        <Link
+                          href={`${ROUTES.WRITING_TEST}/${fullTestDetail?.w_id}?isRetake=true`}
+                          className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-3 mt-4 group transition-all duration-200 ease-in-out"
+                        >
+                          <RotateCw
+                            size={17}
+                            className="text-[#0D5293] group-hover:text-white transition-colors duration-200 ease-in-out"
+                          />
+                          <span className="text-sm mr-1 text-[#0D5293] group-hover:text-white">
+                            Làm lại
+                          </span>
+                        </Link>
+                        <div
+                          onClick={() =>
+                            handleViewWritingResult(fullTestDetail?.w_id || "")
+                          }
+                          className="cursor-pointer col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-3 mt-4 group transition-all duration-200 ease-in-out"
+                        >
+                          <CircleCheckBig
+                            size={17}
+                            className="text-[#58c558] group-hover:text-white transition-colors duration-200 ease-in-out"
+                          />
+                          <span className="text-sm mr-1 text-[#58c558] group-hover:text-white">
+                            Xem kết quả
+                          </span>
+                        </div>
+                      </div>
                     ) : (
                       <Link
                         href={`${ROUTES.WRITING_TEST}/${fullTestDetail?.w_id}`}
@@ -314,7 +566,7 @@ export default function Section01() {
                     )}
                   </div>
                 ) : (
-                  <div className="h-[104px] lg:h-[120px]" /> // Placeholder for empty cell
+                  <div className="h-[104px] lg:h-[120px]" />
                 )}
               </div>
             </div>
