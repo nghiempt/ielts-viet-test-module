@@ -135,7 +135,7 @@ const FullTestSection: React.FC = () => {
           </div>
           <Link
             href={`${ROUTES.FULLTEST_DETAIL}/${test._id}`}
-            className="flex items-center text-md lg:text-sm "
+            className="flex flex-col lg:flex-row items-start lg:items-center gap-3 lg:gap-0 text-md lg:text-sm"
           >
             <div className="text-[#FA812F] flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
               <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
@@ -149,7 +149,7 @@ const FullTestSection: React.FC = () => {
                 Làm bài
               </span>
             </div>
-            <div className="flex flex-row items-center gap-3 ml-5">
+            <div className="flex flex-row items-center gap-3 ml-0 lg:ml-5">
               <div
                 className={`border p-1.5 rounded-full ${
                   isReadingCompleted

@@ -163,7 +163,7 @@ const Header = () => {
                   alt="Avatar"
                   width={1000}
                   height={1000}
-                  className="w-11 h-11 object-cover rounded-full cursor-pointer"
+                  className="w-16 h-10 object-cover rounded-full cursor-pointer"
                 />
               </div>
               <div className="hidden lg:flex mr-4">
@@ -174,7 +174,7 @@ const Header = () => {
                       alt="Avatar"
                       width={1000}
                       height={1000}
-                      className="w-11 h-11 h-11 object-cover rounded-full cursor-pointer"
+                      className="w-11 h-11 object-cover rounded-full cursor-pointer"
                     />
                   </DropdownTrigger>
                   <DropdownMenu
@@ -215,7 +215,7 @@ const Header = () => {
         </div>
       </div>
       {open && (
-        <div className="absolute top-24 left-0 w-full bg-white shadow-md border-t border-gray-200 z-20">
+        <div className="absolute top-24 left-0 bottom-0 w-full bg-white shadow-md border-t border-gray-200 z-20">
           <ul className="flex flex-col space-y-10 py-10 px-5">
             <li className="font-bold flex flex-row items-center gap-3">
               <House size={20} />
@@ -248,6 +248,16 @@ const Header = () => {
                 </a>
               </li>
             ))}
+            {logined && (
+              <li className="font-bold flex flex-row items-center text-[rgb(var(--primary-rgb))] gap-3">
+                <button
+                  onClick={handleLogOut}
+                  className="flex items-center justify-start gap-4 hover:text-white"
+                >
+                  <LogOut size={18} /> Đăng xuất
+                </button>
+              </li>
+            )}
           </ul>
         </div>
       )}

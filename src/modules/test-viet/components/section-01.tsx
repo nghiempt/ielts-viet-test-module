@@ -147,10 +147,10 @@ const WritingSection: React.FC = () => {
           </div>
           {isLogin && isCompleted ? (
             <>
-              <div className="grid grid-cols-12 items-center gap-3">
+              <div className="grid grid-cols-12 items-center gap-3 w-3/4 lg:w-full">
                 <Link
                   href={`${ROUTES.WRITING_TEST}/${test._id}?isRetake=true`}
-                  className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out"
+                  className="col-span-5 sm:col-span-12 md:col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out"
                 >
                   <RotateCw
                     size={15}
@@ -162,7 +162,7 @@ const WritingSection: React.FC = () => {
                 </Link>
                 <div
                   onClick={() => handleViewResult(test._id)}
-                  className="cursor-pointer col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out"
+                  className="cursor-pointer col-span-7 sm:col-span-12 md:col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out"
                 >
                   <CircleCheckBig
                     size={15}

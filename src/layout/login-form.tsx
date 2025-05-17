@@ -97,6 +97,7 @@ const LoginForm = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="col-span-4"
+              style={{ fontSize: "16px" }}
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-2">
@@ -109,6 +110,7 @@ const LoginForm = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="col-span-4"
+              style={{ fontSize: "16px" }}
             />
           </div>
         </div>

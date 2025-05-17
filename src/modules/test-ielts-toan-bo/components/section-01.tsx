@@ -293,23 +293,25 @@ export default function Section01() {
                           </div>
                         </div>
                       ) : (
-                        <button
+                        <div
                           onClick={() =>
                             handleTestClick(
                               `${ROUTES.READING_TEST}/${fullTestDetail?.r_id}`
                             )
                           }
-                          className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                          className="text-[#FA812F] mt-4 flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2.5 group transition-all duration-200 ease-in-out"
                         >
-                          <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                          <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
                             <PlayIcon
-                              color="#FA812F"
+                              size={14}
                               fill="#FA812F"
-                              size={18}
+                              className="group-hover:fill-white transition-colors duration-200 ease-in-out"
                             />
                           </div>
-                          <span>Làm bài</span>
-                        </button>
+                          <span className="mr-1 text-sm text-[#FA812F] group-hover:text-white">
+                            Làm bài
+                          </span>
+                        </div>
                       )
                     ) : isLogin && isReadingCompleted ? (
                       <div className="grid grid-cols-12 items-center gap-3">
@@ -344,12 +346,18 @@ export default function Section01() {
                       <Link
                         href={`${ROUTES.READING_TEST}/${fullTestDetail?.r_id}`}
                         target="_blank"
-                        className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                        className="text-[#FA812F] mt-4 flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2.5 group transition-all duration-200 ease-in-out"
                       >
-                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
-                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
+                        <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
+                          <PlayIcon
+                            size={14}
+                            fill="#FA812F"
+                            className="group-hover:fill-white transition-colors duration-200 ease-in-out"
+                          />
                         </div>
-                        <span>Làm bài</span>
+                        <span className="text-sm mr-1 text-[#FA812F] group-hover:text-white">
+                          Làm bài
+                        </span>
                       </Link>
                     )}
                   </div>
@@ -398,23 +406,25 @@ export default function Section01() {
                           </div>
                         </div>
                       ) : (
-                        <button
+                        <div
                           onClick={() =>
                             handleTestClick(
                               `${ROUTES.LISTENING_TEST}/${fullTestDetail?.l_id}`
                             )
                           }
-                          className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                          className="text-[#FA812F] mt-4 flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2.5 group transition-all duration-200 ease-in-out"
                         >
-                          <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                          <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
                             <PlayIcon
-                              color="#FA812F"
+                              size={14}
                               fill="#FA812F"
-                              size={18}
+                              className="group-hover:fill-white transition-colors duration-200 ease-in-out"
                             />
                           </div>
-                          <span>Làm bài</span>
-                        </button>
+                          <span className="mr-1 text-sm text-[#FA812F] group-hover:text-white">
+                            Làm bài
+                          </span>
+                        </div>
                       )
                     ) : isLogin && isListeningCompleted ? (
                       <div className="grid grid-cols-12 items-center gap-3">
@@ -451,12 +461,18 @@ export default function Section01() {
                       <Link
                         href={`${ROUTES.LISTENING_TEST}/${fullTestDetail?.l_id}`}
                         target="_blank"
-                        className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                        className="text-[#FA812F] mt-4 flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2.5 group transition-all duration-200 ease-in-out"
                       >
-                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
-                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
+                        <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
+                          <PlayIcon
+                            size={14}
+                            fill="#FA812F"
+                            className="group-hover:fill-white transition-colors duration-200 ease-in-out"
+                          />
                         </div>
-                        <span>Làm bài</span>
+                        <span className="mr-1 text-sm text-[#FA812F] group-hover:text-white">
+                          Làm bài
+                        </span>
                       </Link>
                     )}
                   </div>
@@ -505,23 +521,25 @@ export default function Section01() {
                           </div>
                         </div>
                       ) : (
-                        <button
+                        <div
                           onClick={() =>
                             handleTestClick(
                               `${ROUTES.WRITING_TEST}/${fullTestDetail?.w_id}`
                             )
                           }
-                          className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                          className="text-[#FA812F] mt-4 flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2.5 group transition-all duration-200 ease-in-out"
                         >
-                          <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
+                          <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
                             <PlayIcon
-                              color="#FA812F"
+                              size={14}
                               fill="#FA812F"
-                              size={18}
+                              className="group-hover:fill-white transition-colors duration-200 ease-in-out"
                             />
                           </div>
-                          <span>Làm bài</span>
-                        </button>
+                          <span className="mr-1 text-sm text-[#FA812F] group-hover:text-white">
+                            Làm bài
+                          </span>
+                        </div>
                       )
                     ) : isLogin && isWritingCompleted ? (
                       <div className="grid grid-cols-12 items-center gap-3">
@@ -556,12 +574,18 @@ export default function Section01() {
                       <Link
                         href={`${ROUTES.WRITING_TEST}/${fullTestDetail?.w_id}`}
                         target="_blank"
-                        className="flex items-center justify-center py-2 px-4 mt-4 rounded-lg border border-gray-300 text-black hover:border-[#FA812F] w-full text-sm font-medium"
+                        className="text-[#FA812F] mt-4 flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2.5 group transition-all duration-200 ease-in-out"
                       >
-                        <div className="p-1 rounded-full bg-white flex items-center justify-center mr-2 border-2 border-[#FA812F]">
-                          <PlayIcon color="#FA812F" fill="#FA812F" size={18} />
+                        <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
+                          <PlayIcon
+                            size={14}
+                            fill="#FA812F"
+                            className="group-hover:fill-white transition-colors duration-200 ease-in-out"
+                          />
                         </div>
-                        <span>Làm bài</span>
+                        <span className="mr-1 text-sm text-[#FA812F] group-hover:text-white">
+                          Làm bài
+                        </span>
                       </Link>
                     )}
                   </div>
