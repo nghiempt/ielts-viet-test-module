@@ -314,7 +314,8 @@ export default function WritingTestClient() {
 
   const handleCancelTest = () => {
     setShowConfirmDialog(false);
-    router.push("/");
+    router.push(`${ROUTES.WRITING_HOME}`);
+
   };
 
   const handleSubmitTest = () => {

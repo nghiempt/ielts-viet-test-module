@@ -390,13 +390,13 @@ const ListeningTestClient: React.FC = () => {
         ? q.q_type === "MP" && q.isMultiple
           ? userAnswer.answer
           : q.q_type === "MP"
-          ? userAnswer.answer[0]
-          : userAnswer.answer[0] || ""
+            ? userAnswer.answer[0]
+            : userAnswer.answer[0] || ""
         : q.q_type === "MP"
-        ? q.isMultiple
-          ? []
-          : null
-        : "";
+          ? q.isMultiple
+            ? []
+            : null
+          : "";
 
       return {
         id: startId + index,
@@ -415,13 +415,13 @@ const ListeningTestClient: React.FC = () => {
     const arrangedQuestions =
       firstQuestionType === "MP"
         ? [
-            ...mappedQuestions.filter((q) => q.q_type === "MP"),
-            ...mappedQuestions.filter((q) => q.q_type === "FB"),
-          ]
+          ...mappedQuestions.filter((q) => q.q_type === "MP"),
+          ...mappedQuestions.filter((q) => q.q_type === "FB"),
+        ]
         : [
-            ...mappedQuestions.filter((q) => q.q_type === "FB"),
-            ...mappedQuestions.filter((q) => q.q_type === "MP"),
-          ];
+          ...mappedQuestions.filter((q) => q.q_type === "FB"),
+          ...mappedQuestions.filter((q) => q.q_type === "MP"),
+        ];
 
     return arrangedQuestions.map((q, index) => ({
       ...q,
@@ -520,9 +520,9 @@ const ListeningTestClient: React.FC = () => {
         const passage4Questions = mapAndArrangeQuestions(
           resP4,
           passage1Questions.length +
-            passage2Questions.length +
-            passage3Questions.length +
-            1
+          passage2Questions.length +
+          passage3Questions.length +
+          1
         );
 
         setAllQuestions([
@@ -719,15 +719,15 @@ const ListeningTestClient: React.FC = () => {
       prevQuestions.map((q) =>
         q.id === questionId
           ? {
-              ...q,
-              selectedOptions: question.isMultiple
-                ? Array.isArray(q.selectedOptions)
-                  ? q.selectedOptions.includes(option)
-                    ? q.selectedOptions.filter((opt) => opt !== option)
-                    : [...q.selectedOptions, option]
-                  : [option]
-                : option,
-            }
+            ...q,
+            selectedOptions: question.isMultiple
+              ? Array.isArray(q.selectedOptions)
+                ? q.selectedOptions.includes(option)
+                  ? q.selectedOptions.filter((opt) => opt !== option)
+                  : [...q.selectedOptions, option]
+                : [option]
+              : option,
+          }
           : q
       )
     );
@@ -736,15 +736,15 @@ const ListeningTestClient: React.FC = () => {
       prevAllQuestions.map((q) =>
         q.id === questionId
           ? {
-              ...q,
-              selectedOptions: question.isMultiple
-                ? Array.isArray(q.selectedOptions)
-                  ? q.selectedOptions.includes(option)
-                    ? q.selectedOptions.filter((opt) => opt !== option)
-                    : [...q.selectedOptions, option]
-                  : [option]
-                : option,
-            }
+            ...q,
+            selectedOptions: question.isMultiple
+              ? Array.isArray(q.selectedOptions)
+                ? q.selectedOptions.includes(option)
+                  ? q.selectedOptions.filter((opt) => opt !== option)
+                  : [...q.selectedOptions, option]
+                : [option]
+              : option,
+          }
           : q
       )
     );
@@ -852,7 +852,7 @@ const ListeningTestClient: React.FC = () => {
 
   const handleCancelTest = () => {
     setShowConfirmDialog(false);
-    router.push("/");
+    router.push(`${ROUTES.LISTENING_HOME}`);
   };
 
   const handleSubmitTest = () => {
@@ -1083,9 +1083,8 @@ const ListeningTestClient: React.FC = () => {
                 acc.push(
                   <div key={`mp-${index}`} className="mb-6">
                     <QuizHeader
-                      title={`Questions ${mpQuestions[0].id} - ${
-                        mpQuestions[mpQuestions.length - 1].id
-                      }`}
+                      title={`Questions ${mpQuestions[0].id} - ${mpQuestions[mpQuestions.length - 1].id
+                        }`}
                       subtitle="Choose the correct answer"
                     />
                     {mpQuestions.map((q) => (
@@ -1117,9 +1116,8 @@ const ListeningTestClient: React.FC = () => {
                 acc.push(
                   <div key={`fb-${index}`} className="mb-6">
                     <ShortAnswerQuiz
-                      title={`Questions ${fbQuestions[0].id} - ${
-                        fbQuestions[fbQuestions.length - 1].id
-                      }`}
+                      title={`Questions ${fbQuestions[0].id} - ${fbQuestions[fbQuestions.length - 1].id
+                        }`}
                       subtitle=""
                       instructions="Write your answers in the boxes provided."
                       questions={fbQuestions.map((q) => ({
@@ -1150,11 +1148,10 @@ const ListeningTestClient: React.FC = () => {
             return (
               <button
                 key={questionNum}
-                className={`w-8 h-8 rounded-md flex items-center justify-center text-xs ${
-                  isAnswered
+                className={`w-8 h-8 rounded-md flex items-center justify-center text-xs ${isAnswered
                     ? "bg-[#FA812F] text-white"
                     : "bg-gray-100 text-gray-800"
-                }`}
+                  }`}
               >
                 {questionNum}
               </button>
@@ -1167,15 +1164,13 @@ const ListeningTestClient: React.FC = () => {
         {/* NAVIGATION DESKTOP  */}
         <div className="hidden lg:flex justify-between items-center p-2 border-t border-gray-200">
           <div
-            className={`${
-              selectedPassage === 1 ? "" : "border border-[#FA812F]"
-            } w-36 flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer`}
+            className={`${selectedPassage === 1 ? "" : "border border-[#FA812F]"
+              } w-36 flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer`}
             onClick={handlePreviousPassage}
           >
             <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center ${
-                selectedPassage === 1 ? "hidden" : "flex"
-              }`}
+              className={`text-[#FA812F] font-medium text-md justify-center items-center ${selectedPassage === 1 ? "hidden" : "flex"
+                }`}
             >
               <ChevronLeft color="#FA812F" /> Passage {selectedPassage - 1}
             </div>
@@ -1195,15 +1190,13 @@ const ListeningTestClient: React.FC = () => {
           </div>
 
           <div
-            className={`w-36 flex justify-center items-center ${
-              selectedPassage === 4 ? "hidden" : "border border-[#FA812F]"
-            } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
+            className={`w-36 flex justify-center items-center ${selectedPassage === 4 ? "hidden" : "border border-[#FA812F]"
+              } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
             onClick={handleNextPassage}
           >
             <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center ${
-                selectedPassage === 4 ? "hidden" : "flex"
-              }`}
+              className={`text-[#FA812F] font-medium text-md justify-center items-center ${selectedPassage === 4 ? "hidden" : "flex"
+                }`}
             >
               Passage {selectedPassage + 1} <ChevronRight color="#FA812F" />
             </div>
@@ -1211,9 +1204,8 @@ const ListeningTestClient: React.FC = () => {
 
           {/* SUBMIT BUTTON  */}
           <div
-            className={`w-36 flex justify-center items-center ${
-              selectedPassage === 4 ? "border border-[#FA812F]" : "hidden"
-            } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
+            className={`w-36 flex justify-center items-center ${selectedPassage === 4 ? "border border-[#FA812F]" : "hidden"
+              } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
             onClick={() => {
               if (isLogin) {
                 setShowConfirmSubmitDialog(true);
@@ -1223,9 +1215,8 @@ const ListeningTestClient: React.FC = () => {
             }}
           >
             <div
-              className={`font-medium text-md justify-center items-center ${
-                selectedPassage === 4 ? "flex" : "hidden"
-              }`}
+              className={`font-medium text-md justify-center items-center ${selectedPassage === 4 ? "flex" : "hidden"
+                }`}
             >
               Nộp bài
             </div>
