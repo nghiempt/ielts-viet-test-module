@@ -524,9 +524,8 @@ export default function WritingTestClient() {
       <div className="fixed top-[8%] bottom-[0%] left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full overflow-y-auto">
         {/* Reading passage */}
         <div
-          className={`p-4 overflow-y-auto scroll-bar-style border-r border-gray-200 pt-8 ${
-            switchWriting ? "" : "hidden lg:block"
-          }`}
+          className={`p-4 overflow-y-auto scroll-bar-style border-r border-gray-200 pt-8 ${switchWriting ? "" : "hidden lg:block"
+            }`}
         >
           {selectedPassage === 1 && (
             <div>
@@ -541,7 +540,11 @@ export default function WritingTestClient() {
               </p>
               {passage1 && passage1.question[0] && (
                 <div className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full">
-                  {passage1.question[0].content}
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: (passage1.question[0].content || "").replace(/\\/g, ""),
+                    }}
+                  />
                 </div>
               )}
               <p className="mb-4 text-sm lg:text-[15px]">
@@ -573,7 +576,11 @@ export default function WritingTestClient() {
               </p>
               {passage2 && passage2.question[0] && (
                 <div className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full">
-                  {passage2.question[0].content}
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: (passage2.question[0].content || "").replace(/\\/g, ""),
+                    }}
+                  />
                 </div>
               )}
               <p className="mb-4 text-sm lg:text-[15px]">
@@ -596,9 +603,8 @@ export default function WritingTestClient() {
 
         {/* Writing Area */}
         <div
-          className={`bg-white px-4 pt-8 overflow-y-auto scroll-bar-style ${
-            switchWriting ? "hidden lg:block" : ""
-          }`}
+          className={`bg-white px-4 pt-8 overflow-y-auto scroll-bar-style ${switchWriting ? "hidden lg:block" : ""
+            }`}
         >
           <div className="text-xl font-bold mb-4">Bài làm</div>
           <div className="w-full h-full">
@@ -619,15 +625,13 @@ export default function WritingTestClient() {
         {/* NAVIGATION DESKTOP */}
         <div className="hidden lg:flex justify-between mt-2 lg:mt-0 text-sm border-t border-gray-200 pt-2">
           <div
-            className={`${
-              selectedPassage === 1 ? "" : "border border-[#FA812F]"
-            } w-36 flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer`}
+            className={`${selectedPassage === 1 ? "" : "border border-[#FA812F]"
+              } w-36 flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer`}
             onClick={handlePreviousPassage}
           >
             <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center ${
-                selectedPassage === 1 ? "hidden" : "flex"
-              }`}
+              className={`text-[#FA812F] font-medium text-md justify-center items-center ${selectedPassage === 1 ? "hidden" : "flex"
+                }`}
             >
               <ChevronLeft color="#FA812F" /> Task {selectedPassage - 1}
             </div>
@@ -645,15 +649,13 @@ export default function WritingTestClient() {
             ))}
           </div>
           <div
-            className={`w-36 flex justify-center items-center ${
-              selectedPassage === 2 ? "hidden" : "border border-[#FA812F]"
-            } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
+            className={`w-36 flex justify-center items-center ${selectedPassage === 2 ? "hidden" : "border border-[#FA812F]"
+              } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
             onClick={handleNextPassage}
           >
             <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center ${
-                selectedPassage === 2 ? "hidden" : "flex"
-              }`}
+              className={`text-[#FA812F] font-medium text-md justify-center items-center ${selectedPassage === 2 ? "hidden" : "flex"
+                }`}
             >
               Task {selectedPassage + 1} <ChevronRight color="#FA812F" />
             </div>
@@ -668,14 +670,12 @@ export default function WritingTestClient() {
                 setShowGetInfoDialog(true);
               }
             }}
-            className={`w-36 flex justify-center items-center ${
-              selectedPassage === 2 ? "border border-[#FA812F]" : "hidden"
-            } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
+            className={`w-36 flex justify-center items-center ${selectedPassage === 2 ? "border border-[#FA812F]" : "hidden"
+              } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
           >
             <div
-              className={`font-medium text-md justify-center items-center ${
-                selectedPassage === 2 ? "flex" : "hidden"
-              }`}
+              className={`font-medium text-md justify-center items-center ${selectedPassage === 2 ? "flex" : "hidden"
+                }`}
             >
               Nộp bài
             </div>

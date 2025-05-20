@@ -199,13 +199,13 @@ const ListeningTestClient: React.FC = () => {
         ? q.q_type === "MP" && q.isMultiple
           ? questionResult.answer
           : q.q_type === "MP"
-          ? questionResult.answer[0]
-          : questionResult.answer[0] || ""
+            ? questionResult.answer[0]
+            : questionResult.answer[0] || ""
         : q.q_type === "MP"
-        ? q.isMultiple
-          ? []
-          : null
-        : "";
+          ? q.isMultiple
+            ? []
+            : null
+          : "";
 
       return {
         id: startId + index,
@@ -228,13 +228,13 @@ const ListeningTestClient: React.FC = () => {
     const arrangedQuestions =
       firstQuestionType === "MP"
         ? [
-            ...mappedQuestions.filter((q) => q.q_type === "MP"),
-            ...mappedQuestions.filter((q) => q.q_type === "FB"),
-          ]
+          ...mappedQuestions.filter((q) => q.q_type === "MP"),
+          ...mappedQuestions.filter((q) => q.q_type === "FB"),
+        ]
         : [
-            ...mappedQuestions.filter((q) => q.q_type === "FB"),
-            ...mappedQuestions.filter((q) => q.q_type === "MP"),
-          ];
+          ...mappedQuestions.filter((q) => q.q_type === "FB"),
+          ...mappedQuestions.filter((q) => q.q_type === "MP"),
+        ];
 
     return arrangedQuestions.map((q, index) => ({
       ...q,
@@ -247,8 +247,6 @@ const ListeningTestClient: React.FC = () => {
     const parsedAnswers = storedAnswers ? JSON.parse(storedAnswers) : null;
 
     setResponse(parsedAnswers?.data || null);
-    console.log("Response:", parsedAnswers?.data);
-
     setError(null);
 
     const segments = pathname.split("/").filter(Boolean);
@@ -453,7 +451,7 @@ const ListeningTestClient: React.FC = () => {
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 flex items-center justify-between bg-white py-2 px-4 shadow-sm z-10">
         <Link
-          href={ROUTES.HOME}
+          href={ROUTES.LISTENING_HOME}
           className="hidden lg:flex items-center w-[10%] py-3"
         >
           <Image
@@ -470,7 +468,7 @@ const ListeningTestClient: React.FC = () => {
         </div>
         <div className="flex items-center">
           <Link
-            href={ROUTES.HOME}
+            href={ROUTES.LISTENING_HOME}
             target="_blank"
             className="text-gray-400 hover:text-gray-600 ml-4"
           >
@@ -509,9 +507,8 @@ const ListeningTestClient: React.FC = () => {
                   acc.push(
                     <div key={`mp-${index}`} className="mb-6">
                       <ResultHeader
-                        title={`Questions ${mpQuestions[0]?.id} - ${
-                          mpQuestions[mpQuestions.length - 1]?.id
-                        }`}
+                        title={`Questions ${mpQuestions[0]?.id} - ${mpQuestions[mpQuestions.length - 1]?.id
+                          }`}
                         subtitle="Review your answers"
                       />
                       {mpQuestions?.map((q) => (
@@ -543,9 +540,8 @@ const ListeningTestClient: React.FC = () => {
                   acc.push(
                     <div key={`fb-${index}`} className="mb-6">
                       <ResultHeader
-                        title={`Questions ${fbQuestions[0].id} - ${
-                          fbQuestions[fbQuestions.length - 1].id
-                        }`}
+                        title={`Questions ${fbQuestions[0].id} - ${fbQuestions[fbQuestions.length - 1].id
+                          }`}
                         subtitle="Review your answers"
                       />
                       <div className="">
@@ -633,11 +629,10 @@ const ListeningTestClient: React.FC = () => {
           </div>
           <div className="flex flex-row">
             <div
-              className={`w-full flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer ${
-                selectedQuestion === passages[0]?.startQuestion
-                  ? "opacity-50"
-                  : ""
-              }`}
+              className={`w-full flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer ${selectedQuestion === passages[0]?.startQuestion
+                ? "opacity-50"
+                : ""
+                }`}
               onClick={handlePreviousPassage}
               role="button"
               aria-label="Previous Question"
@@ -651,11 +646,10 @@ const ListeningTestClient: React.FC = () => {
               </div>
             </div>
             <div
-              className={`w-full flex justify-center items-center rounded-lg my-2 bg-white mr-4 cursor-pointer ${
-                selectedQuestion === passages[passages.length - 1]?.endQuestion
-                  ? "opacity-50"
-                  : ""
-              }`}
+              className={`w-full flex justify-center items-center rounded-lg my-2 bg-white mr-4 cursor-pointer ${selectedQuestion === passages[passages.length - 1]?.endQuestion
+                ? "opacity-50"
+                : ""
+                }`}
               onClick={handleNextPassage}
               role="button"
               aria-label="Next Question"

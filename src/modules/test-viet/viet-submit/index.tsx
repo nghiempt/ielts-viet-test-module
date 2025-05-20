@@ -48,7 +48,7 @@ export default function WritingSubmission() {
 
         <div
           onClick={() => handleViewResult(id)}
-          className="mt-3 text-lg text-[#58c558] font-semibold flex flex-row gap-2 items-center border border-[#58c558] rounded-lg px-4 py-2 hover:bg-[#58c558] hover:text-white transition-all duration-300"
+          className="cursor-pointer mt-3 text-lg text-[#58c558] font-semibold flex flex-row gap-2 items-center border border-[#58c558] rounded-lg px-4 py-2 hover:bg-[#58c558] hover:text-white transition-all duration-300"
         >
           <span className="">Xem bài nộp</span>{" "}
         </div>

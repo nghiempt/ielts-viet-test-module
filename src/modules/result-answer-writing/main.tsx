@@ -184,7 +184,7 @@ export default function AnswerKeyWritingPage() {
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 flex items-center justify-between bg-white border-b border-gray-200 px-4 py-2 z-20">
         <Link
-          href={ROUTES.HOME}
+          href={ROUTES.WRITING_HOME}
           className="hidden lg:flex items-center w-[10%] py-3"
         >
           <Image
@@ -200,7 +200,7 @@ export default function AnswerKeyWritingPage() {
           <div className="text-sm text-gray-600">Writing Test</div>
         </div>
         <div className="flex items-center">
-          <Link href={ROUTES.HOME} className="ml-4" onClick={handleExitClick}>
+          <Link href={ROUTES.WRITING_HOME} className="ml-4" onClick={handleExitClick}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 text-gray-500"
@@ -223,9 +223,8 @@ export default function AnswerKeyWritingPage() {
       <div className="fixed top-[8%] bottom-[0%] left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full overflow-y-auto">
         {/* Reading passage */}
         <div
-          className={`p-4 overflow-y-auto scroll-bar-style border-r border-gray-200 pt-8 ${
-            switchWriting ? "" : "hidden lg:block"
-          }`}
+          className={`p-4 overflow-y-auto scroll-bar-style border-r border-gray-200 pt-8 ${switchWriting ? "" : "hidden lg:block"
+            }`}
         >
           {selectedPassage === 1 && (
             <div>
@@ -240,7 +239,11 @@ export default function AnswerKeyWritingPage() {
               </p>
               {passage1 && passage1.question[0] && (
                 <div className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full">
-                  {passage1.question[0].content}
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: (passage1.question[0].content || "").replace(/\\/g, ""),
+                    }}
+                  />
                 </div>
               )}
               <p className="mb-4 text-sm lg:text-[15px]">
@@ -272,7 +275,11 @@ export default function AnswerKeyWritingPage() {
               </p>
               {passage2 && passage2.question[0] && (
                 <div className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full">
-                  {passage2.question[0].content}
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: (passage2.question[0].content || "").replace(/\\/g, ""),
+                    }}
+                  />
                 </div>
               )}
               <p className="mb-4 text-sm lg:text-[15px]">
@@ -295,9 +302,8 @@ export default function AnswerKeyWritingPage() {
 
         {/* Writing Area */}
         <div
-          className={`bg-white px-4 pt-8 overflow-y-auto scroll-bar-style ${
-            switchWriting ? "hidden lg:block" : ""
-          }`}
+          className={`bg-white px-4 pt-8 overflow-y-auto scroll-bar-style ${switchWriting ? "hidden lg:block" : ""
+            }`}
         >
           <div className="text-xl font-bold mb-4">Bài làm</div>
           <div className="w-full h-full">
@@ -322,15 +328,13 @@ export default function AnswerKeyWritingPage() {
         {/* NAVIGATION DESKTOP */}
         <div className="hidden lg:flex justify-between mt-2 lg:mt-0 text-sm border-t border-gray-200 pt-2">
           <div
-            className={`${
-              selectedPassage === 1 ? "" : "border border-[#FA812F]"
-            } w-36 flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer`}
+            className={`${selectedPassage === 1 ? "" : "border border-[#FA812F]"
+              } w-36 flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer`}
             onClick={handlePreviousPassage}
           >
             <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center ${
-                selectedPassage === 1 ? "hidden" : "flex"
-              }`}
+              className={`text-[#FA812F] font-medium text-md justify-center items-center ${selectedPassage === 1 ? "hidden" : "flex"
+                }`}
             >
               <ChevronLeft color="#FA812F" /> Task {selectedPassage - 1}
             </div>
@@ -348,23 +352,20 @@ export default function AnswerKeyWritingPage() {
             ))}
           </div>
           <div
-            className={`w-36 flex justify-center items-center ${
-              selectedPassage === 2 ? "hidden" : "border border-[#FA812F]"
-            } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
+            className={`w-36 flex justify-center items-center ${selectedPassage === 2 ? "hidden" : "border border-[#FA812F]"
+              } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
             onClick={handleNextPassage}
           >
             <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center ${
-                selectedPassage === 2 ? "hidden" : "flex"
-              }`}
+              className={`text-[#FA812F] font-medium text-md justify-center items-center ${selectedPassage === 2 ? "hidden" : "flex"
+                }`}
             >
               Task {selectedPassage + 1} <ChevronRight color="#FA812F" />
             </div>
           </div>
           <div
-            className={`w-36 flex justify-center items-center ${
-              selectedPassage === 2 ? "" : "hidden"
-            } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
+            className={`w-36 flex justify-center items-center ${selectedPassage === 2 ? "" : "hidden"
+              } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
             onClick={handleNextPassage}
           ></div>
         </div>
@@ -432,7 +433,7 @@ export default function AnswerKeyWritingPage() {
               setIsOpen={setIsPopupOpen}
               answers={answers}
               onSelectTask={handlePassageSelect}
-              onSubmit={() => {}}
+              onSubmit={() => { }}
             />
           </>
         )}

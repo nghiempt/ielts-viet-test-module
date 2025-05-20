@@ -166,19 +166,18 @@ const ResultStatistic = () => {
             <div className="col-span-11">
               <div>
                 <span
-                  className={`${
-                    answer.is_pass
-                      ? "text-yellow-600"
-                      : answer.is_correct
+                  className={`${answer.is_pass
+                    ? "text-yellow-600"
+                    : answer.is_correct
                       ? "text-green-500"
                       : "text-red-500"
-                  } mr-2`}
+                    } mr-2`}
                 >
                   {answer.is_pass
                     ? "Skipped"
                     : answer.is_correct
-                    ? "Correct"
-                    : "Incorrect"}
+                      ? "Correct"
+                      : "Incorrect"}
                 </span>
                 <span className="text-green-600 font-medium">
                   {Array.isArray(answer.correct_answer)
@@ -203,7 +202,7 @@ const ResultStatistic = () => {
     <div className="bg-gray-50 min-h-screen w-full">
       <header className="fixed top-0 left-0 right-0 bg-white shadow p-2 flex justify-between items-center z-20">
         <div className="flex items-center">
-          <Link href={ROUTES.HOME} className="hidden lg:flex">
+          <Link href={ROUTES.LISTENING_HOME} className="hidden lg:flex">
             <Image
               src={IMAGES.LOGO}
               alt="Dinh Luc Logo"
@@ -215,9 +214,9 @@ const ResultStatistic = () => {
         </div>
         <div className="text-center font-medium mr-24">
           Answer key
-          <div className="text-xs text-gray-500">CAM16 - Listening Test 4</div>
+          <div className="text-xs text-gray-500">Listening Test</div>
         </div>
-        <Link href={ROUTES.HOME} className="text-gray-600">
+        <Link href={ROUTES.LISTENING_HOME} className="text-gray-600">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"

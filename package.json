@@ -23,6 +23,7 @@
     "embla-carousel-react": "^8.5.1",
     "framer-motion": "^12.6.3",
     "iatt": "file:",
+    "ielts-viet": "file:",
     "isomorphic-dompurify": "^2.20.0",
     "js-cookie": "^3.0.5",
     "jspdf": "^2.5.1",
