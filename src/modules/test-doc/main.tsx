@@ -29,7 +29,7 @@ export default function ReadingContent() {
               Trang Chủ
             </Link>
             <span className="text-gray-400">•</span>
-            <span className="text-gray-900">Reading Test</span>
+            <span className="text-gray-900">Reading Test </span>
           </nav>
         </div>
         <div className="absolute -right-16 top-1/2 -translate-y-1/2">
