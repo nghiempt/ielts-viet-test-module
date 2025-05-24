@@ -9,7 +9,7 @@ import { ROUTES } from "@/utils/routes";
 import Skeleton from "@/components/ui/skeleton";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { CircleCheckBig, PlayIcon, RotateCw } from "lucide-react";
+import { ChevronDown, CircleCheckBig, PlayIcon, RotateCw } from "lucide-react";
 import { UserService } from "@/services/user";
 
 interface ListeningTestItem {
@@ -28,45 +28,21 @@ interface CompletedTest {
 }
 
 const ListeningSection: React.FC = () => {
-  const COUNT = 12;
-
   const [listening, setListening] = useState<ListeningTestItem[]>([]);
   const [filteredListenings, setFilteredListenings] = useState<
     ListeningTestItem[]
   >([]);
-  const [totalPage, setTotalPage] = useState<number>(0);
-  const [currenPage, setCurrenPage] = useState<any>(1 as any);
   const [currenData, setCurrenData] = useState<any>([] as any);
   const [loading, setLoading] = useState<boolean>(true);
   const [completedTests, setCompletedTests] = useState<string[]>([]);
+  const [isFull, setIsFull] = useState<boolean>(false);
 
   const isLogin = Cookies.get("isLogin");
   const router = useRouter();
 
-  const selectPage = (pageSelected: any) => {
-    setCurrenPage(pageSelected);
-    const start = (pageSelected - 1) * COUNT;
-    const end = pageSelected * COUNT;
-    setCurrenData(filteredListenings.slice(start, end));
-  };
-
-  const prevPage = () => {
-    if (currenPage > 1) {
-      selectPage(currenPage - 1);
-    }
-  };
-
-  const nextPage = () => {
-    if (currenPage < totalPage) {
-      selectPage(currenPage + 1);
-    }
-  };
-
   const render = (data: ListeningTestItem[]) => {
     setFilteredListenings(data);
-    setTotalPage(Math.ceil(data.length / COUNT));
-    setCurrenPage(1);
-    setCurrenData(data.slice(0, COUNT));
+    setCurrenData(data);
   };
 
   const init = async () => {
@@ -131,22 +107,19 @@ const ListeningSection: React.FC = () => {
             height={180}
             className="rounded-lg w-full object-cover h-60 lg:h-40"
           />
-          {/* {test.difficulty && (
-            <div className="absolute top-2 left-2 bg-white text-gray-800 text-xs py-1 px-2 rounded">
-              {test.difficulty}
-            </div>
-          )} */}
         </div>
         <div className="flex flex-col justify-between h-full">
           <div>
-            <h3 className="font-medium text-xl lg:text-sm mb-1">{test.name}</h3>
+            <h3 className="font-medium text-xl lg:text-base mb-1">
+              {test.name}
+            </h3>
             <p className="text-gray-500 text-sm lg:text-xs mb-2">
               12K lượt làm
             </p>
           </div>
           {isLogin && isCompleted ? (
             <>
-              <div className="grid grid-cols-12 items-center gap-3 w-3/4 lg:w-full">
+              <div className="grid grid-cols-12 items-center gap-3 w-full lg:w-full">
                 <Link
                   href={`${ROUTES.LISTENING_TEST}/${test._id}?isRetake=true`}
                   className="col-span-5 sm:col-span-12 md:col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out"
@@ -197,8 +170,10 @@ const ListeningSection: React.FC = () => {
     );
   };
 
+  const filteredData = isFull ? currenData : currenData.slice(0, 12);
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
+    <div className="max-w-7xl mx-auto px-5 lg:px-0">
       <section>
         <div className="flex flex-col md:flex-row gap-6">
           <div className="flex-1">
@@ -210,80 +185,55 @@ const ListeningSection: React.FC = () => {
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {currenData.map((test: ListeningTestItem, index: number) => (
+                {filteredData.map((test: ListeningTestItem, index: number) => (
                   <TestCard key={test._id} test={test} />
                 ))}
               </div>
             )}
-            <nav
-              className="flex flex-col items-center justify-center mt-4 p-4 space-y-3 md:flex-row md:items-center md:space-y-0"
-              aria-label="Table navigation"
-            >
-              <ul className="inline-flex items-stretch -space-x-px">
-                <li>
-                  <button
-                    onClick={prevPage}
-                    disabled={currenPage === 1}
-                    className="cursor-pointer flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                  >
-                    <span className="sr-only">Previous</span>
-                    <svg
-                      className="w-5 h-5"
-                      aria-hidden="true"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </li>
-                {Array.from({ length: totalPage }, (_, i) => i + 1)?.map(
-                  (item: any, index: any) => {
-                    return (
-                      <li key={index} onClick={() => selectPage(item)}>
-                        <a
-                          href="#"
-                          className={`${
-                            item === currenPage
-                              ? "bg-indigo-50 hover:bg-indigo-100 text-gray-700"
-                              : "bg-white"
-                          } flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700`}
-                        >
-                          {item}
-                        </a>
-                      </li>
-                    );
-                  }
-                )}
-                <li>
-                  <button
-                    onClick={nextPage}
-                    disabled={currenPage === totalPage}
-                    className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                  >
-                    <span className="sr-only">Next</span>
-                    <svg
-                      className="w-5 h-5"
-                      aria-hidden="true"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </li>
-              </ul>
-            </nav>
+            {currenData.length > 12 &&
+              (!isFull ? (
+                <div
+                  onClick={() => setIsFull(true)}
+                  className="mt-6 flex justify-center relative"
+                >
+                  <div className="text-[#FA812F] cursor-pointer font-semibold px-4 py-2 lg:py-4 lg:px-8 flex items-center gap-2 rounded-md">
+                    <>
+                      <p className="text-[14px] lg:text-base">Xem thêm</p>{" "}
+                      <div className="flex flex-col items-center gap-2">
+                        <ChevronDown
+                          size={16}
+                          className="translate-y-1 updown-animation1 delay-0"
+                        />
+                        <ChevronDown
+                          size={16}
+                          className="-translate-y-1 updown-animation2 delay-1"
+                        />
+                      </div>
+                    </>
+                  </div>
+                </div>
+              ) : (
+                <div
+                  onClick={() => setIsFull(false)}
+                  className="mt-6 flex justify-center relative"
+                >
+                  <div className="text-[#FA812F] cursor-pointer font-semibold px-4 py-2 lg:py-4 lg:px-8 flex items-center gap-2 rounded-md">
+                    <>
+                      <p className="text-[14px] lg:text-base">Thu gọn</p>{" "}
+                      <div className="flex flex-col items-center gap-2">
+                        <ChevronDown
+                          size={16}
+                          className="translate-y-1 updown-animation3 delay-0"
+                        />
+                        <ChevronDown
+                          size={16}
+                          className="-translate-y-1 updown-animation4 delay-1"
+                        />
+                      </div>
+                    </>
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       </section>

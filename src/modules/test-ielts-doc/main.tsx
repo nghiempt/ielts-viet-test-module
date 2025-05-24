@@ -4,12 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { IMAGES } from "@/utils/images";
 import PassageProgressBar from "./components/processing-bar";
-import {
-  ChevronLeft,
-  ChevronRight,
-  FileText,
-  Grid2x2Check,
-} from "lucide-react";
+import { FileText, Grid2x2Check } from "lucide-react";
 import Link from "next/link";
 import PassageProgressBarMobile from "./components/processing-bar-mobile";
 import { motion, AnimatePresence } from "framer-motion";
@@ -121,12 +116,17 @@ export default function ReadingTestClient() {
   const [switchReading, setSwitchReading] = useState(true);
   const router = useRouter();
   const [showConfirmDialog, setShowConfirmDialog] = useState(true);
+  const [showConfirmCloseDialog, setShowConfirmCloseDialog] = useState(false);
   const [showConfirmSubmitDialog, setShowConfirmSubmitDialog] = useState(false);
   const [showGetInfoDialog, setShowGetInfoDialog] = useState(false);
+  const [showCheckFullAnsDialog, setShowCheckFullAnsDialog] = useState(false);
   const [guestGmail, setGuestGmail] = useState("");
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [userAccount, setUserAccount] = useState<UserAccount | null>(null);
   const isLogin = Cookies.get("isLogin");
+  const scrollToSection = (sectionId: string) => {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+  };
 
   // COUNTING DOWN TIMER
   useEffect(() => {
@@ -173,18 +173,6 @@ export default function ReadingTestClient() {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
-
-  // HANDLE EXIT LINK CLICK
-  const handleExitClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const confirmExit = window.confirm(
-      "Are you sure you want to leave? Your answers will not be saved."
-    );
-
-    if (confirmExit) {
-      router.push(ROUTES.HOME);
-    }
-  };
 
   const calculatePassages = (): PassageInfo[] => {
     const passagesInfo: PassageInfo[] = [];
@@ -639,7 +627,11 @@ export default function ReadingTestClient() {
     }
 
     if (!isLogin && !userEmail) {
-      alert("Vui lòng nhập Gmail để nộp bài");
+      toast({
+        variant: "destructive",
+        title: "Thông báo",
+        description: "Vui lòng nhập Gmail để nộp bài",
+      });
       return;
     }
 
@@ -694,7 +686,7 @@ export default function ReadingTestClient() {
 
   return (
     <div className="relative min-h-screen w-full bg-gray-50">
-      {/* Confirmation Dialog */}
+      {/* Instruction Dialog */}
       <AnimatePresence>
         {showConfirmDialog && (
           <>
@@ -710,15 +702,34 @@ export default function ReadingTestClient() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="fixed top-[37%] left-[4%] lg:left-[37%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-md"
+              className="fixed top-[30%] left-[4%] lg:left-[34%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-lg"
             >
               <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                Bắt đầu bài kiểm tra Đọc
+                INSTRUCTIONS
               </h2>
-              <p className="text-gray-600 mb-6">
-                Hãy bấm Bắt đầu khi bạn đã sẵn sàng làm bài kiểm tra. Bạn sẽ có
-                60 phút để hoàn thành bài kiểm tra này.
-              </p>
+              <div className="text-gray-800 mb-6">
+                <div>
+                  <strong className="uppercase">IELTS Reading Test</strong>
+                  <p>&ensp; &#8226; Time approximately 60 minutes.</p>
+                </div>
+                <div className="mt-3">
+                  <strong className="uppercase">
+                    Instructions to candidates:
+                  </strong>
+                  <p>&ensp; &#8226; Answer all the questions.</p>
+                  <p>
+                    &ensp; &#8226; You can change your answer at anytime during
+                    the test.
+                  </p>
+                </div>
+                <div className="mt-3">
+                  <strong className="uppercase">
+                    Information for candidates:
+                  </strong>
+                  <p>&ensp; &#8226; There are questions in the test.</p>
+                  <p>&ensp; &#8226; Each question carry one mark.</p>
+                </div>
+              </div>
               <div className="flex justify-end space-x-4">
                 <button
                   onClick={handleCancelTest}
@@ -756,12 +767,12 @@ export default function ReadingTestClient() {
               transition={{ duration: 0.3 }}
               className="fixed top-[37%] left-[4%] lg:left-[37%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-md"
             >
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                Xác nhận nộp bài
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                Xác nhận nộp bài kiểm tra
               </h2>
               <p className="text-gray-600 mb-6">
                 Bạn có chắc chắn muốn nộp bài kiểm tra này không? Sau khi nộp,
-                bạn sẽ không thể chỉnh sửa bài làm của mình.
+                bạn sẽ không thể chỉnh sửa câu trả lời của mình.
               </p>
               <div className="flex justify-end space-x-4">
                 <button
@@ -775,6 +786,52 @@ export default function ReadingTestClient() {
                   className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
                 >
                   Nộp bài
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Confirmation Close Test Dialog */}
+      <AnimatePresence>
+        {showConfirmCloseDialog && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black z-50"
+            />
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed top-[37%] left-[4%] lg:left-[37%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-md"
+            >
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                Xác nhận thoát bài kiểm tra
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Bạn có chắc chắn muốn thoát bài kiểm tra này không? Bài kiểm tra
+                của bạn sẽ không được lưu.
+              </p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={() => setShowConfirmCloseDialog(false)}
+                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition"
+                >
+                  Hủy
+                </button>
+                <button
+                  onClick={() => {
+                    router.push(ROUTES.HOME);
+                  }}
+                  className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
+                >
+                  Thoát
                 </button>
               </div>
             </motion.div>
@@ -800,16 +857,16 @@ export default function ReadingTestClient() {
               transition={{ duration: 0.3 }}
               className="fixed top-[37%] left-[4%] lg:left-[37%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-md"
             >
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                Bạn chưa có thông tin tài khoản
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                Bạn chưa có tài khoản
               </h2>
-              <p className="text-gray-600 mb-6">
-                Vui lòng cung cấp thông tin Gmail của bạn để nộp bài
+              <p className="text-gray-600 mb-4">
+                Vui lòng cung cấp thông tin Gmail của bạn để nộp bài kiểm tra
               </p>
               <input
                 type="text"
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-[#FA812F] focus:border-transparent"
-                placeholder="Vui lòng nhập Gmail"
+                placeholder="Vui lòng nhập Gmail của bạn"
                 value={guestGmail}
                 onChange={(e) => setGuestGmail(e.target.value)}
               />
@@ -825,6 +882,49 @@ export default function ReadingTestClient() {
                   className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
                 >
                   Nộp bài
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Answer Full Questions Dialog */}
+      <AnimatePresence>
+        {showCheckFullAnsDialog && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black z-50"
+            />
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed top-[37%] left-[4%] lg:left-[37%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-md"
+            >
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                Vui lòng trả lời đầy đủ các câu hỏi
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Bạn đã trả lời{" "}
+                {passages.reduce(
+                  (acc, passage) => acc + passage.answeredQuestions,
+                  0
+                )}{" "}
+                / {allQuestions.length} câu hỏi trong đoạn văn này. Vui lòng đảm
+                bảo bạn đã trả lời tất cả các câu hỏi trước khi nộp bài.
+              </p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={() => setShowCheckFullAnsDialog(false)}
+                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition"
+                >
+                  Đóng
                 </button>
               </div>
             </motion.div>
@@ -851,7 +951,7 @@ export default function ReadingTestClient() {
           <div className="text-sm text-gray-600">Reading Test</div>
         </div>
         <div className="flex items-center">
-          <div className="bg-gray-100 px-3 py-1 rounded-full flex items-center">
+          <div className="bg-gray-100 px-3 py-1 rounded-full flex justify-center items-center w-24">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4 text-gray-500 mr-1"
@@ -868,10 +968,9 @@ export default function ReadingTestClient() {
             </svg>
             <span className="text-[#FA812F] font-semibold">{timeLeft}</span>
           </div>
-          <Link
-            href={ROUTES.HOME}
-            className="text-gray-400 hover:text-gray-600 ml-4"
-            onClick={handleExitClick}
+          <div
+            className="text-gray-400 hover:text-gray-600 ml-4 cursor-pointer"
+            onClick={() => setShowConfirmCloseDialog(true)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -887,7 +986,7 @@ export default function ReadingTestClient() {
                 d="M6 18L18 6M6 6l12 12"
               />
             </svg>
-          </Link>
+          </div>
         </div>
       </header>
 
@@ -942,7 +1041,7 @@ export default function ReadingTestClient() {
 
         {/* Questions */}
         <div
-          className={`bg-white p-4 pt-8 pb-0 overflow-y-auto scroll-bar-style h-full ${
+          className={`bg-white p-4 pt-5 lg:pt-8 pb-0 overflow-y-auto scroll-bar-style h-full ${
             switchReading ? "hidden lg:block" : ""
           }`}
         >
@@ -959,7 +1058,7 @@ export default function ReadingTestClient() {
                 }));
               if (index === questions.findIndex((q) => q.q_type === "MP")) {
                 acc.push(
-                  <div key={`mp-${index}`} className="mb-6">
+                  <div key={`mp-${index}`} className="mb-4">
                     <QuizHeader
                       title={`Questions ${mpQuestions[0].id} - ${
                         mpQuestions[mpQuestions.length - 1].id
@@ -993,7 +1092,11 @@ export default function ReadingTestClient() {
                 }));
               if (index === questions.findIndex((q) => q.q_type === "FB")) {
                 acc.push(
-                  <div key={`fb-${index}`} className="mb-6">
+                  <div
+                    key={`fb-${index}`}
+                    id={`reading-question-${fbQuestions[0].id}`}
+                    className="mb-6"
+                  >
                     <ShortAnswerQuiz
                       title={`Questions ${fbQuestions[0].id} - ${
                         fbQuestions[fbQuestions.length - 1].id
@@ -1025,6 +1128,9 @@ export default function ReadingTestClient() {
             return (
               <button
                 key={questionNum}
+                onClick={() => {
+                  scrollToSection(`reading-question-${questionNum}`);
+                }}
                 className={`w-8 h-8 rounded-md flex items-center justify-center text-xs ${
                   isAnswered
                     ? "bg-[#FA812F] text-white"
@@ -1046,11 +1152,11 @@ export default function ReadingTestClient() {
             onClick={handlePreviousPassage}
           >
             <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center ${
+              className={`text-[#FA812F] font-medium text-md justify-center items-center text-[16px] ${
                 selectedPassage === 1 ? "hidden" : "flex"
               }`}
             >
-              <ChevronLeft color="#FA812F" /> Passage {selectedPassage - 1}
+              Passage {selectedPassage - 1}
             </div>
           </div>
           <div className="flex justify-center items-center">
@@ -1072,11 +1178,11 @@ export default function ReadingTestClient() {
             onClick={handleNextPassage}
           >
             <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center ${
+              className={`text-[#FA812F] font-medium text-md justify-center items-center text-[16px] ${
                 selectedPassage === 3 ? "hidden" : "flex"
               }`}
             >
-              Passage {selectedPassage + 1} <ChevronRight color="#FA812F" />
+              Passage {selectedPassage + 1}
             </div>
           </div>
           <div
@@ -1084,15 +1190,29 @@ export default function ReadingTestClient() {
               selectedPassage === 3 ? "border border-[#FA812F]" : "hidden"
             } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
             onClick={() => {
-              if (isLogin) {
+              if (
+                isLogin &&
+                passages.reduce(
+                  (acc, passage) => acc + passage.answeredQuestions,
+                  0
+                ) === allQuestions.length
+              ) {
                 setShowConfirmSubmitDialog(true);
-              } else {
+              } else if (
+                !isLogin &&
+                passages.reduce(
+                  (acc, passage) => acc + passage.answeredQuestions,
+                  0
+                ) === allQuestions.length
+              ) {
                 setShowGetInfoDialog(true);
+              } else {
+                setShowCheckFullAnsDialog(true);
               }
             }}
           >
             <div
-              className={`font-medium text-md justify-center items-center ${
+              className={`font-medium text-md justify-center items-center text-[16px] ${
                 selectedPassage === 3 ? "flex" : "hidden"
               }`}
             >
@@ -1164,7 +1284,27 @@ export default function ReadingTestClient() {
                 setIsOpen={setIsPopupOpen}
                 passages={passages}
                 getAnsweredStatus={getAnsweredStatus}
-                onSubmit={() => setShowConfirmSubmitDialog(true)}
+                onSubmit={() => {
+                  if (
+                    isLogin &&
+                    passages.reduce(
+                      (acc, passage) => acc + passage.answeredQuestions,
+                      0
+                    ) === allQuestions.length
+                  ) {
+                    setShowConfirmSubmitDialog(true);
+                  } else if (
+                    !isLogin &&
+                    passages.reduce(
+                      (acc, passage) => acc + passage.answeredQuestions,
+                      0
+                    ) === allQuestions.length
+                  ) {
+                    setShowGetInfoDialog(true);
+                  } else {
+                    setShowCheckFullAnsDialog(true);
+                  }
+                }}
                 onQuestionSelect={handleQuestionSelect}
               />
             </>

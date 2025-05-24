@@ -19,7 +19,7 @@ export const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
     onAnswerChange(id, e.target.value);
   };
   return (
-    <div className="flex py-3">
+    <div className="flex py-3" id={`listening-question-${id}`}>
       <div className="flex items-center">
         <span className="text-[#FA812F] text-xl font-bold mr-3">{id}</span>
         <span className="text-[#FA812F] mr-3">→</span>
@@ -41,7 +41,7 @@ export const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
 
 interface ShortAnswerQuizProps {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   instructions: string;
   questions: Array<{
     id: number;
@@ -54,7 +54,6 @@ interface ShortAnswerQuizProps {
 
 export const ShortAnswerQuiz: React.FC<ShortAnswerQuizProps> = ({
   title,
-  subtitle,
   instructions,
   questions,
   onAnswerChange,

@@ -19,7 +19,7 @@ export const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
     onAnswerChange(id, e.target.value);
   };
   return (
-    <div className="flex py-3">
+    <div className="flex py-3" id={`reading-question-${id}`}>
       <div className="flex items-center">
         <span className="text-[#FA812F] text-xl font-bold mr-3">{id}</span>
         <span className="text-[#FA812F] mr-3">→</span>

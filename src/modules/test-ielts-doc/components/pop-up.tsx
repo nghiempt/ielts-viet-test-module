@@ -26,6 +26,9 @@ const PopupMenu = ({
   onQuestionSelect,
 }: PopupMenuProps) => {
   const [selectedTab, setSelectedTab] = useState(0);
+  const scrollToSection = (sectionId: string) => {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+  };
 
   if (!passages || passages.length === 0) {
     return (
@@ -62,7 +65,7 @@ const PopupMenu = ({
                 </button>
               </div>
               <div className="px-6 py-4 text-center">
-                <p className="text-gray-700 text-sm">Loading sections...</p>
+                <p className="text-gray-700 text-sm">Đang tải sections...</p>
               </div>
             </div>
           </motion.div>
@@ -135,7 +138,9 @@ const PopupMenu = ({
                         ? "text-orange-500 border-b-2 border-orange-500"
                         : "text-gray-500 hover:text-gray-700"
                     }`}
-                    onClick={() => setSelectedTab(index)}
+                    onClick={() => {
+                      setSelectedTab(index);
+                    }}
                   >
                     Section {passage.id}
                   </button>
@@ -165,6 +170,7 @@ const PopupMenu = ({
                         key={questionNum}
                         onClick={() => {
                           onQuestionSelect(questionNum);
+                          scrollToSection(`reading-question-${questionNum}`);
                           setIsOpen(false); // Close popup after selection
                         }}
                         className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium cursor-pointer ${
@@ -189,7 +195,7 @@ const PopupMenu = ({
                 }}
                 className="flex-1 py-3 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 transition duration-150"
               >
-                Submit
+                Nộp bài
               </button>
             </div>
           </div>

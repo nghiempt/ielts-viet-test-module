@@ -35,7 +35,7 @@ export default function WritingSubmission() {
         Bài viết của bạn đã nộp thành công và đang chờ chấm điểm.
       </div>
       <div className="text-center font-medium text-xl">
-        Điểm của bạn sẽ được phản hồi qua Email trong 2-3 ngày tới nhé!
+        Điểm của bạn sẽ được phản hồi qua Email trong 24h tới nhé!
       </div>
       <div className="flex flex-row items-center gap-3">
         <Link

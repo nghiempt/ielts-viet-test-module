@@ -76,6 +76,7 @@ export default function AnswerKeyWritingPage() {
   const [passage1, setPassage1] = useState<PassageSection | null>(null);
   const [passage2, setPassage2] = useState<PassageSection | null>(null);
   const [wordCount, setWordCount] = useState(0);
+  const [characterCount, setCharacterCount] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [switchWriting, setSwitchWriting] = useState(true);
 
@@ -121,6 +122,13 @@ export default function AnswerKeyWritingPage() {
             : parsedAnswers?.data?.result[1]?.user_answers[0]?.answer?.[0] ?? ""
         )
       );
+      setCharacterCount(
+        countCharacters(
+          selectedPassage === 1
+            ? parsedAnswers?.data?.result[0]?.user_answers[0]?.answer?.[0] ?? ""
+            : parsedAnswers?.data?.result[1]?.user_answers[0]?.answer?.[0] ?? ""
+        )
+      );
     } catch (error) {
       console.error("Error initializing writing test:", error);
       setData(null);
@@ -158,6 +166,13 @@ export default function AnswerKeyWritingPage() {
           : response?.result[0]?.user_answers[0]?.answer?.[0] ?? ""
       )
     );
+    setCharacterCount(
+      countCharacters(
+        selectedPassage === 1
+          ? response?.result[1]?.user_answers[0]?.answer?.[0] ?? ""
+          : response?.result[0]?.user_answers[0]?.answer?.[0] ?? ""
+      )
+    );
   };
 
   const handleNextPassage = () => {
@@ -177,6 +192,10 @@ export default function AnswerKeyWritingPage() {
     if (!trimmedText) return 0;
     const words = trimmedText.split(/\s+/).filter((word) => word.length > 0);
     return words.length;
+  };
+
+  const countCharacters = (input: string) => {
+    return input.length;
   };
 
   return (
@@ -200,7 +219,11 @@ export default function AnswerKeyWritingPage() {
           <div className="text-sm text-gray-600">Writing Test</div>
         </div>
         <div className="flex items-center">
-          <Link href={ROUTES.WRITING_HOME} className="ml-4" onClick={handleExitClick}>
+          <Link
+            href={ROUTES.WRITING_HOME}
+            className="ml-4"
+            onClick={handleExitClick}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 text-gray-500"
@@ -223,8 +246,9 @@ export default function AnswerKeyWritingPage() {
       <div className="fixed top-[8%] bottom-[0%] left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full overflow-y-auto">
         {/* Reading passage */}
         <div
-          className={`p-4 overflow-y-auto scroll-bar-style border-r border-gray-200 pt-8 ${switchWriting ? "" : "hidden lg:block"
-            }`}
+          className={`p-4 overflow-y-auto scroll-bar-style border-r border-gray-200 pt-8 ${
+            switchWriting ? "" : "hidden lg:block"
+          }`}
         >
           {selectedPassage === 1 && (
             <div>
@@ -241,7 +265,10 @@ export default function AnswerKeyWritingPage() {
                 <div className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full">
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: (passage1.question[0].content || "").replace(/\\/g, ""),
+                      __html: (passage1.question[0].content || "").replace(
+                        /\\/g,
+                        ""
+                      ),
                     }}
                   />
                 </div>
@@ -277,7 +304,10 @@ export default function AnswerKeyWritingPage() {
                 <div className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full">
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: (passage2.question[0].content || "").replace(/\\/g, ""),
+                      __html: (passage2.question[0].content || "").replace(
+                        /\\/g,
+                        ""
+                      ),
                     }}
                   />
                 </div>
@@ -302,8 +332,9 @@ export default function AnswerKeyWritingPage() {
 
         {/* Writing Area */}
         <div
-          className={`bg-white px-4 pt-8 overflow-y-auto scroll-bar-style ${switchWriting ? "hidden lg:block" : ""
-            }`}
+          className={`bg-white px-4 pt-8 overflow-y-auto scroll-bar-style ${
+            switchWriting ? "hidden lg:block" : ""
+          }`}
         >
           <div className="text-xl font-bold mb-4">Bài làm</div>
           <div className="w-full h-full">
@@ -318,7 +349,10 @@ export default function AnswerKeyWritingPage() {
               className="w-full h-2/3 lg:h-3/4 p-2 border rounded"
               disabled
             ></textarea>
-            <div className="text-right">{wordCount}/1000</div>
+            <div className="flex justify-between">
+              <div className="text-right">{wordCount} words</div>
+              <div className="text-right">{characterCount}/1000</div>
+            </div>
           </div>
         </div>
       </div>
@@ -328,13 +362,15 @@ export default function AnswerKeyWritingPage() {
         {/* NAVIGATION DESKTOP */}
         <div className="hidden lg:flex justify-between mt-2 lg:mt-0 text-sm border-t border-gray-200 pt-2">
           <div
-            className={`${selectedPassage === 1 ? "" : "border border-[#FA812F]"
-              } w-36 flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer`}
+            className={`${
+              selectedPassage === 1 ? "" : "border border-[#FA812F]"
+            } w-36 flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer`}
             onClick={handlePreviousPassage}
           >
             <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center ${selectedPassage === 1 ? "hidden" : "flex"
-                }`}
+              className={`text-[#FA812F] font-medium text-md justify-center items-center ${
+                selectedPassage === 1 ? "hidden" : "flex"
+              }`}
             >
               <ChevronLeft color="#FA812F" /> Task {selectedPassage - 1}
             </div>
@@ -352,20 +388,23 @@ export default function AnswerKeyWritingPage() {
             ))}
           </div>
           <div
-            className={`w-36 flex justify-center items-center ${selectedPassage === 2 ? "hidden" : "border border-[#FA812F]"
-              } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
+            className={`w-36 flex justify-center items-center ${
+              selectedPassage === 2 ? "hidden" : "border border-[#FA812F]"
+            } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
             onClick={handleNextPassage}
           >
             <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center ${selectedPassage === 2 ? "hidden" : "flex"
-                }`}
+              className={`text-[#FA812F] font-medium text-md justify-center items-center ${
+                selectedPassage === 2 ? "hidden" : "flex"
+              }`}
             >
               Task {selectedPassage + 1} <ChevronRight color="#FA812F" />
             </div>
           </div>
           <div
-            className={`w-36 flex justify-center items-center ${selectedPassage === 2 ? "" : "hidden"
-              } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
+            className={`w-36 flex justify-center items-center ${
+              selectedPassage === 2 ? "" : "hidden"
+            } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
             onClick={handleNextPassage}
           ></div>
         </div>
@@ -433,7 +472,7 @@ export default function AnswerKeyWritingPage() {
               setIsOpen={setIsPopupOpen}
               answers={answers}
               onSelectTask={handlePassageSelect}
-              onSubmit={() => { }}
+              onSubmit={() => {}}
             />
           </>
         )}

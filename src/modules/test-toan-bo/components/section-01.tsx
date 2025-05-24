@@ -8,7 +8,13 @@ import Link from "next/link";
 import { ROUTES } from "@/utils/routes";
 import { FullTestService } from "@/services/full-test";
 import Skeleton from "@/components/ui/skeleton";
-import { BookCheck, Headphones, PencilLine, PlayIcon } from "lucide-react";
+import {
+  BookCheck,
+  ChevronDown,
+  Headphones,
+  PencilLine,
+  PlayIcon,
+} from "lucide-react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { UserService } from "@/services/user";
@@ -36,39 +42,17 @@ const FullTestSection: React.FC = () => {
   const [filteredFullTests, setFilteredFullTests] = useState<FullTestItem[]>(
     []
   );
-  const [totalPage, setTotalPage] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<FullTestItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [completedTests, setCompletedTests] = useState<string[]>([]);
+  const [isFull, setIsFull] = useState<boolean>(false);
 
   const isLogin = Cookies.get("isLogin");
   const router = useRouter();
 
-  const selectPage = (pageSelected: number) => {
-    setCurrentPage(pageSelected);
-    const start = (pageSelected - 1) * COUNT;
-    const end = pageSelected * COUNT;
-    setCurrentData(filteredFullTests.slice(start, end));
-  };
-
-  const prevPage = () => {
-    if (currentPage > 1) {
-      selectPage(currentPage - 1);
-    }
-  };
-
-  const nextPage = () => {
-    if (currentPage < totalPage) {
-      selectPage(currentPage + 1);
-    }
-  };
-
   const render = (data: FullTestItem[]) => {
     setFilteredFullTests(data);
-    setTotalPage(Math.ceil(data.length / COUNT));
-    setCurrentPage(1);
-    setCurrentData(data.slice(0, COUNT));
+    setCurrentData(data);
   };
 
   const init = async () => {
@@ -184,6 +168,8 @@ const FullTestSection: React.FC = () => {
     );
   };
 
+  const filteredData = isFull ? currentData : currentData.slice(0, 12);
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       <section>
@@ -197,78 +183,55 @@ const FullTestSection: React.FC = () => {
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {currentData.map((test: FullTestItem) => (
+                {filteredData.map((test: FullTestItem) => (
                   <TestCard key={test._id} test={test} />
                 ))}
               </div>
             )}
-            <nav
-              className="flex flex-col items-center justify-center mt-4 p-4 space-y-3 md:flex-row md:items-center md:space-y-0"
-              aria-label="Table navigation"
-            >
-              <ul className="inline-flex items-stretch -space-x-px">
-                <li>
-                  <button
-                    onClick={prevPage}
-                    disabled={currentPage === 1}
-                    className="cursor-pointer flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                  >
-                    <span className="sr-only">Previous</span>
-                    <svg
-                      className="w-5 h-5"
-                      aria-hidden="true"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </li>
-                {Array.from({ length: totalPage }, (_, i) => i + 1).map(
-                  (item, index) => (
-                    <li key={index} onClick={() => selectPage(item)}>
-                      <a
-                        href="#"
-                        className={`${
-                          item === currentPage
-                            ? "bg-indigo-50 hover:bg-indigo-100 text-gray-700"
-                            : "bg-white"
-                        } flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700`}
-                      >
-                        {item}
-                      </a>
-                    </li>
-                  )
-                )}
-                <li>
-                  <button
-                    onClick={nextPage}
-                    disabled={currentPage === totalPage}
-                    className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                  >
-                    <span className="sr-only">Next</span>
-                    <svg
-                      className="w-5 h-5"
-                      aria-hidden="true"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </li>
-              </ul>
-            </nav>
+            {currentData.length > 12 &&
+              (!isFull ? (
+                <div
+                  onClick={() => setIsFull(true)}
+                  className="mt-6 flex justify-center relative"
+                >
+                  <div className="text-[#FA812F] cursor-pointer font-semibold px-4 py-2 lg:py-4 lg:px-8 flex items-center gap-2 rounded-md">
+                    <>
+                      <p className="text-[14px] lg:text-base">Xem thêm</p>{" "}
+                      <div className="flex flex-col items-center gap-2">
+                        <ChevronDown
+                          size={16}
+                          className="translate-y-1 updown-animation1 delay-0"
+                        />
+                        <ChevronDown
+                          size={16}
+                          className="-translate-y-1 updown-animation2 delay-1"
+                        />
+                      </div>
+                    </>
+                  </div>
+                </div>
+              ) : (
+                <div
+                  onClick={() => setIsFull(false)}
+                  className="mt-6 flex justify-center relative"
+                >
+                  <div className="text-[#FA812F] cursor-pointer font-semibold px-4 py-2 lg:py-4 lg:px-8 flex items-center gap-2 rounded-md">
+                    <>
+                      <p className="text-[14px] lg:text-base">Thu gọn</p>{" "}
+                      <div className="flex flex-col items-center gap-2">
+                        <ChevronDown
+                          size={16}
+                          className="translate-y-1 updown-animation3 delay-0"
+                        />
+                        <ChevronDown
+                          size={16}
+                          className="-translate-y-1 updown-animation4 delay-1"
+                        />
+                      </div>
+                    </>
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       </section>

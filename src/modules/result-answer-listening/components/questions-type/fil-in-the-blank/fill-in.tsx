@@ -37,7 +37,10 @@ export const ResultShortAnswerQuestion: React.FC<
   isCorrect,
 }) => {
   return (
-    <div className="flex py-3 items-center border border-gray-200 mb-5 px-5 rounded-lg bg-white">
+    <div
+      className="flex py-3 items-center border border-gray-200 mb-4 px-5 rounded-lg bg-white"
+      id={`listening-question-result-${id}`}
+    >
       <div className="flex items-center">
         <span className="text-[#FA812F] text-xl font-bold mr-3">{id}</span>
         <span className="text-[#FA812F] mr-3">→</span>

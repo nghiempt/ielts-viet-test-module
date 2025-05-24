@@ -144,7 +144,7 @@ const Header = () => {
               <div key={item.label} className="relative group">
                 <Link
                   href={item.href}
-                  className={`text-[14px] font-medium transition-colors duration-200 uppercase ${
+                  className={`text-[16px] font-medium transition-colors duration-200 uppercase ${
                     isActive(item)
                       ? "text-[rgb(var(--secondary-rgb))] font-semibold"
                       : "text-gray-500"
@@ -187,18 +187,18 @@ const Header = () => {
                     >
                       <a
                         href={`#`}
-                        className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
+                        className="flex items-center justify-start gap-2 text-gray-700 hover:text-black"
                       >
                         <UserRound size={18} /> Quản lí hồ sơ
                       </a>
                     </DropdownItem>
                     <DropdownItem
                       key="delete"
-                      className="text-[rgb(var(--primary-rgb))] hover:text-white hover:bg-[rgb(var(--primary-rgb))] font-medium rounded-lg text-md px-3 py-2.5 text-left me-2 mb-2"
+                      className="text-[rgb(var(--primary-rgb))] hover:text-white hover:bg-[rgb(var(--primary-rgb))] font-medium rounded-lg text-md px-3 py-2.5 text-left"
                     >
                       <button
                         onClick={handleLogOut}
-                        className="flex items-center justify-start gap-4 hover:text-white"
+                        className="flex items-center justify-start gap-2 hover:text-white"
                       >
                         <LogOut size={18} /> Đăng xuất
                       </button>

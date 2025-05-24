@@ -137,6 +137,9 @@ export default function AnswerKeyReadingPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [response, setResponse] = useState<ResultData | null>(null);
+  const scrollToSection = (sectionId: string) => {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const calculatePassages = useMemo(() => {
     return (): PassageInfo[] => {
@@ -342,12 +345,27 @@ export default function AnswerKeyReadingPage() {
   const handlePassageSelect = (passageId: number) => {
     setSelectedPassage(passageId);
     setCurrentPage(passageId);
+    // Optionally reset selectedQuestion to the first question of the passage
+    const passage = passages.find((p) => p.id === passageId);
+    if (passage) {
+      setSelectedQuestion(passage.startQuestion);
+      scrollToSection(`reading-question-${passage.startQuestion}`);
+    }
   };
 
   const handleQuestionSelect = (questionId: number) => {
+    // Find the passage containing the question
+    const passage = passages.find(
+      (p) => questionId >= p.startQuestion && questionId <= p.endQuestion
+    );
+    if (passage && passage.id !== selectedPassage) {
+      setSelectedPassage(passage.id);
+      setCurrentPage(passage.id);
+    }
     setSelectedQuestion(questionId);
+    // Scroll to the question group containing the selected question
+    scrollToSection(`reading-question-${questionId}`);
   };
-
   const handleNextQuestion = () => {
     if (selectedQuestion === null) {
       // If no question is selected, select the first question of the current passage
@@ -432,10 +450,6 @@ export default function AnswerKeyReadingPage() {
     setSelectedQuestion(prevPassage.startQuestion);
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   if (error) {
     return <div className="text-red-500">{error}</div>;
   }
@@ -457,7 +471,7 @@ export default function AnswerKeyReadingPage() {
         </Link>
         <div className="text-center mr-28">
           <div className="font-semibold">{data?.name}</div>
-          <div className="text-sm text-gray-600">Reading Test Result</div>
+          <div className="text-sm text-gray-600">Reading Test</div>
         </div>
         <Link href={ROUTES.HOME} target="_blank" className="flex items-center">
           <div className="text-gray-400 hover:text-gray-600 ml-4">
@@ -478,9 +492,9 @@ export default function AnswerKeyReadingPage() {
           </div>
         </Link>
       </header>
-      <div className="fixed top-0 bottom-0 left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full">
+      <div className="fixed top-0 bottom-0 left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full pt-14">
         <div
-          className={`p-4 py-24 pb-32 overflow-y-auto scroll-bar-style border-r border-gray-200 ${
+          className={`p-4 pt-8 pb-32 overflow-y-auto scroll-bar-style border-r border-gray-200 bg-white ${
             switchReading ? "" : "hidden lg:block"
           }`}
         >
@@ -494,7 +508,6 @@ export default function AnswerKeyReadingPage() {
                   __html: (passage1?.content || "").replace(/\\/g, ""),
                 }}
               />
-              {/* <p className="mb-4 text-base lg:text-lg">{passage1?.content}</p> */}
             </div>
           )}
           {selectedPassage === 2 && (
@@ -507,7 +520,6 @@ export default function AnswerKeyReadingPage() {
                   __html: (passage2?.content || "").replace(/\\/g, ""),
                 }}
               />
-              {/* <p className="mb-4 text-base lg:text-lg">{passage2?.content}</p> */}
             </div>
           )}
           {selectedPassage === 3 && (
@@ -520,12 +532,11 @@ export default function AnswerKeyReadingPage() {
                   __html: (passage3?.content || "").replace(/\\/g, ""),
                 }}
               />
-              {/* <p className="mb-4 text-base lg:text-lg">{passage3?.content}</p> */}
             </div>
           )}
         </div>
         <div
-          className={`bg-white p-4 pt-24 pb-32 overflow-y-auto scroll-bar-style ${
+          className={`bg-white p-4 pt-8 pb-28 overflow-y-auto scroll-bar-style ${
             switchReading ? "hidden lg:block" : ""
           }`}
         >
@@ -545,7 +556,7 @@ export default function AnswerKeyReadingPage() {
                   }));
                 if (index === questions.findIndex((q) => q.q_type === "MP")) {
                   acc.push(
-                    <div key={`mp-${index}`} className="mb-6">
+                    <div key={`mp-${index}`} className="mb-4">
                       <ResultHeader
                         title={`Questions ${mpQuestions[0].id} - ${
                           mpQuestions[mpQuestions.length - 1].id
@@ -685,7 +696,7 @@ export default function AnswerKeyReadingPage() {
             </div>
             <div
               className={`w-full flex justify-center items-center rounded-lg my-2 bg-white mr-4 cursor-pointer ${
-                selectedQuestion === passages[passages.length - 1].endQuestion
+                selectedQuestion === passages[passages.length - 1]?.endQuestion
                   ? "opacity-50"
                   : ""
               }`}

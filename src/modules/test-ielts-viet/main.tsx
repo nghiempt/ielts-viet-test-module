@@ -75,10 +75,12 @@ export default function WritingTestClient() {
   const [passage1, setPassage1] = useState<PassageSection | null>(null);
   const [passage2, setPassage2] = useState<PassageSection | null>(null);
   const [wordCount, setWordCount] = useState(0);
+  const [characterCount, setCharacterCount] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [switchWriting, setSwitchWriting] = useState(true);
   const [showConfirmDialog, setShowConfirmDialog] = useState(true);
   const [showConfirmSubmitDialog, setShowConfirmSubmitDialog] = useState(false);
+  const [showConfirmCloseDialog, setShowConfirmCloseDialog] = useState(false);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [showGetInfoDialog, setShowGetInfoDialog] = useState(false);
   const [userAccount, setUserAccount] = useState<UserAccount | null>(null);
@@ -208,6 +210,7 @@ export default function WritingTestClient() {
     setSelectedPassage(passageId);
     setCurrentPage(passageId);
     setWordCount(countWords(answers[passageId]));
+    setCharacterCount(countCharacters(answers[passageId]));
   };
 
   const handleNextPassage = () => {
@@ -229,10 +232,15 @@ export default function WritingTestClient() {
     return words.length;
   };
 
+  const countCharacters = (input: string) => {
+    return input.length;
+  };
+
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
     setAnswers((prev) => ({ ...prev, [selectedPassage]: newText }));
     setWordCount(countWords(newText));
+    setCharacterCount(countCharacters(newText));
   };
 
   const handleSubmit = async () => {
@@ -315,7 +323,6 @@ export default function WritingTestClient() {
   const handleCancelTest = () => {
     setShowConfirmDialog(false);
     router.push(`${ROUTES.WRITING_HOME}`);
-
   };
 
   const handleSubmitTest = () => {
@@ -329,7 +336,7 @@ export default function WritingTestClient() {
 
   return (
     <div className="relative min-h-screen w-full bg-gray-50">
-      {/* Confirmation Dialog */}
+      {/* Instruction Dialog */}
       <AnimatePresence>
         {showConfirmDialog && (
           <>
@@ -345,15 +352,34 @@ export default function WritingTestClient() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="fixed top-[37%] left-[4%] lg:left-[37%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-md"
+              className="fixed top-[30%] left-[4%] lg:left-[34%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-lg"
             >
               <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                Bắt đầu bài kiểm tra Viết
+                INSTRUCTIONS
               </h2>
-              <p className="text-gray-600 mb-6">
-                Hãy bấm Bắt đầu khi bạn đã sẵn sàng làm bài kiểm tra. Bạn sẽ có
-                60 phút để hoàn thành bài kiểm tra này.
-              </p>
+              <div className="text-gray-800 mb-6">
+                <div>
+                  <strong className="uppercase">IELTS Writing Test</strong>
+                  <p>&ensp; &#8226; Time approximately 60 minutes.</p>
+                </div>
+                <div className="mt-3">
+                  <strong className="uppercase">
+                    Instructions to candidates:
+                  </strong>
+                  <p>&ensp; &#8226; Answer all the writing tasks.</p>
+                  <p>
+                    &ensp; &#8226; You can change your answer at anytime during
+                    the test.
+                  </p>
+                </div>
+                <div className="mt-3">
+                  <strong className="uppercase">
+                    Information for candidates:
+                  </strong>
+                  <p>&ensp; &#8226; There are 2 tasks in the test.</p>
+                  <p>&ensp; &#8226; Each task will be a paragraph.</p>
+                </div>
+              </div>
               <div className="flex justify-end space-x-4">
                 <button
                   onClick={handleCancelTest}
@@ -391,12 +417,12 @@ export default function WritingTestClient() {
               transition={{ duration: 0.3 }}
               className="fixed top-[37%] left-[4%] lg:left-[37%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-md"
             >
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                Xác nhận nộp bài
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                Xác nhận nộp bài kiểm tra
               </h2>
               <p className="text-gray-600 mb-6">
                 Bạn có chắc chắn muốn nộp bài kiểm tra này không? Sau khi nộp,
-                bạn sẽ không thể chỉnh sửa bài viết của mình.
+                bạn sẽ không thể chỉnh sửa câu trả lời của mình.
               </p>
               <div className="flex justify-end space-x-4">
                 <button
@@ -410,6 +436,52 @@ export default function WritingTestClient() {
                   className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
                 >
                   Nộp bài
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Confirmation Close Test Dialog */}
+      <AnimatePresence>
+        {showConfirmCloseDialog && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black z-50"
+            />
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed top-[37%] left-[4%] lg:left-[37%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-md"
+            >
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                Xác nhận thoát bài kiểm tra
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Bạn có chắc chắn muốn thoát bài kiểm tra này không? Bài kiểm tra
+                của bạn sẽ không được lưu.
+              </p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={() => setShowConfirmCloseDialog(false)}
+                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition"
+                >
+                  Hủy
+                </button>
+                <button
+                  onClick={() => {
+                    router.push(ROUTES.HOME);
+                  }}
+                  className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
+                >
+                  Thoát
                 </button>
               </div>
             </motion.div>
@@ -435,16 +507,16 @@ export default function WritingTestClient() {
               transition={{ duration: 0.3 }}
               className="fixed top-[37%] left-[4%] lg:left-[37%] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 z-50 w-11/12 max-w-md"
             >
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                Bạn chưa có thông tin tài khoản
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                Bạn chưa có tài khoản
               </h2>
-              <p className="text-gray-600 mb-6">
-                Vui lòng cung cấp thông tin Gmail của bạn để nộp bài
+              <p className="text-gray-600 mb-4">
+                Vui lòng cung cấp thông tin Gmail của bạn để nộp bài kiểm tra
               </p>
               <input
                 type="text"
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-[#FA812F] focus:border-transparent"
-                placeholder="Vui lòng nhập Gmail"
+                placeholder="Vui lòng nhập Gmail của bạn"
                 value={guestGmail}
                 onChange={(e) => setGuestGmail(e.target.value)}
               />
@@ -502,7 +574,10 @@ export default function WritingTestClient() {
             </svg>
             <span className="text-[#FA812F] font-semibold">{timeLeft}</span>
           </div>
-          <Link href={ROUTES.HOME} className="ml-4" onClick={handleExitClick}>
+          <div
+            className="ml-4 cursor-pointer"
+            onClick={() => setShowConfirmCloseDialog(true)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 text-gray-500"
@@ -517,7 +592,7 @@ export default function WritingTestClient() {
                 d="M6 18L18 6M6 6l12 12"
               />
             </svg>
-          </Link>
+          </div>
         </div>
       </header>
 
@@ -525,8 +600,9 @@ export default function WritingTestClient() {
       <div className="fixed top-[8%] bottom-[0%] left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full overflow-y-auto">
         {/* Reading passage */}
         <div
-          className={`p-4 overflow-y-auto scroll-bar-style border-r border-gray-200 pt-8 ${switchWriting ? "" : "hidden lg:block"
-            }`}
+          className={`p-4 overflow-y-auto scroll-bar-style border-r border-gray-200 pt-8 pb-24 bg-white ${
+            switchWriting ? "" : "hidden lg:block"
+          }`}
         >
           {selectedPassage === 1 && (
             <div>
@@ -543,7 +619,10 @@ export default function WritingTestClient() {
                 <div className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full">
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: (passage1.question[0].content || "").replace(/\\/g, ""),
+                      __html: (passage1.question[0].content || "").replace(
+                        /\\/g,
+                        ""
+                      ),
                     }}
                   />
                 </div>
@@ -579,7 +658,10 @@ export default function WritingTestClient() {
                 <div className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full">
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: (passage2.question[0].content || "").replace(/\\/g, ""),
+                      __html: (passage2.question[0].content || "").replace(
+                        /\\/g,
+                        ""
+                      ),
                     }}
                   />
                 </div>
@@ -604,8 +686,9 @@ export default function WritingTestClient() {
 
         {/* Writing Area */}
         <div
-          className={`bg-white px-4 pt-8 overflow-y-auto scroll-bar-style ${switchWriting ? "hidden lg:block" : ""
-            }`}
+          className={`bg-white px-4 pt-8 overflow-y-auto scroll-bar-style ${
+            switchWriting ? "hidden lg:block" : ""
+          }`}
         >
           <div className="text-xl font-bold mb-4">Bài làm</div>
           <div className="w-full h-full">
@@ -614,9 +697,12 @@ export default function WritingTestClient() {
               value={answers[selectedPassage]}
               onChange={handleTextChange}
               placeholder="Nhập bài viết của bạn"
-              className="w-full h-2/3 lg:h-3/4 p-2 border rounded"
+              className="w-full h-2/3 lg:h-3/4 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#FA812F] focus:border-transparent resize-none"
             ></textarea>
-            <div className="text-right">{wordCount}/1000</div>
+            <div className="flex justify-between">
+              <div className="text-right">{wordCount} words</div>
+              <div className="text-right">{characterCount}/1000</div>
+            </div>
           </div>
         </div>
       </div>
@@ -626,13 +712,15 @@ export default function WritingTestClient() {
         {/* NAVIGATION DESKTOP */}
         <div className="hidden lg:flex justify-between mt-2 lg:mt-0 text-sm border-t border-gray-200 pt-2">
           <div
-            className={`${selectedPassage === 1 ? "" : "border border-[#FA812F]"
-              } w-36 flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer`}
+            className={`${
+              selectedPassage === 1 ? "" : "border border-[#FA812F]"
+            } w-36 flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer`}
             onClick={handlePreviousPassage}
           >
             <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center ${selectedPassage === 1 ? "hidden" : "flex"
-                }`}
+              className={`text-[#FA812F] font-medium text-md justify-center items-center ${
+                selectedPassage === 1 ? "hidden" : "flex"
+              }`}
             >
               <ChevronLeft color="#FA812F" /> Task {selectedPassage - 1}
             </div>
@@ -650,13 +738,15 @@ export default function WritingTestClient() {
             ))}
           </div>
           <div
-            className={`w-36 flex justify-center items-center ${selectedPassage === 2 ? "hidden" : "border border-[#FA812F]"
-              } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
+            className={`w-36 flex justify-center items-center ${
+              selectedPassage === 2 ? "hidden" : "border border-[#FA812F]"
+            } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
             onClick={handleNextPassage}
           >
             <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center ${selectedPassage === 2 ? "hidden" : "flex"
-                }`}
+              className={`text-[#FA812F] font-medium text-md justify-center items-center ${
+                selectedPassage === 2 ? "hidden" : "flex"
+              }`}
             >
               Task {selectedPassage + 1} <ChevronRight color="#FA812F" />
             </div>
@@ -671,12 +761,14 @@ export default function WritingTestClient() {
                 setShowGetInfoDialog(true);
               }
             }}
-            className={`w-36 flex justify-center items-center ${selectedPassage === 2 ? "border border-[#FA812F]" : "hidden"
-              } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
+            className={`w-36 flex justify-center items-center ${
+              selectedPassage === 2 ? "border border-[#FA812F]" : "hidden"
+            } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
           >
             <div
-              className={`font-medium text-md justify-center items-center ${selectedPassage === 2 ? "flex" : "hidden"
-                }`}
+              className={`font-medium text-md justify-center items-center ${
+                selectedPassage === 2 ? "flex" : "hidden"
+              }`}
             >
               Nộp bài
             </div>

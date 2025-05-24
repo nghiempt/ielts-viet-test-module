@@ -32,6 +32,9 @@ const PassageProgressBar: React.FC<PassageProgressBarProps> = ({
     { length: totalQuestions },
     (_, index) => startQuestion + index
   );
+  const scrollToSection = (sectionId: string) => {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <div
@@ -72,6 +75,7 @@ const PassageProgressBar: React.FC<PassageProgressBarProps> = ({
               onClick={(e) => {
                 e.stopPropagation();
                 onQuestionClick && onQuestionClick(question);
+                scrollToSection(`reading-question-result-${question}`);
               }}
             >
               {question}

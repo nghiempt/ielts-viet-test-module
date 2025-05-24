@@ -206,7 +206,7 @@ const ResultStatistic = () => {
     <div className="bg-gray-50 min-h-screen w-full">
       <header className="fixed top-0 left-0 right-0 bg-white shadow p-2 flex justify-between items-center z-20">
         <div className="flex items-center">
-          <Link href={ROUTES.HOME} className="hidden lg:flex">
+          <Link href={ROUTES.HOME} className="hidden lg:flex w-40">
             <Image
               src={IMAGES.LOGO}
               alt="Dinh Luc Logo"
@@ -322,13 +322,13 @@ const ResultStatistic = () => {
                 </div>
               </div>
 
-              <div className="hidden lg:flex">
+              <div className="hidden lg:flex w-40 h-40">
                 <Image
                   src={IMAGES.RESULT}
                   alt="Student reading"
                   width={1000}
                   height={1000}
-                  className="w-3/4 h-full"
+                  className="w-full h-full"
                 />
               </div>
             </div>
@@ -344,13 +344,16 @@ const ResultStatistic = () => {
         {/* Answer Key */}
         <div className="bg-white rounded-lg shadow mb-16 lg:mb-0">
           <div className="p-6">
-            <h2 className="font-medium text-lg mb-4">Answer key</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {result?.result.map((part, index) => (
                 <div key={part.part_id}>
-                  <h3 className="font-medium mb-2">
+                  <h3
+                    className={`font-medium mb-2 ${
+                      index === 2 ? "mt-5" : "mt-0"
+                    }`}
+                  >
                     PASSAGE {index + 1} (QUESTION {index * 13 + 1} -{" "}
-                    {(index + 1) * 13})
+                    {(index + 1) * 13 + (index === 2 ? 1 : 0)})
                   </h3>
                   <div className="space-y-2">
                     {renderPassageAnswers(part, index + 1)}

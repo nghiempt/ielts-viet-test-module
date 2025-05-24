@@ -129,6 +129,12 @@ const ListeningTestClient: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [response, setResponse] = useState<ResultData | null>(null);
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   const calculatePassages = useMemo(() => {
     return (): PassageInfo[] => {
@@ -199,13 +205,13 @@ const ListeningTestClient: React.FC = () => {
         ? q.q_type === "MP" && q.isMultiple
           ? questionResult.answer
           : q.q_type === "MP"
-            ? questionResult.answer[0]
-            : questionResult.answer[0] || ""
+          ? questionResult.answer[0]
+          : questionResult.answer[0] || ""
         : q.q_type === "MP"
-          ? q.isMultiple
-            ? []
-            : null
-          : "";
+        ? q.isMultiple
+          ? []
+          : null
+        : "";
 
       return {
         id: startId + index,
@@ -228,13 +234,13 @@ const ListeningTestClient: React.FC = () => {
     const arrangedQuestions =
       firstQuestionType === "MP"
         ? [
-          ...mappedQuestions.filter((q) => q.q_type === "MP"),
-          ...mappedQuestions.filter((q) => q.q_type === "FB"),
-        ]
+            ...mappedQuestions.filter((q) => q.q_type === "MP"),
+            ...mappedQuestions.filter((q) => q.q_type === "FB"),
+          ]
         : [
-          ...mappedQuestions.filter((q) => q.q_type === "FB"),
-          ...mappedQuestions.filter((q) => q.q_type === "MP"),
-        ];
+            ...mappedQuestions.filter((q) => q.q_type === "FB"),
+            ...mappedQuestions.filter((q) => q.q_type === "MP"),
+          ];
 
     return arrangedQuestions.map((q, index) => ({
       ...q,
@@ -355,13 +361,38 @@ const ListeningTestClient: React.FC = () => {
     response,
   ]);
 
+  // const handlePassageSelect = (passageId: number) => {
+  //   setSelectedPassage(passageId);
+  //   setCurrentPage(passageId);
+  // };
+
+  // const handleQuestionSelect = (questionId: number) => {
+  //   setSelectedQuestion(questionId);
+  // };
+
   const handlePassageSelect = (passageId: number) => {
     setSelectedPassage(passageId);
     setCurrentPage(passageId);
+    // Optionally reset selectedQuestion to the first question of the passage
+    const passage = passages.find((p) => p.id === passageId);
+    if (passage) {
+      setSelectedQuestion(passage.startQuestion);
+      scrollToSection(`listening-question-result-${passage.startQuestion}`);
+    }
   };
 
   const handleQuestionSelect = (questionId: number) => {
+    // Find the passage containing the question
+    const passage = passages.find(
+      (p) => questionId >= p.startQuestion && questionId <= p.endQuestion
+    );
+    if (passage && passage.id !== selectedPassage) {
+      setSelectedPassage(passage.id);
+      setCurrentPage(passage.id);
+    }
     setSelectedQuestion(questionId);
+    // Scroll to the question group containing the selected question
+    scrollToSection(`listening-question-result-${questionId}`);
   };
 
   const handleNextQuestion = () => {
@@ -463,8 +494,8 @@ const ListeningTestClient: React.FC = () => {
           />
         </Link>
         <div className="text-center mr-28">
-          <div className="font-semibold">IELTS Listening Test</div>
-          <div className="text-sm text-gray-600">{data?.name}</div>
+          <div className="font-semibold">{data?.name}</div>
+          <div className="text-sm text-gray-600">Listening Test </div>
         </div>
         <div className="flex items-center">
           <Link
@@ -487,8 +518,8 @@ const ListeningTestClient: React.FC = () => {
           </Link>
         </div>
       </header>
-      <div className="fixed top-[0] bottom-[0] left-0 right-0 overflow-y-auto pt-20 pb-28">
-        <div className="container mx-auto w-full lg:w-[65%] p-3 lg:p-4 pt-5 lg:pt-10 pb-3 lg:pb-16">
+      <div className="fixed top-[0] bottom-[0] left-0 right-0 overflow-y-auto mt-14 pb-28">
+        <div className="container mx-auto w-full lg:w-[65%] p-3 lg:p-4 pt-5 lg:pt-9 pb-3 lg:pb-0">
           {questions?.reduce(
             (acc: JSX.Element[], question: Question, index: number) => {
               if (question.q_type === "MP") {
@@ -505,10 +536,11 @@ const ListeningTestClient: React.FC = () => {
                   }));
                 if (index === questions?.findIndex((q) => q?.q_type === "MP")) {
                   acc.push(
-                    <div key={`mp-${index}`} className="mb-6">
+                    <div key={`mp-${index}`} className="mb-0">
                       <ResultHeader
-                        title={`Questions ${mpQuestions[0]?.id} - ${mpQuestions[mpQuestions.length - 1]?.id
-                          }`}
+                        title={`Questions ${mpQuestions[0]?.id} - ${
+                          mpQuestions[mpQuestions.length - 1]?.id
+                        }`}
                         subtitle="Review your answers"
                       />
                       {mpQuestions?.map((q) => (
@@ -540,8 +572,9 @@ const ListeningTestClient: React.FC = () => {
                   acc.push(
                     <div key={`fb-${index}`} className="mb-6">
                       <ResultHeader
-                        title={`Questions ${fbQuestions[0].id} - ${fbQuestions[fbQuestions.length - 1].id
-                          }`}
+                        title={`Questions ${fbQuestions[0].id} - ${
+                          fbQuestions[fbQuestions.length - 1].id
+                        }`}
                         subtitle="Review your answers"
                       />
                       <div className="">
@@ -629,10 +662,11 @@ const ListeningTestClient: React.FC = () => {
           </div>
           <div className="flex flex-row">
             <div
-              className={`w-full flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer ${selectedQuestion === passages[0]?.startQuestion
-                ? "opacity-50"
-                : ""
-                }`}
+              className={`w-full flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer ${
+                selectedQuestion === passages[0]?.startQuestion
+                  ? "opacity-50"
+                  : ""
+              }`}
               onClick={handlePreviousPassage}
               role="button"
               aria-label="Previous Question"
@@ -646,10 +680,11 @@ const ListeningTestClient: React.FC = () => {
               </div>
             </div>
             <div
-              className={`w-full flex justify-center items-center rounded-lg my-2 bg-white mr-4 cursor-pointer ${selectedQuestion === passages[passages.length - 1]?.endQuestion
-                ? "opacity-50"
-                : ""
-                }`}
+              className={`w-full flex justify-center items-center rounded-lg my-2 bg-white mr-4 cursor-pointer ${
+                selectedQuestion === passages[passages.length - 1]?.endQuestion
+                  ? "opacity-50"
+                  : ""
+              }`}
               onClick={handleNextPassage}
               role="button"
               aria-label="Next Question"

@@ -35,7 +35,7 @@ interface QuizQuestionProps {
 
 export const QuizHeader: React.FC<QuizHeaderProps> = ({ title, subtitle }) => (
   <div className="bg-[#FA812F] text-white p-4 rounded-lg mb-4">
-    <h1 className="flex flex-row justify-between items-center  font-bold">
+    <h1 className="flex flex-row justify-between items-center font-bold">
       <span className="text-base lg:text-lg">{title}</span>{" "}
       <span className="font-normal text-right text-base lg:text-base ml-2">
         {subtitle}
@@ -51,9 +51,12 @@ export const QuizOption: React.FC<QuizOptionProps> = ({
   isMultiple,
   onSelect,
 }) => (
-  <div className="flex items-center mb-3 cursor-pointer" onClick={onSelect}>
+  <div
+    className="grid grid-cols-12 lg:flex lg:items-center mb-3 cursor-pointer"
+    onClick={onSelect}
+  >
     <div
-      className={`w-8 h-8 flex items-center justify-center rounded-full mr-3 border ${
+      className={`col-span-2 w-8 h-8 flex items-center justify-center rounded-full mr-3 border ${
         isSelected
           ? "bg-[#f8f2ef] border-[#FA812F]"
           : "bg-gray-100 border-gray-300"
@@ -67,7 +70,9 @@ export const QuizOption: React.FC<QuizOptionProps> = ({
         {label}
       </span>
     </div>
-    <span className="text-gray-700">{option}</span>
+    <div className="col-span-10">
+      <span className="text-gray-700">{option}</span>
+    </div>
   </div>
 );
 
@@ -82,9 +87,12 @@ export const QuizQuestion: React.FC<QuizQuestionProps> = ({
   const optionLabels = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
   return (
-    <div className="mb-8 bg-white p-6 rounded-lg border border-gray-200">
+    <div
+      className="mb-4 bg-white p-6 rounded-lg border border-gray-200"
+      id={`reading-question-${id}`}
+    >
       <div className="flex mb-4">
-        <span className="text-[#FA812F] text-xl font-bold mr-3">{id}</span>
+        <span className="text-[#FA812F] text-xl font-bold mr-1">{id}.</span>
         <p className="text-gray-800 text-lg">{question}</p>
       </div>
 

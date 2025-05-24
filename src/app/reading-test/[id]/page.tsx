@@ -22,7 +22,7 @@ export default function Readings() {
       <Suspense
         fallback={
           <div className="w-full h-[500px] flex flex-col justify-center items-center">
-            <Loader className="animate-spin" size={24} />
+            {/* <Loader className="animate-spin" size={24} /> */}
           </div>
         }
       >

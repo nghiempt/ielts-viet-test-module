@@ -25,7 +25,7 @@ export const ResultHeader: React.FC<ResultHeaderProps> = ({
   title,
   subtitle,
 }) => (
-  <div className="bg-[#FA812F] text-white p-4 rounded-lg mb-4">
+  <div className="bg-[#FA812F] text-white p-4 rounded-lg mb-3">
     <h1 className="flex flex-row justify-between items-center text-lg font-bold">
       <span>{title}</span>
       <span className="font-normal text-base ml-2">{subtitle}</span>
@@ -39,9 +39,9 @@ export const ResultOption: React.FC<ResultOptionProps> = ({
   isSelected,
   isCorrect,
 }) => (
-  <div className="flex items-center mb-3">
+  <div className="grid grid-cols-12 lg:flex lg:items-center mb-3">
     <div
-      className={`w-8 h-8 flex items-center justify-center rounded-full mr-3 border ${
+      className={`col-span-2 w-8 h-8 flex items-center justify-center rounded-full mr-3 border ${
         isCorrect
           ? "border-green-500"
           : isSelected
@@ -61,7 +61,9 @@ export const ResultOption: React.FC<ResultOptionProps> = ({
         {label}
       </span>
     </div>
-    <span className="text-gray-700">{option}</span>
+    <div className="col-span-10">
+      <span className="text-gray-700">{option}</span>
+    </div>
   </div>
 );
 
@@ -81,9 +83,12 @@ export const ResultQuestion: React.FC<ResultQuestionProps> = ({
     (typeof selectedOptions === "string" && selectedOptions !== "");
 
   return (
-    <div className="mb-8 bg-white p-6 rounded-lg border border-gray-200">
+    <div
+      className="mb-4 bg-white p-6 rounded-lg border border-gray-200"
+      id={`reading-question-result-${id}`}
+    >
       <div className="flex mb-4 items-center">
-        <span className="text-[#FA812F] text-xl font-bold mr-3">{id}</span>
+        <span className="text-[#FA812F] text-xl font-bold mr-1">{id}. </span>
         <div>
           <p className="text-gray-800 text-lg">
             {question}
@@ -98,7 +103,7 @@ export const ResultQuestion: React.FC<ResultQuestionProps> = ({
             )}
           </p>
           {!isAnswered && (
-            <p className="text-red-500 text-sm font-medium">
+            <p className="text-red-500 text-[16px] font-medium">
               Unanswered question
             </p>
           )}
