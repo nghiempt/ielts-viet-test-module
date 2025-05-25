@@ -194,7 +194,7 @@ export default function Section01() {
   );
 
   return (
-    <div className="w-full mx-auto px-6">
+    <div className="w-full mx-auto px-5 lg:px-0">
       <main>
         <div className="flex flex-col justify-center items-center lg:justify-start lg:items-start lg:flex-row mb-4">
           <div className="w-full lg:w-40 h-full mr-0 lg:mr-4 mb-5 lg:mb-0">
@@ -217,11 +217,7 @@ export default function Section01() {
                 <span>74,734 lượt làm</span>
               </div>
             </div>
-            <div
-              className="mt-1 flex justify-center lg:justify-start
-
- items-center w-full"
-            >
+            <div className="mt-1 flex justify-center lg:justify-start items-center w-full">
               <button className="bg-blue-500 text-white text-xs px-3 py-1 rounded-sm flex items-center">
                 <Facebook
                   size={15}
@@ -265,7 +261,7 @@ export default function Section01() {
                         <div className="grid grid-cols-12 items-center gap-3 mt-4">
                           <Link
                             href={`${ROUTES.READING_TEST}/${fullTestDetail?.r_id}?isRetake=true`}
-                            className="col-span-12 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-3 group transition-all duration-200 ease-in-out"
+                            className="col-span-12 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
                           >
                             <RotateCw
                               size={17}
@@ -281,7 +277,7 @@ export default function Section01() {
                                 fullTestDetail?.r_id || ""
                               )
                             }
-                            className="cursor-pointer col-span-12 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-3 group transition-all duration-200 ease-in-out"
+                            className="cursor-pointer col-span-12 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
                           >
                             <CircleCheckBig
                               size={17}
@@ -299,9 +295,9 @@ export default function Section01() {
                               `${ROUTES.READING_TEST}/${fullTestDetail?.r_id}`
                             )
                           }
-                          className="text-[#FA812F] mt-4 flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2.5 group transition-all duration-200 ease-in-out"
+                          className="text-[#FA812F] mt-4 flex flex-row justify-center w-full items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
                         >
-                          <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
+                          <div className="p-0.5 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
                             <PlayIcon
                               size={14}
                               fill="#FA812F"
@@ -317,7 +313,7 @@ export default function Section01() {
                       <div className="grid grid-cols-12 items-center gap-3">
                         <Link
                           href={`${ROUTES.READING_TEST}/${fullTestDetail?.r_id}?isRetake=true`}
-                          className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-3 mt-4 group transition-all duration-200 ease-in-out"
+                          className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-2 mt-4 group transition-all duration-200 ease-in-out"
                         >
                           <RotateCw
                             size={17}
@@ -331,7 +327,7 @@ export default function Section01() {
                           onClick={() =>
                             handleViewReadingResult(fullTestDetail?.r_id || "")
                           }
-                          className="cursor-pointer col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-3 mt-4 group transition-all duration-200 ease-in-out"
+                          className="cursor-pointer col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-2 mt-4 group transition-all duration-200 ease-in-out"
                         >
                           <CircleCheckBig
                             size={17}
@@ -346,9 +342,9 @@ export default function Section01() {
                       <Link
                         href={`${ROUTES.READING_TEST}/${fullTestDetail?.r_id}`}
                         target="_blank"
-                        className="text-[#FA812F] mt-4 flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2.5 group transition-all duration-200 ease-in-out"
+                        className="text-[#FA812F] mt-4 flex flex-row justify-center w-full items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
                       >
-                        <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
+                        <div className="p-0.5 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
                           <PlayIcon
                             size={14}
                             fill="#FA812F"
@@ -378,7 +374,7 @@ export default function Section01() {
                         <div className="grid grid-cols-12 items-center gap-3 mt-4">
                           <Link
                             href={`${ROUTES.LISTENING_TEST}/${fullTestDetail?.l_id}?isRetake=true`}
-                            className="col-span-12 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-3 group transition-all duration-200 ease-in-out"
+                            className="col-span-12 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
                           >
                             <RotateCw
                               size={17}
@@ -394,7 +390,7 @@ export default function Section01() {
                                 fullTestDetail?.l_id || ""
                               )
                             }
-                            className="cursor-pointer col-span-12 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-3 group transition-all duration-200 ease-in-out"
+                            className="cursor-pointer col-span-12 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
                           >
                             <CircleCheckBig
                               size={17}
@@ -412,9 +408,9 @@ export default function Section01() {
                               `${ROUTES.LISTENING_TEST}/${fullTestDetail?.l_id}`
                             )
                           }
-                          className="text-[#FA812F] mt-4 flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2.5 group transition-all duration-200 ease-in-out"
+                          className="text-[#FA812F] mt-4 flex flex-row justify-center w-full items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
                         >
-                          <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
+                          <div className="p-0.5 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
                             <PlayIcon
                               size={14}
                               fill="#FA812F"
@@ -430,7 +426,7 @@ export default function Section01() {
                       <div className="grid grid-cols-12 items-center gap-3">
                         <Link
                           href={`${ROUTES.LISTENING_TEST}/${fullTestDetail?.l_id}?isRetake=true`}
-                          className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-3 mt-4 group transition-all duration-200 ease-in-out"
+                          className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-2 mt-4 group transition-all duration-200 ease-in-out"
                         >
                           <RotateCw
                             size={17}
@@ -446,7 +442,7 @@ export default function Section01() {
                               fullTestDetail?.l_id || ""
                             )
                           }
-                          className="cursor-pointer col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-3 mt-4 group transition-all duration-200 ease-in-out"
+                          className="cursor-pointer col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-2 mt-4 group transition-all duration-200 ease-in-out"
                         >
                           <CircleCheckBig
                             size={17}
@@ -461,9 +457,9 @@ export default function Section01() {
                       <Link
                         href={`${ROUTES.LISTENING_TEST}/${fullTestDetail?.l_id}`}
                         target="_blank"
-                        className="text-[#FA812F] mt-4 flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2.5 group transition-all duration-200 ease-in-out"
+                        className="text-[#FA812F] mt-4 flex flex-row justify-center w-full items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
                       >
-                        <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
+                        <div className="p-0.5 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
                           <PlayIcon
                             size={14}
                             fill="#FA812F"
@@ -493,7 +489,7 @@ export default function Section01() {
                         <div className="grid grid-cols-12 items-center gap-3 mt-4">
                           <Link
                             href={`${ROUTES.WRITING_TEST}/${fullTestDetail?.w_id}?isRetake=true`}
-                            className="col-span-12 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-3 group transition-all duration-200 ease-in-out"
+                            className="col-span-12 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
                           >
                             <RotateCw
                               size={17}
@@ -509,7 +505,7 @@ export default function Section01() {
                                 fullTestDetail?.w_id || ""
                               )
                             }
-                            className="cursor-pointer col-span-12 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-3 group transition-all duration-200 ease-in-out"
+                            className="cursor-pointer col-span-12 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
                           >
                             <CircleCheckBig
                               size={17}
@@ -527,9 +523,9 @@ export default function Section01() {
                               `${ROUTES.WRITING_TEST}/${fullTestDetail?.w_id}`
                             )
                           }
-                          className="text-[#FA812F] mt-4 flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2.5 group transition-all duration-200 ease-in-out"
+                          className="text-[#FA812F] mt-4 flex flex-row justify-center w-full items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
                         >
-                          <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
+                          <div className="p-0.5 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
                             <PlayIcon
                               size={14}
                               fill="#FA812F"
@@ -545,7 +541,7 @@ export default function Section01() {
                       <div className="grid grid-cols-12 items-center gap-3">
                         <Link
                           href={`${ROUTES.WRITING_TEST}/${fullTestDetail?.w_id}?isRetake=true`}
-                          className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-3 mt-4 group transition-all duration-200 ease-in-out"
+                          className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-2 mt-4 group transition-all duration-200 ease-in-out"
                         >
                           <RotateCw
                             size={17}
@@ -559,7 +555,7 @@ export default function Section01() {
                           onClick={() =>
                             handleViewWritingResult(fullTestDetail?.w_id || "")
                           }
-                          className="cursor-pointer col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-3 mt-4 group transition-all duration-200 ease-in-out"
+                          className="cursor-pointer col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-2 mt-4 group transition-all duration-200 ease-in-out"
                         >
                           <CircleCheckBig
                             size={17}
@@ -574,9 +570,9 @@ export default function Section01() {
                       <Link
                         href={`${ROUTES.WRITING_TEST}/${fullTestDetail?.w_id}`}
                         target="_blank"
-                        className="text-[#FA812F] mt-4 flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2.5 group transition-all duration-200 ease-in-out"
+                        className="text-[#FA812F] mt-4 flex flex-row justify-center w-full items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
                       >
-                        <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
+                        <div className="p-0.5 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
                           <PlayIcon
                             size={14}
                             fill="#FA812F"

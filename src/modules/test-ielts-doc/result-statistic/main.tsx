@@ -205,25 +205,26 @@ const ResultStatistic = () => {
   return (
     <div className="bg-gray-50 min-h-screen w-full">
       <header className="fixed top-0 left-0 right-0 bg-white shadow p-2 flex justify-between items-center z-20">
-        <div className="flex items-center">
-          <Link href={ROUTES.HOME} className="hidden lg:flex w-40">
-            <Image
-              src={IMAGES.LOGO}
-              alt="Dinh Luc Logo"
-              width={1000}
-              height={1000}
-              className="mr-2 w-full h-10"
-            />
-          </Link>
+        <Link
+          href={ROUTES.HOME}
+          className="hidden lg:flex items-center w-[10%] py-3"
+        >
+          <Image
+            src={IMAGES.LOGO}
+            alt="DOL DINH LUC"
+            width={1000}
+            height={1000}
+            className="ml-2 w-full h-full"
+          />
+        </Link>
+        <div className="text-center mr-24">
+          <div className="font-semibold">Answer key</div>
+          <div className="text-sm text-gray-600">Reading Test</div>
         </div>
-        <div className="text-center font-medium mr-24">
-          Answer key
-          <div className="text-xs text-gray-500">Reading Test</div>
-        </div>
-        <Link href={ROUTES.HOME} className="text-gray-600">
+        <Link href={ROUTES.HOME} className="text-gray-600 mr-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            className="h-5 w-5 text-gray-500"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

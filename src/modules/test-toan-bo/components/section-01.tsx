@@ -121,8 +121,8 @@ const FullTestSection: React.FC = () => {
             href={`${ROUTES.FULLTEST_DETAIL}/${test._id}`}
             className="flex flex-col lg:flex-row items-start lg:items-center gap-3 lg:gap-0 text-md lg:text-sm"
           >
-            <div className="text-[#FA812F] flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
-              <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
+            <div className="text-[#FA812F] flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out">
+              <div className="p-0.5 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
                 <PlayIcon
                   size={14}
                   fill="#FA812F"
@@ -171,7 +171,7 @@ const FullTestSection: React.FC = () => {
   const filteredData = isFull ? currentData : currentData.slice(0, 12);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
+    <div className="max-w-7xl mx-auto px-5 lg:px-0">
       <section>
         <div className="flex flex-col md:flex-row gap-6">
           <div className="flex-1">

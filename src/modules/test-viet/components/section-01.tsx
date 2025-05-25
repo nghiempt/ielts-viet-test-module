@@ -122,7 +122,7 @@ const WritingSection: React.FC = () => {
               <div className="grid grid-cols-12 items-center gap-3 w-full lg:w-full">
                 <Link
                   href={`${ROUTES.WRITING_TEST}/${test._id}?isRetake=true`}
-                  className="col-span-5 sm:col-span-12 md:col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out"
+                  className="col-span-5 sm:col-span-12 md:col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
                 >
                   <RotateCw
                     size={15}
@@ -134,7 +134,7 @@ const WritingSection: React.FC = () => {
                 </Link>
                 <div
                   onClick={() => handleViewResult(test._id)}
-                  className="cursor-pointer col-span-7 sm:col-span-12 md:col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out"
+                  className="cursor-pointer col-span-7 sm:col-span-12 md:col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
                 >
                   <CircleCheckBig
                     size={15}
@@ -149,10 +149,10 @@ const WritingSection: React.FC = () => {
           ) : (
             <Link
               href={`${ROUTES.WRITING_TEST}/${test._id}`}
-              className="flex items-center text-md lg:text-sm"
+              className="w-full lg:w-1/2 flex items-center text-md lg:text-sm"
             >
-              <div className="flex flex-row items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-1.5 group transition-all duration-200 ease-in-out">
-                <div className="p-1 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out text-[#FA812F] group-hover:text-white">
+              <div className="w-full flex flex-row justify-center items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out">
+                <div className="p-0.5 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out text-[#FA812F] group-hover:text-white">
                   <PlayIcon
                     size={12}
                     fill="#FA812F"

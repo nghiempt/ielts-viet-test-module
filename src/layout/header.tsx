@@ -157,13 +157,13 @@ const Header = () => {
           </nav>
           {logined ? (
             <>
-              <div className="flex lg:hidden">
+              <div className="flex lg:hidden w-12 h-12">
                 <Image
                   src={userAccount?.avatar || ""}
                   alt="Avatar"
                   width={1000}
                   height={1000}
-                  className="w-16 h-10 object-cover rounded-full cursor-pointer"
+                  className="w-full h-full object-cover rounded-full cursor-pointer"
                 />
               </div>
               <div className="hidden lg:flex mr-4">
