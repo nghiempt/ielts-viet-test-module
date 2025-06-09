@@ -111,21 +111,18 @@ const Header = () => {
               <div className="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <span
                   aria-hidden="true"
-                  className={`block absolute h-0.5 w-5 bg-current transform transition duration-300 ease-in-out ${
-                    open ? "rotate-45 translate-y-0" : "-translate-y-1.5"
-                  }`}
+                  className={`block absolute h-0.5 w-5 bg-current transform transition duration-300 ease-in-out ${open ? "rotate-45 translate-y-0" : "-translate-y-1.5"
+                    }`}
                 ></span>
                 <span
                   aria-hidden="true"
-                  className={`block absolute h-0.5 w-5 bg-current transform transition duration-300 ease-in-out ${
-                    open ? "opacity-0" : "opacity-100"
-                  }`}
+                  className={`block absolute h-0.5 w-5 bg-current transform transition duration-300 ease-in-out ${open ? "opacity-0" : "opacity-100"
+                    }`}
                 ></span>
                 <span
                   aria-hidden="true"
-                  className={`block absolute h-0.5 w-5 bg-current transform transition duration-300 ease-in-out ${
-                    open ? "-rotate-45 translate-y-0" : "translate-y-1.5"
-                  }`}
+                  className={`block absolute h-0.5 w-5 bg-current transform transition duration-300 ease-in-out ${open ? "-rotate-45 translate-y-0" : "translate-y-1.5"
+                    }`}
                 ></span>
               </div>
             </button>
@@ -144,11 +141,10 @@ const Header = () => {
               <div key={item.label} className="relative group">
                 <Link
                   href={item.href}
-                  className={`text-[14px] font-medium transition-colors duration-200 uppercase ${
-                    isActive(item)
+                  className={`text-[14px] font-medium transition-colors duration-200 uppercase ${isActive(item)
                       ? "text-[rgb(var(--secondary-rgb))] font-semibold"
                       : "text-gray-500"
-                  } group-hover:text-[rgb(var(--secondary-rgb))] group-hover:font-semibold`}
+                    } group-hover:text-[rgb(var(--secondary-rgb))] group-hover:font-semibold`}
                 >
                   {item.label}
                 </Link>
@@ -186,7 +182,7 @@ const Header = () => {
                       key="Quản lí hồ sơ"
                     >
                       <a
-                        href={`#`}
+                        href={`${ROUTES.USER_PROFILE}`}
                         className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
                       >
                         <UserRound size={18} /> Quản lí hồ sơ
@@ -221,11 +217,10 @@ const Header = () => {
               <House size={20} />
               <a
                 href={ROUTES.HOME}
-                className={`text-gray-700 hover:text-[rgb(var(--secondary-rgb))] transition-colors duration-200 ${
-                  pathname === ROUTES.HOME
+                className={`text-gray-700 hover:text-[rgb(var(--secondary-rgb))] transition-colors duration-200 ${pathname === ROUTES.HOME
                     ? "text-[rgb(var(--secondary-rgb))] font-semibold"
                     : ""
-                }`}
+                  }`}
               >
                 Trang chủ
               </a>
@@ -238,11 +233,10 @@ const Header = () => {
                 <item.icon size={20} />
                 <a
                   href={item.href}
-                  className={`text-gray-700 hover:text-[rgb(var(--secondary-rgb))] transition-colors duration-200 ${
-                    isActive(item)
+                  className={`text-gray-700 hover:text-[rgb(var(--secondary-rgb))] transition-colors duration-200 ${isActive(item)
                       ? "text-[rgb(var(--secondary-rgb))] font-semibold"
                       : ""
-                  }`}
+                    }`}
                 >
                   {item.label}
                 </a>

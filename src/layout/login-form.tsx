@@ -18,6 +18,7 @@ import { IMAGES } from "@/utils/images";
 import Cookies from "js-cookie";
 import { UserService } from "@/services/user";
 import { usePathname } from "next/navigation";
+import '@/styles/login-form.css'
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -25,6 +26,7 @@ const LoginForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [logined, setLogined] = useState(false);
   const pathname = usePathname();
+  const [selectedOption, setSelectedOption] = useState(1);
 
   const validateForm = () => {
     if (email === "" || password === "") {
@@ -83,41 +85,79 @@ const LoginForm = () => {
               height={1000}
               className="w-[50%] h-full"
             />
+            <div className="radio-inputs mt-2">
+              <label className="radio" onClick={() => setSelectedOption(1)}>
+                <input checked={selectedOption === 1} name="radio" type="radio" />
+                <span className="name">Khách</span>
+              </label>
+              <label className="radio" onClick={() => setSelectedOption(2)}>
+                <input checked={selectedOption === 2} name="radio" type="radio" />
+                <span className="name">Học viên</span>
+              </label>
+            </div>
             <div className="font-semibold text-2xl mt-2">Đăng nhập</div>
           </div>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-2">
-            <Label htmlFor="username" className="text-left">
-              Email
-            </Label>
-            <Input
-              id="username"
-              placeholder="Nhập Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="col-span-4"
-              style={{ fontSize: "16px" }}
-            />
+        <div className="content-wrapper">
+          <div
+            className={`option-content ${selectedOption === 1 ? "visible" : "hidden"}`}
+          >
+            <div className="flex justify-between items-center gap-4">
+              <button
+                // onClick={(e: any) => handleSubmitWithGoogle(e)}
+                className="w-full flex items-center justify-center gap-3 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+              >
+                <Image
+                  className="w-5 h-5"
+                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                  width={1000}
+                  height={1000}
+                  loading="lazy"
+                  alt="google logo"
+                />
+                <span className="text-gray-700">Tiếp tục với Google</span>
+              </button>
+            </div>
           </div>
-          <div className="grid grid-cols-4 items-center gap-2">
-            <Label htmlFor="password" className="text-left">
-              Mật khẩu
-            </Label>
-            <Input
-              id="password"
-              placeholder="Nhập mật khẩu"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="col-span-4"
-              style={{ fontSize: "16px" }}
-            />
+          <div
+            className={`option-content ${selectedOption === 2 ? "visible" : "hidden"}`}
+          >
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-2">
+                <Label htmlFor="username" className="text-left">
+                  Email
+                </Label>
+                <Input
+                  id="username"
+                  placeholder="Nhập Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="col-span-4"
+                  style={{ fontSize: "16px" }}
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-2">
+                <Label htmlFor="password" className="text-left">
+                  Mật khẩu
+                </Label>
+                <Input
+                  id="password"
+                  placeholder="Nhập mật khẩu"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="col-span-4"
+                  style={{ fontSize: "16px" }}
+                />
+              </div>
+            </div>
           </div>
         </div>
+
         <DialogFooter>
-          <Button type="submit" onClick={handleSubmit} className="bg-[#FA812F]">
-            Đăng nhập
-          </Button>
+          {selectedOption === 2 && (
+            <Button type="submit" onClick={handleSubmit} className="bg-[#FA812F]">
+              Đăng nhập
+            </Button>)}
         </DialogFooter>
       </DialogContent>
     </Dialog>
