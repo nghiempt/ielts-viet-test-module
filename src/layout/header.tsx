@@ -144,7 +144,7 @@ const Header = () => {
               <div key={item.label} className="relative group">
                 <Link
                   href={item.href}
-                  className={`text-[16px] font-medium transition-colors duration-200 uppercase ${
+                  className={`text-[14px] font-medium transition-colors duration-200 uppercase ${
                     isActive(item)
                       ? "text-[rgb(var(--secondary-rgb))] font-semibold"
                       : "text-gray-500"
@@ -186,8 +186,8 @@ const Header = () => {
                       key="Quản lí hồ sơ"
                     >
                       <a
-                        href={`#`}
-                        className="flex items-center justify-start gap-2 text-gray-700 hover:text-black"
+                        href={`${ROUTES.USER_PROFILE}`}
+                        className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
                       >
                         <UserRound size={18} /> Quản lí hồ sơ
                       </a>
