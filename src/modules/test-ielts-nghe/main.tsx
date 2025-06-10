@@ -1128,6 +1128,27 @@ const ListeningTestClient: React.FC = () => {
           <div className="text-sm text-gray-600">Listening Test</div>
         </div>
         <div className="flex items-center">
+          <div className="text-sm flex flex-col items-center mr-3">
+            <div>Đã làm</div>
+            <div className="font-semibold">
+              <span
+                className={`${
+                  passages.reduce(
+                    (acc, passage) => acc + passage.answeredQuestions,
+                    0
+                  ) === allQuestions.length
+                    ? "text-[#FA812F]"
+                    : ""
+                }`}
+              >
+                {passages.reduce(
+                  (acc, passage) => acc + passage.answeredQuestions,
+                  0
+                )}
+              </span>
+              <span className="text-[#FA812F]">/{allQuestions.length}</span>
+            </div>
+          </div>
           <div>
             <div className="bg-gray-100 px-3 py-1 rounded-full flex items-center">
               <svg

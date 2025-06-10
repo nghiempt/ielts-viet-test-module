@@ -11,6 +11,7 @@ import { ChevronDown, CircleCheckBig, PlayIcon, RotateCw } from "lucide-react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { UserService } from "@/services/user";
+import SearchBar from "@/components/ui/search-bar";
 
 interface WritingTestItem {
   _id: string;
@@ -84,6 +85,19 @@ const WritingSection: React.FC = () => {
     init();
   }, []);
 
+  const handleSearch = (query: string) => {
+    const lowerCaseQuery = query.toLowerCase().trim();
+    if (!lowerCaseQuery) {
+      render(writings); // Reset to all readings if query is empty
+      return;
+    }
+
+    const filtered = writings.filter((test) =>
+      test.name.toLowerCase().includes(lowerCaseQuery)
+    );
+    render(filtered);
+  };
+
   const handleViewResult = async (testId: string) => {
     if (isLogin) {
       const response = await UserService.getCompleteTestById(testId, isLogin);
@@ -105,7 +119,7 @@ const WritingSection: React.FC = () => {
             alt={test.name}
             width={280}
             height={180}
-            className="rounded-lg w-full object-cover h-60 lg:h-40"
+            className="rounded-lg w-full object-contain border border-gray-200 px-2 h-60 lg:h-40"
           />
         </div>
         <div className="flex flex-col justify-between h-full">
@@ -175,7 +189,8 @@ const WritingSection: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-5 lg:px-0">
       <section>
-        <div className="flex flex-col md:flex-row gap-6">
+        <div className="flex flex-col gap-6">
+          <SearchBar onSearch={handleSearch} />
           <div className="flex-1">
             {loading ? (
               <Skeleton />

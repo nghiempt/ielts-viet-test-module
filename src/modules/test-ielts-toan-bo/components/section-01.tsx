@@ -197,13 +197,13 @@ export default function Section01() {
     <div className="w-full mx-auto px-5 lg:px-0">
       <main>
         <div className="flex flex-col justify-center items-center lg:justify-start lg:items-start lg:flex-row mb-4">
-          <div className="w-full lg:w-40 h-full mr-0 lg:mr-4 mb-5 lg:mb-0">
+          <div className="w-full lg:w-40 h-60 lg:h-28 mr-0 lg:mr-4 mb-5 lg:mb-0 border border-gray-200 rounded-lg">
             <Image
               src={fullTestDetail?.thumbnail || IMAGES.THUMBNAIL}
               alt=""
               width={280}
               height={180}
-              className="rounded-lg w-full object-cover h-full"
+              className="rounded-lg object-contain px-2 h-full w-full"
             />
           </div>
           <div className="flex flex-col justify-between items-start">
