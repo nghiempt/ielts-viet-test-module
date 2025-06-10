@@ -107,7 +107,7 @@ const LoginForm = () => {
             <div className="font-semibold text-2xl mt-2">Đăng nhập</div>
           </div>
         </DialogHeader>
-        <div className="content-wrapper">
+        <div className="content-wrapper px-2">
           <div
             className={`option-content ${
               selectedOption === 1 ? "visible" : "hidden"
@@ -145,7 +145,7 @@ const LoginForm = () => {
                   placeholder="Nhập Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="col-span-4"
+                  className="col-span-4 focus:!outline-none focus:!ring-2 focus:!ring-[#FA812F] focus:!border-transparent"
                   style={{ fontSize: "16px" }}
                 />
               </div>
@@ -158,7 +158,7 @@ const LoginForm = () => {
                   placeholder="Nhập mật khẩu"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="col-span-4"
+                  className="col-span-4 focus:!outline-none focus:!ring-2 focus:!ring-[#FA812F] focus:!border-transparent"
                   style={{ fontSize: "16px" }}
                 />
               </div>
@@ -166,12 +166,12 @@ const LoginForm = () => {
           </div>
         </div>
 
-        <DialogFooter>
+        <DialogFooter className="px-2">
           {selectedOption === 2 && (
             <Button
               type="submit"
               onClick={handleSubmit}
-              className="bg-[#FA812F]"
+              className="bg-[#FA812F] hover:bg-[#FA812F] hover:opacity-80"
             >
               Đăng nhập
             </Button>

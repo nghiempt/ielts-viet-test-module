@@ -91,7 +91,7 @@ const Header = () => {
     Cookies.remove("userLogin");
     setLogined(false);
     setUserAccount(null);
-    window.location.href = pathname;
+    window.location.href = ROUTES.HOME;
   };
 
   if (logined === null) {
@@ -157,7 +157,7 @@ const Header = () => {
           </nav>
           {logined ? (
             <>
-              <div className="flex lg:hidden w-12 h-12">
+              <div className="flex justify-center lg:hidden w-12 h-12">
                 <Image
                   src={userAccount?.avatar || ""}
                   alt="Avatar"
@@ -166,7 +166,7 @@ const Header = () => {
                   className="w-full h-full object-cover rounded-full cursor-pointer"
                 />
               </div>
-              <div className="hidden lg:flex mr-4">
+              <div className="hidden lg:flex mr-4 lg:mr-0">
                 <Dropdown>
                   <DropdownTrigger>
                     <Image
