@@ -36,8 +36,11 @@ export const API = {
   // LOGIN
   LOGIN: `${BASE_URL}/ielts-viet/user/login`,
   GET_USER_BY_ID: `${BASE_URL}/ielts-viet/user`,
+  LOGIN_WITH_GOOGLE: `${BASE_URL}/ielts-viet/auth/login/google`,
 
   // USER
   GET_COMPLETED_USER_TEST: `${BASE_URL}/ielts-viet/complete-user-test`,
   GET_COMPLETED_TEST: `${BASE_URL}/ielts-viet/complete-test`,
+  UPDATE_USER: `${BASE_URL}/ielts-viet/user`,
+  CHANGE_PASSWORD: `${BASE_URL}/ielts-viet/user/change-password`,
 };

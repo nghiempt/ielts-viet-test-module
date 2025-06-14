@@ -20,6 +20,7 @@ import { Loader } from "lucide-react";
 import "@/styles/login-form.css";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { API } from "@/utils/api";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -27,7 +28,12 @@ const LoginForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [logined, setLogined] = useState(false);
   const pathname = usePathname();
-  const [selectedOption, setSelectedOption] = useState(1);
+  // const [selectedOption, setSelectedOption] = useState(1);
+
+  // const handleSubmitWithGoogle = async (e: React.MouseEvent) => {
+  //   e.preventDefault();
+  //   window.location.href = API.LOGIN_WITH_GOOGLE;
+  // };
 
   const validateForm = () => {
     if (email === "" || password === "") {
@@ -77,106 +83,80 @@ const LoginForm = () => {
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <div className="flex flex-col items-center gap-2">
-            <Image
-              src={IMAGES.LOGO}
-              alt=""
-              width={1000}
-              height={1000}
-              className="w-[50%] h-full"
-            />
-            <div className="radio-inputs mt-2">
-              <label className="radio" onClick={() => setSelectedOption(1)}>
-                <input
-                  checked={selectedOption === 1}
-                  name="radio"
-                  type="radio"
-                />
-                <span className="name">Khách</span>
-              </label>
-              <label className="radio" onClick={() => setSelectedOption(2)}>
-                <input
-                  checked={selectedOption === 2}
-                  name="radio"
-                  type="radio"
-                />
-                <span className="name">Học viên</span>
-              </label>
-            </div>
-            <div className="font-semibold text-2xl mt-2">Đăng nhập</div>
-          </div>
-        </DialogHeader>
-        <div className="content-wrapper px-2">
-          <div
-            className={`option-content ${
-              selectedOption === 1 ? "visible" : "hidden"
-            }`}
-          >
-            <div className="flex justify-between items-center gap-4">
-              <button
-                // onClick={(e: any) => handleSubmitWithGoogle(e)}
-                className="w-full flex items-center justify-center gap-3 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
-              >
-                <Image
-                  className="w-5 h-5"
-                  src="https://www.svgrepo.com/show/475656/google-color.svg"
-                  width={1000}
-                  height={1000}
-                  loading="lazy"
-                  alt="google logo"
-                />
-                <span className="text-gray-700">Tiếp tục với Google</span>
-              </button>
-            </div>
-          </div>
-          <div
-            className={`option-content ${
-              selectedOption === 2 ? "visible" : "hidden"
-            }`}
-          >
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-2">
-                <Label htmlFor="username" className="text-left">
-                  Email
-                </Label>
-                <Input
-                  id="username"
-                  placeholder="Nhập Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="col-span-4 focus:!outline-none focus:!ring-2 focus:!ring-[#FA812F] focus:!border-transparent"
-                  style={{ fontSize: "16px" }}
-                />
+        <div className="w-full h-full flex flex-col justify-center items-center">
+          <div className="w-full flex flex-col">
+            <div className="mb-1">
+              <div className="flex justify-start items-center gap-4">
+                <h1 className="text-2xl font-bold">Đăng nhập</h1>
               </div>
-              <div className="grid grid-cols-4 items-center gap-2">
-                <Label htmlFor="password" className="text-left">
-                  Mật khẩu
-                </Label>
-                <Input
-                  id="password"
-                  placeholder="Nhập mật khẩu"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="col-span-4 focus:!outline-none focus:!ring-2 focus:!ring-[#FA812F] focus:!border-transparent"
-                  style={{ fontSize: "16px" }}
-                />
+            </div>
+            <div className="mt-2">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-[16px] font-medium flex items-center">
+                    Email <span className="text-red-500 ml-1">*</span>
+                  </label>
+                  <input
+                    id="email"
+                    type="text"
+                    placeholder="Nhập email hoặc số điện thoại"
+                    className="w-full p-3 rounded-md border focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    style={{ fontSize: "16px" }}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label
+                    htmlFor="password"
+                    className="text-[16px] font-medium flex items-center"
+                  >
+                    Mật khẩu <span className="text-red-500 ml-1">*</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="password"
+                      type="password"
+                      placeholder="Nhập mật khẩu"
+                      className="w-full p-3 rounded-md border pr-10 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      style={{ fontSize: "16px" }}
+                    />
+                  </div>
+                </div>
+                <div className="w-full flex justify-center items-center gap-2">
+                  <Button
+                    onClick={handleSubmit}
+                    disabled={isLoading}
+                    className="w-full text-[16px] py-6 bg-orange-500 hover:bg-orange-500 hover:opacity-85 text-white rounded-md"
+                  >
+                    {isLoading ? (
+                      <>
+                        Vui lòng đợi{" "}
+                        <Loader className="animate-spin ml-2" size={20} />
+                      </>
+                    ) : (
+                      "Đăng nhập"
+                    )}
+                  </Button>
+                  {/* <Button
+                    onClick={handleSubmitWithGoogle}
+                    className="w-16 text-[14px] py-6 bg-gray-100 hover:bg-gray-200 text-white rounded-md"
+                  >
+                    <Image
+                      src={IMAGES.GG_LOGO}
+                      alt="Google Login"
+                      className="w-full h-auto rounded-full"
+                      width={1000}
+                      height={0}
+                    />
+                  </Button> */}
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-        <DialogFooter className="px-2">
-          {selectedOption === 2 && (
-            <Button
-              type="submit"
-              onClick={handleSubmit}
-              className="bg-[#FA812F] hover:bg-[#FA812F] hover:opacity-80"
-            >
-              Đăng nhập
-            </Button>
-          )}
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

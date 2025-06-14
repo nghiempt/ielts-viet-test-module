@@ -99,10 +99,57 @@ const getUserById = async (id: string) => {
     }
 
     const data = await response.json();
+
     return data.data;
   } catch (error) {
     console.error("========= Error Get Account:", error);
     throw error;
+  }
+};
+
+const updateUser = async (id: string, payload: any) => {
+  try {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const response = await fetch(`${API.UPDATE_USER}/${id}`, {
+      method: "PUT",
+      headers: myHeaders,
+      body: JSON.stringify(payload),
+      redirect: "follow",
+    });
+
+    if (!response.ok) {
+      console.error(`Login failed - Status: ${response.status}`);
+      throw new Error(`Get Account Failed - Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    return data.data;
+  } catch (error) {
+    console.error("========= Error Get Account:", error);
+    throw error;
+  }
+};
+
+const changePassword = async (id: any, payload: any) => {
+  try {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const response = await fetch(`${API.CHANGE_PASSWORD}/${id}`, {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(payload),
+      redirect: "follow",
+    });
+    if (!response.ok) {
+      throw new Error(`Failed - Status: ${response.status}`);
+    }
+
+    return true;
+  } catch (error: any) {
+    console.error("========= Error Update Account:", error);
+    return false;
   }
 };
 
@@ -155,4 +202,6 @@ export const UserService = {
   getUserById,
   getCompleteUserTestById,
   getCompleteTestById,
+  updateUser,
+  changePassword,
 };
