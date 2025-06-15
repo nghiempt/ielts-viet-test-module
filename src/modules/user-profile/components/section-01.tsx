@@ -56,18 +56,27 @@ const ProfileSection: React.FC = () => {
   const [completedTests, setCompletedTests] = React.useState<CompletedTest[]>(
     []
   );
-
   const isLogin = Cookies.get("isLogin");
-
-  const handleViewResult = async (testId: string) => {
+  const handleViewResult = async (testId: string, testType: string) => {
     if (isLogin) {
       const response = await UserService.getCompleteTestById(testId, isLogin);
 
       const jsonData = JSON.stringify(response, null, 2);
-      console.log("Test Data:", jsonData);
+      if (testType === "R") {
+        localStorage.setItem("readingTestAnswers", jsonData);
+      } else if (testType === "L") {
+        localStorage.setItem("listeningTestAnswers", jsonData);
+      } else if (testType === "W") {
+        localStorage.setItem("writingTestAnswers", jsonData);
+      }
 
-      localStorage.setItem("readingTestAnswers", jsonData);
-      router.push(`${ROUTES.READING_STATISTIC}/${testId}`);
+      if (testType === "R") {
+        router.push(`${ROUTES.READING_STATISTIC}/${testId}`);
+      } else if (testType === "L") {
+        router.push(`${ROUTES.LISTENING_STATISTIC}/${testId}`);
+      } else if (testType === "W") {
+        router.push(`${ROUTES.TEST_WRITING_RESULT}/${testId}`);
+      }
     }
   };
 
@@ -371,13 +380,15 @@ const ProfileSection: React.FC = () => {
                               : "Writing"}
                           </TableCell>
                           <TableCell className="!px-7">
-                            {test.score % 2 === 0
+                            {Number.isInteger(test.score)
                               ? `${test.score}.0`
                               : `${test.score}`}
                           </TableCell>
                           <TableCell className="">
                             <div
-                              onClick={() => handleViewResult(test?.test_id)}
+                              onClick={() =>
+                                handleViewResult(test?.test_id, test?.test_type)
+                              }
                               className="cursor-pointer w-full flex flex-row justify-center items-center gap-2 border border-orange-500 hover:bg-orange-500 hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
                             >
                               <span className="text-sm mr-1 text-orange-500 group-hover:text-white">
