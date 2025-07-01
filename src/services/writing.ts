@@ -32,6 +32,25 @@ const getWritingById = async (id: string) => {
   }
 };
 
+const getFeedbackById = async (id: string, userId: string) => {
+  try {
+    const response = await fetch(
+      `${API.GET_WRITING_FEEDBACK_BY_ID}/${id}/${userId}`,
+      {
+        method: "GET",
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`Failed - Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.data;
+  } catch (error: any) {
+    console.error("========= Error Get Blog By Id:", error);
+    return false;
+  }
+};
+
 // const getBlogById = async (blogId: string) => {
 //   try {
 //     const response = await fetch(`${API.GET_BLOG_BY_ID}/${blogId}`, {
@@ -70,4 +89,5 @@ const getWritingById = async (id: string) => {
 export const WritingService = {
   getAll,
   getWritingById,
+  getFeedbackById,
 };

@@ -19,6 +19,8 @@ import { QuestionsService } from "@/services/questions";
 import { ROUTES } from "@/utils/routes";
 import "@/styles/hide-scroll.css";
 import { SubmitService } from "@/services/submit";
+import Cookies from "js-cookie";
+import { Dialog } from "@/components/ui/dialog";
 
 interface PassageSection {
   _id: string;
@@ -79,8 +81,29 @@ export default function AnswerKeyWritingPage() {
   const [characterCount, setCharacterCount] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [switchWriting, setSwitchWriting] = useState(true);
+  const [feedback, setFeedback] = useState<any>(null);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const userId = Cookies.get("userLogin") || "";
 
   const [response, setResponse] = useState<ResultData | null>(null);
+
+  // Helper to calculate average score
+  const getAverageScore = (
+    task1Score: number,
+    task2Score: number
+  ): number | null => {
+    if (
+      task1Score == null ||
+      task2Score == null ||
+      task1Score < 0 ||
+      task2Score < 0
+    )
+      return null;
+
+    const average = (task1Score + task2Score) / 2;
+    // Round to nearest 0.5
+    return Math.round(average * 2) / 2;
+  };
 
   // HANDLE EXIT LINK CLICK
   const handleExitClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -97,6 +120,12 @@ export default function AnswerKeyWritingPage() {
 
     try {
       const res = await WritingService.getWritingById(id);
+      const resFeedback = await WritingService.getFeedbackById(id, userId);
+      console.log("id", id);
+      console.log("userId", userId);
+
+      console.log("resFeedback", resFeedback);
+
       if (!res) throw new Error("Writing data not found");
 
       const [resP1, resP2] = await Promise.all([
@@ -111,6 +140,7 @@ export default function AnswerKeyWritingPage() {
         setPassage1(resP1);
         setPassage2(resP2);
         setData(res);
+        setFeedback(resFeedback);
       } else {
         setData(null);
       }
@@ -218,7 +248,14 @@ export default function AnswerKeyWritingPage() {
           <div className="font-semibold">{data?.name}</div>
           <div className="text-sm text-gray-600">Writing Test</div>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
+          {/* View Feedback Button */}
+          <button
+            className="ml-2 px-3 py-1 rounded bg-[#FA812F] text-white font-base hover:bg-[#e06d1a] transition"
+            onClick={() => setIsFeedbackOpen(true)}
+          >
+            View Feedback
+          </button>
           <Link
             href={ROUTES.WRITING_HOME}
             className="ml-4"
@@ -241,6 +278,82 @@ export default function AnswerKeyWritingPage() {
           </Link>
         </div>
       </header>
+
+      {/* Feedback Modal */}
+      {isFeedbackOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative">
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              onClick={() => setIsFeedbackOpen(false)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <h2 className="text-xl font-bold mb-4">Feedback</h2>
+            {!feedback ||
+            !feedback.writing_feedback ||
+            feedback.writing_feedback.length === 0 ? (
+              <div className="text-gray-600 text-center py-8">
+                This writing has not been feedback. Please come back later.
+              </div>
+            ) : (
+              <>
+                <div className="mb-4">
+                  <div className="font-semibold">
+                    Overall Score:{" "}
+                    <span className="text-[#FA812F]">
+                      {Number.isInteger(
+                        getAverageScore(
+                          Number(feedback.writing_feedback[0].score),
+                          Number(feedback.writing_feedback[1].score)
+                        )
+                      )
+                        ? `${getAverageScore(
+                            Number(feedback.writing_feedback[0].score),
+                            Number(feedback.writing_feedback[1].score)
+                          )}.0`
+                        : `${getAverageScore(
+                            Number(feedback.writing_feedback[0].score),
+                            Number(feedback.writing_feedback[1].score)
+                          )}`}
+                    </span>
+                  </div>
+                </div>
+                <div className="space-y-4 max-h-72 overflow-y-auto">
+                  {feedback.writing_feedback.map((item: any, idx: number) => (
+                    <div key={idx} className="border rounded p-3 bg-gray-50">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="font-semibold">
+                          Teacher: {item.teacher}
+                        </span>
+                        <span className="font-semibold text-[#FA812F]">
+                          Score: {item.score}
+                        </span>
+                      </div>
+                      <div className="text-gray-700 whitespace-pre-line">
+                        {item.feedback}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <div className="fixed top-[8%] bottom-[0%] left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full overflow-y-auto">

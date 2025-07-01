@@ -21,6 +21,7 @@ export const API = {
   //WRITING
   GET_ALL_WRITING: `${BASE_URL}/ielts-viet/test/skill?type=writing`,
   GET_WRITING_PART_BY_ID: `${BASE_URL}/ielts-viet/test/skill`,
+  GET_WRITING_FEEDBACK_BY_ID: `${BASE_URL}/ielts-viet/writing-feedback`,
 
   //FULLTEST
   GET_ALL_FULLTEST: `${BASE_URL}/ielts-viet/test`,
