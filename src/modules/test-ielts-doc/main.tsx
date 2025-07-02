@@ -124,6 +124,7 @@ export default function ReadingTestClient() {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [userAccount, setUserAccount] = useState<UserAccount | null>(null);
   const isLogin = Cookies.get("isLogin");
+  const [isSinglePartMode, setIsSinglePartMode] = useState(false);
   const scrollToSection = (sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -283,26 +284,82 @@ export default function ReadingTestClient() {
       }
 
       const res = await ReadingService.getReadingById(id);
+      setTimeLeft(res.time.toString().padStart(2, "0") + ":00");
+
       if (!res) throw new Error("Reading data not found");
 
-      const [resP1, resP2, resP3] = await Promise.all([
-        QuestionsService.getQuestionsById(res.parts[0]),
-        QuestionsService.getQuestionsById(res.parts[1]),
-        QuestionsService.getQuestionsById(res.parts[2]),
-      ]);
+      const partIds = res.parts || [];
+      const questionResults = await Promise.all(
+        partIds.map((partId: string) =>
+          QuestionsService.getQuestionsById(partId)
+        )
+      );
+      const [resP1, resP2, resP3] = questionResults;
 
-      if (!resP1 || !resP2 || !resP3) {
-        throw new Error("One or more passages not found");
-      }
-      if (res && resP1 && resP2 && resP3) {
+      if (!resP1) throw new Error("First passage not found");
+      if (partIds.length > 1 && !resP2)
+        throw new Error("Second passage not found");
+      if (partIds.length > 2 && !resP3)
+        throw new Error("Third passage not found");
+
+      if (res && resP1 && !resP2 && !resP3) {
+        // Only 1 part
         setPassage1(resP1);
-        setPassage2(resP2);
-        setPassage3(resP3);
         setData(res);
-
+        setIsSinglePartMode(true);
+        const allQs = mapAndArrangeQuestions(resP1, 1);
+        setQuestions(allQs);
+        setAllQuestions(allQs);
         setAnswers((prev) => {
           if (prev.parts.length > 0) return prev;
-
+          const allQuestions = resP1.question.map((q: any) => ({
+            part_id: q.part_id,
+            question_id: q._id,
+          }));
+          const groupedByPartId = allQuestions.reduce(
+            (
+              acc: Record<string, PartAnswer>,
+              { part_id, question_id }: { part_id: string; question_id: string }
+            ) => {
+              if (!acc[part_id]) {
+                acc[part_id] = {
+                  part_id,
+                  user_answers: [],
+                  isComplete: false,
+                };
+              }
+              acc[part_id].user_answers.push({ question_id, answer: [] });
+              return acc;
+            },
+            {} as Record<string, PartAnswer>
+          );
+          const initialParts: PartAnswer[] = Object.values(groupedByPartId);
+          return { parts: initialParts };
+        });
+      } else if (res && resP1 && resP2 && !resP3) {
+        // Only 2 parts
+        setPassage1(resP1);
+        setPassage2(resP2);
+        setData(res);
+        setIsSinglePartMode(true);
+        const passageQuestionCounts = [resP1, resP2].map(
+          (p) => p.question.length
+        );
+        const allQs = [resP1, resP2].flatMap((p, idx) =>
+          mapAndArrangeQuestions(
+            p,
+            1 +
+              (idx === 0
+                ? 0
+                : passageQuestionCounts
+                    .slice(0, idx)
+                    .reduce((a, b) => a + b, 0))
+          )
+        );
+        setQuestions(allQs);
+        setAllQuestions(allQs);
+        setAnswers((prev) => {
+          if (prev.parts.length > 0) return prev;
           const allQuestions = [
             ...resP1.question.map((q: any) => ({
               part_id: q.part_id,
@@ -312,12 +369,7 @@ export default function ReadingTestClient() {
               part_id: q.part_id,
               question_id: q._id,
             })),
-            ...resP3.question.map((q: any) => ({
-              part_id: q.part_id,
-              question_id: q._id,
-            })),
           ];
-
           const groupedByPartId = allQuestions.reduce(
             (acc, { part_id, question_id }) => {
               if (!acc[part_id]) {
@@ -332,31 +384,91 @@ export default function ReadingTestClient() {
             },
             {} as Record<string, PartAnswer>
           );
-
           const initialParts: PartAnswer[] = Object.values(groupedByPartId);
           return { parts: initialParts };
         });
+      } else if (res && resP1 && resP2 && resP3) {
+        setPassage1(resP1);
+        setPassage2(resP2);
+        setPassage3(resP3);
+        setData(res);
 
-        // Map all questions for all passages
-        const passage1Questions = mapAndArrangeQuestions(resP1, 1);
-        const passage2Questions = mapAndArrangeQuestions(
-          resP2,
-          passage1Questions.length + 1
+        // Count how many passages have questions
+        const passageQuestionCounts = [resP1, resP2, resP3].map(
+          (p) => p.question.length
         );
-        const passage3Questions = mapAndArrangeQuestions(
-          resP3,
-          passage1Questions.length + passage2Questions.length + 1
-        );
+        const passagesWithQuestions = passageQuestionCounts.filter(
+          (count) => count > 0
+        ).length;
+        if (passagesWithQuestions <= 2) {
+          setIsSinglePartMode(true);
+          // Gather all questions in order
+          const allQs = [resP1, resP2, resP3].flatMap((p, idx) =>
+            mapAndArrangeQuestions(
+              p,
+              1 +
+                (idx === 0
+                  ? 0
+                  : passageQuestionCounts
+                      .slice(0, idx)
+                      .reduce((a, b) => a + b, 0))
+            )
+          );
+          setQuestions(allQs);
+          setAllQuestions(allQs);
+        } else {
+          setIsSinglePartMode(false);
+          // Map all questions for all passages
+          const passage1Questions = mapAndArrangeQuestions(resP1, 1);
+          const passage2Questions = mapAndArrangeQuestions(
+            resP2,
+            passage1Questions.length + 1
+          );
+          const passage3Questions = mapAndArrangeQuestions(
+            resP3,
+            passage1Questions.length + passage2Questions.length + 1
+          );
+          setAllQuestions([
+            ...passage1Questions,
+            ...passage2Questions,
+            ...passage3Questions,
+          ]);
+          setQuestions(passage1Questions);
+        }
 
-        // Store all questions in allQuestions state
-        setAllQuestions([
-          ...passage1Questions,
-          ...passage2Questions,
-          ...passage3Questions,
-        ]);
-
-        // Set initial questions for Passage 1
-        setQuestions(passage1Questions);
+        setAnswers((prev) => {
+          if (prev.parts.length > 0) return prev;
+          const allQuestions = [
+            ...resP1.question.map((q: any) => ({
+              part_id: q.part_id,
+              question_id: q._id,
+            })),
+            ...resP2.question.map((q: any) => ({
+              part_id: q.part_id,
+              question_id: q._id,
+            })),
+            ...resP3.question.map((q: any) => ({
+              part_id: q.part_id,
+              question_id: q._id,
+            })),
+          ];
+          const groupedByPartId = allQuestions.reduce(
+            (acc, { part_id, question_id }) => {
+              if (!acc[part_id]) {
+                acc[part_id] = {
+                  part_id,
+                  user_answers: [],
+                  isComplete: false,
+                };
+              }
+              acc[part_id].user_answers.push({ question_id, answer: [] });
+              return acc;
+            },
+            {} as Record<string, PartAnswer>
+          );
+          const initialParts: PartAnswer[] = Object.values(groupedByPartId);
+          return { parts: initialParts };
+        });
       } else {
         setData(null);
       }
@@ -1066,78 +1178,156 @@ export default function ReadingTestClient() {
             switchReading ? "hidden lg:block" : ""
           }`}
         >
-          {questions.reduce((acc: JSX.Element[], question, index) => {
-            if (question.q_type === "MP") {
-              const mpQuestions = questions
-                .filter((q) => q.q_type === "MP")
-                .map((q) => ({
-                  id: q.id,
-                  question: q.question,
-                  options: q.options,
-                  isMultiple: q.isMultiple,
-                  selectedOptions: q.selectedOptions,
-                }));
-              if (index === questions.findIndex((q) => q.q_type === "MP")) {
-                acc.push(
-                  <div key={`mp-${index}`} className="mb-4">
-                    <QuizHeader
-                      title={`Questions ${mpQuestions[0].id} - ${
-                        mpQuestions[mpQuestions.length - 1].id
-                      }`}
-                      subtitle="Choose the correct answer"
-                    />
-                    {mpQuestions.map((q) => (
-                      <QuizQuestion
-                        key={q.id}
-                        id={q.id}
-                        question={q.question}
-                        options={q.options}
-                        isMultiple={q.isMultiple}
-                        selectedOptions={q.selectedOptions}
-                        onSelectOption={(option) =>
-                          handleSelectOption(q.id, option)
-                        }
+          {isSinglePartMode ? (
+            // Show all questions as a single part
+            <>
+              {questions.reduce((acc: JSX.Element[], question, index) => {
+                if (question.q_type === "MP") {
+                  const mpQuestions = questions
+                    .filter((q) => q.q_type === "MP")
+                    .map((q) => ({
+                      id: q.id,
+                      question: q.question,
+                      options: q.options,
+                      isMultiple: q.isMultiple,
+                      selectedOptions: q.selectedOptions,
+                    }));
+                  if (index === questions.findIndex((q) => q.q_type === "MP")) {
+                    acc.push(
+                      <div key={`mp-${index}`} className="mb-4">
+                        <QuizHeader
+                          title={`Questions ${mpQuestions[0].id} - ${
+                            mpQuestions[mpQuestions.length - 1].id
+                          }`}
+                          subtitle="Choose the correct answer"
+                        />
+                        {mpQuestions.map((q) => (
+                          <QuizQuestion
+                            key={q.id}
+                            id={q.id}
+                            question={q.question}
+                            options={q.options}
+                            isMultiple={q.isMultiple}
+                            selectedOptions={q.selectedOptions}
+                            onSelectOption={(option) =>
+                              handleSelectOption(q.id, option)
+                            }
+                          />
+                        ))}
+                      </div>
+                    );
+                  }
+                } else if (question.q_type === "FB") {
+                  const fbQuestions = questions
+                    .filter((q) => q.q_type === "FB")
+                    .map((q) => ({
+                      id: q.id,
+                      start_passage: q.start_passage || "",
+                      end_passage: q.end_passage || "",
+                      selectedAnswer: q.selectedOptions || "",
+                    }));
+                  if (index === questions.findIndex((q) => q.q_type === "FB")) {
+                    acc.push(
+                      <div
+                        key={`fb-${index}`}
+                        id={`reading-question-${fbQuestions[0].id}`}
+                        className="mb-6"
+                      >
+                        <ShortAnswerQuiz
+                          title={`Questions ${fbQuestions[0].id} - ${
+                            fbQuestions[fbQuestions.length - 1].id
+                          }`}
+                          subtitle=""
+                          instructions="Write your answers in the boxes provided."
+                          questions={fbQuestions.map((q) => ({
+                            ...q,
+                            selectedAnswer: Array.isArray(q.selectedAnswer)
+                              ? q.selectedAnswer.join(", ")
+                              : q.selectedAnswer,
+                          }))}
+                          onAnswerChange={handleFillInAnswer}
+                        />
+                      </div>
+                    );
+                  }
+                }
+                return acc;
+              }, [])}
+            </>
+          ) : (
+            questions.reduce((acc: JSX.Element[], question, index) => {
+              if (question.q_type === "MP") {
+                const mpQuestions = questions
+                  .filter((q) => q.q_type === "MP")
+                  .map((q) => ({
+                    id: q.id,
+                    question: q.question,
+                    options: q.options,
+                    isMultiple: q.isMultiple,
+                    selectedOptions: q.selectedOptions,
+                  }));
+                if (index === questions.findIndex((q) => q.q_type === "MP")) {
+                  acc.push(
+                    <div key={`mp-${index}`} className="mb-4">
+                      <QuizHeader
+                        title={`Questions ${mpQuestions[0].id} - ${
+                          mpQuestions[mpQuestions.length - 1].id
+                        }`}
+                        subtitle="Choose the correct answer"
                       />
-                    ))}
-                  </div>
-                );
+                      {mpQuestions.map((q) => (
+                        <QuizQuestion
+                          key={q.id}
+                          id={q.id}
+                          question={q.question}
+                          options={q.options}
+                          isMultiple={q.isMultiple}
+                          selectedOptions={q.selectedOptions}
+                          onSelectOption={(option) =>
+                            handleSelectOption(q.id, option)
+                          }
+                        />
+                      ))}
+                    </div>
+                  );
+                }
+              } else if (question.q_type === "FB") {
+                const fbQuestions = questions
+                  .filter((q) => q.q_type === "FB")
+                  .map((q) => ({
+                    id: q.id,
+                    start_passage: q.start_passage || "",
+                    end_passage: q.end_passage || "",
+                    selectedAnswer: q.selectedOptions || "",
+                  }));
+                if (index === questions.findIndex((q) => q.q_type === "FB")) {
+                  acc.push(
+                    <div
+                      key={`fb-${index}`}
+                      id={`reading-question-${fbQuestions[0].id}`}
+                      className="mb-6"
+                    >
+                      <ShortAnswerQuiz
+                        title={`Questions ${fbQuestions[0].id} - ${
+                          fbQuestions[fbQuestions.length - 1].id
+                        }`}
+                        subtitle=""
+                        instructions="Write your answers in the boxes provided."
+                        questions={fbQuestions.map((q) => ({
+                          ...q,
+                          selectedAnswer: Array.isArray(q.selectedAnswer)
+                            ? q.selectedAnswer.join(", ")
+                            : q.selectedAnswer,
+                        }))}
+                        onAnswerChange={handleFillInAnswer}
+                      />
+                    </div>
+                  );
+                }
               }
-            } else if (question.q_type === "FB") {
-              const fbQuestions = questions
-                .filter((q) => q.q_type === "FB")
-                .map((q) => ({
-                  id: q.id,
-                  start_passage: q.start_passage || "",
-                  end_passage: q.end_passage || "",
-                  selectedAnswer: q.selectedOptions || "",
-                }));
-              if (index === questions.findIndex((q) => q.q_type === "FB")) {
-                acc.push(
-                  <div
-                    key={`fb-${index}`}
-                    id={`reading-question-${fbQuestions[0].id}`}
-                    className="mb-6"
-                  >
-                    <ShortAnswerQuiz
-                      title={`Questions ${fbQuestions[0].id} - ${
-                        fbQuestions[fbQuestions.length - 1].id
-                      }`}
-                      subtitle=""
-                      instructions="Write your answers in the boxes provided."
-                      questions={fbQuestions.map((q) => ({
-                        ...q,
-                        selectedAnswer: Array.isArray(q.selectedAnswer)
-                          ? q.selectedAnswer.join(", ")
-                          : q.selectedAnswer,
-                      }))}
-                      onAnswerChange={handleFillInAnswer}
-                    />
-                  </div>
-                );
-              }
-            }
-            return acc;
-          }, [])}
+              return acc;
+            }, [])
+          )}
         </div>
       </div>
 
@@ -1192,23 +1382,35 @@ export default function ReadingTestClient() {
               />
             ))}
           </div>
-          <div
-            className={`w-36 flex justify-center items-center ${
-              selectedPassage === 3 ? "hidden" : "border border-[#FA812F]"
-            } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
-            onClick={handleNextPassage}
-          >
+          {passages.length > 1 && (
             <div
-              className={`text-[#FA812F] font-medium text-md justify-center items-center text-[16px] ${
-                selectedPassage === 3 ? "hidden" : "flex"
-              }`}
+              className={`w-36 flex justify-center items-center ${
+                (passages.length === 2 && selectedPassage === 2) ||
+                selectedPassage === 3
+                  ? "hidden"
+                  : "border border-[#FA812F]"
+              } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
+              onClick={handleNextPassage}
             >
-              Passage {selectedPassage + 1}
+              <div
+                className={`text-[#FA812F] font-medium text-md justify-center items-center text-[16px] ${
+                  (passages.length === 2 && selectedPassage === 2) ||
+                  selectedPassage === 3
+                    ? "hidden"
+                    : "flex"
+                }`}
+              >
+                Passage {selectedPassage + 1}
+              </div>
             </div>
-          </div>
+          )}
           <div
             className={`w-36 flex justify-center items-center ${
-              selectedPassage === 3 ? "border border-[#FA812F]" : "hidden"
+              passages.length === 1 ||
+              (passages.length === 2 && selectedPassage === 2) ||
+              selectedPassage === 3
+                ? "border border-[#FA812F]"
+                : "hidden"
             } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
             onClick={() => {
               if (
@@ -1234,7 +1436,11 @@ export default function ReadingTestClient() {
           >
             <div
               className={`font-medium text-md justify-center items-center text-[16px] ${
-                selectedPassage === 3 ? "flex" : "hidden"
+                passages.length === 1 ||
+                (passages.length === 2 && selectedPassage === 2) ||
+                selectedPassage === 3
+                  ? "flex"
+                  : "hidden"
               }`}
             >
               Nộp bài

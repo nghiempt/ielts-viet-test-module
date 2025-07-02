@@ -44,6 +44,7 @@ const ResultStatistic = () => {
 
   useEffect(() => {
     const storedAnswers = localStorage.getItem("listeningTestAnswers");
+    console.log("storedAnswers", storedAnswers);
     if (storedAnswers) {
       try {
         const parsedAnswers = JSON.parse(storedAnswers);

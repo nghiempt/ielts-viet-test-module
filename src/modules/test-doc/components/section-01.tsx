@@ -19,6 +19,13 @@ import {
 import { useRouter } from "next/navigation";
 import { UserService } from "@/services/user";
 import SearchBar from "@/components/ui/search-bar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface ReadingTestItem {
   _id: string;
@@ -44,6 +51,9 @@ const ReadingSection: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isFull, setIsFull] = useState<boolean>(false);
   const [completedTests, setCompletedTests] = useState<string[]>([]);
+  const [selectedPartCount, setSelectedPartCount] = useState<
+    string | undefined
+  >(undefined);
 
   const isLogin = Cookies.get("isLogin");
   const router = useRouter();
@@ -92,6 +102,15 @@ const ReadingSection: React.FC = () => {
     init();
   }, []);
 
+  useEffect(() => {
+    if (!selectedPartCount) {
+      render(readings);
+    } else {
+      filterByPartCount(selectedPartCount);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [readings]);
+
   const handleSearch = (query: string) => {
     const lowerCaseQuery = query.toLowerCase().trim();
     if (!lowerCaseQuery) {
@@ -115,6 +134,21 @@ const ReadingSection: React.FC = () => {
     }
   };
 
+  const filterByPartCount = (count: string | null) => {
+    if (!count) {
+      render(readings);
+      return;
+    }
+    if (count === "0") {
+      render(readings);
+      return;
+    }
+    const filtered = readings.filter(
+      (test) => test.parts.length === Number(count)
+    );
+    render(filtered);
+  };
+
   const TestCard: React.FC<{ test: ReadingTestItem }> = ({ test }) => {
     const isCompleted = completedTests.includes(test._id);
     return (
@@ -134,7 +168,10 @@ const ReadingSection: React.FC = () => {
               {test.name}
             </h3>
             <p className="text-gray-500 text-sm lg:text-xs mb-2">
-              20K lượt làm
+              20K lượt làm -{" "}
+              <span className="text-gray-500 text-sm lg:text-xs">
+                {test.parts.length} phần
+              </span>
             </p>
           </div>
           <div className="flex flex-row items-center gap-3">
@@ -200,7 +237,28 @@ const ReadingSection: React.FC = () => {
     <div className="max-w-7xl mx-auto px-5 lg:px-0">
       <section>
         <div className="flex flex-col gap-6">
-          <SearchBar onSearch={handleSearch} />
+          <div className="flex flex-row items-center gap-2 justify-between w-full">
+            <SearchBar onSearch={handleSearch} />
+            <div className="w-full lg:w-1/6">
+              <Select
+                value={selectedPartCount}
+                onValueChange={(value) => {
+                  setSelectedPartCount(value);
+                  filterByPartCount(value);
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Part" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="0">All Parts</SelectItem>
+                  <SelectItem value="1">1 Part</SelectItem>
+                  <SelectItem value="2">2 Parts</SelectItem>
+                  <SelectItem value="3">3 Parts</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
           <div className="flex-1">
             {loading ? (
               <Skeleton />

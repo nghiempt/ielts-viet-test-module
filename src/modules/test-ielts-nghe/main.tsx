@@ -149,6 +149,7 @@ const ListeningTestClient: React.FC = () => {
   const [userAccount, setUserAccount] = useState<UserAccount | null>(null);
   const [guestGmail, setGuestGmail] = useState("");
   const isLogin = Cookies.get("isLogin");
+  const [isSinglePartMode, setIsSinglePartMode] = useState(false);
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -173,15 +174,10 @@ const ListeningTestClient: React.FC = () => {
 
   // Memoize audio sources to prevent re-computation on every render
   const audioSources = useMemo(() => {
-    if (passage1 && passage2 && passage3 && passage4) {
-      return [
-        passage1.audio,
-        passage2.audio,
-        passage3.audio,
-        passage4.audio,
-      ].filter((audio): audio is string => !!audio);
-    }
-    return [];
+    // Collect all non-null passage audios in order
+    return [passage1, passage2, passage3, passage4]
+      .filter((p): p is PassageSection => !!p && !!p.audio)
+      .map((p) => p.audio as string);
   }, [passage1, passage2, passage3, passage4]);
 
   // Update currentAudio based on currentAudioIndex
@@ -446,75 +442,87 @@ const ListeningTestClient: React.FC = () => {
       const res = await ListeningService.getListeningById(id);
       if (!res) throw new Error("Listening data not found");
 
-      const [resP1, resP2, resP3, resP4] = await Promise.all([
-        QuestionsService.getQuestionsById(res.parts[0]),
-        QuestionsService.getQuestionsById(res.parts[1]),
-        QuestionsService.getQuestionsById(res.parts[2]),
-        QuestionsService.getQuestionsById(res.parts[3]),
-      ]);
+      const partIds = res.parts || [];
+      const questionResults = await Promise.all(
+        partIds.map((partId: string) =>
+          QuestionsService.getQuestionsById(partId)
+        )
+      );
+      // questionResults will be [resP1, resP2, ...] (length matches partIds.length)
 
-      if (!resP1 || !resP2 || !resP3 || !resP4) {
-        throw new Error("One or more passages not found");
+      const passageArr = questionResults.filter(Boolean);
+      if (passageArr.length === 0) {
+        setData(null);
+        return;
       }
-      if (res && resP1 && resP2 && resP3 && resP4) {
-        setPassage1(resP1);
-        setPassage2(resP2);
-        setPassage3(resP3);
-        setPassage4(resP4);
-        setData(res);
 
-        setAnswers((prev) => {
-          if (prev.parts.length > 0) return prev;
+      // Set passages dynamically
+      if (passageArr[0]) setPassage1(passageArr[0]);
+      if (passageArr[1]) setPassage2(passageArr[1]);
+      if (passageArr[2]) setPassage3(passageArr[2]);
+      if (passageArr[3]) setPassage4(passageArr[3]);
 
-          const allQuestions = [
-            ...resP1.question.map((q: any) => ({
-              part_id: q.part_id,
-              question_id: q._id,
-            })),
-            ...resP2.question.map((q: any) => ({
-              part_id: q.part_id,
-              question_id: q._id,
-            })),
-            ...resP3.question.map((q: any) => ({
-              part_id: q.part_id,
-              question_id: q._id,
-            })),
-            ...resP4.question.map((q: any) => ({
-              part_id: q.part_id,
-              question_id: q._id,
-            })),
-          ];
+      setData(res);
 
-          const groupedByPartId = allQuestions.reduce(
-            (acc, { part_id, question_id }) => {
-              if (!acc[part_id]) {
-                acc[part_id] = {
-                  part_id,
-                  user_answers: [],
-                  isComplete: false,
-                };
-              }
-              acc[part_id].user_answers.push({ question_id, answer: [] });
-              return acc;
-            },
-            {} as Record<string, PartAnswer>
-          );
+      setAnswers((prev) => {
+        if (prev.parts.length > 0) return prev;
+        const allQuestions = passageArr.flatMap((p) =>
+          p.question.map((q: any) => ({
+            part_id: q.part_id,
+            question_id: q._id,
+          }))
+        );
+        const groupedByPartId = allQuestions.reduce(
+          (acc, { part_id, question_id }) => {
+            if (!acc[part_id]) {
+              acc[part_id] = {
+                part_id,
+                user_answers: [],
+                isComplete: false,
+              };
+            }
+            acc[part_id].user_answers.push({ question_id, answer: [] });
+            return acc;
+          },
+          {} as Record<string, PartAnswer>
+        );
+        const initialParts: PartAnswer[] = Object.values(groupedByPartId);
+        return { parts: initialParts };
+      });
 
-          const initialParts: PartAnswer[] = Object.values(groupedByPartId);
-          return { parts: initialParts };
-        });
+      const passageQuestionCounts = passageArr.map((p) => p.question.length);
+      const passagesWithQuestions = passageQuestionCounts.filter(
+        (count) => count > 0
+      ).length;
 
-        const passage1Questions = mapAndArrangeQuestions(resP1, 1);
+      if (passagesWithQuestions < 4) {
+        setIsSinglePartMode(true);
+        const allQs = passageArr.flatMap((p, idx) =>
+          mapAndArrangeQuestions(
+            p,
+            1 +
+              (idx === 0
+                ? 0
+                : passageQuestionCounts
+                    .slice(0, idx)
+                    .reduce((a, b) => a + b, 0))
+          )
+        );
+        setQuestions(allQs);
+        setAllQuestions(allQs);
+      } else {
+        // All 4 parts exist
+        const passage1Questions = mapAndArrangeQuestions(passageArr[0], 1);
         const passage2Questions = mapAndArrangeQuestions(
-          resP2,
+          passageArr[1],
           passage1Questions.length + 1
         );
         const passage3Questions = mapAndArrangeQuestions(
-          resP3,
+          passageArr[2],
           passage1Questions.length + passage2Questions.length + 1
         );
         const passage4Questions = mapAndArrangeQuestions(
-          resP4,
+          passageArr[3],
           passage1Questions.length +
             passage2Questions.length +
             passage3Questions.length +
@@ -527,10 +535,7 @@ const ListeningTestClient: React.FC = () => {
           ...passage3Questions,
           ...passage4Questions,
         ]);
-
         setQuestions(passage1Questions);
-      } else {
-        setData(null);
       }
     } catch (error) {
       console.error("Error initializing listening test:", error);
@@ -1267,7 +1272,7 @@ const ListeningTestClient: React.FC = () => {
       </div>
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-[9.3%] left-0 right-0 z-20">
+      <div className="fixed bottom-[8.5%] left-0 right-0 z-20">
         <div className="-translate-y-[50%] sm:-translate-y-[100%] lg:translate-y-[50%]">
           <TimeProgressBar progress={progress} timeLeft={timeLeft || "00:00"} />
         </div>
@@ -1326,13 +1331,23 @@ const ListeningTestClient: React.FC = () => {
 
           <div
             className={`w-36 flex justify-center items-center ${
-              selectedPassage === 4 ? "hidden" : "border border-[#FA812F]"
+              passages.length === 1 ||
+              (passages.length === 2 && selectedPassage === 2) ||
+              (passages.length === 3 && selectedPassage === 3) ||
+              selectedPassage === 4
+                ? "hidden"
+                : "border border-[#FA812F]"
             } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
             onClick={handleNextPassage}
           >
             <div
               className={`text-[#FA812F] font-medium text-md justify-center items-center ${
-                selectedPassage === 4 ? "hidden" : "flex"
+                passages.length === 1 ||
+                (passages.length === 2 && selectedPassage === 2) ||
+                (passages.length === 3 && selectedPassage === 3) ||
+                selectedPassage === 4
+                  ? "hidden"
+                  : "flex"
               }`}
             >
               Passage {selectedPassage + 1}
@@ -1342,7 +1357,12 @@ const ListeningTestClient: React.FC = () => {
           {/* SUBMIT BUTTON  */}
           <div
             className={`w-36 flex justify-center items-center ${
-              selectedPassage === 4 ? "border border-[#FA812F]" : "hidden"
+              passages.length === 1 ||
+              (passages.length === 2 && selectedPassage === 2) ||
+              (passages.length === 3 && selectedPassage === 3) ||
+              selectedPassage === 4
+                ? "border border-[#FA812F]"
+                : "hidden"
             } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
             onClick={() => {
               if (
@@ -1368,7 +1388,12 @@ const ListeningTestClient: React.FC = () => {
           >
             <div
               className={`font-medium text-md justify-center items-center ${
-                selectedPassage === 4 ? "flex" : "hidden"
+                passages.length === 1 ||
+                (passages.length === 2 && selectedPassage === 2) ||
+                (passages.length === 3 && selectedPassage === 3) ||
+                selectedPassage === 4
+                  ? "flex"
+                  : "hidden"
               }`}
             >
               Nộp bài

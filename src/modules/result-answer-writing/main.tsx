@@ -70,13 +70,8 @@ export default function AnswerKeyWritingPage() {
   const router = useRouter();
   const [data, setData] = useState<WritingDetail | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [answers, setAnswers] = useState<{ [key: number]: string }>({
-    1: "",
-    2: "",
-  });
   const [selectedPassage, setSelectedPassage] = useState(1);
-  const [passage1, setPassage1] = useState<PassageSection | null>(null);
-  const [passage2, setPassage2] = useState<PassageSection | null>(null);
+  const [parts, setParts] = useState<PassageSection[]>([]); // dynamic parts
   const [wordCount, setWordCount] = useState(0);
   const [characterCount, setCharacterCount] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -84,7 +79,6 @@ export default function AnswerKeyWritingPage() {
   const [feedback, setFeedback] = useState<any>(null);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const userId = Cookies.get("userLogin") || "";
-
   const [response, setResponse] = useState<ResultData | null>(null);
 
   // Helper to calculate average score
@@ -99,13 +93,10 @@ export default function AnswerKeyWritingPage() {
       task2Score < 0
     )
       return null;
-
     const average = (task1Score + task2Score) / 2;
-    // Round to nearest 0.5
     return Math.round(average * 2) / 2;
   };
 
-  // HANDLE EXIT LINK CLICK
   const handleExitClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     router.push(ROUTES.WRITING_HOME);
   };
@@ -114,49 +105,30 @@ export default function AnswerKeyWritingPage() {
     const storedAnswers = localStorage.getItem("writingTestAnswers");
     const parsedAnswers = storedAnswers ? JSON.parse(storedAnswers) : null;
     setResponse(parsedAnswers?.data || null);
-
     const segments = pathname.split("/").filter(Boolean);
     const id = segments[segments.length - 1];
-
     try {
       const res = await WritingService.getWritingById(id);
       const resFeedback = await WritingService.getFeedbackById(id, userId);
-      console.log("id", id);
-      console.log("userId", userId);
-
-      console.log("resFeedback", resFeedback);
-
       if (!res) throw new Error("Writing data not found");
-
-      const [resP1, resP2] = await Promise.all([
-        QuestionsService.getQuestionsById(res.parts[0]),
-        QuestionsService.getQuestionsById(res.parts[1]),
-      ]);
-
-      if (!resP1 || !resP2) {
-        throw new Error("One or more passages not found");
-      }
-      if (res && resP1 && resP2) {
-        setPassage1(resP1);
-        setPassage2(resP2);
-        setData(res);
-        setFeedback(resFeedback);
-      } else {
-        setData(null);
-      }
-
+      const partIds = res.parts || [];
+      const questionResults = await Promise.all(
+        partIds.map((partId: string) =>
+          QuestionsService.getQuestionsById(partId)
+        )
+      );
+      setParts(questionResults.filter(Boolean));
+      setData(res);
+      setFeedback(resFeedback);
+      // Set initial word/character count for first passage
       setWordCount(
         countWords(
-          selectedPassage === 1
-            ? parsedAnswers?.data?.result[0]?.user_answers[0]?.answer?.[0] ?? ""
-            : parsedAnswers?.data?.result[1]?.user_answers[0]?.answer?.[0] ?? ""
+          parsedAnswers?.data?.result?.[0]?.user_answers?.[0]?.answer?.[0] ?? ""
         )
       );
       setCharacterCount(
         countCharacters(
-          selectedPassage === 1
-            ? parsedAnswers?.data?.result[0]?.user_answers[0]?.answer?.[0] ?? ""
-            : parsedAnswers?.data?.result[1]?.user_answers[0]?.answer?.[0] ?? ""
+          parsedAnswers?.data?.result?.[0]?.user_answers?.[0]?.answer?.[0] ?? ""
         )
       );
     } catch (error) {
@@ -169,38 +141,29 @@ export default function AnswerKeyWritingPage() {
     init();
   }, []);
 
-  const passages = [
-    {
-      id: 1,
-      startQuestion: 1,
-      endQuestion: 1,
-      answeredQuestions:
-        response?.result[0]?.user_answers[0]?.answer?.[0].trim() ? 1 : 0,
-    },
-    {
-      id: 2,
-      startQuestion: 1,
-      endQuestion: 1,
-      answeredQuestions:
-        response?.result[1]?.user_answers[0]?.answer?.[0].trim() ? 1 : 0,
-    },
-  ];
+  // Build passages array dynamically
+  const passages = parts.map((part, idx) => ({
+    id: idx + 1,
+    startQuestion: 1,
+    endQuestion: part.question.length,
+    answeredQuestions: response?.result?.[
+      idx
+    ]?.user_answers?.[0]?.answer?.[0]?.trim()
+      ? 1
+      : 0,
+  }));
 
   const handlePassageSelect = (passageId: number) => {
     setSelectedPassage(passageId);
     setCurrentPage(passageId);
     setWordCount(
       countWords(
-        selectedPassage === 1
-          ? response?.result[1]?.user_answers[0]?.answer?.[0] ?? ""
-          : response?.result[0]?.user_answers[0]?.answer?.[0] ?? ""
+        response?.result?.[passageId - 1]?.user_answers?.[0]?.answer?.[0] ?? ""
       )
     );
     setCharacterCount(
       countCharacters(
-        selectedPassage === 1
-          ? response?.result[1]?.user_answers[0]?.answer?.[0] ?? ""
-          : response?.result[0]?.user_answers[0]?.answer?.[0] ?? ""
+        response?.result?.[passageId - 1]?.user_answers?.[0]?.answer?.[0] ?? ""
       )
     );
   };
@@ -218,14 +181,14 @@ export default function AnswerKeyWritingPage() {
   };
 
   const countWords = (input: string) => {
-    const trimmedText = input.trim();
+    const trimmedText = (input || "").trim();
     if (!trimmedText) return 0;
     const words = trimmedText.split(/\s+/).filter((word) => word.length > 0);
     return words.length;
   };
 
   const countCharacters = (input: string) => {
-    return input.length;
+    return (input || "").length;
   };
 
   return (
@@ -357,88 +320,44 @@ export default function AnswerKeyWritingPage() {
 
       {/* Main Content */}
       <div className="fixed top-[8%] bottom-[0%] left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full overflow-y-auto">
-        {/* Reading passage */}
+        {/* Writing passage */}
         <div
           className={`p-4 overflow-y-auto scroll-bar-style border-r border-gray-200 pt-8 ${
             switchWriting ? "" : "hidden lg:block"
           }`}
         >
-          {selectedPassage === 1 && (
+          {parts.length > 0 && (
             <div>
-              <h1 className="text-2xl font-bold mb-4">Writing Task 1</h1>
-              {passage1 && (
-                <h1 className="text-xl font-bold mb-4">
-                  {passage1.question[0].question}
-                </h1>
-              )}
-              <p className="mb-4 text-sm lg:text-[15px]">
-                You should spend about 20 minutes on this task.
-              </p>
-              {passage1 && passage1.question[0] && (
-                <div className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full">
+              <h1 className="text-2xl font-bold mb-4">
+                Writing Task {selectedPassage}
+              </h1>
+              {parts[selectedPassage - 1]?.question.map((q, qIdx) => (
+                <div key={q._id || qIdx}>
+                  <h2 className="text-xl font-bold mb-4">
+                    {q.question || q.content}
+                  </h2>
                   <div
+                    className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full"
                     dangerouslySetInnerHTML={{
-                      __html: (passage1.question[0].content || "").replace(
-                        /\\/g,
-                        ""
-                      ),
+                      __html: (q.content || "").replace(/\\/g, ""),
                     }}
                   />
+                  {q.image && (
+                    <div>
+                      <Image
+                        src={q.image}
+                        alt=""
+                        width={1000}
+                        height={1000}
+                        className="w-full h-full"
+                      />
+                    </div>
+                  )}
                 </div>
-              )}
+              ))}
               <p className="mb-4 text-sm lg:text-[15px]">
-                Write at least 150 words.
+                Write at least {selectedPassage === 1 ? 150 : 250} words.
               </p>
-              {passage1?.question[0]?.image && (
-                <div>
-                  <Image
-                    src={passage1?.question[0]?.image || ""}
-                    alt=""
-                    width={1000}
-                    height={1000}
-                    className="w-full h-full"
-                  />
-                </div>
-              )}
-            </div>
-          )}
-          {selectedPassage === 2 && (
-            <div>
-              <h1 className="text-2xl font-bold mb-4">Writing Task 2</h1>
-              {passage2 && (
-                <h1 className="text-xl font-bold mb-4">
-                  {passage2.question[0].question}
-                </h1>
-              )}
-              <p className="mb-4 text-sm lg:text-[15px]">
-                You should spend about 40 minutes on this task.
-              </p>
-              {passage2 && passage2.question[0] && (
-                <div className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full">
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: (passage2.question[0].content || "").replace(
-                        /\\/g,
-                        ""
-                      ),
-                    }}
-                  />
-                </div>
-              )}
-              <p className="mb-4 text-sm lg:text-[15px]">
-                Write at least 250 words.
-              </p>
-              {passage2?.question[0]?.image && (
-                <div>
-                  <Image
-                    src={passage2?.question[0]?.image || ""}
-                    alt=""
-                    width={1000}
-                    height={1000}
-                    className="w-full h-full"
-                  />
-                </div>
-              )}
             </div>
           )}
         </div>
@@ -454,9 +373,8 @@ export default function AnswerKeyWritingPage() {
             <textarea
               id="title"
               value={
-                selectedPassage === 1
-                  ? response?.result[0].user_answers[0].answer
-                  : response?.result[1].user_answers[0].answer
+                response?.result?.[selectedPassage - 1]?.user_answers?.[0]
+                  ?.answer?.[0] || ""
               }
               placeholder="Nhập bài viết của bạn"
               className="w-full h-2/3 lg:h-3/4 p-2 border rounded"
@@ -502,13 +420,17 @@ export default function AnswerKeyWritingPage() {
           </div>
           <div
             className={`w-36 flex justify-center items-center ${
-              selectedPassage === 2 ? "hidden" : "border border-[#FA812F]"
+              passages.length === 1 || selectedPassage === 2
+                ? "hidden"
+                : "border border-[#FA812F]"
             } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
             onClick={handleNextPassage}
           >
             <div
               className={`text-[#FA812F] font-medium text-md justify-center items-center ${
-                selectedPassage === 2 ? "hidden" : "flex"
+                passages.length === 1 || selectedPassage === 2
+                  ? "hidden"
+                  : "flex"
               }`}
             >
               Task {selectedPassage + 1} <ChevronRight color="#FA812F" />
@@ -516,7 +438,7 @@ export default function AnswerKeyWritingPage() {
           </div>
           <div
             className={`w-36 flex justify-center items-center ${
-              selectedPassage === 2 ? "" : "hidden"
+              passages.length === 1 || selectedPassage === 2 ? "" : "hidden"
             } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
             onClick={handleNextPassage}
           ></div>
@@ -583,7 +505,7 @@ export default function AnswerKeyWritingPage() {
             <PopupMenu
               isOpen={isPopupOpen}
               setIsOpen={setIsPopupOpen}
-              answers={answers}
+              answers={[]}
               onSelectTask={handlePassageSelect}
               onSubmit={() => {}}
             />

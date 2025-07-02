@@ -128,6 +128,7 @@ export default function AnswerKeyReadingPage() {
   const [passage2, setPassage2] = useState<PassageSection | null>(null);
   const [passage3, setPassage3] = useState<PassageSection | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [allQuestions, setAllQuestions] = useState<Question[]>([]);
   const [selectedPassage, setSelectedPassage] = useState(1);
   const [answers, setAnswers] = useState<AnswerState>({ parts: [] });
   const [currentPage, setCurrentPage] = useState(1);
@@ -137,6 +138,7 @@ export default function AnswerKeyReadingPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [response, setResponse] = useState<ResultData | null>(null);
+  const [isSinglePartMode, setIsSinglePartMode] = useState(false);
   const scrollToSection = (sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -256,57 +258,61 @@ export default function AnswerKeyReadingPage() {
 
     try {
       const res = await ReadingService.getReadingById(id);
-      const [resP1, resP2, resP3] = await Promise.all([
-        QuestionsService.getQuestionsById(res.parts[0]),
-        QuestionsService.getQuestionsById(res.parts[1]),
-        QuestionsService.getQuestionsById(res.parts[2]),
-      ]);
+      const partIds = res.parts || [];
+      const questionResults = await Promise.all(
+        partIds.map((partId: string) =>
+          QuestionsService.getQuestionsById(partId)
+        )
+      );
+      const [resP1, resP2, resP3] = questionResults;
 
-      if (res && resP1 && resP2 && resP3) {
+      if (res && resP1 && !resP2 && !resP3) {
+        setPassage1(resP1);
+        setData(res);
+        setIsSinglePartMode(true);
+        const allQs = mapAndArrangeQuestions(resP1, 1);
+        setQuestions(allQs);
+        setAllQuestions(allQs);
+      } else if (res && resP1 && resP2 && !resP3) {
+        setPassage1(resP1);
+        setPassage2(resP2);
+        setData(res);
+        setIsSinglePartMode(true);
+        const passageQuestionCounts = [resP1, resP2].map(
+          (p) => p.question.length
+        );
+        const allQs = [resP1, resP2].flatMap((p, idx) =>
+          mapAndArrangeQuestions(
+            p,
+            1 +
+              (idx === 0
+                ? 0
+                : passageQuestionCounts
+                    .slice(0, idx)
+                    .reduce((a, b) => a + b, 0))
+          )
+        );
+        setQuestions(allQs);
+        setAllQuestions(allQs);
+      } else if (res && resP1 && resP2 && resP3) {
         setPassage1(resP1);
         setPassage2(resP2);
         setPassage3(resP3);
         setData(res);
-
-        setAnswers((prev) => {
-          if (prev.parts.length > 0) return prev;
-
-          const allQuestions = [
-            ...resP1.question.map((q: any) => ({
-              part_id: q.part_id,
-              question_id: q._id,
-            })),
-            ...resP2.question.map((q: any) => ({
-              part_id: q.part_id,
-              question_id: q._id,
-            })),
-            ...resP3.question.map((q: any) => ({
-              part_id: q.part_id,
-              question_id: q._id,
-            })),
-          ];
-
-          const groupedByPartId = allQuestions.reduce(
-            (acc, { part_id, question_id }) => {
-              if (!acc[part_id]) {
-                acc[part_id] = {
-                  part_id,
-                  user_answers: [],
-                  isComplete: false,
-                };
-              }
-              acc[part_id].user_answers.push({ question_id, answer: [] });
-              return acc;
-            },
-            {} as Record<string, PartAnswer>
-          );
-
-          const initialParts: PartAnswer[] = Object.values(groupedByPartId);
-          return { parts: initialParts };
-        });
-
+        setIsSinglePartMode(false);
         const passage1Questions = mapAndArrangeQuestions(resP1, 1);
         setQuestions(passage1Questions);
+        setAllQuestions([
+          ...passage1Questions,
+          ...mapAndArrangeQuestions(resP2, passage1Questions.length + 1),
+          ...mapAndArrangeQuestions(
+            resP3,
+            passage1Questions.length +
+              mapAndArrangeQuestions(resP2, passage1Questions.length + 1)
+                .length +
+              1
+          ),
+        ]);
       } else {
         setError("Failed to load reading test data.");
       }
@@ -330,7 +336,6 @@ export default function AnswerKeyReadingPage() {
       }),
       {} as { [key: number]: number }
     );
-
     const passageData = { 1: passage1, 2: passage2, 3: passage3 };
     const selectedPassageData = passageData[selectedPassage as 1 | 2 | 3];
     if (selectedPassageData) {
@@ -340,7 +345,37 @@ export default function AnswerKeyReadingPage() {
       );
       setQuestions(updatedQuestions);
     }
-  }, [selectedPassage, passages, passage1, passage2, passage3, response]);
+  }, [
+    selectedPassage,
+    passages,
+    passage1,
+    passage2,
+    passage3,
+    response,
+    isSinglePartMode,
+  ]);
+
+  useEffect(() => {
+    if (!isSinglePartMode) return;
+    // Re-map allQuestions when response or passages change
+    if (passage1 && !passage2 && !passage3) {
+      setAllQuestions(mapAndArrangeQuestions(passage1, 1));
+    } else if (passage1 && passage2 && !passage3) {
+      const passageQuestionCounts = [passage1, passage2].map(
+        (p) => p.question.length
+      );
+      const allQs = [passage1, passage2].flatMap((p, idx) =>
+        mapAndArrangeQuestions(
+          p,
+          1 +
+            (idx === 0
+              ? 0
+              : passageQuestionCounts.slice(0, idx).reduce((a, b) => a + b, 0))
+        )
+      );
+      setAllQuestions(allQs);
+    }
+  }, [isSinglePartMode, passage1, passage2, passage3, response]);
 
   const handlePassageSelect = (passageId: number) => {
     setSelectedPassage(passageId);

@@ -67,13 +67,9 @@ export default function WritingTestClient() {
   const [data, setData] = useState<WritingDetail | null>(null);
   const [timeLeft, setTimeLeft] = useState("60:00");
   const [currentPage, setCurrentPage] = useState(1);
-  const [answers, setAnswers] = useState<{ [key: number]: string }>({
-    1: "",
-    2: "",
-  });
-  const [selectedPassage, setSelectedPassage] = useState(1);
-  const [passage1, setPassage1] = useState<PassageSection | null>(null);
-  const [passage2, setPassage2] = useState<PassageSection | null>(null);
+  const [answers, setAnswers] = useState<{ [key: number]: string }>({});
+  const [selectedPartIndex, setSelectedPartIndex] = useState(0);
+  const [parts, setParts] = useState<PassageSection[]>([]);
   const [wordCount, setWordCount] = useState(0);
   const [characterCount, setCharacterCount] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -166,21 +162,14 @@ export default function WritingTestClient() {
       const res = await WritingService.getWritingById(id);
       if (!res) throw new Error("Writing data not found");
 
-      const [resP1, resP2] = await Promise.all([
-        QuestionsService.getQuestionsById(res.parts[0]),
-        QuestionsService.getQuestionsById(res.parts[1]),
-      ]);
-
-      if (!resP1 || !resP2) {
-        throw new Error("One or more passages not found");
-      }
-      if (res && resP1 && resP2) {
-        setPassage1(resP1);
-        setPassage2(resP2);
-        setData(res);
-      } else {
-        setData(null);
-      }
+      const partIds = res.parts || [];
+      const questionResults = await Promise.all(
+        partIds.map((partId: string) =>
+          QuestionsService.getQuestionsById(partId)
+        )
+      );
+      setParts(questionResults.filter(Boolean));
+      setData(res);
     } catch (error) {
       console.error("Error initializing writing test:", error);
       setData(null);
@@ -191,23 +180,15 @@ export default function WritingTestClient() {
     init();
   }, []);
 
-  const passages = [
-    {
-      id: 1,
-      startQuestion: 1,
-      endQuestion: 1,
-      answeredQuestions: answers[1].trim() ? 1 : 0,
-    },
-    {
-      id: 2,
-      startQuestion: 1,
-      endQuestion: 1,
-      answeredQuestions: answers[2].trim() ? 1 : 0,
-    },
-  ];
+  const passages = parts.map((part, idx) => ({
+    id: idx + 1,
+    startQuestion: 1,
+    endQuestion: part.question.length,
+    answeredQuestions: (answers[idx] || "").trim() ? 1 : 0,
+  }));
 
   const handlePassageSelect = (passageId: number) => {
-    setSelectedPassage(passageId);
+    setSelectedPartIndex(passageId - 1);
     setCurrentPage(passageId);
     setWordCount(countWords(answers[passageId]));
     setCharacterCount(countCharacters(answers[passageId]));
@@ -215,30 +196,30 @@ export default function WritingTestClient() {
 
   const handleNextPassage = () => {
     const nextPassage =
-      selectedPassage < passages.length ? selectedPassage + 1 : 1;
+      selectedPartIndex < parts.length ? selectedPartIndex + 2 : 1;
     handlePassageSelect(nextPassage);
   };
 
   const handlePreviousPassage = () => {
     const prevPassage =
-      selectedPassage > 1 ? selectedPassage - 1 : passages.length;
+      selectedPartIndex + 1 > 1 ? selectedPartIndex : parts.length;
     handlePassageSelect(prevPassage);
   };
 
   const countWords = (input: string) => {
-    const trimmedText = input.trim();
+    const trimmedText = (input || "").trim();
     if (!trimmedText) return 0;
     const words = trimmedText.split(/\s+/).filter((word) => word.length > 0);
     return words.length;
   };
 
   const countCharacters = (input: string) => {
-    return input.length;
+    return (input || "").length;
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
-    setAnswers((prev) => ({ ...prev, [selectedPassage]: newText }));
+    setAnswers((prev) => ({ ...prev, [selectedPartIndex]: newText }));
     setWordCount(countWords(newText));
     setCharacterCount(countCharacters(newText));
   };
@@ -275,28 +256,14 @@ export default function WritingTestClient() {
       user_id: userId,
       test_id: id,
       user_email: userEmail,
-      parts: [
-        {
-          part_id: data?.parts[0] || "",
-          user_answers: [
-            {
-              question_id: passage1?.question[0]._id || "",
-              answer: [answers[1]],
-            },
-          ],
-          isComplete: answers[1].trim() !== "",
-        },
-        {
-          part_id: data?.parts[1] || "",
-          user_answers: [
-            {
-              question_id: passage2?.question[0]._id || "",
-              answer: [answers[2]],
-            },
-          ],
-          isComplete: answers[2].trim() !== "",
-        },
-      ],
+      parts: parts.map((part, idx) => ({
+        part_id: data?.parts[idx] || "",
+        user_answers: part.question.map((q) => ({
+          question_id: q._id || "",
+          answer: [answers[idx] || ""],
+        })),
+        isComplete: (answers[idx] || "").trim() !== "",
+      })),
     };
 
     try {
@@ -604,82 +571,38 @@ export default function WritingTestClient() {
             switchWriting ? "" : "hidden lg:block"
           }`}
         >
-          {selectedPassage === 1 && (
+          {parts.length > 0 && (
             <div>
-              <h1 className="text-2xl font-bold mb-4">Writing Task 1</h1>
-              {passage1 && (
-                <h1 className="text-xl font-bold mb-4">
-                  {passage1.question[0].question}
-                </h1>
-              )}
-              <p className="mb-4 text-sm lg:text-[15px]">
-                You should spend about 20 minutes on this task.
-              </p>
-              {passage1 && passage1.question[0] && (
-                <div className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full">
+              <h1 className="text-2xl font-bold mb-4">
+                Writing Task {selectedPartIndex + 1}
+              </h1>
+              {parts[selectedPartIndex]?.question.map((q, qIdx) => (
+                <div key={q._id || qIdx}>
+                  <h2 className="text-xl font-bold mb-4">
+                    {q.question || q.content}
+                  </h2>
                   <div
+                    className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full"
                     dangerouslySetInnerHTML={{
-                      __html: (passage1.question[0].content || "").replace(
-                        /\\/g,
-                        ""
-                      ),
+                      __html: (q.content || "").replace(/\\/g, ""),
                     }}
                   />
+                  {q.image && (
+                    <div>
+                      <Image
+                        src={q.image}
+                        alt=""
+                        width={1000}
+                        height={1000}
+                        className="w-full h-full"
+                      />
+                    </div>
+                  )}
                 </div>
-              )}
+              ))}
               <p className="mb-4 text-sm lg:text-[15px]">
-                Write at least 150 words.
+                Write at least {selectedPartIndex === 0 ? 150 : 250} words.
               </p>
-              {passage1?.question[0]?.image && (
-                <div>
-                  <Image
-                    src={passage1?.question[0]?.image || ""}
-                    alt=""
-                    width={1000}
-                    height={1000}
-                    className="w-full h-full"
-                  />
-                </div>
-              )}
-            </div>
-          )}
-          {selectedPassage === 2 && (
-            <div>
-              <h1 className="text-2xl font-bold mb-4">Writing Task 2</h1>
-              {passage2 && (
-                <h1 className="text-xl font-bold mb-4">
-                  {passage2.question[0].question}
-                </h1>
-              )}
-              <p className="mb-4 text-sm lg:text-[15px]">
-                You should spend about 40 minutes on this task.
-              </p>
-              {passage2 && passage2.question[0] && (
-                <div className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full">
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: (passage2.question[0].content || "").replace(
-                        /\\/g,
-                        ""
-                      ),
-                    }}
-                  />
-                </div>
-              )}
-              <p className="mb-4 text-sm lg:text-[15px]">
-                Write at least 250 words.
-              </p>
-              {passage2?.question[0]?.image && (
-                <div>
-                  <Image
-                    src={passage2?.question[0]?.image || ""}
-                    alt=""
-                    width={1000}
-                    height={1000}
-                    className="w-full h-full"
-                  />
-                </div>
-              )}
             </div>
           )}
         </div>
@@ -694,7 +617,7 @@ export default function WritingTestClient() {
           <div className="w-full h-full">
             <textarea
               id="title"
-              value={answers[selectedPassage]}
+              value={answers[selectedPartIndex] || ""}
               onChange={handleTextChange}
               placeholder="Nhập bài viết của bạn"
               className="w-full h-2/3 lg:h-3/4 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#FA812F] focus:border-transparent resize-none"
@@ -713,16 +636,16 @@ export default function WritingTestClient() {
         <div className="hidden lg:flex justify-between mt-2 lg:mt-0 text-sm border-t border-gray-200 pt-2">
           <div
             className={`${
-              selectedPassage === 1 ? "" : "border border-[#FA812F]"
+              selectedPartIndex === 0 ? "" : "border border-[#FA812F]"
             } w-36 flex justify-center items-center rounded-lg my-2 py-2 px-4 bg-white ml-4 cursor-pointer`}
             onClick={handlePreviousPassage}
           >
             <div
               className={`text-[#FA812F] font-medium text-md justify-center items-center ${
-                selectedPassage === 1 ? "hidden" : "flex"
+                selectedPartIndex === 0 ? "hidden" : "flex"
               }`}
             >
-              <ChevronLeft color="#FA812F" /> Task {selectedPassage - 1}
+              <ChevronLeft color="#FA812F" /> Task {selectedPartIndex}
             </div>
           </div>
           <div className="flex justify-center items-center">
@@ -732,23 +655,27 @@ export default function WritingTestClient() {
                 passageNumber={passage.id}
                 currentQuestion={passage.answeredQuestions}
                 totalQuestions={passage.endQuestion - passage.startQuestion + 1}
-                choosenPassage={selectedPassage === passage.id}
-                onClick={() => handlePassageSelect(passage.id)}
+                choosenPassage={selectedPartIndex === passage.id - 1}
+                onClick={() => {
+                  handlePassageSelect(passage.id);
+                }}
               />
             ))}
           </div>
           <div
             className={`w-36 flex justify-center items-center ${
-              selectedPassage === 2 ? "hidden" : "border border-[#FA812F]"
+              selectedPartIndex === parts.length - 1
+                ? "hidden"
+                : "border border-[#FA812F]"
             } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
             onClick={handleNextPassage}
           >
             <div
               className={`text-[#FA812F] font-medium text-md justify-center items-center ${
-                selectedPassage === 2 ? "hidden" : "flex"
+                selectedPartIndex === parts.length - 1 ? "hidden" : "flex"
               }`}
             >
-              Task {selectedPassage + 1} <ChevronRight color="#FA812F" />
+              Task {selectedPartIndex + 2} <ChevronRight color="#FA812F" />
             </div>
           </div>
 
@@ -762,12 +689,14 @@ export default function WritingTestClient() {
               }
             }}
             className={`w-36 flex justify-center items-center ${
-              selectedPassage === 2 ? "border border-[#FA812F]" : "hidden"
+              selectedPartIndex === parts.length - 1
+                ? "border border-[#FA812F]"
+                : "hidden"
             } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
           >
             <div
               className={`font-medium text-md justify-center items-center ${
-                selectedPassage === 2 ? "flex" : "hidden"
+                selectedPartIndex === parts.length - 1 ? "flex" : "hidden"
               }`}
             >
               Nộp bài
@@ -778,14 +707,14 @@ export default function WritingTestClient() {
         {/* NAVIGATE MOBILE */}
         <div className="lg:hidden relative flex justify-center items-center py-0 pt-2 border-t border-gray-200">
           <div className="flex justify-center text-sm">
-            {passages.map((passage) => (
+            {parts.map((part, idx) => (
               <PassageProgressBarMobile
-                key={passage.id}
-                passageNumber={passage.id}
-                currentQuestion={passage.answeredQuestions}
-                totalQuestions={passage.endQuestion - passage.startQuestion + 1}
-                choosenPassage={passage.id === selectedPassage}
-                onClick={() => handlePassageSelect(passage.id)}
+                key={part._id || idx}
+                passageNumber={idx + 1}
+                currentQuestion={part.question.length}
+                totalQuestions={part.question.length}
+                choosenPassage={selectedPartIndex === idx}
+                onClick={() => handlePassageSelect(idx + 1)}
               />
             ))}
           </div>

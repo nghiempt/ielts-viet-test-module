@@ -14,7 +14,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
   };
 
   return (
-    <div className="*:not-first:mt-2 w-2/3 lg:w-1/3 mx-auto">
+    <div className="*:not-first:mt-2 w-2/3 lg:w-1/3">
       <div className="relative">
         <Input
           id={id}

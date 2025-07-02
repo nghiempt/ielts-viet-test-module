@@ -129,6 +129,7 @@ const ListeningTestClient: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [response, setResponse] = useState<ResultData | null>(null);
+  const [isSinglePartMode, setIsSinglePartMode] = useState(false);
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
@@ -267,60 +268,53 @@ const ListeningTestClient: React.FC = () => {
         QuestionsService.getQuestionsById(res.parts[3]),
       ]);
 
-      if (res && resP1 && resP2 && resP3 && resP4) {
-        setPassage1(resP1);
-        setPassage2(resP2);
-        setPassage3(resP3);
-        setPassage4(resP4);
-        setData(res);
+      // Count how many passages have questions
+      const passageArr = [resP1, resP2, resP3, resP4].filter(Boolean);
+      const passageQuestionCounts = passageArr.map((p) => p.question.length);
+      const passagesWithQuestions = passageQuestionCounts.filter(
+        (count) => count > 0
+      ).length;
 
-        setAnswers((prev) => {
-          if (prev.parts.length > 0) return prev;
-
-          const allQuestions = [
-            ...resP1.question.map((q: any) => ({
-              part_id: q.part_id,
-              question_id: q._id,
-            })),
-            ...resP2.question.map((q: any) => ({
-              part_id: q.part_id,
-              question_id: q._id,
-            })),
-            ...resP3.question.map((q: any) => ({
-              part_id: q.part_id,
-              question_id: q._id,
-            })),
-            ...resP4.question.map((q: any) => ({
-              part_id: q.part_id,
-              question_id: q._id,
-            })),
-          ];
-
-          const groupedByPartId = allQuestions.reduce(
-            (acc, { part_id, question_id }) => {
-              if (!acc[part_id]) {
-                acc[part_id] = {
-                  part_id,
-                  user_answers: [],
-                  isComplete: false,
-                };
-              }
-              acc[part_id].user_answers.push({ question_id, answer: [] });
-
-              return acc;
-            },
-            {} as Record<string, PartAnswer>
-          );
-
-          const initialParts: PartAnswer[] = Object.values(groupedByPartId);
-          return { parts: initialParts };
-        });
-
-        const passage1Questions = mapAndArrangeQuestions(resP1, 1);
-        setQuestions(passage1Questions);
+      if (passagesWithQuestions <= 2) {
+        setIsSinglePartMode(true);
       } else {
-        setError("Failed to load reading test data.");
+        setIsSinglePartMode(false);
       }
+
+      if (res && resP1) setPassage1(resP1);
+      if (res && resP2) setPassage2(resP2);
+      if (res && resP3) setPassage3(resP3);
+      if (res && resP4) setPassage4(resP4);
+      setData(res);
+
+      setAnswers((prev) => {
+        if (prev.parts.length > 0) return prev;
+        const allQuestions = passageArr.flatMap((p) =>
+          p.question.map((q: any) => ({
+            part_id: q.part_id,
+            question_id: q._id,
+          }))
+        );
+        const groupedByPartId = allQuestions.reduce(
+          (acc, { part_id, question_id }) => {
+            if (!acc[part_id]) {
+              acc[part_id] = {
+                part_id,
+                user_answers: [],
+                isComplete: false,
+              };
+            }
+            acc[part_id].user_answers.push({ question_id, answer: [] });
+            return acc;
+          },
+          {} as Record<string, PartAnswer>
+        );
+        const initialParts: PartAnswer[] = Object.values(groupedByPartId);
+        return { parts: initialParts };
+      });
+
+      const passage1Questions = mapAndArrangeQuestions(resP1, 1);
+      setQuestions(passage1Questions);
     } catch (error) {
       console.error("Error initializing reading test:", error);
       setError("An error occurred while loading the test.");

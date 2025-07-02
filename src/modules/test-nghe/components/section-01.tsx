@@ -12,6 +12,13 @@ import { useRouter } from "next/navigation";
 import { ChevronDown, CircleCheckBig, PlayIcon, RotateCw } from "lucide-react";
 import { UserService } from "@/services/user";
 import SearchBar from "@/components/ui/search-bar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface ListeningTestItem {
   _id: string;
@@ -37,6 +44,9 @@ const ListeningSection: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [completedTests, setCompletedTests] = useState<string[]>([]);
   const [isFull, setIsFull] = useState<boolean>(false);
+  const [selectedPartCount, setSelectedPartCount] = useState<
+    string | undefined
+  >(undefined);
 
   const isLogin = Cookies.get("isLogin");
   const router = useRouter();
@@ -108,6 +118,21 @@ const ListeningSection: React.FC = () => {
     }
   };
 
+  const filterByPartCount = (count: string | null) => {
+    if (!count) {
+      render(listening);
+      return;
+    }
+    if (count === "0") {
+      render(listening);
+      return;
+    }
+    const filtered = listening.filter(
+      (test) => test.parts.length === Number(count)
+    );
+    render(filtered);
+  };
+
   // Test card component
   const TestCard: React.FC<{ test: ListeningTestItem }> = ({ test }) => {
     const isCompleted = completedTests.includes(test._id);
@@ -128,7 +153,10 @@ const ListeningSection: React.FC = () => {
               {test.name}
             </h3>
             <p className="text-gray-500 text-sm lg:text-xs mb-2">
-              12K lượt làm
+              12K lượt làm -{" "}
+              <span className="text-gray-500 text-sm lg:text-xs">
+                {test.parts.length} phần
+              </span>
             </p>
           </div>
           {isLogin && isCompleted ? (
@@ -190,7 +218,29 @@ const ListeningSection: React.FC = () => {
     <div className="max-w-7xl mx-auto px-5 lg:px-0">
       <section>
         <div className="flex flex-col gap-6">
-          <SearchBar onSearch={handleSearch} />
+          <div className="flex flex-row items-center gap-2 justify-between w-full">
+            <SearchBar onSearch={handleSearch} />
+            <div className="w-full lg:w-1/6">
+              <Select
+                value={selectedPartCount}
+                onValueChange={(value) => {
+                  setSelectedPartCount(value);
+                  filterByPartCount(value);
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Part" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="0">All Parts</SelectItem>
+                  <SelectItem value="1">1 Part</SelectItem>
+                  <SelectItem value="2">2 Parts</SelectItem>
+                  <SelectItem value="3">3 Parts</SelectItem>
+                  <SelectItem value="4">4 Parts</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
           <div className="flex-1">
             {loading ? (
               <Skeleton />
