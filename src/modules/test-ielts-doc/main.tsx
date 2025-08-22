@@ -22,6 +22,9 @@ import { ROUTES } from "@/utils/routes";
 import "@/styles/hide-scroll.css";
 import Cookies from "js-cookie";
 import { UserService } from "@/services/user";
+import MatchingHeadings from "./components/test-type/matching-headings/matching-headings";
+import MatchingFeatures from "./components/test-type/matching-features/matching-features";
+import TrueFalseNotGiven from "./components/test-type/true-false-notgiven/true-false-notgiven";
 
 interface UserAccount {
   _id: string;
@@ -42,6 +45,11 @@ interface Question {
   start_passage?: string;
   end_passage?: string;
   question_id: string;
+  // Add new properties for different question types
+  heading?: string;
+  paragraph_id?: string;
+  feature?: string;
+  sentence?: string;
 }
 
 interface PassageSection {
@@ -57,11 +65,17 @@ interface PassageSection {
     q_type: string;
     part_id: string;
     choices?: string[];
+    options?: string[];
     isMultiple?: boolean;
     answer: string[];
     created_at: string;
     start_passage?: string;
     end_passage?: string;
+    // Add new properties for different question types
+    heading?: string;
+    paragraph_id?: string;
+    feature?: string;
+    sentence?: string;
   }>;
   created_at: string;
 }
@@ -225,39 +239,117 @@ export default function ReadingTestClient() {
       const selectedOptions = userAnswer?.answer?.length
         ? q.q_type === "MP" && q.isMultiple
           ? userAnswer.answer
-          : q.q_type === "MP"
+          : q.q_type === "MP" ||
+            q.q_type === "MH" ||
+            q.q_type === "MF" ||
+            q.q_type === "TFNG"
           ? userAnswer.answer[0]
           : userAnswer.answer[0] || ""
         : q.q_type === "MP"
         ? q.isMultiple
           ? []
           : null
+        : q.q_type === "MH" || q.q_type === "MF" || q.q_type === "TFNG"
+        ? null
         : "";
 
       return {
         id: startId + index,
-        question: q.q_type === "MP" ? q.question : "",
-        options: q.q_type === "MP" && q.choices ? q.choices : [],
+        question:
+          q.q_type === "MP"
+            ? q.question
+            : q.q_type === "MH"
+            ? q.question
+            : q.q_type === "MF"
+            ? q.question
+            : q.q_type === "TFNG"
+            ? q.question
+            : "",
+        options:
+          q.q_type === "MP" && q.choices
+            ? q.choices
+            : q.q_type === "MH" && q.options
+            ? q.options
+            : q.q_type === "MF" && q.options
+            ? q.options
+            : [],
         isMultiple: q.q_type === "MP" ? q.isMultiple || false : false,
         selectedOptions,
         q_type: q.q_type,
         start_passage: q.q_type === "FB" ? q.start_passage : undefined,
         end_passage: q.q_type === "FB" ? q.end_passage : undefined,
         question_id: q._id,
+        // Additional properties for specific question types
+        heading: q.q_type === "MH" ? q.heading : undefined,
+        paragraph_id: q.q_type === "MH" ? q.paragraph_id : undefined,
+        feature: q.q_type === "MF" ? q.feature : undefined,
+        sentence: q.q_type === "TFNG" ? q.sentence : undefined,
       };
     });
 
+    // Group questions by type for better arrangement
+    const mpQuestions = mappedQuestions.filter((q) => q.q_type === "MP");
+    const fbQuestions = mappedQuestions.filter((q) => q.q_type === "FB");
+    const mhQuestions = mappedQuestions.filter((q) => q.q_type === "MH");
+    const mfQuestions = mappedQuestions.filter((q) => q.q_type === "MF");
+    const tfngQuestions = mappedQuestions.filter((q) => q.q_type === "TFNG");
+
+    // Determine the first question type to maintain the original ordering logic
     const firstQuestionType = passage.question[0]?.q_type;
-    const arrangedQuestions =
-      firstQuestionType === "MP"
-        ? [
-            ...mappedQuestions.filter((q) => q.q_type === "MP"),
-            ...mappedQuestions.filter((q) => q.q_type === "FB"),
-          ]
-        : [
-            ...mappedQuestions.filter((q) => q.q_type === "FB"),
-            ...mappedQuestions.filter((q) => q.q_type === "MP"),
-          ];
+
+    // Arrange questions based on the first question type and include new question types
+    let arrangedQuestions = [];
+
+    if (firstQuestionType === "MP") {
+      arrangedQuestions = [
+        ...mpQuestions,
+        ...fbQuestions,
+        ...mhQuestions,
+        ...mfQuestions,
+        ...tfngQuestions,
+      ];
+    } else if (firstQuestionType === "FB") {
+      arrangedQuestions = [
+        ...fbQuestions,
+        ...mpQuestions,
+        ...mhQuestions,
+        ...mfQuestions,
+        ...tfngQuestions,
+      ];
+    } else if (firstQuestionType === "MH") {
+      arrangedQuestions = [
+        ...mhQuestions,
+        ...mpQuestions,
+        ...fbQuestions,
+        ...mfQuestions,
+        ...tfngQuestions,
+      ];
+    } else if (firstQuestionType === "MF") {
+      arrangedQuestions = [
+        ...mfQuestions,
+        ...mpQuestions,
+        ...fbQuestions,
+        ...mhQuestions,
+        ...tfngQuestions,
+      ];
+    } else if (firstQuestionType === "TFNG") {
+      arrangedQuestions = [
+        ...tfngQuestions,
+        ...mpQuestions,
+        ...fbQuestions,
+        ...mhQuestions,
+        ...mfQuestions,
+      ];
+    } else {
+      // Default arrangement if no recognized first question type
+      arrangedQuestions = [
+        ...mpQuestions,
+        ...fbQuestions,
+        ...mhQuestions,
+        ...mfQuestions,
+        ...tfngQuestions,
+      ];
+    }
 
     return arrangedQuestions.map((q, index) => ({
       ...q,
@@ -294,6 +386,9 @@ export default function ReadingTestClient() {
           QuestionsService.getQuestionsById(partId)
         )
       );
+
+      // console.log("questionResults", questionResults);
+
       const [resP1, resP2, resP3] = questionResults;
 
       if (!resP1) throw new Error("First passage not found");
@@ -309,6 +404,8 @@ export default function ReadingTestClient() {
         setIsSinglePartMode(true);
         const allQs = mapAndArrangeQuestions(resP1, 1);
         setQuestions(allQs);
+        console.log("allQs", allQs);
+
         setAllQuestions(allQs);
         setAnswers((prev) => {
           if (prev.parts.length > 0) return prev;
@@ -414,6 +511,7 @@ export default function ReadingTestClient() {
                       .reduce((a, b) => a + b, 0))
             )
           );
+
           setQuestions(allQs);
           setAllQuestions(allQs);
         } else {
@@ -428,6 +526,7 @@ export default function ReadingTestClient() {
             resP3,
             passage1Questions.length + passage2Questions.length + 1
           );
+
           setAllQuestions([
             ...passage1Questions,
             ...passage2Questions,
@@ -768,6 +867,8 @@ export default function ReadingTestClient() {
         ? SubmitService.updateSubmitTest(body)
         : SubmitService.submitTest(body));
       const jsonData = JSON.stringify(response, null, 2);
+      console.log("jsonData", jsonData);
+
       localStorage.setItem("readingTestAnswers", jsonData);
       const segments = pathname.split("/").filter(Boolean);
       const testId = segments[segments.length - 1];
@@ -1058,7 +1159,7 @@ export default function ReadingTestClient() {
             className="w-full h-full"
           />
         </Link>
-        <div className="text-center ml-[3rem]">
+        <div className="text-center lg:ml-[3rem]">
           <div className="font-semibold">{data?.name}</div>
           <div className="text-sm text-gray-600">Reading Test</div>
         </div>
@@ -1250,6 +1351,138 @@ export default function ReadingTestClient() {
                       </div>
                     );
                   }
+                } else if (question.q_type === "MH") {
+                  const mhQuestions = questions
+                    .filter((q) => q.q_type === "MH")
+                    .map((q, idx) => ({
+                      q_type: "MH" as const,
+                      id: q.id,
+                      part_id: 1, // Using default part_id as number
+                      heading: q.heading || "",
+                      paragraph_id: q.paragraph_id || "",
+                      options: q.options,
+                      answer: Array.isArray(q.selectedOptions)
+                        ? q.selectedOptions[0]
+                        : (q.selectedOptions as string) || "",
+                    }));
+                  if (index === questions.findIndex((q) => q.q_type === "MH")) {
+                    // Get the question range from the actual question IDs
+                    const questionIds = mhQuestions
+                      .map((q) => q.id)
+                      .sort((a, b) => a - b);
+                    const startingMhQuestionId = questionIds[0];
+                    const endingMhQuestionId =
+                      questionIds[questionIds.length - 1];
+
+                    acc.push(
+                      <div key={`mh-${index}`} className="mb-6">
+                        <MatchingHeadings
+                          questions={mhQuestions}
+                          handleSelectOption={(paragraphId, option) => {
+                            // Find the corresponding question ID
+                            const questionObj = questions.find(
+                              (q) =>
+                                q.q_type === "MH" &&
+                                q.paragraph_id === paragraphId
+                            );
+                            if (questionObj) {
+                              handleSelectOption(questionObj.id, option);
+                            }
+                          }}
+                          passageNumber={selectedPassage}
+                          paragraphRange={mhQuestions
+                            .map((q) => q.paragraph_id)
+                            .join(", ")}
+                          startQuestion={startingMhQuestionId}
+                          endQuestion={endingMhQuestionId}
+                        />
+                      </div>
+                    );
+                  }
+                } else if (question.q_type === "MF") {
+                  const mfQuestions = questions
+                    .filter((q) => q.q_type === "MF")
+                    .map((q) => ({
+                      q_type: "MF" as const,
+                      id: q.id,
+                      part_id: 1, // Using default part_id as number
+                      feature: q.feature || "",
+                      options: q.options,
+                      answer: Array.isArray(q.selectedOptions)
+                        ? q.selectedOptions[0]
+                        : (q.selectedOptions as string) || "",
+                    }));
+                  if (index === questions.findIndex((q) => q.q_type === "MF")) {
+                    // Get the question range from the actual question IDs
+                    const questionIds = mfQuestions
+                      .map((q) => q.id)
+                      .sort((a, b) => a - b);
+                    const startingMfQuestionId = questionIds[0];
+                    const endingMfQuestionId =
+                      questionIds[questionIds.length - 1];
+
+                    acc.push(
+                      <div key={`mf-${index}`} className="mb-6">
+                        <MatchingFeatures
+                          questions={mfQuestions}
+                          handleSelectOption={(statementId, option) => {
+                            // Find the corresponding question by ID
+                            const questionObj = questions.find(
+                              (q) => q.q_type === "MF" && q.id === statementId
+                            );
+                            if (questionObj) {
+                              handleSelectOption(questionObj.id, option);
+                            }
+                          }}
+                          startQuestion={startingMfQuestionId}
+                          endQuestion={endingMfQuestionId}
+                        />
+                      </div>
+                    );
+                  }
+                } else if (question.q_type === "TFNG") {
+                  const tfngQuestions = questions
+                    .filter((q) => q.q_type === "TFNG")
+                    .map((q) => ({
+                      q_type: "TFNG" as const,
+                      id: q.id,
+                      part_id: q.question_id,
+                      sentence: q.sentence || "",
+                      answer: Array.isArray(q.selectedOptions)
+                        ? q.selectedOptions[0]
+                        : (q.selectedOptions as string) || "",
+                    }));
+                  if (
+                    index === questions.findIndex((q) => q.q_type === "TFNG")
+                  ) {
+                    // Get the question range from the actual question IDs
+                    const questionIds = tfngQuestions
+                      .map((q) => q.id)
+                      .sort((a, b) => a - b);
+                    const startingTfngQuestionId = questionIds[0];
+                    const endingTfngQuestionId =
+                      questionIds[questionIds.length - 1];
+
+                    acc.push(
+                      <div key={`tfng-${index}`} className="mb-6">
+                        <TrueFalseNotGiven
+                          questions={tfngQuestions}
+                          handleSelectOption={(statementId, option) => {
+                            // Find the corresponding question by ID
+                            const questionObj = questions.find(
+                              (q) => q.q_type === "TFNG" && q.id === statementId
+                            );
+                            if (questionObj) {
+                              handleSelectOption(questionObj.id, option);
+                            }
+                          }}
+                          startQuestion={startingTfngQuestionId}
+                          endQuestion={endingTfngQuestionId}
+                          passageNumber={selectedPassage}
+                        />
+                      </div>
+                    );
+                  }
                 }
                 return acc;
               }, [])}
@@ -1320,6 +1553,136 @@ export default function ReadingTestClient() {
                             : q.selectedAnswer,
                         }))}
                         onAnswerChange={handleFillInAnswer}
+                      />
+                    </div>
+                  );
+                }
+              } else if (question.q_type === "MH") {
+                const mhQuestions = questions
+                  .filter((q) => q.q_type === "MH")
+                  .map((q) => ({
+                    q_type: "MH" as const,
+                    id: q.id,
+                    part_id: 1, // Using default part_id as number
+                    heading: q.heading || "",
+                    paragraph_id: q.paragraph_id || "",
+                    options: q.options,
+                    answer: Array.isArray(q.selectedOptions)
+                      ? q.selectedOptions[0]
+                      : (q.selectedOptions as string) || "",
+                  }));
+                if (index === questions.findIndex((q) => q.q_type === "MH")) {
+                  // Get the question range from the actual question IDs
+                  const questionIds = mhQuestions
+                    .map((q) => q.id)
+                    .sort((a, b) => a - b);
+                  const startingMhQuestionId = questionIds[0];
+                  const endingMhQuestionId =
+                    questionIds[questionIds.length - 1];
+
+                  acc.push(
+                    <div key={`mh-${index}`} className="mb-6">
+                      <MatchingHeadings
+                        questions={mhQuestions}
+                        handleSelectOption={(paragraphId, option) => {
+                          // Find the corresponding question ID
+                          const questionObj = questions.find(
+                            (q) =>
+                              q.q_type === "MH" &&
+                              q.paragraph_id === paragraphId
+                          );
+                          if (questionObj) {
+                            handleSelectOption(questionObj.id, option);
+                          }
+                        }}
+                        passageNumber={selectedPassage}
+                        paragraphRange={mhQuestions
+                          .map((q) => q.paragraph_id)
+                          .join(", ")}
+                        startQuestion={startingMhQuestionId}
+                        endQuestion={endingMhQuestionId}
+                      />
+                    </div>
+                  );
+                }
+              } else if (question.q_type === "MF") {
+                const mfQuestions = questions
+                  .filter((q) => q.q_type === "MF")
+                  .map((q) => ({
+                    q_type: "MF" as const,
+                    id: q.id,
+                    part_id: 1, // Using default part_id as number
+                    feature: q.feature || "",
+                    options: q.options,
+                    answer: Array.isArray(q.selectedOptions)
+                      ? q.selectedOptions[0]
+                      : (q.selectedOptions as string) || "",
+                  }));
+                if (index === questions.findIndex((q) => q.q_type === "MF")) {
+                  // Get the question range from the actual question IDs
+                  const questionIds = mfQuestions
+                    .map((q) => q.id)
+                    .sort((a, b) => a - b);
+                  const startingMfQuestionId = questionIds[0];
+                  const endingMfQuestionId =
+                    questionIds[questionIds.length - 1];
+
+                  acc.push(
+                    <div key={`mf-${index}`} className="mb-6">
+                      <MatchingFeatures
+                        questions={mfQuestions}
+                        handleSelectOption={(statementId, option) => {
+                          // Find the corresponding question by ID
+                          const questionObj = questions.find(
+                            (q) => q.q_type === "MF" && q.id === statementId
+                          );
+                          if (questionObj) {
+                            handleSelectOption(questionObj.id, option);
+                          }
+                        }}
+                        startQuestion={startingMfQuestionId}
+                        endQuestion={endingMfQuestionId}
+                      />
+                    </div>
+                  );
+                }
+              } else if (question.q_type === "TFNG") {
+                const tfngQuestions = questions
+                  .filter((q) => q.q_type === "TFNG")
+                  .map((q) => ({
+                    q_type: "TFNG" as const,
+                    id: q.id,
+                    part_id: q.question_id,
+                    sentence: q.sentence || "",
+                    answer: Array.isArray(q.selectedOptions)
+                      ? q.selectedOptions[0]
+                      : (q.selectedOptions as string) || "",
+                  }));
+                if (index === questions.findIndex((q) => q.q_type === "TFNG")) {
+                  // Get the question range from the actual question IDs
+                  const questionIds = tfngQuestions
+                    .map((q) => q.id)
+                    .sort((a, b) => a - b);
+                  const startingTfngQuestionId = questionIds[0];
+                  const endingTfngQuestionId =
+                    questionIds[questionIds.length - 1];
+
+                  acc.push(
+                    <div key={`tfng-${index}`} className="mb-6">
+                      <TrueFalseNotGiven
+                        questions={tfngQuestions}
+                        handleSelectOption={(statementId, option) => {
+                          // Find the corresponding question by ID
+                          const questionObj = questions.find(
+                            (q) => q.q_type === "TFNG" && q.id === statementId
+                          );
+                          if (questionObj) {
+                            handleSelectOption(questionObj.id, option);
+                          }
+                        }}
+                        startQuestion={startingTfngQuestionId}
+                        endQuestion={endingTfngQuestionId}
+                        passageNumber={selectedPassage}
                       />
                     </div>
                   );

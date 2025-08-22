@@ -22,6 +22,9 @@ import { QuestionsService } from "@/services/questions";
 import "@/styles/hide-scroll.css";
 import { ResultQuestion } from "./components/test-type/multiple-choice/multiple-choice";
 import { ROUTES } from "@/utils/routes";
+import { ResultMatchingHeadings } from "./components/test-type/matching-headings/matching-headings";
+import { ResultMatchingFeatures } from "./components/test-type/matching-features/matching-features";
+import { ResultTrueFalseNotGiven } from "./components/test-type/true-false-notgiven/true-false-notgiven";
 
 // Interfaces remain the same as provided
 interface Question {
@@ -36,6 +39,10 @@ interface Question {
   question_id: string;
   correct_answer?: string | string[];
   is_correct?: boolean;
+  // Additional fields for new question types
+  paragraphId?: string; // For MH
+  feature?: string; // For MF
+  sentence?: string; // For TFNG
 }
 
 interface QuestionStatus {
@@ -57,11 +64,15 @@ interface PassageSection {
     part_id: string;
     question: string;
     choices?: string[];
+    options?: string[];
     isMultiple?: boolean;
     answer: string[];
     created_at: string;
     start_passage?: string;
     end_passage?: string;
+    paragraph_id?: string; // For MH
+    feature?: string; // For MF
+    sentence?: string; // For TFNG
   }>;
   created_at: string;
 }
@@ -184,6 +195,18 @@ export default function AnswerKeyReadingPage() {
   const passages = calculatePassages();
 
   const mapAndArrangeQuestions = (passage: PassageSection, startId: number) => {
+    // Extract options for MH and MF questions
+    // For MH (Matching Headings) questions, we need to get the options from the first MH question
+    const mhQuestion = passage.question.find((q) => q.q_type === "MH");
+    const mhOptions = mhQuestion?.options || [];
+
+    // For MF (Matching Features) questions, we need to get the options from the first MF question
+    const mfQuestion = passage.question.find((q) => q.q_type === "MF");
+    const mfOptions = mfQuestion?.options || [];
+
+    console.log("MH Options:", mhOptions);
+    console.log("MF Options:", mfOptions);
+
     const mappedQuestions = passage.question.map((q, index) => {
       const partAnswer = answers.parts.find(
         (part) => part.part_id === q.part_id
@@ -203,7 +226,10 @@ export default function AnswerKeyReadingPage() {
       const selectedOptions = questionResult?.answer?.length
         ? q.q_type === "MP" && q.isMultiple
           ? questionResult.answer
-          : q.q_type === "MP"
+          : q.q_type === "MP" ||
+            q.q_type === "MH" ||
+            q.q_type === "MF" ||
+            q.q_type === "TFNG"
           ? questionResult.answer[0]
           : questionResult.answer[0] || ""
         : q.q_type === "MP"
@@ -212,11 +238,21 @@ export default function AnswerKeyReadingPage() {
           : null
         : "";
 
+      // Use the appropriate options list based on question type
+      let questionOptions: string[] = [];
+      if (q.q_type === "MP") {
+        questionOptions = q.choices || [];
+      } else if (q.q_type === "MH") {
+        questionOptions = mhOptions;
+      } else if (q.q_type === "MF") {
+        questionOptions = mfOptions;
+      }
+
       return {
         id: startId + index,
         question:
           q.q_type === "MP" ? q.question || `Question ${startId + index}` : "",
-        options: q.q_type === "MP" && q.choices ? q.choices : [],
+        options: questionOptions,
         isMultiple: q.q_type === "MP" ? q.isMultiple || false : false,
         selectedOptions,
         q_type: q.q_type,
@@ -225,21 +261,67 @@ export default function AnswerKeyReadingPage() {
         question_id: q._id,
         correct_answer: questionResult?.correct_answer || [],
         is_correct: questionResult?.is_correct || false,
+        // Additional fields for new question types
+        paragraphId: q.q_type === "MH" ? q.paragraph_id : undefined,
+        feature: q.q_type === "MF" ? q.feature : undefined,
+        sentence: q.q_type === "TFNG" ? q.sentence : undefined,
       };
     });
 
-    // Arrange questions: MP first if first question is MP, else FB first
+    // Arrange questions by type
+    const questionsByType = {
+      MP: mappedQuestions.filter((q) => q.q_type === "MP"),
+      FB: mappedQuestions.filter((q) => q.q_type === "FB"),
+      MH: mappedQuestions.filter((q) => q.q_type === "MH"),
+      MF: mappedQuestions.filter((q) => q.q_type === "MF"),
+      TFNG: mappedQuestions.filter((q) => q.q_type === "TFNG"),
+    };
+
+    // Determine the order based on the first question type
     const firstQuestionType = passage.question[0]?.q_type;
-    const arrangedQuestions =
-      firstQuestionType === "MP"
-        ? [
-            ...mappedQuestions.filter((q) => q.q_type === "MP"),
-            ...mappedQuestions.filter((q) => q.q_type === "FB"),
-          ]
-        : [
-            ...mappedQuestions.filter((q) => q.q_type === "FB"),
-            ...mappedQuestions.filter((q) => q.q_type === "MP"),
-          ];
+    let arrangedQuestions: Question[] = [];
+
+    if (firstQuestionType === "MP") {
+      arrangedQuestions = [
+        ...questionsByType.MP,
+        ...questionsByType.FB,
+        ...questionsByType.MH,
+        ...questionsByType.MF,
+        ...questionsByType.TFNG,
+      ];
+    } else if (firstQuestionType === "FB") {
+      arrangedQuestions = [
+        ...questionsByType.FB,
+        ...questionsByType.MP,
+        ...questionsByType.MH,
+        ...questionsByType.MF,
+        ...questionsByType.TFNG,
+      ];
+    } else if (firstQuestionType === "MH") {
+      arrangedQuestions = [
+        ...questionsByType.MH,
+        ...questionsByType.MP,
+        ...questionsByType.FB,
+        ...questionsByType.MF,
+        ...questionsByType.TFNG,
+      ];
+    } else if (firstQuestionType === "MF") {
+      arrangedQuestions = [
+        ...questionsByType.MF,
+        ...questionsByType.MP,
+        ...questionsByType.FB,
+        ...questionsByType.MH,
+        ...questionsByType.TFNG,
+      ];
+    } else if (firstQuestionType === "TFNG") {
+      arrangedQuestions = [
+        ...questionsByType.TFNG,
+        ...questionsByType.MP,
+        ...questionsByType.FB,
+        ...questionsByType.MH,
+        ...questionsByType.MF,
+      ];
+    }
 
     return arrangedQuestions.map((q, index) => ({
       ...q,
@@ -653,6 +735,146 @@ export default function AnswerKeyReadingPage() {
                           />
                         ))}
                       </div>
+                    </div>
+                  );
+                }
+              } else if (question.q_type === "MH") {
+                const mhQuestions = questions
+                  .filter((q) => q.q_type === "MH")
+                  .map((q) => ({
+                    id: q?.id,
+                    paragraphId: q?.paragraphId || "",
+                    selectedOption:
+                      typeof q?.selectedOptions === "string"
+                        ? q?.selectedOptions
+                        : "",
+                    correctOption:
+                      typeof q?.correct_answer === "string"
+                        ? q?.correct_answer
+                        : "",
+                    isCorrect: q?.is_correct ?? false,
+                  }));
+
+                if (index === questions.findIndex((q) => q.q_type === "MH")) {
+                  // Get headings from the first MH question's options
+                  const mhQuestion = questions.find((q) => q.q_type === "MH");
+                  const headings = mhQuestion?.options || [];
+                  console.log("Rendering MH with headings:", headings);
+
+                  const headingIds = [
+                    "i",
+                    "ii",
+                    "iii",
+                    "iv",
+                    "v",
+                    "vi",
+                    "vii",
+                    "viii",
+                    "ix",
+                    "x",
+                    "xi",
+                    "xii",
+                    "xiii",
+                    "xiv",
+                    "xv",
+                    "xvi",
+                    "xvii",
+                    "xviii",
+                    "xix",
+                    "xx",
+                  ].slice(0, headings.length);
+
+                  acc.push(
+                    <div key={`mh-${index}`} className="mb-6">
+                      <ResultMatchingHeadings
+                        questions={mhQuestions}
+                        headings={headings}
+                        headingIds={headingIds}
+                        startQuestion={mhQuestions[0].id}
+                        endQuestion={mhQuestions[mhQuestions.length - 1].id}
+                        passageNumber={selectedPassage}
+                      />
+                    </div>
+                  );
+                }
+              } else if (question.q_type === "MF") {
+                const mfQuestions = questions
+                  .filter((q) => q.q_type === "MF")
+                  .map((q) => ({
+                    id: q?.id,
+                    text: q?.feature || "",
+                    selectedOption:
+                      typeof q?.selectedOptions === "string"
+                        ? q?.selectedOptions
+                        : "",
+                    correctOption:
+                      typeof q?.correct_answer === "string"
+                        ? q?.correct_answer
+                        : "",
+                    isCorrect: q?.is_correct ?? false,
+                  }));
+
+                if (index === questions.findIndex((q) => q.q_type === "MF")) {
+                  // Get countries from the first MF question's options
+                  const mfQuestion = questions.find((q) => q.q_type === "MF");
+                  const countries = mfQuestion?.options || [];
+                  console.log("Rendering MF with countries:", countries);
+
+                  const countryIds = [
+                    "A",
+                    "B",
+                    "C",
+                    "D",
+                    "E",
+                    "F",
+                    "G",
+                    "H",
+                    "I",
+                    "J",
+                  ].slice(0, countries.length);
+
+                  acc.push(
+                    <div key={`mf-${index}`} className="mb-6">
+                      <ResultMatchingFeatures
+                        questions={mfQuestions}
+                        countries={countries}
+                        countryIds={countryIds}
+                        startQuestion={mfQuestions[0].id}
+                        endQuestion={mfQuestions[mfQuestions.length - 1].id}
+                      />
+                    </div>
+                  );
+                }
+              } else if (question.q_type === "TFNG") {
+                const tfngQuestions = questions
+                  .filter((q) => q.q_type === "TFNG")
+                  .map((q) => ({
+                    id: q?.id,
+                    text: q?.sentence || "",
+                    selectedAnswer:
+                      typeof q?.selectedOptions === "string"
+                        ? (q?.selectedOptions as
+                            | "TRUE"
+                            | "FALSE"
+                            | "NOT GIVEN"
+                            | null)
+                        : null,
+                    correctAnswer:
+                      typeof q?.correct_answer === "string"
+                        ? (q?.correct_answer as "TRUE" | "FALSE" | "NOT GIVEN")
+                        : "NOT GIVEN",
+                    isCorrect: q?.is_correct ?? false,
+                  }));
+
+                if (index === questions.findIndex((q) => q.q_type === "TFNG")) {
+                  acc.push(
+                    <div key={`tfng-${index}`} className="mb-6">
+                      <ResultTrueFalseNotGiven
+                        questions={tfngQuestions}
+                        startQuestion={tfngQuestions[0].id}
+                        endQuestion={tfngQuestions[tfngQuestions.length - 1].id}
+                        passageNumber={selectedPassage}
+                      />
                     </div>
                   );
                 }

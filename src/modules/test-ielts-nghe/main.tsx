@@ -20,6 +20,9 @@ import {
   QuizHeader,
   QuizQuestion,
 } from "./components/test-type/multiple-choice/multiple-choice";
+import MatchingHeadings from "./components/test-type/matching-headings/matching-headings";
+import MatchingFeatures from "./components/test-type/matching-features/matching-features";
+import TrueFalseNotGiven from "./components/test-type/true-false-notgiven/true-false-notgiven";
 
 interface UserAccount {
   _id: string;
@@ -40,6 +43,11 @@ interface Question {
   start_passage?: string;
   end_passage?: string;
   question_id: string;
+  // Add new properties for different question types
+  heading?: string;
+  paragraph_id?: string;
+  feature?: string;
+  sentence?: string;
 }
 
 interface PassageSection {
@@ -56,11 +64,17 @@ interface PassageSection {
     q_type: string;
     part_id: string;
     choices?: string[];
+    options?: string[];
     isMultiple?: boolean;
     answer: string[];
     created_at: string;
     start_passage?: string;
     end_passage?: string;
+    // Add new properties for different question types
+    heading?: string;
+    paragraph_id?: string;
+    feature?: string;
+    sentence?: string;
   }>;
   created_at: string;
 }
@@ -378,42 +392,116 @@ const ListeningTestClient: React.FC = () => {
         (ua) => ua.question_id === q._id
       );
 
-      const selectedOptions = userAnswer?.answer?.length
-        ? q.q_type === "MP" && q.isMultiple
-          ? userAnswer.answer
-          : q.q_type === "MP"
-          ? userAnswer.answer[0]
-          : userAnswer.answer[0] || ""
-        : q.q_type === "MP"
-        ? q.isMultiple
-          ? []
-          : null
-        : "";
+      // Improved handling of selectedOptions for different question types
+      let selectedOptions;
+      if (userAnswer?.answer?.length) {
+        if (q.q_type === "MP" && q.isMultiple) {
+          selectedOptions = userAnswer.answer;
+        } else if (q.q_type === "MP") {
+          selectedOptions = userAnswer.answer[0];
+        } else if (
+          q.q_type === "MH" ||
+          q.q_type === "MF" ||
+          q.q_type === "TFNG"
+        ) {
+          // For matching headings, matching features, and true-false-not-given
+          selectedOptions = userAnswer.answer[0] || "";
+        } else {
+          // For fill-in-the-blank and other types
+          selectedOptions = userAnswer.answer[0] || "";
+        }
+      } else {
+        // Default values when no answer is selected
+        if (q.q_type === "MP") {
+          selectedOptions = q.isMultiple ? [] : null;
+        } else {
+          selectedOptions = "";
+        }
+      }
 
       return {
         id: startId + index,
-        question: q.q_type === "MP" ? q.question : "",
-        options: q.q_type === "MP" && q.choices ? q.choices : [],
+        question:
+          q.q_type === "MP"
+            ? q.question
+            : q.q_type === "MH"
+            ? q.question
+            : q.q_type === "MF"
+            ? q.question
+            : q.q_type === "TFNG"
+            ? q.question
+            : "",
+        options:
+          q.q_type === "MP" && q.choices
+            ? q.choices
+            : q.q_type === "MH" && q.options
+            ? q.options
+            : q.q_type === "MF" && q.options
+            ? q.options
+            : [],
         isMultiple: q.q_type === "MP" ? q.isMultiple || false : false,
         selectedOptions,
         q_type: q.q_type,
         start_passage: q.q_type === "FB" ? q.start_passage : undefined,
         end_passage: q.q_type === "FB" ? q.end_passage : undefined,
         question_id: q._id,
+        // Add new properties for different question types
+        heading: q.q_type === "MH" ? q.heading : undefined,
+        paragraph_id: q.q_type === "MH" ? q.paragraph_id : undefined,
+        feature: q.q_type === "MF" ? q.feature : undefined,
+        sentence: q.q_type === "TFNG" ? q.sentence : undefined,
       };
     });
 
     const firstQuestionType = passage.question[0]?.q_type;
-    const arrangedQuestions =
-      firstQuestionType === "MP"
-        ? [
-            ...mappedQuestions.filter((q) => q.q_type === "MP"),
-            ...mappedQuestions.filter((q) => q.q_type === "FB"),
-          ]
-        : [
-            ...mappedQuestions.filter((q) => q.q_type === "FB"),
-            ...mappedQuestions.filter((q) => q.q_type === "MP"),
-          ];
+
+    // Updated arrangement to include MH, MF, and TFNG question types
+    let arrangedQuestions: any[] = [];
+
+    if (firstQuestionType === "MP") {
+      arrangedQuestions = [
+        ...mappedQuestions.filter((q) => q.q_type === "MP"),
+        ...mappedQuestions.filter((q) => q.q_type === "FB"),
+        ...mappedQuestions.filter((q) => q.q_type === "MH"),
+        ...mappedQuestions.filter((q) => q.q_type === "MF"),
+        ...mappedQuestions.filter((q) => q.q_type === "TFNG"),
+      ];
+    } else if (firstQuestionType === "FB") {
+      arrangedQuestions = [
+        ...mappedQuestions.filter((q) => q.q_type === "FB"),
+        ...mappedQuestions.filter((q) => q.q_type === "MP"),
+        ...mappedQuestions.filter((q) => q.q_type === "MH"),
+        ...mappedQuestions.filter((q) => q.q_type === "MF"),
+        ...mappedQuestions.filter((q) => q.q_type === "TFNG"),
+      ];
+    } else if (firstQuestionType === "MH") {
+      arrangedQuestions = [
+        ...mappedQuestions.filter((q) => q.q_type === "MH"),
+        ...mappedQuestions.filter((q) => q.q_type === "MP"),
+        ...mappedQuestions.filter((q) => q.q_type === "FB"),
+        ...mappedQuestions.filter((q) => q.q_type === "MF"),
+        ...mappedQuestions.filter((q) => q.q_type === "TFNG"),
+      ];
+    } else if (firstQuestionType === "MF") {
+      arrangedQuestions = [
+        ...mappedQuestions.filter((q) => q.q_type === "MF"),
+        ...mappedQuestions.filter((q) => q.q_type === "MP"),
+        ...mappedQuestions.filter((q) => q.q_type === "FB"),
+        ...mappedQuestions.filter((q) => q.q_type === "MH"),
+        ...mappedQuestions.filter((q) => q.q_type === "TFNG"),
+      ];
+    } else if (firstQuestionType === "TFNG") {
+      arrangedQuestions = [
+        ...mappedQuestions.filter((q) => q.q_type === "TFNG"),
+        ...mappedQuestions.filter((q) => q.q_type === "MP"),
+        ...mappedQuestions.filter((q) => q.q_type === "FB"),
+        ...mappedQuestions.filter((q) => q.q_type === "MH"),
+        ...mappedQuestions.filter((q) => q.q_type === "MF"),
+      ];
+    } else {
+      // Default arrangement if no recognized question type is first
+      arrangedQuestions = mappedQuestions;
+    }
 
     return arrangedQuestions.map((q, index) => ({
       ...q,
@@ -448,6 +536,7 @@ const ListeningTestClient: React.FC = () => {
           QuestionsService.getQuestionsById(partId)
         )
       );
+
       // questionResults will be [resP1, resP2, ...] (length matches partIds.length)
 
       const passageArr = questionResults.filter(Boolean);
@@ -636,6 +725,7 @@ const ListeningTestClient: React.FC = () => {
       return userAnswer.answer[0] !== "";
     }
 
+    // All other question types (MP, MH, MF, TFNG) are considered answered if they have an answer
     return true;
   };
 
@@ -692,11 +782,14 @@ const ListeningTestClient: React.FC = () => {
               const currentAnswer = ua.answer || [];
               let newAnswer: string[];
 
-              if (question.isMultiple) {
+              // Handle different question types
+              if (question.q_type === "MP" && question.isMultiple) {
+                // Multiple choice with multiple answers
                 newAnswer = currentAnswer.includes(option)
                   ? currentAnswer.filter((opt) => opt !== option)
                   : [...currentAnswer, option];
               } else {
+                // Single answer questions (MP, MH, MF, TFNG)
                 newAnswer = [option];
               }
 
@@ -712,6 +805,20 @@ const ListeningTestClient: React.FC = () => {
         }
         return part;
       });
+
+      // Debug updated answers for special question types
+      if (
+        question.q_type === "MH" ||
+        question.q_type === "MF" ||
+        question.q_type === "TFNG"
+      ) {
+        const updatedPart = updatedParts.find(
+          (p) => p.part_id === questionData.part_id
+        );
+        const updatedAnswer = updatedPart?.user_answers.find(
+          (ua) => ua.question_id === question.question_id
+        );
+      }
 
       return { parts: updatedParts };
     });
@@ -1265,6 +1372,98 @@ const ListeningTestClient: React.FC = () => {
                   </div>
                 );
               }
+            } else if (question.q_type === "MH") {
+              const mhQuestions = questions
+                .filter((q) => q.q_type === "MH")
+                .map((q) => ({
+                  q_type: "MH" as const,
+                  part_id: parseInt(q.question_id),
+                  heading: q.heading || "",
+                  answer: "",
+                  options: q.options,
+                  paragraph_id: q.paragraph_id || "",
+                  id: q.id, // Add id property for reference
+                }));
+              if (index === questions.findIndex((q) => q.q_type === "MH")) {
+                const startQ = mhQuestions[0].id;
+                const endQ = mhQuestions[mhQuestions.length - 1].id;
+                acc.push(
+                  <div key={`mh-${index}`} className="mb-6">
+                    <MatchingHeadings
+                      questions={mhQuestions}
+                      handleSelectOption={(paragraphId, option) => {
+                        const questionId = questions.find(
+                          (q) => q.paragraph_id === paragraphId
+                        )?.id;
+                        if (questionId) {
+                          handleSelectOption(questionId, option);
+                        }
+                      }}
+                      startQuestion={startQ}
+                      endQuestion={endQ}
+                    />
+                  </div>
+                );
+              }
+            } else if (question.q_type === "MF") {
+              const mfQuestions = questions
+                .filter((q) => q.q_type === "MF")
+                .map((q) => ({
+                  q_type: "MF" as const,
+                  part_id: parseInt(q.question_id),
+                  feature: q.feature || "",
+                  answer: "",
+                  options: q.options,
+                  id: q.id, // Add id property for reference
+                }));
+              if (index === questions.findIndex((q) => q.q_type === "MF")) {
+                const startQ = mfQuestions[0].id;
+                const endQ = mfQuestions[mfQuestions.length - 1].id;
+                acc.push(
+                  <div key={`mf-${index}`} className="mb-6">
+                    <MatchingFeatures
+                      questions={mfQuestions}
+                      handleSelectOption={(statementId, option) => {
+                        handleSelectOption(statementId, option);
+                      }}
+                      startQuestion={startQ}
+                      endQuestion={endQ}
+                    />
+                  </div>
+                );
+              }
+            } else if (question.q_type === "TFNG") {
+              const tfngQuestions = questions
+                .filter((q) => q.q_type === "TFNG")
+                .map((q) => ({
+                  q_type: "TFNG" as const,
+                  part_id: q.question_id,
+                  sentence: q.sentence || "",
+                  answer: "",
+                  id: q.id, // Add id property for reference
+                }));
+              if (index === questions.findIndex((q) => q.q_type === "TFNG")) {
+                // Use the actual IDs from the questions
+                const firstQuestion = questions.find(
+                  (q) => q.q_type === "TFNG"
+                );
+                const startQ = firstQuestion
+                  ? firstQuestion.id
+                  : questions.findIndex((q) => q.q_type === "TFNG") + 1;
+                const endQ = startQ + tfngQuestions.length - 1;
+                acc.push(
+                  <div key={`tfng-${index}`} className="mb-6">
+                    <TrueFalseNotGiven
+                      questions={tfngQuestions as any} // Type assertion to bypass type checking
+                      handleSelectOption={(statementId, option) => {
+                        handleSelectOption(statementId, option);
+                      }}
+                      startQuestion={startQ}
+                      endQuestion={endQ}
+                    />
+                  </div>
+                );
+              }
             }
             return acc;
           }, [])}
@@ -1272,8 +1471,10 @@ const ListeningTestClient: React.FC = () => {
       </div>
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-[8.5%] left-0 right-0 z-20">
-        <div className="-translate-y-[50%] sm:-translate-y-[100%] lg:translate-y-[50%]">
+      {/* <div className="fixed bottom-[8.5%] left-0 right-0 z-20"></div> */}
+
+      <div className="fixed bottom-0 left-0 right-0 !z-10">
+        <div className="translate-y-[60%] sm:translate-y-[50%] lg:translate-y-[50%]">
           <TimeProgressBar progress={progress} timeLeft={timeLeft || "00:00"} />
         </div>
         <div className="hidden lg:flex flex-wrap justify-center mt-0 gap-1 w-full bg-white mx-auto pb-2 pt-5 border-b border-gray-200">
@@ -1296,11 +1497,8 @@ const ListeningTestClient: React.FC = () => {
             );
           })}
         </div>
-      </div>
-
-      <div className="fixed bottom-0 left-0 right-0 bg-white z-10">
         {/* NAVIGATION DESKTOP  */}
-        <div className="hidden lg:flex justify-between items-center p-2 border-t border-gray-200">
+        <div className="hidden lg:flex bg-white justify-between items-center p-2 border-t border-gray-200">
           <div
             className={`${
               selectedPassage === 1 ? "" : "border border-[#FA812F]"
@@ -1402,7 +1600,7 @@ const ListeningTestClient: React.FC = () => {
         </div>
 
         {/* NAVIGATION MOBILE  */}
-        <div className="lg:hidden flex justify-center items-center py-2 pt-5 border-t border-gray-200">
+        <div className="lg:hidden bg-white flex justify-center items-center py-2 pt-5 border-t border-gray-200">
           <div className="flex justify-center text-sm">
             {passages.map((passage) => (
               <PassageProgressBarMobile
