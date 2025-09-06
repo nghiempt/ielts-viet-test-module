@@ -1327,19 +1327,21 @@ const ListeningTestClient: React.FC = () => {
                       }`}
                       subtitle="Choose the correct answer"
                     />
-                    {mpQuestions.map((q) => (
-                      <QuizQuestion
-                        key={q.id}
-                        id={q.id}
-                        question={q.question}
-                        options={q.options}
-                        isMultiple={q.isMultiple}
-                        selectedOptions={q.selectedOptions}
-                        onSelectOption={(option) =>
-                          handleSelectOption(q.id, option)
-                        }
-                      />
-                    ))}
+                    <div className="border border-gray-200 pt-6 pb-1 bg-white rounded-lg">
+                      {mpQuestions.map((q) => (
+                        <QuizQuestion
+                          key={q.id}
+                          id={q.id}
+                          question={q.question}
+                          options={q.options}
+                          isMultiple={q.isMultiple}
+                          selectedOptions={q.selectedOptions}
+                          onSelectOption={(option) =>
+                            handleSelectOption(q.id, option)
+                          }
+                        />
+                      ))}
+                    </div>
                   </div>
                 );
               }

@@ -52,13 +52,13 @@ export const QuizOption: React.FC<QuizOptionProps> = ({
   onSelect,
 }) => (
   <div
-    className="grid grid-cols-12 lg:flex lg:items-center mb-3 cursor-pointer"
+    className="grid grid-cols-12 lg:flex lg:items-center mb-1 cursor-pointer"
     onClick={onSelect}
   >
     <div
-      className={`col-span-2 w-8 h-8 flex items-center justify-center rounded-full mr-3 border ${
+      className={`col-span-2 w-4 h-4 flex items-center justify-center rounded-full mr-3 border ${
         isSelected
-          ? "bg-[#f8f2ef] border-[#FA812F]"
+          ? " border-[#FA812F] bg-[#FA812F]"
           : "bg-gray-100 border-gray-300"
       }`}
     >
@@ -67,7 +67,7 @@ export const QuizOption: React.FC<QuizOptionProps> = ({
           isSelected ? "text-[#FA812F]" : "text-gray-600"
         }`}
       >
-        {label}
+        {/* {label} */}
       </span>
     </div>
     <div className="col-span-10">
@@ -88,7 +88,7 @@ export const QuizQuestion: React.FC<QuizQuestionProps> = ({
 
   return (
     <div
-      className="mb-4 bg-white p-6 rounded-lg border border-gray-200"
+      className="bg-white px-6 mb-5 rounded-lg"
       id={`reading-question-${id}`}
     >
       <div className="flex mb-4">

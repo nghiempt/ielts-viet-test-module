@@ -1302,19 +1302,21 @@ export default function ReadingTestClient() {
                           }`}
                           subtitle="Choose the correct answer"
                         />
-                        {mpQuestions.map((q) => (
-                          <QuizQuestion
-                            key={q.id}
-                            id={q.id}
-                            question={q.question}
-                            options={q.options}
-                            isMultiple={q.isMultiple}
-                            selectedOptions={q.selectedOptions}
-                            onSelectOption={(option) =>
-                              handleSelectOption(q.id, option)
-                            }
-                          />
-                        ))}
+                        <div className="border border-gray-200 rounded-lg pt-6 pb-1">
+                          {mpQuestions.map((q) => (
+                            <QuizQuestion
+                              key={q.id}
+                              id={q.id}
+                              question={q.question}
+                              options={q.options}
+                              isMultiple={q.isMultiple}
+                              selectedOptions={q.selectedOptions}
+                              onSelectOption={(option) =>
+                                handleSelectOption(q.id, option)
+                              }
+                            />
+                          ))}
+                        </div>
                       </div>
                     );
                   }

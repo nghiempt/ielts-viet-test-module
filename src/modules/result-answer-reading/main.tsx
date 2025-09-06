@@ -680,17 +680,19 @@ export default function AnswerKeyReadingPage() {
                         }`}
                         subtitle="Review your answers"
                       />
-                      {mpQuestions.map((q) => (
-                        <ResultQuestion
-                          key={q?.id}
-                          id={q?.id}
-                          question={q?.question}
-                          options={q?.options}
-                          selectedOptions={q?.selectedOptions}
-                          correctAnswer={q?.correct_answer || []}
-                          isCorrect={q?.is_correct ?? false}
-                        />
-                      ))}
+                      <div className="border border-gray-200 pt-6 pb-1">
+                        {mpQuestions.map((q) => (
+                          <ResultQuestion
+                            key={q?.id}
+                            id={q?.id}
+                            question={q?.question}
+                            options={q?.options}
+                            selectedOptions={q?.selectedOptions}
+                            correctAnswer={q?.correct_answer || []}
+                            isCorrect={q?.is_correct ?? false}
+                          />
+                        ))}
+                      </div>
                     </div>
                   );
                 }

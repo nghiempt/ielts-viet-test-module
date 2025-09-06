@@ -39,13 +39,13 @@ export const ResultOption: React.FC<ResultOptionProps> = ({
   isSelected,
   isCorrect,
 }) => (
-  <div className="grid grid-cols-12 lg:flex lg:items-center mb-3">
+  <div className="grid grid-cols-12 lg:flex lg:items-center mb-1">
     <div
-      className={`col-span-2 w-8 h-8 flex items-center justify-center rounded-full mr-3 border ${
+      className={`col-span-2 w-5 h-5 flex items-center justify-center rounded-full mr-3 border ${
         isCorrect
-          ? "border-green-500"
+          ? "border-green-500 bg-green-500"
           : isSelected
-          ? "border-red-500"
+          ? "border-red-500 bg-red-500"
           : "border-gray-300"
       }`}
     >
@@ -58,7 +58,7 @@ export const ResultOption: React.FC<ResultOptionProps> = ({
             : "text-gray-600"
         }`}
       >
-        {label}
+        {/* {label} */}
       </span>
     </div>
     <div className="col-span-10">
@@ -84,7 +84,7 @@ export const ResultQuestion: React.FC<ResultQuestionProps> = ({
 
   return (
     <div
-      className="mb-4 bg-white p-6 rounded-lg border border-gray-200"
+      className="mb-5 bg-white px-6 rounded-lg"
       id={`listening-question-result-${id}`}
     >
       <div className="flex mb-4 items-center">
