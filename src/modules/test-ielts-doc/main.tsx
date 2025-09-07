@@ -1302,8 +1302,8 @@ export default function ReadingTestClient() {
                           }`}
                           subtitle="Choose the correct answer"
                         />
-                        <div className="border border-gray-200 rounded-lg pt-6 pb-1">
-                          {mpQuestions.map((q) => (
+                        <div className="border border-gray-200 rounded-lg pt-6 pb-1 grid grid-cols-1 lg:grid-cols-2 gap-4">
+                          {/* {mpQuestions.map((q) => (
                             <QuizQuestion
                               key={q.id}
                               id={q.id}
@@ -1315,7 +1315,45 @@ export default function ReadingTestClient() {
                                 handleSelectOption(q.id, option)
                               }
                             />
-                          ))}
+                          ))} */}
+
+                          {/* Left Column - First Half of Questions */}
+                          <div className="space-y-4">
+                            {mpQuestions
+                              .slice(0, Math.ceil(mpQuestions.length / 2))
+                              .map((q) => (
+                                <QuizQuestion
+                                  key={q.id}
+                                  id={q.id}
+                                  question={q.question}
+                                  options={q.options}
+                                  isMultiple={q.isMultiple}
+                                  selectedOptions={q.selectedOptions}
+                                  onSelectOption={(option) =>
+                                    handleSelectOption(q.id, option)
+                                  }
+                                />
+                              ))}
+                          </div>
+
+                          {/* Right Column - Second Half of Questions */}
+                          <div className="space-y-4">
+                            {mpQuestions
+                              .slice(Math.ceil(mpQuestions.length / 2))
+                              .map((q) => (
+                                <QuizQuestion
+                                  key={q.id}
+                                  id={q.id}
+                                  question={q.question}
+                                  options={q.options}
+                                  isMultiple={q.isMultiple}
+                                  selectedOptions={q.selectedOptions}
+                                  onSelectOption={(option) =>
+                                    handleSelectOption(q.id, option)
+                                  }
+                                />
+                              ))}
+                          </div>
                         </div>
                       </div>
                     );
@@ -1510,7 +1548,7 @@ export default function ReadingTestClient() {
                         }`}
                         subtitle="Choose the correct answer"
                       />
-                      {mpQuestions.map((q) => (
+                      {/* {mpQuestions.map((q) => (
                         <QuizQuestion
                           key={q.id}
                           id={q.id}
@@ -1522,7 +1560,61 @@ export default function ReadingTestClient() {
                             handleSelectOption(q.id, option)
                           }
                         />
-                      ))}
+                      ))} */}
+
+                      <div className="border border-gray-200 rounded-lg pt-6 pb-1 grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        {/* {mpQuestions.map((q) => (
+                            <QuizQuestion
+                              key={q.id}
+                              id={q.id}
+                              question={q.question}
+                              options={q.options}
+                              isMultiple={q.isMultiple}
+                              selectedOptions={q.selectedOptions}
+                              onSelectOption={(option) =>
+                                handleSelectOption(q.id, option)
+                              }
+                            />
+                          ))} */}
+
+                        {/* Left Column - First Half of Questions */}
+                        <div className="space-y-4">
+                          {mpQuestions
+                            .slice(0, Math.ceil(mpQuestions.length / 2))
+                            .map((q) => (
+                              <QuizQuestion
+                                key={q.id}
+                                id={q.id}
+                                question={q.question}
+                                options={q.options}
+                                isMultiple={q.isMultiple}
+                                selectedOptions={q.selectedOptions}
+                                onSelectOption={(option) =>
+                                  handleSelectOption(q.id, option)
+                                }
+                              />
+                            ))}
+                        </div>
+
+                        {/* Right Column - Second Half of Questions */}
+                        <div className="space-y-4">
+                          {mpQuestions
+                            .slice(Math.ceil(mpQuestions.length / 2))
+                            .map((q) => (
+                              <QuizQuestion
+                                key={q.id}
+                                id={q.id}
+                                question={q.question}
+                                options={q.options}
+                                isMultiple={q.isMultiple}
+                                selectedOptions={q.selectedOptions}
+                                onSelectOption={(option) =>
+                                  handleSelectOption(q.id, option)
+                                }
+                              />
+                            ))}
+                        </div>
+                      </div>
                     </div>
                   );
                 }
