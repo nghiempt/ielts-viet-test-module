@@ -164,6 +164,7 @@ const ListeningTestClient: React.FC = () => {
   const [guestGmail, setGuestGmail] = useState("");
   const isLogin = Cookies.get("isLogin");
   const [isSinglePartMode, setIsSinglePartMode] = useState(false);
+  const [isDataLoading, setIsDataLoading] = useState(true);
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -188,6 +189,11 @@ const ListeningTestClient: React.FC = () => {
 
   // Memoize audio sources to prevent re-computation on every render
   const audioSources = useMemo(() => {
+    console.log("passage1", passage1);
+    console.log("passage2", passage2);
+    console.log("passage3", passage3);
+    console.log("passage4", passage4);
+
     // Collect all non-null passage audios in order
     return [passage1, passage2, passage3, passage4]
       .filter((p): p is PassageSection => !!p && !!p.audio)
@@ -514,6 +520,8 @@ const ListeningTestClient: React.FC = () => {
     const id = segments[segments.length - 1];
 
     try {
+      setIsDataLoading(true); // Add this line at the start
+
       if (isLogin) {
         try {
           const data = await UserService.getUserById(isLogin);
@@ -626,9 +634,12 @@ const ListeningTestClient: React.FC = () => {
         ]);
         setQuestions(passage1Questions);
       }
+
+      setIsDataLoading(false); // Add this line at the end of successful execution
     } catch (error) {
       console.error("Error initializing listening test:", error);
       setData(null);
+      setIsDataLoading(false); // Add this line to handle error case
     }
   };
 
@@ -951,6 +962,7 @@ const ListeningTestClient: React.FC = () => {
   const handleStartTest = () => {
     setShowConfirmDialog(false);
     if (audioSources.length > 0) {
+      console.log("audioSources", audioSources);
       setCurrentAudioIndex(0); // Start playing the first audio
     } else {
       console.warn("No audio sources available");
@@ -971,6 +983,9 @@ const ListeningTestClient: React.FC = () => {
     setShowConfirmSubmitDialog(false);
     setShowGetInfoDialog(false);
   };
+
+  // Check if all data is ready for starting the test
+  const isDataReady = !isDataLoading && data && allQuestions.length > 0;
 
   return (
     <div className="relative bg-gray-100 min-h-screen w-full">
@@ -996,6 +1011,14 @@ const ListeningTestClient: React.FC = () => {
                 INSTRUCTIONS
               </h2>
               <div className="text-gray-800 mb-6">
+                {/* {isDataLoading && (
+                  <div className="flex items-center justify-center mb-4">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#FA812F]"></div>
+                    <span className="ml-2 text-sm text-gray-600">
+                      Đang tải dữ liệu bài thi...
+                    </span>
+                  </div>
+                )} */}
                 <div>
                   <strong className="uppercase">IELTS Listening Test</strong>
                   <p>&ensp; &#8226; Time approximately 60 minutes.</p>
@@ -1028,9 +1051,14 @@ const ListeningTestClient: React.FC = () => {
                 </button>
                 <button
                   onClick={handleStartTest}
-                  className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
+                  disabled={!isDataReady}
+                  className={`px-4 py-2 rounded-md transition ${
+                    isDataReady
+                      ? "bg-[#FA812F] text-white hover:bg-[#e06b1f]"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
                 >
-                  Bắt đầu
+                  {isDataLoading ? "Đang tải..." : "Bắt đầu"}
                 </button>
               </div>
             </motion.div>
