@@ -6,6 +6,8 @@ interface MatchingFeaturesQuestion {
   feature: string;
   answer: string;
   options: string[];
+  id?: number; // Add id property
+  question_id?: string; // Add question_id property
 }
 
 interface AnswerState {
@@ -89,10 +91,9 @@ const Statement: React.FC<StatementProps> = ({
     setIsDropdownOpen(false);
   };
 
-  // Find the selected country text if there's a selection
-  const selectedCountryText = selectedCountry
-    ? countries[countryIds.indexOf(selectedCountry)]
-    : null;
+  // Find the index of the selected country in the countries array to get its ID
+  const countryIndex = countries.indexOf(selectedCountry || "");
+  const displayId = countryIndex !== -1 ? countryIds[countryIndex] : "";
 
   return (
     <div className="mb-4 bg-white p-0 rounded-lg">
@@ -112,10 +113,8 @@ const Statement: React.FC<StatementProps> = ({
           <span className="text-sm">
             {selectedCountry ? (
               <span>
-                <span className="font-medium text-[#FA812F]">
-                  {selectedCountry}
-                </span>{" "}
-                {selectedCountryText}
+                <span className="font-medium text-[#FA812F]">{displayId}</span>{" "}
+                {selectedCountry}
               </span>
             ) : (
               "Select a country"
@@ -149,20 +148,25 @@ const Statement: React.FC<StatementProps> = ({
                   ✕
                 </button>
               </div>
-              {countryIds.map((countryId, index) => (
-                <div
-                  key={countryId}
-                  className={`flex items-center p-3 hover:bg-gray-100 cursor-pointer ${
-                    selectedCountry === countryId ? "bg-[#f8f2ef]" : ""
-                  }`}
-                  onClick={() => handleSelect(countryId)}
-                >
-                  <span className="font-medium mr-3 text-[#FA812F] w-6">
-                    {countryId}
-                  </span>
-                  <span className="text-base">{countries[index]}</span>
-                </div>
-              ))}
+              {countryIds.map((countryId, index) => {
+                // Check if this country is selected
+                const isSelected = selectedCountry === countries[index];
+
+                return (
+                  <div
+                    key={countryId}
+                    className={`flex items-center p-3 hover:bg-gray-100 cursor-pointer ${
+                      isSelected ? "bg-[#f8f2ef]" : ""
+                    }`}
+                    onClick={() => handleSelect(countryId)}
+                  >
+                    <span className="font-medium mr-3 text-[#FA812F] w-6">
+                      {countryId}
+                    </span>
+                    <span className="text-base">{countries[index]}</span>
+                  </div>
+                );
+              })}
             </div>
           </>
         )}
@@ -174,6 +178,7 @@ const Statement: React.FC<StatementProps> = ({
 interface MatchingFeaturesProps {
   questions: MatchingFeaturesQuestion[];
   handleSelectOption: (statementId: number, option: string) => void;
+  savedAnswers?: Record<string, string>; // Add this prop
   startQuestion?: number;
   endQuestion?: number;
 }
@@ -181,10 +186,17 @@ interface MatchingFeaturesProps {
 export default function MatchingFeatures({
   questions,
   handleSelectOption,
+  savedAnswers = {}, // Add this prop with default value
   startQuestion = 34,
   endQuestion = 40,
 }: MatchingFeaturesProps) {
-  const [answers, setAnswers] = useState<Record<string, string | null>>({});
+  const [answers, setAnswers] =
+    useState<Record<string, string | null>>(savedAnswers);
+
+  // Add useEffect to update local state when savedAnswers change
+  useEffect(() => {
+    setAnswers(savedAnswers);
+  }, [savedAnswers]);
 
   // Extract unique countries from questions
   const countries = questions.length > 0 ? questions[0].options : [];
@@ -194,18 +206,39 @@ export default function MatchingFeatures({
   );
 
   // Generate statement IDs and map questions
-  const statements = questions.map((q, index) => ({
-    id: startQuestion + index,
-    text: q.feature,
-    selectedCountry: answers[(startQuestion + index).toString()] || null,
-  }));
+  const statements = questions.map((q, index) => {
+    const questionId = q.id?.toString();
+    // Use saved answers if available for this question
+    const savedAnswer = questionId && savedAnswers[questionId];
+    return {
+      id: startQuestion + index,
+      text: q.feature,
+      selectedCountry:
+        answers[(startQuestion + index).toString()] || savedAnswer || null,
+    };
+  });
 
   const handleCountrySelect = (statementId: number, countryId: string) => {
+    // Find the country text for the selected ID
+    let selectedCountry = countryId;
+
+    // If countryId is just an ID (like "A", "B", etc.), find the corresponding text
+    if (countryId.length === 1) {
+      // Just checking if it's a single letter ID
+      const index = countryIds.indexOf(countryId);
+      if (index !== -1 && index < countries.length) {
+        // Just pass the country text, not the ID + text
+        selectedCountry = countries[index];
+      }
+    }
+
     setAnswers((prev) => ({
       ...prev,
-      [statementId.toString()]: countryId,
+      [statementId.toString()]: selectedCountry,
     }));
-    handleSelectOption(statementId, countryId);
+
+    // Pass just the text to the parent component
+    handleSelectOption(statementId, selectedCountry);
   };
 
   return (

@@ -609,9 +609,9 @@ export default function AnswerKeyReadingPage() {
           </div>
         </Link>
       </header>
-      <div className="fixed top-0 bottom-0 left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full pt-14">
+      <div className="fixed top-0 bottom-0 left-0 right-0 grid grid-cols-1 lg:grid-cols-12 w-full pt-14">
         <div
-          className={`p-4 pt-8 pb-32 overflow-y-auto scroll-bar-style border-r border-gray-200 bg-white ${
+          className={`lg:col-span-7 p-4 pt-8 pb-32 overflow-y-auto scroll-bar-style border-r border-gray-200 bg-white ${
             switchReading ? "" : "hidden lg:block"
           }`}
         >
@@ -653,7 +653,7 @@ export default function AnswerKeyReadingPage() {
           )}
         </div>
         <div
-          className={`bg-white p-4 pt-8 pb-28 overflow-y-auto scroll-bar-style ${
+          className={`lg:col-span-5 bg-white p-4 pt-8 pb-28 overflow-y-auto scroll-bar-style ${
             switchReading ? "hidden lg:block" : ""
           }`}
         >

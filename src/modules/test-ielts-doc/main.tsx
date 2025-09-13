@@ -1,10 +1,16 @@
 // pages/ielts-test.tsx
 import { toast } from "@/hooks/use-toast";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { IMAGES } from "@/utils/images";
 import PassageProgressBar from "./components/processing-bar";
-import { FileText, Grid2x2Check } from "lucide-react";
+import {
+  FileText,
+  Grid2x2Check,
+  BookOpen,
+  HelpCircle,
+  ChevronLeft,
+} from "lucide-react";
 import Link from "next/link";
 import PassageProgressBarMobile from "./components/processing-bar-mobile";
 import { motion, AnimatePresence } from "framer-motion";
@@ -125,7 +131,7 @@ export default function ReadingTestClient() {
   const [selectedPassage, setSelectedPassage] = useState(1);
   const [answers, setAnswers] = useState<AnswerState>({ parts: [] });
   const [currentPage, setCurrentPage] = useState(1);
-  const [timeLeft, setTimeLeft] = useState("60:00");
+  const [timeLeft, setTimeLeft] = useState("00:00");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [switchReading, setSwitchReading] = useState(true);
   const router = useRouter();
@@ -139,9 +145,74 @@ export default function ReadingTestClient() {
   const [userAccount, setUserAccount] = useState<UserAccount | null>(null);
   const isLogin = Cookies.get("isLogin");
   const [isSinglePartMode, setIsSinglePartMode] = useState(false);
+  const [isDataLoading, setIsDataLoading] = useState(true);
   const scrollToSection = (sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
   };
+  const [isPassageProgressBarOpen, setIsPassageProgressBarOpen] =
+    useState(false);
+  const [isAutoSubmitted, setIsAutoSubmitted] = useState(false);
+
+  // Auto-submit function that handles submission when time is up
+  const handleAutoSubmit = useCallback(async () => {
+    if (isAutoSubmitted) return; // Prevent multiple submissions
+
+    setIsAutoSubmitted(true);
+    setIsTimerRunning(false);
+
+    // For auto-submit, we'll use a default email if user is not logged in and hasn't provided one
+    let userId = "";
+    let userEmail = "";
+
+    if (isLogin) {
+      userId = isLogin;
+      userEmail = userAccount?.email || "";
+    } else {
+      userEmail = guestGmail || "auto-submit@temp.com"; // Use temp email for auto-submit
+    }
+
+    const segments = pathname.split("/").filter(Boolean);
+    const id = segments[segments.length - 1];
+
+    const body = {
+      user_id: userId,
+      test_id: id,
+      user_email: userEmail,
+      parts: answers.parts,
+    };
+
+    try {
+      const response = await (isRetake
+        ? SubmitService.updateSubmitTest(body)
+        : SubmitService.submitTest(body));
+
+      // Show notification that test was auto-submitted
+      toast({
+        title: "Thời gian đã hết",
+        description: "Bài thi đã được tự động nộp",
+      });
+
+      // Redirect to result page or home
+      const jsonData = JSON.stringify(response, null, 2);
+      localStorage.setItem("readingTestAnswers", jsonData);
+      router.push(`${ROUTES.READING_STATISTIC}/${id}`);
+    } catch (error) {
+      console.error("Error auto-submitting test:", error);
+      toast({
+        variant: "destructive",
+        title: "Lỗi",
+        description: "Không thể tự động nộp bài. Vui lòng thử lại.",
+      });
+    }
+  }, [
+    isAutoSubmitted,
+    isLogin,
+    userAccount,
+    guestGmail,
+    pathname,
+    answers,
+    isRetake,
+  ]);
 
   // COUNTING DOWN TIMER
   useEffect(() => {
@@ -152,6 +223,7 @@ export default function ReadingTestClient() {
 
     if (totalSeconds <= 0) {
       setTimeLeft("00:00");
+      handleAutoSubmit(); // Auto-submit when time is up
       return;
     }
 
@@ -168,11 +240,12 @@ export default function ReadingTestClient() {
       if (totalSeconds <= 0) {
         clearInterval(timer);
         setTimeLeft("00:00");
+        handleAutoSubmit(); // Auto-submit when time is up
       }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [timeLeft, isTimerRunning]);
+  }, [timeLeft, isTimerRunning, handleAutoSubmit]);
 
   // ALERT ON PAGE RELOAD OR CLOSE
   useEffect(() => {
@@ -236,22 +309,36 @@ export default function ReadingTestClient() {
         (ua) => ua.question_id === q._id
       );
 
-      const selectedOptions = userAnswer?.answer?.length
-        ? q.q_type === "MP" && q.isMultiple
-          ? userAnswer.answer
-          : q.q_type === "MP" ||
-            q.q_type === "MH" ||
-            q.q_type === "MF" ||
-            q.q_type === "TFNG"
-          ? userAnswer.answer[0]
-          : userAnswer.answer[0] || ""
-        : q.q_type === "MP"
-        ? q.isMultiple
-          ? []
-          : null
-        : q.q_type === "MH" || q.q_type === "MF" || q.q_type === "TFNG"
-        ? null
-        : "";
+      // For MH and MF types, we want to ensure we get the correct answer from the user's selections
+      let selectedOptions;
+
+      if (userAnswer?.answer?.length) {
+        if (q.q_type === "MP" && q.isMultiple) {
+          selectedOptions = userAnswer.answer;
+        } else if (
+          q.q_type === "MH" ||
+          q.q_type === "MF" ||
+          q.q_type === "TFNG"
+        ) {
+          selectedOptions = userAnswer.answer[0];
+        } else if (q.q_type === "MP") {
+          selectedOptions = userAnswer.answer[0];
+        } else {
+          selectedOptions = userAnswer.answer[0] || "";
+        }
+      } else {
+        if (q.q_type === "MP") {
+          selectedOptions = q.isMultiple ? [] : null;
+        } else if (
+          q.q_type === "MH" ||
+          q.q_type === "MF" ||
+          q.q_type === "TFNG"
+        ) {
+          selectedOptions = null;
+        } else {
+          selectedOptions = "";
+        }
+      }
 
       return {
         id: startId + index,
@@ -362,6 +449,7 @@ export default function ReadingTestClient() {
     const id = segments[segments.length - 1];
 
     try {
+      setIsDataLoading(true);
       if (isLogin) {
         try {
           const data = await UserService.getUserById(isLogin);
@@ -404,7 +492,6 @@ export default function ReadingTestClient() {
         setIsSinglePartMode(true);
         const allQs = mapAndArrangeQuestions(resP1, 1);
         setQuestions(allQs);
-        console.log("allQs", allQs);
 
         setAllQuestions(allQs);
         setAnswers((prev) => {
@@ -568,12 +655,15 @@ export default function ReadingTestClient() {
           const initialParts: PartAnswer[] = Object.values(groupedByPartId);
           return { parts: initialParts };
         });
+        setIsDataLoading(false);
       } else {
         setData(null);
+        setIsDataLoading(false);
       }
     } catch (error) {
       console.error("Error initializing reading test:", error);
       setData(null);
+      setIsDataLoading(false);
     }
   };
 
@@ -592,14 +682,37 @@ export default function ReadingTestClient() {
 
     const passageData = { 1: passage1, 2: passage2, 3: passage3 };
     const selectedPassageData = passageData[selectedPassage as 1 | 2 | 3];
+
     if (selectedPassageData) {
+      // Map and arrange questions for the selected passage
       const updatedQuestions = mapAndArrangeQuestions(
         selectedPassageData,
         startIds[selectedPassage]
       );
-      setQuestions(updatedQuestions);
+
+      // Make sure we're preserving answers from allQuestions when switching passages
+      const updatedQuestionsWithAnswers = updatedQuestions.map((q) => {
+        // Try to find the question in allQuestions to get any existing answers
+        const existingQuestion = allQuestions.find(
+          (aq) => aq.question_id === q.question_id
+        );
+
+        if (
+          existingQuestion &&
+          existingQuestion.selectedOptions !== null &&
+          existingQuestion.selectedOptions !== undefined
+        ) {
+          return {
+            ...q,
+            selectedOptions: existingQuestion.selectedOptions,
+          };
+        }
+        return q;
+      });
+
+      setQuestions(updatedQuestionsWithAnswers);
     }
-  }, [selectedPassage, passage1, passage2, passage3, answers]);
+  }, [selectedPassage, passage1, passage2, passage3, answers, allQuestions]);
 
   const handlePassageSelect = (passageId: number) => {
     setSelectedPassage(passageId);
@@ -626,6 +739,121 @@ export default function ReadingTestClient() {
     const prevPassage =
       selectedPassage > 1 ? selectedPassage - 1 : passages.length;
     handlePassageSelect(prevPassage);
+  };
+
+  // Unified function to get saved answers for all question types
+  const getSavedAnswers = (questions: any[], questionType: string) => {
+    const savedAnswers: Record<string, string> = {};
+
+    questions.forEach((q) => {
+      try {
+        if (questionType === "MH") {
+          // For MH, we need to find the question by paragraph_id
+          const relatedQuestion = allQuestions.find(
+            (aq) => aq.q_type === "MH" && aq.paragraph_id === q.paragraph_id
+          );
+
+          if (relatedQuestion) {
+            const questionData =
+              passage1?.question.find(
+                (pq) => pq._id === relatedQuestion.question_id
+              ) ||
+              passage2?.question.find(
+                (pq) => pq._id === relatedQuestion.question_id
+              ) ||
+              passage3?.question.find(
+                (pq) => pq._id === relatedQuestion.question_id
+              );
+
+            if (questionData) {
+              const partAnswer = answers.parts.find(
+                (part) => part.part_id === questionData.part_id
+              );
+              const userAnswer = partAnswer?.user_answers.find(
+                (ua) => ua.question_id === relatedQuestion.question_id
+              );
+
+              if (
+                userAnswer &&
+                userAnswer.answer &&
+                userAnswer.answer.length > 0 &&
+                userAnswer.answer[0] !== ""
+              ) {
+                if (q.paragraph_id) {
+                  savedAnswers[q.paragraph_id] = userAnswer.answer[0];
+                }
+              }
+            }
+          }
+        } else if (questionType === "MF" || questionType === "TFNG") {
+          // For MF and TFNG, find the question in allQuestions
+          const relatedQuestion = allQuestions.find(
+            (aq) => aq.q_type === questionType && aq.id === q.id
+          );
+
+          if (relatedQuestion) {
+            const questionData =
+              passage1?.question.find(
+                (pq) => pq._id === relatedQuestion.question_id
+              ) ||
+              passage2?.question.find(
+                (pq) => pq._id === relatedQuestion.question_id
+              ) ||
+              passage3?.question.find(
+                (pq) => pq._id === relatedQuestion.question_id
+              );
+
+            if (questionData) {
+              const partAnswer = answers.parts.find(
+                (part) => part.part_id === questionData.part_id
+              );
+              const userAnswer = partAnswer?.user_answers.find(
+                (ua) => ua.question_id === relatedQuestion.question_id
+              );
+
+              if (
+                userAnswer &&
+                userAnswer.answer &&
+                userAnswer.answer.length > 0 &&
+                userAnswer.answer[0] !== ""
+              ) {
+                savedAnswers[q.id.toString()] = userAnswer.answer[0];
+              }
+            }
+          }
+        } else {
+          // For other question types (MP, FB), use the original approach
+          const questionData =
+            passage1?.question.find((pq) => pq._id === q.question_id) ||
+            passage2?.question.find((pq) => pq._id === q.question_id) ||
+            passage3?.question.find((pq) => pq._id === q.question_id);
+
+          if (questionData) {
+            const partAnswer = answers.parts.find(
+              (part) => part.part_id === questionData.part_id
+            );
+            const userAnswer = partAnswer?.user_answers.find(
+              (ua) => ua.question_id === q.question_id
+            );
+
+            if (
+              userAnswer &&
+              userAnswer.answer &&
+              userAnswer.answer.length > 0 &&
+              userAnswer.answer[0] !== ""
+            ) {
+              if ((questionType === "MP" || questionType === "FB") && q.id) {
+                savedAnswers[q.id.toString()] = userAnswer.answer[0];
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Error in getSavedAnswers:", error, "for question:", q);
+      }
+    });
+
+    return savedAnswers;
   };
 
   const currentPassage = passages[selectedPassage - 1] || {
@@ -666,11 +894,20 @@ export default function ReadingTestClient() {
     const hasAnswer = userAnswer.answer?.length > 0;
     if (!hasAnswer) return false;
 
+    // Check specific question types
     if (question.q_type === "FB") {
       return userAnswer.answer[0] !== "";
+    } else if (
+      question.q_type === "MH" ||
+      question.q_type === "MF" ||
+      question.q_type === "TFNG"
+    ) {
+      return userAnswer.answer[0] !== undefined && userAnswer.answer[0] !== "";
+    } else if (question.q_type === "MP" && question.isMultiple) {
+      return userAnswer.answer.length > 0;
+    } else {
+      return userAnswer.answer[0] !== undefined && userAnswer.answer[0] !== "";
     }
-
-    return true;
   };
 
   const updatePartCompletion = (partId: string) => {
@@ -705,6 +942,7 @@ export default function ReadingTestClient() {
       return;
     }
 
+    // Update the answers state with the new selection
     setAnswers((prev) => {
       const updatedParts = prev.parts.map((part) => {
         if (part.part_id === questionData.part_id) {
@@ -749,6 +987,7 @@ export default function ReadingTestClient() {
       return { parts: updatedParts };
     });
 
+    // Update the current questions state to reflect the selection
     setQuestions((prevQuestions) =>
       prevQuestions.map((q) =>
         q.id === questionId
@@ -760,6 +999,10 @@ export default function ReadingTestClient() {
                     ? q.selectedOptions.filter((opt) => opt !== option)
                     : [...q.selectedOptions, option]
                   : [option]
+                : question.q_type === "MH" ||
+                  question.q_type === "MF" ||
+                  question.q_type === "TFNG"
+                ? option
                 : option,
             }
           : q
@@ -769,7 +1012,7 @@ export default function ReadingTestClient() {
     // Update allQuestions to reflect the selected option across all passages
     setAllQuestions((prevAllQuestions) =>
       prevAllQuestions.map((q) =>
-        q.id === questionId
+        q.id === questionId || q.question_id === question.question_id
           ? {
               ...q,
               selectedOptions: question.isMultiple
@@ -778,6 +1021,10 @@ export default function ReadingTestClient() {
                     ? q.selectedOptions.filter((opt) => opt !== option)
                     : [...q.selectedOptions, option]
                   : [option]
+                : question.q_type === "MH" ||
+                  question.q_type === "MF" ||
+                  question.q_type === "TFNG"
+                ? option
                 : option,
             }
           : q
@@ -801,11 +1048,28 @@ export default function ReadingTestClient() {
     setAnswers((prev) => {
       const updatedParts = prev.parts.map((part) => {
         if (part.part_id === questionData.part_id) {
-          const updatedUserAnswers = part.user_answers.map((ua) =>
+          // Check if the question already exists in user_answers
+          const questionExists = part.user_answers.some(
+            (ua) => ua.question_id === question.question_id
+          );
+
+          let updatedUserAnswers = part.user_answers;
+
+          // If the question doesn't exist, add it
+          if (!questionExists) {
+            updatedUserAnswers = [
+              ...updatedUserAnswers,
+              { question_id: question.question_id, answer: [] },
+            ];
+          }
+
+          // Update the answer for the question
+          updatedUserAnswers = updatedUserAnswers.map((ua) =>
             ua.question_id === question.question_id
               ? { ...ua, answer: [answer] }
               : ua
           );
+
           return { ...part, user_answers: updatedUserAnswers };
         }
         return part;
@@ -813,10 +1077,19 @@ export default function ReadingTestClient() {
       return { parts: updatedParts };
     });
 
+    // Update questions state to reflect the fill-in answer
+    setQuestions((prevQuestions) =>
+      prevQuestions.map((q) =>
+        q.id === questionId ? { ...q, selectedOptions: answer } : q
+      )
+    );
+
     // Update allQuestions to reflect the fill-in answer
     setAllQuestions((prevAllQuestions) =>
       prevAllQuestions.map((q) =>
-        q.id === questionId ? { ...q, selectedOptions: answer } : q
+        q.id === questionId || q.question_id === question.question_id
+          ? { ...q, selectedOptions: answer }
+          : q
       )
     );
 
@@ -862,13 +1135,14 @@ export default function ReadingTestClient() {
       parts: answers.parts,
     };
 
+    // console.log("check body: ", JSON.stringify(body));
+
     try {
       const response = await (isRetake
         ? SubmitService.updateSubmitTest(body)
         : SubmitService.submitTest(body));
       const jsonData = JSON.stringify(response, null, 2);
       console.log("jsonData", jsonData);
-
       localStorage.setItem("readingTestAnswers", jsonData);
       const segments = pathname.split("/").filter(Boolean);
       const testId = segments[segments.length - 1];
@@ -877,6 +1151,8 @@ export default function ReadingTestClient() {
       console.error("Error submitting test:", error);
     }
   };
+
+  const isDataReady = !isDataLoading && data && allQuestions.length > 0;
 
   const handleStartTest = () => {
     setShowConfirmDialog(false);
@@ -952,9 +1228,14 @@ export default function ReadingTestClient() {
                 </button>
                 <button
                   onClick={handleStartTest}
-                  className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
+                  disabled={!isDataReady}
+                  className={`px-4 py-2 rounded-md transition ${
+                    isDataReady
+                      ? "bg-[#FA812F] text-white hover:bg-[#e06b1f]"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
                 >
-                  Bắt đầu
+                  {isDataLoading ? "Đang tải..." : "Bắt đầu"}
                 </button>
               </div>
             </motion.div>
@@ -1164,43 +1445,142 @@ export default function ReadingTestClient() {
           <div className="text-sm text-gray-600">Reading Test</div>
         </div>
         <div className="flex items-center">
-          <div className="text-sm flex flex-col items-center mr-3">
-            <div>Đã làm</div>
-            <div className="font-semibold">
-              <span
-                className={`${
+          <div className="relative flex flex-row items-center mr-5">
+            <div
+              className={`w-36 flex justify-center items-center ${
+                passages.length === 1 ||
+                (passages.length === 2 && selectedPassage === 2) ||
+                selectedPassage === 3
+                  ? "border border-[#FA812F]"
+                  : "hidden"
+              } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
+              onClick={() => {
+                if (
+                  isLogin &&
                   passages.reduce(
                     (acc, passage) => acc + passage.answeredQuestions,
                     0
                   ) === allQuestions.length
-                    ? "text-[#FA812F]"
-                    : ""
+                ) {
+                  setShowConfirmSubmitDialog(true);
+                } else if (
+                  !isLogin &&
+                  passages.reduce(
+                    (acc, passage) => acc + passage.answeredQuestions,
+                    0
+                  ) === allQuestions.length
+                ) {
+                  setShowGetInfoDialog(true);
+                } else {
+                  setShowCheckFullAnsDialog(true);
+                }
+              }}
+            >
+              <div
+                className={`font-medium text-md justify-center items-center text-[16px] ${
+                  passages.length === 1 ||
+                  (passages.length === 2 && selectedPassage === 2) ||
+                  selectedPassage === 3
+                    ? "flex"
+                    : "hidden"
                 }`}
               >
-                {passages.reduce(
-                  (acc, passage) => acc + passage.answeredQuestions,
-                  0
-                )}
-              </span>
-              <span className="text-[#FA812F]">/{allQuestions.length}</span>
+                Nộp bài
+              </div>
             </div>
+            <div>
+              {(() => {
+                const passage = passages.find(
+                  (passage) => selectedPassage === passage.id
+                );
+                return (
+                  passage && (
+                    <div className="flex items-center gap-2">
+                      <div>
+                        <ChevronLeft
+                          className={`w-4 h-4 rotate-[270deg] transition-all duration-300 ${
+                            isPassageProgressBarOpen ? "rotate-[90deg]" : ""
+                          }`}
+                        />
+                      </div>
+                      <PassageProgressBar
+                        key={passage.id}
+                        passageNumber={passage.id}
+                        currentQuestion={passage.answeredQuestions}
+                        totalQuestions={
+                          passage.endQuestion - passage.startQuestion + 1
+                        }
+                        choosenPassage={selectedPassage === passage.id}
+                        onClick={() => {
+                          setIsPassageProgressBarOpen(
+                            !isPassageProgressBarOpen
+                          );
+                        }}
+                      />
+                    </div>
+                  )
+                );
+              })()}
+            </div>
+            {isPassageProgressBarOpen && (
+              <div className="flex flex-col justify-center items-center absolute top-[120%] -right-[9%] bg-white py-3 !w-44 rounded-lg border border-gray-200 gap-3">
+                {passages.map((passage) => (
+                  <PassageProgressBar
+                    key={passage.id}
+                    passageNumber={passage.id}
+                    currentQuestion={passage.answeredQuestions}
+                    totalQuestions={
+                      passage.endQuestion - passage.startQuestion + 1
+                    }
+                    choosenPassage={selectedPassage === passage.id}
+                    onClick={() => {
+                      handlePassageSelect(passage.id);
+                      setIsPassageProgressBarOpen(!isPassageProgressBarOpen);
+                    }}
+                  />
+                ))}
+              </div>
+            )}
           </div>
-          <div className="bg-gray-100 px-3 py-1 rounded-full flex justify-center items-center w-24">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 text-gray-500 mr-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span className="text-[#FA812F] font-semibold">{timeLeft}</span>
+          <div className="w-40 flex flex-row items-center">
+            <div className="text-sm flex flex-col items-center mr-3">
+              <div>Đã làm</div>
+              <div className="font-semibold">
+                <span
+                  className={`${
+                    passages.reduce(
+                      (acc, passage) => acc + passage.answeredQuestions,
+                      0
+                    ) === allQuestions.length
+                      ? "text-[#FA812F]"
+                      : ""
+                  }`}
+                >
+                  {passages.reduce(
+                    (acc, passage) => acc + passage.answeredQuestions,
+                    0
+                  )}
+                </span>
+                <span className="text-[#FA812F]">/{allQuestions.length}</span>
+              </div>
+            </div>
+            <div className="bg-gray-100 px-3 py-1 rounded-full flex justify-center items-center w-24">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 text-gray-500 mr-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span className="text-[#FA812F] font-semibold">{timeLeft}</span>
+            </div>
           </div>
           <div
             className="text-gray-400 hover:text-gray-600 ml-4 cursor-pointer"
@@ -1225,10 +1605,10 @@ export default function ReadingTestClient() {
       </header>
 
       {/* Main Content */}
-      <div className="fixed top-[0px] bottom-[0px] left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full overflow-y-auto pb-16 lg:pb-28 pt-14">
+      <div className="fixed top-[0px] bottom-[0px] left-0 right-0 grid grid-cols-1 lg:grid-cols-12 w-full overflow-y-auto pb-16 lg:pb-0 pt-14">
         {/* Reading passage */}
         <div
-          className={`p-4 pt-8 overflow-y-auto scroll-bar-style border-r border-gray-200 bg-white ${
+          className={`lg:col-span-7 p-4 pt-8 overflow-y-auto scroll-bar-style border-r border-gray-200 bg-white ${
             switchReading ? "" : "hidden lg:block"
           }`}
         >
@@ -1275,7 +1655,7 @@ export default function ReadingTestClient() {
 
         {/* Questions */}
         <div
-          className={`bg-white p-4 pt-5 lg:pt-8 pb-0 overflow-y-auto scroll-bar-style h-full ${
+          className={`lg:col-span-5 bg-white p-4 pt-5 lg:pt-8 pb-0 overflow-y-auto scroll-bar-style h-full ${
             switchReading ? "hidden lg:block" : ""
           }`}
         >
@@ -1394,7 +1774,7 @@ export default function ReadingTestClient() {
                 } else if (question.q_type === "MH") {
                   const mhQuestions = questions
                     .filter((q) => q.q_type === "MH")
-                    .map((q, idx) => ({
+                    .map((q) => ({
                       q_type: "MH" as const,
                       id: q.id,
                       part_id: 1, // Using default part_id as number
@@ -1414,10 +1794,14 @@ export default function ReadingTestClient() {
                     const endingMhQuestionId =
                       questionIds[questionIds.length - 1];
 
+                    // Get saved answers for MH questions
+                    const savedAnswers = getSavedAnswers(mhQuestions, "MH");
+
                     acc.push(
                       <div key={`mh-${index}`} className="mb-6">
                         <MatchingHeadings
                           questions={mhQuestions}
+                          savedAnswers={savedAnswers}
                           handleSelectOption={(paragraphId, option) => {
                             // Find the corresponding question ID
                             const questionObj = questions.find(
@@ -1461,10 +1845,14 @@ export default function ReadingTestClient() {
                     const endingMfQuestionId =
                       questionIds[questionIds.length - 1];
 
+                    // Get saved answers for MF questions
+                    const savedAnswers = getSavedAnswers(mfQuestions, "MF");
+
                     acc.push(
                       <div key={`mf-${index}`} className="mb-6">
                         <MatchingFeatures
                           questions={mfQuestions}
+                          savedAnswers={savedAnswers}
                           handleSelectOption={(statementId, option) => {
                             // Find the corresponding question by ID
                             const questionObj = questions.find(
@@ -1503,10 +1891,12 @@ export default function ReadingTestClient() {
                     const endingTfngQuestionId =
                       questionIds[questionIds.length - 1];
 
+                    const savedAnswers = getSavedAnswers(tfngQuestions, "TFNG");
                     acc.push(
                       <div key={`tfng-${index}`} className="mb-6">
                         <TrueFalseNotGiven
                           questions={tfngQuestions}
+                          savedAnswers={savedAnswers}
                           handleSelectOption={(statementId, option) => {
                             // Find the corresponding question by ID
                             const questionObj = questions.find(
@@ -1674,10 +2064,14 @@ export default function ReadingTestClient() {
                   const endingMhQuestionId =
                     questionIds[questionIds.length - 1];
 
+                  // Get saved answers for MH questions
+                  const savedAnswers = getSavedAnswers(mhQuestions, "MH");
+
                   acc.push(
                     <div key={`mh-${index}`} className="mb-6">
                       <MatchingHeadings
                         questions={mhQuestions}
+                        savedAnswers={savedAnswers}
                         handleSelectOption={(paragraphId, option) => {
                           // Find the corresponding question ID
                           const questionObj = questions.find(
@@ -1721,10 +2115,14 @@ export default function ReadingTestClient() {
                   const endingMfQuestionId =
                     questionIds[questionIds.length - 1];
 
+                  // Get saved answers for MF questions
+                  const savedAnswers = getSavedAnswers(mfQuestions, "MF");
+
                   acc.push(
                     <div key={`mf-${index}`} className="mb-6">
                       <MatchingFeatures
                         questions={mfQuestions}
+                        savedAnswers={savedAnswers}
                         handleSelectOption={(statementId, option) => {
                           // Find the corresponding question by ID
                           const questionObj = questions.find(
@@ -1761,10 +2159,12 @@ export default function ReadingTestClient() {
                   const endingTfngQuestionId =
                     questionIds[questionIds.length - 1];
 
+                  const savedAnswers = getSavedAnswers(tfngQuestions, "TFNG");
                   acc.push(
                     <div key={`tfng-${index}`} className="mb-6">
                       <TrueFalseNotGiven
                         questions={tfngQuestions}
+                        savedAnswers={savedAnswers}
                         handleSelectOption={(statementId, option) => {
                           // Find the corresponding question by ID
                           const questionObj = questions.find(
@@ -1789,8 +2189,8 @@ export default function ReadingTestClient() {
       </div>
 
       {/* Pagination */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white pt-0 pb-2 lg:pt-2 lg:pb-2 z-10">
-        <div className="hidden lg:flex flex-wrap justify-center mt-0 gap-1 max-w-3xl mx-auto">
+      <div className="fixed bottom-0 left-0 right-0 bg-white pt-0 pb-2 lg:pt-0 lg:pb-2 z-10">
+        {/* <div className="hidden lg:flex flex-wrap justify-center mt-0 gap-1 max-w-3xl mx-auto">
           {passageQuestionNumbers.map((questionNum) => {
             const isAnswered = getAnsweredStatus(questionNum);
             return (
@@ -1809,10 +2209,10 @@ export default function ReadingTestClient() {
               </button>
             );
           })}
-        </div>
+        </div> */}
 
         {/* NAVIGATE DESKTOP */}
-        <div className="hidden lg:flex justify-between mt-2 text-sm border-t border-gray-200 pt-2">
+        {/* <div className="hidden lg:flex justify-between mt-0 text-sm border-t border-gray-200 pt-2">
           <div
             className={`${
               selectedPassage === 1 ? "" : "border border-[#FA812F]"
@@ -1903,7 +2303,7 @@ export default function ReadingTestClient() {
               Nộp bài
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* NAVIGATE MOBILE */}
         <div className="lg:hidden flex relative justify-center items-center py-0 pt-2 border-t border-gray-200">

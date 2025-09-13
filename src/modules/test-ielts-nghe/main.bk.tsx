@@ -199,6 +199,11 @@ const ListeningTestClient: React.FC = () => {
 
   // Memoize audio sources to prevent re-computation on every render
   const audioSources = useMemo(() => {
+    console.log("passage1", passage1);
+    console.log("passage2", passage2);
+    console.log("passage3", passage3);
+    console.log("passage4", passage4);
+
     // Collect all non-null passage audios in order
     return [passage1, passage2, passage3, passage4]
       .filter((p): p is PassageSection => !!p && !!p.audio)
@@ -760,53 +765,6 @@ const ListeningTestClient: React.FC = () => {
     });
   };
 
-  // Unified function to get saved answers for all question types
-  const getSavedAnswers = (questions: any[], questionType: string) => {
-    const savedAnswers: Record<string, string> = {};
-
-    questions.forEach((q) => {
-      const questionData =
-        passage1?.question.find((pq) => pq._id === q.question_id) ||
-        passage2?.question.find((pq) => pq._id === q.question_id) ||
-        passage3?.question.find((pq) => pq._id === q.question_id) ||
-        passage4?.question.find((pq) => pq._id === q.question_id);
-
-      if (questionData) {
-        const partAnswer = answers.parts.find(
-          (part) => part.part_id === questionData.part_id
-        );
-        const userAnswer = partAnswer?.user_answers.find(
-          (ua) => ua.question_id === q.question_id
-        );
-
-        // Fixed TypeScript errors by safely checking for undefined values
-        if (
-          userAnswer &&
-          userAnswer.answer &&
-          userAnswer.answer.length > 0 &&
-          userAnswer.answer[0] !== ""
-        ) {
-          // Use different keys based on question type
-          if (questionType === "MH" && q.paragraph_id) {
-            // For MH, store the full answer (id + text)
-            savedAnswers[q.paragraph_id] = userAnswer.answer[0];
-          } else if (
-            questionType === "MF" ||
-            questionType === "TFNG" ||
-            questionType === "MP" ||
-            questionType === "FB"
-          ) {
-            if (q.id) {
-              savedAnswers[q.id.toString()] = userAnswer.answer[0];
-            }
-          }
-        }
-      }
-    });
-
-    return savedAnswers;
-  };
-
   const handleSelectOption = (questionId: number, option: string) => {
     const question = questions.find((q) => q.id === questionId);
     if (!question) {
@@ -845,58 +803,14 @@ const ListeningTestClient: React.FC = () => {
               const currentAnswer = ua.answer || [];
               let newAnswer: string[];
 
-              // Handle different question types comprehensively
+              // Handle different question types
               if (question.q_type === "MP" && question.isMultiple) {
                 // Multiple choice with multiple answers
                 newAnswer = currentAnswer.includes(option)
                   ? currentAnswer.filter((opt) => opt !== option)
                   : [...currentAnswer, option];
-              } else if (question.q_type === "MH" || question.q_type === "MF") {
-                // For MH and MF, store only the option text without duplicating the ID
-                const optionIndex = question.options.indexOf(option);
-                if (optionIndex !== -1) {
-                  // If option is a full text (from the options array)
-                  const optionId =
-                    question.q_type === "MH"
-                      ? [
-                          "i",
-                          "ii",
-                          "iii",
-                          "iv",
-                          "v",
-                          "vi",
-                          "vii",
-                          "viii",
-                          "ix",
-                          "x",
-                          "xi",
-                          "xii",
-                        ][optionIndex]
-                      : ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"][
-                          optionIndex
-                        ];
-                  // Store only the option text to avoid duplication
-                  newAnswer = [option];
-                } else {
-                  // If option is already in the format "id text" or just an id
-                  // Check if it starts with a known ID pattern and extract just the text
-                  const mhIdPattern =
-                    /^(i|ii|iii|iv|v|vi|vii|viii|ix|x|xi|xii)\s+/;
-                  const mfIdPattern = /^([A-J])\s+/;
-
-                  if (question.q_type === "MH" && mhIdPattern.test(option)) {
-                    newAnswer = [option.replace(mhIdPattern, "")];
-                  } else if (
-                    question.q_type === "MF" &&
-                    mfIdPattern.test(option)
-                  ) {
-                    newAnswer = [option.replace(mfIdPattern, "")];
-                  } else {
-                    newAnswer = [option];
-                  }
-                }
               } else {
-                // Single answer questions (TFNG, FB)
+                // Single answer questions (MP, MH, MF, TFNG)
                 newAnswer = [option];
               }
 
@@ -912,6 +826,20 @@ const ListeningTestClient: React.FC = () => {
         }
         return part;
       });
+
+      // Debug updated answers for special question types
+      if (
+        question.q_type === "MH" ||
+        question.q_type === "MF" ||
+        question.q_type === "TFNG"
+      ) {
+        const updatedPart = updatedParts.find(
+          (p) => p.part_id === questionData.part_id
+        );
+        const updatedAnswer = updatedPart?.user_answers.find(
+          (ua) => ua.question_id === question.question_id
+        );
+      }
 
       return { parts: updatedParts };
     });
@@ -1024,9 +952,10 @@ const ListeningTestClient: React.FC = () => {
       parts: answers.parts,
     };
 
-    console.log("check body: ", JSON.stringify(body));
+    const jsonData = JSON.stringify(body, null, 2);
 
     try {
+      // const response = await SubmitService.submitTest(body);
       const response = await (isRetake
         ? SubmitService.updateSubmitTest(body)
         : SubmitService.submitTest(body));
@@ -1739,18 +1668,15 @@ const ListeningTestClient: React.FC = () => {
                   answer: "",
                   options: q.options,
                   paragraph_id: q.paragraph_id || "",
-                  id: q.id,
-                  question_id: q.question_id, // Add this for unified approach
+                  id: q.id, // Add id property for reference
                 }));
               if (index === questions.findIndex((q) => q.q_type === "MH")) {
                 const startQ = mhQuestions[0].id;
                 const endQ = mhQuestions[mhQuestions.length - 1].id;
-                const savedAnswers = getSavedAnswers(mhQuestions, "MH"); // Use unified function
                 acc.push(
                   <div key={`mh-${index}`} className="mb-6">
                     <MatchingHeadings
                       questions={mhQuestions}
-                      savedAnswers={savedAnswers} // Pass saved answers
                       handleSelectOption={(paragraphId, option) => {
                         const questionId = questions.find(
                           (q) => q.paragraph_id === paragraphId
@@ -1774,18 +1700,15 @@ const ListeningTestClient: React.FC = () => {
                   feature: q.feature || "",
                   answer: "",
                   options: q.options,
-                  id: q.id,
-                  question_id: q.question_id, // Add this for unified approach
+                  id: q.id, // Add id property for reference
                 }));
               if (index === questions.findIndex((q) => q.q_type === "MF")) {
                 const startQ = mfQuestions[0].id;
                 const endQ = mfQuestions[mfQuestions.length - 1].id;
-                const savedAnswers = getSavedAnswers(mfQuestions, "MF"); // Use unified function
                 acc.push(
                   <div key={`mf-${index}`} className="mb-6">
                     <MatchingFeatures
                       questions={mfQuestions}
-                      savedAnswers={savedAnswers} // Pass saved answers
                       handleSelectOption={(statementId, option) => {
                         handleSelectOption(statementId, option);
                       }}
@@ -1803,10 +1726,10 @@ const ListeningTestClient: React.FC = () => {
                   part_id: q.question_id,
                   sentence: q.sentence || "",
                   answer: "",
-                  id: q.id,
-                  question_id: q.question_id, // Add this for unified approach
+                  id: q.id, // Add id property for reference
                 }));
               if (index === questions.findIndex((q) => q.q_type === "TFNG")) {
+                // Use the actual IDs from the questions
                 const firstQuestion = questions.find(
                   (q) => q.q_type === "TFNG"
                 );
@@ -1814,12 +1737,10 @@ const ListeningTestClient: React.FC = () => {
                   ? firstQuestion.id
                   : questions.findIndex((q) => q.q_type === "TFNG") + 1;
                 const endQ = startQ + tfngQuestions.length - 1;
-                const savedAnswers = getSavedAnswers(tfngQuestions, "TFNG"); // Use unified function
                 acc.push(
                   <div key={`tfng-${index}`} className="mb-6">
                     <TrueFalseNotGiven
-                      questions={tfngQuestions as any}
-                      savedAnswers={savedAnswers} // Pass saved answers
+                      questions={tfngQuestions as any} // Type assertion to bypass type checking
                       handleSelectOption={(statementId, option) => {
                         handleSelectOption(statementId, option);
                       }}

@@ -21,7 +21,7 @@ const PassageProgressBar: React.FC<PassageProgressBarProps> = ({
     <div
       className={`w-36 border ${
         choosenPassage ? "border-[#FA812F]" : "border-gray-300"
-      } rounded-lg py-2 px-4 bg-white mr-4 cursor-pointer`}
+      } rounded-lg py-2 px-4 bg-white mr-0 cursor-pointer`}
       onClick={onClick}
     >
       <div

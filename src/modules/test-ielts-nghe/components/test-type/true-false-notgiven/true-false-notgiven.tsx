@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 interface TrueFalseNotGivenQuestion {
   q_type: "TFNG";
   part_id: string;
   sentence: string;
   answer: string;
+  id?: number; // Add id property
+  question_id?: string; // Add question_id property
 }
 
 interface AnswerState {
@@ -63,6 +65,7 @@ const Statement: React.FC<StatementProps> = ({
 interface TrueFalseNotGivenProps {
   questions: TrueFalseNotGivenQuestion[];
   handleSelectOption: (statementId: number, option: string) => void;
+  savedAnswers?: Record<string, string>; // Add this prop
   startQuestion?: number;
   endQuestion?: number;
   passageNumber?: number;
@@ -71,20 +74,51 @@ interface TrueFalseNotGivenProps {
 export default function TrueFalseNotGiven({
   questions,
   handleSelectOption,
+  savedAnswers = {}, // Add this prop with default value
   startQuestion = 1,
   endQuestion = 6,
   passageNumber = 1,
 }: TrueFalseNotGivenProps) {
   const [answers, setAnswers] = useState<Record<string, AnswerOption | null>>(
-    {}
+    // Convert savedAnswers to the correct type
+    Object.entries(savedAnswers).reduce((acc, [key, value]) => {
+      if (value === "TRUE" || value === "FALSE" || value === "NOT GIVEN") {
+        acc[key] = value;
+      }
+      return acc;
+    }, {} as Record<string, AnswerOption | null>)
   );
 
+  // Add useEffect to update local state when savedAnswers change
+  useEffect(() => {
+    // Convert savedAnswers to the correct type
+    const typedAnswers = Object.entries(savedAnswers).reduce(
+      (acc, [key, value]) => {
+        if (value === "TRUE" || value === "FALSE" || value === "NOT GIVEN") {
+          acc[key] = value as AnswerOption;
+        }
+        return acc;
+      },
+      {} as Record<string, AnswerOption | null>
+    );
+
+    setAnswers(typedAnswers);
+  }, [savedAnswers]);
+
   // Generate statement IDs and map questions
-  const statements = questions.map((q, index) => ({
-    id: startQuestion + index,
-    text: q.sentence,
-    selectedAnswer: answers[(startQuestion + index).toString()] || null,
-  }));
+  const statements = questions.map((q, index) => {
+    const questionId = q.id?.toString();
+    // Use saved answers if available for this question
+    const savedAnswer =
+      questionId && (savedAnswers[questionId] as AnswerOption | undefined);
+
+    return {
+      id: startQuestion + index,
+      text: q.sentence,
+      selectedAnswer:
+        answers[(startQuestion + index).toString()] || savedAnswer || null,
+    };
+  });
 
   const handleAnswerSelect = (statementId: number, answer: AnswerOption) => {
     setAnswers((prev) => ({

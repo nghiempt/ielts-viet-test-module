@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 interface MatchingHeadingsQuestion {
   q_type: "MH";
@@ -7,6 +7,7 @@ interface MatchingHeadingsQuestion {
   answer: string;
   options: string[];
   paragraph_id: string; // A, B, C, etc.
+  id?: number; // Add id property
 }
 
 interface AnswerState {
@@ -49,7 +50,11 @@ interface ParagraphProps {
   index: number;
   questionNumber: number; // The actual question number to display
   selectedHeading: string | null;
-  onHeadingSelect: (paragraphId: string, headingId: string) => void;
+  onHeadingSelect: (
+    paragraphId: string,
+    headingId: string,
+    headingText: string
+  ) => void;
   headings: string[];
   headingIds: string[];
 }
@@ -83,7 +88,9 @@ const Paragraph: React.FC<ParagraphProps> = ({
   };
 
   const handleSelect = (headingId: string) => {
-    onHeadingSelect(id, headingId);
+    const headingIndex = headingIds.indexOf(headingId);
+    const headingText = headings[headingIndex];
+    onHeadingSelect(id, headingId, headingText);
     setIsDropdownOpen(false);
   };
 
@@ -176,6 +183,7 @@ interface MatchingHeadingsProps {
   questionRange?: string;
   startQuestion?: number;
   endQuestion?: number;
+  savedAnswers?: Record<string, string>;
 }
 
 export default function MatchingHeadings({
@@ -186,8 +194,23 @@ export default function MatchingHeadings({
   questionRange = "14-20",
   startQuestion,
   endQuestion,
+  savedAnswers = {},
 }: MatchingHeadingsProps) {
   const [answers, setAnswers] = useState<Record<string, string | null>>({});
+
+  // Add useEffect to update local state when savedAnswers change
+  useEffect(() => {
+    if (Object.keys(savedAnswers).length > 0) {
+      const updatedAnswers = { ...answers };
+
+      // Update answers with saved values
+      Object.entries(savedAnswers).forEach(([paragraphId, value]) => {
+        updatedAnswers[paragraphId] = value;
+      });
+
+      setAnswers(updatedAnswers);
+    }
+  }, [savedAnswers]);
 
   // Extract unique headings from questions
   const headings = questions.length > 0 ? questions[0].options : [];
@@ -219,11 +242,18 @@ export default function MatchingHeadings({
   ].slice(0, headings.length);
 
   // Group questions by part_id
-  const paragraphs = questions.map((q, index) => ({
-    id: q.paragraph_id,
-    index,
-    selectedHeading: answers[q.paragraph_id] || null,
-  }));
+  const paragraphs = questions.map((q) => {
+    // Use saved answers if available for this paragraph
+    const savedAnswer = savedAnswers[q.paragraph_id];
+
+    return {
+      id: q.paragraph_id,
+      index: questions.findIndex(
+        (question) => question.paragraph_id === q.paragraph_id
+      ),
+      selectedHeading: answers[q.paragraph_id] || savedAnswer || null,
+    };
+  });
 
   // Use startQuestion and endQuestion props if provided, otherwise use questionRange
   const displayQuestionRange =
@@ -245,12 +275,20 @@ export default function MatchingHeadings({
     return index + 1;
   };
 
-  const handleHeadingSelect = (paragraphId: string, headingId: string) => {
+  const handleHeadingSelect = (
+    paragraphId: string,
+    headingId: string,
+    headingText: string
+  ) => {
     setAnswers((prev) => ({
       ...prev,
       [paragraphId]: headingId,
     }));
-    handleSelectOption(paragraphId, headingId);
+
+    // Pass both the ID and full text to the parent component
+    // const fullAnswer = `${headingId}: ${headingText}`;
+    const fullAnswer = `${headingText}`;
+    handleSelectOption(paragraphId, fullAnswer);
   };
 
   return (

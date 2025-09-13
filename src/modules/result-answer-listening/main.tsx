@@ -576,7 +576,7 @@ const ListeningTestClient: React.FC = () => {
         </div>
       </header>
       <div className="fixed top-[0] bottom-[0] left-0 right-0 overflow-y-auto mt-14 pb-28">
-        <div className="container mx-auto w-full lg:w-[65%] p-3 lg:p-4 pt-5 lg:pt-9 pb-3 lg:pb-0">
+        <div className="mx-auto w-full lg:w-[65%] p-3 lg:p-4 pt-5 lg:pt-9 pb-3 lg:pb-0">
           {questions?.reduce(
             (acc: JSX.Element[], question: Question, index: number) => {
               if (question.q_type === "MP") {

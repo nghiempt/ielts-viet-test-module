@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 interface MatchingFeaturesQuestion {
   q_type: "MF";
@@ -6,6 +6,7 @@ interface MatchingFeaturesQuestion {
   feature: string;
   answer: string;
   options: string[];
+  id?: number;
 }
 
 interface AnswerState {
@@ -47,7 +48,11 @@ interface StatementProps {
   id: number;
   text: string;
   selectedCountry: string | null;
-  onCountrySelect: (statementId: number, countryId: string) => void;
+  onCountrySelect: (
+    statementId: number,
+    countryId: string,
+    countryText: string
+  ) => void;
   countries: string[];
   countryIds: string[];
 }
@@ -80,7 +85,9 @@ const Statement: React.FC<StatementProps> = ({
   };
 
   const handleSelect = (countryId: string) => {
-    onCountrySelect(id, countryId);
+    const countryIndex = countryIds.indexOf(countryId);
+    const countryText = countries[countryIndex];
+    onCountrySelect(id, countryId, countryText);
     setIsDropdownOpen(false);
   };
 
@@ -168,6 +175,7 @@ interface MatchingFeaturesProps {
   handleSelectOption: (statementId: number, option: string) => void;
   startQuestion?: number;
   endQuestion?: number;
+  savedAnswers?: Record<string, string>;
 }
 
 export default function MatchingFeatures({
@@ -175,8 +183,23 @@ export default function MatchingFeatures({
   handleSelectOption,
   startQuestion = 34,
   endQuestion = 40,
+  savedAnswers = {},
 }: MatchingFeaturesProps) {
   const [answers, setAnswers] = useState<Record<string, string | null>>({});
+
+  // Add useEffect to update local state when savedAnswers change
+  useEffect(() => {
+    if (Object.keys(savedAnswers).length > 0) {
+      const updatedAnswers = { ...answers };
+
+      // Update answers with saved values
+      Object.entries(savedAnswers).forEach(([questionId, value]) => {
+        updatedAnswers[questionId] = value;
+      });
+
+      setAnswers(updatedAnswers);
+    }
+  }, [savedAnswers]);
 
   // Extract unique countries from questions
   const countries = questions.length > 0 ? questions[0].options : [];
@@ -186,18 +209,33 @@ export default function MatchingFeatures({
   );
 
   // Generate statement IDs and map questions
-  const statements = questions.map((q, index) => ({
-    id: startQuestion + index,
-    text: q.feature,
-    selectedCountry: answers[(startQuestion + index).toString()] || null,
-  }));
+  const statements = questions.map((q, index) => {
+    const questionId = q.id?.toString();
+    // Use saved answers if available for this question
+    const savedAnswer = questionId && savedAnswers[questionId];
 
-  const handleCountrySelect = (statementId: number, countryId: string) => {
+    return {
+      id: startQuestion + index,
+      text: q.feature,
+      selectedCountry:
+        answers[(startQuestion + index).toString()] || savedAnswer || null,
+    };
+  });
+
+  const handleCountrySelect = (
+    statementId: number,
+    countryId: string,
+    countryText: string
+  ) => {
     setAnswers((prev) => ({
       ...prev,
       [statementId.toString()]: countryId,
     }));
-    handleSelectOption(statementId, countryId);
+
+    // Pass both the ID and full text to the parent component
+    // const fullAnswer = `${countryId}: ${countryText}`;
+    const fullAnswer = `${countryText}`;
+    handleSelectOption(statementId, fullAnswer);
   };
 
   return (

@@ -241,7 +241,7 @@ const ResultStatistic = () => {
       </header>
 
       <main
-        className="container w-[95%] lg:w-[55%] mx-auto py-6 px-4 overflow-y-auto scroll-bar-style"
+        className=" w-[95%] lg:w-[55%] mx-auto py-6 px-4 overflow-y-auto scroll-bar-style"
         style={{
           height: "calc(100vh - 10px)",
           paddingTop: "100px",

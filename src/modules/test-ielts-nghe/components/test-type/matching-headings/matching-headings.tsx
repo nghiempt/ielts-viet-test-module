@@ -178,6 +178,7 @@ const Paragraph: React.FC<ParagraphProps> = ({
 interface MatchingHeadingsProps {
   questions: MatchingHeadingsQuestion[];
   handleSelectOption: (paragraphId: string, option: string) => void;
+  savedAnswers?: Record<string, string>; // Add this prop
   passageNumber?: number;
   paragraphRange?: string;
   questionRange?: string;
@@ -188,13 +189,20 @@ interface MatchingHeadingsProps {
 export default function MatchingHeadings({
   questions,
   handleSelectOption,
+  savedAnswers = {}, // Add this prop with default value
   passageNumber = 2,
   paragraphRange = "A-G",
   questionRange = "14-20",
   startQuestion,
   endQuestion,
 }: MatchingHeadingsProps) {
-  const [answers, setAnswers] = useState<Record<string, string | null>>({});
+  const [answers, setAnswers] =
+    useState<Record<string, string | null>>(savedAnswers); // Initialize with savedAnswers
+
+  // Add useEffect to update local state when savedAnswers change
+  useEffect(() => {
+    setAnswers(savedAnswers);
+  }, [savedAnswers]);
 
   // Extract unique headings from questions
   const headings = questions.length > 0 ? questions[0].options : [];
@@ -253,13 +261,29 @@ export default function MatchingHeadings({
   };
 
   const handleHeadingSelect = (paragraphId: string, headingId: string) => {
+    // Find the heading text for the selected ID
+    let selectedHeading = headingId;
+
+    // If headingId is just an ID (like "i", "ii", etc.), find the corresponding text
+    if (headingId.length <= 5) {
+      // Just checking if it's a short ID
+      const index = headingIds.indexOf(headingId);
+      if (index !== -1 && index < headings.length) {
+        // Just pass the heading text, not the ID + text
+        selectedHeading = headings[index];
+      }
+    }
+
     setAnswers((prev) => ({
       ...prev,
-      [paragraphId]: headingId,
+      [paragraphId]: selectedHeading,
     }));
-    handleSelectOption(paragraphId, headingId);
+
+    // Pass just the text to the parent component
+    handleSelectOption(paragraphId, selectedHeading);
   };
 
+  // Update the rendering to show the heading with its ID
   return (
     <div className="w-full">
       <div className="bg-[#FA812F] text-white p-4 rounded-lg mb-4">
@@ -274,50 +298,85 @@ export default function MatchingHeadings({
           </div>
         </div>
       </div>
-      {/* Instructions Section */}
       <div className="bg-white p-4 rounded-lg border border-gray-200 mb-6">
-        <p className="mb-2 italic">
-          Choose the correct heading for each paragraph from the list of
-          headings below.
-        </p>
-        <p className="mb-4 italic">
-          Write the correct number, i-xi, in boxes {displayQuestionRange} on
-          your answer sheet.
-        </p>
-
         <div className="border border-gray-300 rounded-md p-4 mb-4">
           <h3 className="font-bold text-center text-lg mb-3">
             List of Headings
           </h3>
           <div className="space-y-1">
-            {headings.map((heading, index) => {
-              const headingId = headingIds[index];
-              return (
-                <HeadingItem
-                  key={headingId}
-                  id={headingId}
-                  heading={heading}
-                  isSelected={Object.values(answers).includes(headingId)}
-                  onSelect={() => {}} // Just for display
-                />
-              );
-            })}
+            {headings.map((heading, index) => (
+              <div
+                key={headingIds[index]}
+                className="flex items-center p-2 mb-1 rounded-md"
+              >
+                <span className="font-medium mr-2 text-[#FA812F] w-6">
+                  {headingIds[index]}
+                </span>
+                <span className="text-gray-700">{heading}</span>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="space-y-3">
-          {paragraphs.map((paragraph, idx) => (
-            <Paragraph
-              key={paragraph.id}
-              id={paragraph.id}
-              index={paragraph.index}
-              questionNumber={getQuestionNumber(idx)}
-              selectedHeading={paragraph.selectedHeading}
-              onHeadingSelect={handleHeadingSelect}
-              headings={headings}
-              headingIds={headingIds}
-              isLastQuestion={idx === paragraphs.length - 1}
-            />
-          ))}
+
+        <div className="space-y-4">
+          {paragraphs.map((paragraph) => {
+            // Find the index of this heading in the headings array to get its ID
+            const headingIndex = headings.indexOf(
+              paragraph.selectedHeading || ""
+            );
+            const displayId =
+              headingIndex !== -1 ? headingIds[headingIndex] : "";
+
+            return (
+              <div
+                key={paragraph.id}
+                className="border border-gray-200 rounded-md p-4"
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <div className="flex items-center">
+                    <span className="text-[#FA812F] font-bold mr-2">
+                      {getQuestionNumber(paragraph.index)}.
+                    </span>
+                    <span className="text-gray-700">
+                      Paragraph {paragraph.id}
+                    </span>
+                  </div>
+                  <div
+                    className={`px-3 py-1 rounded-md ${
+                      paragraph.selectedHeading
+                        ? "bg-[#f8f2ef] text-[#FA812F] border border-[#FA812F]"
+                        : "bg-gray-100 text-gray-500 border border-gray-300"
+                    }`}
+                  >
+                    {paragraph.selectedHeading ? displayId : "Not selected"}
+                  </div>
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {headingIds.map((id) => {
+                    // Get the index of this ID to find the corresponding heading
+                    const index = headingIds.indexOf(id);
+                    // Check if this heading is selected for this paragraph
+                    const isSelected =
+                      paragraph.selectedHeading === headings[index];
+
+                    return (
+                      <button
+                        key={id}
+                        onClick={() => handleHeadingSelect(paragraph.id, id)}
+                        className={`px-3 py-1 rounded-md border ${
+                          isSelected
+                            ? "bg-[#f8f2ef] text-[#FA812F] border-[#FA812F]"
+                            : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                        }`}
+                      >
+                        {id}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

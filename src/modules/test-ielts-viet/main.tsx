@@ -1,6 +1,6 @@
 // pages/ielts-test.tsx
 import { toast } from "@/hooks/use-toast";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { IMAGES } from "@/utils/images";
 import PassageProgressBar from "./components/processing-bar";
@@ -65,7 +65,7 @@ export default function WritingTestClient() {
   const searchParams = useSearchParams();
   const isRetake = searchParams.get("isRetake") === "true";
   const [data, setData] = useState<WritingDetail | null>(null);
-  const [timeLeft, setTimeLeft] = useState("60:00");
+  const [timeLeft, setTimeLeft] = useState("00:00");
   const [currentPage, setCurrentPage] = useState(1);
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const [selectedPartIndex, setSelectedPartIndex] = useState(0);
@@ -82,6 +82,9 @@ export default function WritingTestClient() {
   const [userAccount, setUserAccount] = useState<UserAccount | null>(null);
   const [guestGmail, setGuestGmail] = useState("");
   const isLogin = Cookies.get("isLogin");
+  const [isAutoSubmitted, setIsAutoSubmitted] = useState(false);
+  const [isPassageProgressBarOpen, setIsPassageProgressBarOpen] =
+    useState(false);
 
   // COUNTING DOWN TIMER
   useEffect(() => {
@@ -160,6 +163,7 @@ export default function WritingTestClient() {
       }
 
       const res = await WritingService.getWritingById(id);
+      setTimeLeft(res.time.toString().padStart(2, "0") + ":00");
       if (!res) throw new Error("Writing data not found");
 
       const partIds = res.parts || [];
@@ -300,6 +304,105 @@ export default function WritingTestClient() {
     setShowConfirmSubmitDialog(false);
     setShowGetInfoDialog(false);
   };
+
+  const handleAutoSubmit = useCallback(async () => {
+    if (isAutoSubmitted) return;
+
+    setIsAutoSubmitted(true);
+    setIsTimerRunning(false);
+
+    const segments = pathname.split("/").filter(Boolean);
+    const id = segments[segments.length - 1];
+
+    let userId = "";
+    let userEmail = "";
+
+    if (isLogin) {
+      userId = isLogin;
+      userEmail = userAccount?.email || "";
+    } else {
+      userEmail = guestGmail || "auto-submit@temp.com";
+    }
+
+    const body = {
+      user_id: userId,
+      test_id: id,
+      user_email: userEmail,
+      parts: parts.map((part, idx) => ({
+        part_id: data?.parts[idx] || "",
+        user_answers: part.question.map((q) => ({
+          question_id: q._id || "",
+          answer: [answers[idx] || ""],
+        })),
+        isComplete: (answers[idx] || "").trim() !== "",
+      })),
+    };
+
+    try {
+      const response = await (isRetake
+        ? SubmitService.updateSubmitTest(body)
+        : SubmitService.submitTest(body));
+
+      toast({
+        title: "Thời gian đã hết",
+        description: "Bài thi đã được tự động nộp",
+      });
+
+      const jsonData = JSON.stringify(response, null, 2);
+      localStorage.setItem("writingTestAnswers", jsonData);
+      router.push(`${ROUTES.WRITING_RESULT}/${id}`);
+    } catch (error) {
+      console.error("Error auto-submitting test:", error);
+      toast({
+        variant: "destructive",
+        title: "Lỗi",
+        description: "Không thể tự động nộp bài. Vui lòng thử lại.",
+      });
+    }
+  }, [
+    isAutoSubmitted,
+    isLogin,
+    userAccount,
+    guestGmail,
+    pathname,
+    answers,
+    parts,
+    data,
+    isRetake,
+    router,
+  ]);
+
+  useEffect(() => {
+    if (!timeLeft || !isTimerRunning) return;
+
+    const [minutes, seconds] = timeLeft.split(":").map(Number);
+    let totalSeconds = minutes * 60 + seconds;
+
+    if (totalSeconds <= 0) {
+      setTimeLeft("00:00");
+      handleAutoSubmit(); // Auto-submit when time is up
+      return;
+    }
+
+    const timer = setInterval(() => {
+      totalSeconds -= 1;
+
+      const newMinutes = Math.floor(totalSeconds / 60);
+      const newSeconds = totalSeconds % 60;
+      const formattedTime = `${newMinutes
+        .toString()
+        .padStart(2, "0")}:${newSeconds.toString().padStart(2, "0")}`;
+      setTimeLeft(formattedTime);
+
+      if (totalSeconds <= 0) {
+        clearInterval(timer);
+        setTimeLeft("00:00");
+        handleAutoSubmit(); // Auto-submit when time is up
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft, isTimerRunning, handleAutoSubmit]);
 
   return (
     <div className="relative min-h-screen w-full bg-gray-50">
@@ -524,22 +627,101 @@ export default function WritingTestClient() {
           <div className="text-sm text-gray-600">Writing Test</div>
         </div>
         <div className="flex items-center">
-          <div className="bg-gray-100 px-3 py-1 rounded-full flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 text-gray-500 mr-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          <div className="relative flex flex-row items-center mr-5">
+            <div
+              onClick={() => {
+                if (isLogin) {
+                  setShowConfirmSubmitDialog(true);
+                } else {
+                  setShowGetInfoDialog(true);
+                }
+              }}
+              className={`w-36 flex justify-center items-center ${
+                selectedPartIndex === parts.length - 1
+                  ? "border border-[#FA812F]"
+                  : "hidden"
+              } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span className="text-[#FA812F] font-semibold">{timeLeft}</span>
+              <div
+                className={`font-medium text-md justify-center items-center ${
+                  selectedPartIndex === parts.length - 1 ? "flex" : "hidden"
+                }`}
+              >
+                Nộp bài
+              </div>
+            </div>
+            <div>
+              {(() => {
+                const passage = passages.find(
+                  (passage) => selectedPartIndex === passage.id - 1
+                );
+                return (
+                  passage && (
+                    <div className="flex items-center gap-2">
+                      <div>
+                        <ChevronLeft
+                          className={`w-4 h-4 rotate-[270deg] transition-all duration-300 ${
+                            isPassageProgressBarOpen ? "rotate-[90deg]" : ""
+                          }`}
+                        />
+                      </div>
+                      <PassageProgressBar
+                        key={passage.id}
+                        passageNumber={passage.id}
+                        currentQuestion={passage.answeredQuestions}
+                        totalQuestions={
+                          passage.endQuestion - passage.startQuestion + 1
+                        }
+                        choosenPassage={selectedPartIndex === passage.id - 1}
+                        onClick={() => {
+                          setIsPassageProgressBarOpen(
+                            !isPassageProgressBarOpen
+                          );
+                        }}
+                      />
+                    </div>
+                  )
+                );
+              })()}
+            </div>
+            {isPassageProgressBarOpen && (
+              <div className="flex flex-col justify-center items-center absolute top-[120%] -right-[5%] bg-white py-3 !w-44 rounded-lg border border-gray-200 gap-3">
+                {passages.map((passage) => (
+                  <PassageProgressBar
+                    key={passage.id}
+                    passageNumber={passage.id}
+                    currentQuestion={passage.answeredQuestions}
+                    totalQuestions={
+                      passage.endQuestion - passage.startQuestion + 1
+                    }
+                    choosenPassage={selectedPartIndex === passage.id - 1}
+                    onClick={() => {
+                      handlePassageSelect(passage.id);
+                      setIsPassageProgressBarOpen(!isPassageProgressBarOpen);
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="w-24">
+            <div className="bg-gray-100 px-3 py-1 rounded-full flex justify-center items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 text-gray-500 mr-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span className="text-[#FA812F] font-semibold">{timeLeft}</span>
+            </div>
           </div>
           <div
             className="ml-4 cursor-pointer"
@@ -567,7 +749,7 @@ export default function WritingTestClient() {
       <div className="fixed top-[8%] bottom-[0%] left-0 right-0 grid grid-cols-1 lg:grid-cols-2 w-full overflow-y-auto">
         {/* Reading passage */}
         <div
-          className={`p-4 overflow-y-auto scroll-bar-style border-r border-gray-200 pt-8 pb-24 bg-white ${
+          className={`p-4 overflow-y-auto scroll-bar-style border-r border-gray-200 pt-8 pb-24 lg:pb-5 bg-white ${
             switchWriting ? "" : "hidden lg:block"
           }`}
         >
@@ -578,9 +760,12 @@ export default function WritingTestClient() {
               </h1>
               {parts[selectedPartIndex]?.question.map((q, qIdx) => (
                 <div key={q._id || qIdx}>
-                  <h2 className="text-xl font-bold mb-4">
-                    {q.question || q.content}
-                  </h2>
+                  {/* <div
+                    className="text-xl font-bold mb-4"
+                    dangerouslySetInnerHTML={{
+                      __html: (q.question || q.content).replace(/\\/g, ""),
+                    }}
+                  /> */}
                   <div
                     className="mb-4 text-sm lg:text-[17px] font-semibold border-double border-2 border-black p-4 text-justify w-full"
                     dangerouslySetInnerHTML={{
@@ -594,7 +779,7 @@ export default function WritingTestClient() {
                         alt=""
                         width={1000}
                         height={1000}
-                        className="w-full h-full"
+                        className="w-full h-full object-contain"
                       />
                     </div>
                   )}
@@ -633,7 +818,7 @@ export default function WritingTestClient() {
       {/* Pagination */}
       <div className="fixed bottom-0 left-0 right-0 bg-white pt-0 pb-2 z-10">
         {/* NAVIGATION DESKTOP */}
-        <div className="hidden lg:flex justify-between mt-2 lg:mt-0 text-sm border-t border-gray-200 pt-2">
+        {/* <div className="hidden lg:flex justify-between mt-2 lg:mt-0 text-sm border-t border-gray-200 pt-2">
           <div
             className={`${
               selectedPartIndex === 0 ? "" : "border border-[#FA812F]"
@@ -679,7 +864,6 @@ export default function WritingTestClient() {
             </div>
           </div>
 
-          {/* SUBMIT BUTTON */}
           <div
             onClick={() => {
               if (isLogin) {
@@ -702,7 +886,7 @@ export default function WritingTestClient() {
               Nộp bài
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* NAVIGATE MOBILE */}
         <div className="lg:hidden relative flex justify-center items-center py-0 pt-2 border-t border-gray-200">
