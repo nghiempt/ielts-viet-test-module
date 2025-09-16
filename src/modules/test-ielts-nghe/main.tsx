@@ -1441,7 +1441,7 @@ const ListeningTestClient: React.FC = () => {
           <div className="text-sm text-gray-600">Listening Test</div>
         </div>
         <div className="flex items-center">
-          <div className="relative flex flex-row items-center mr-5">
+          <div className="relative hidden lg:flex flex-row items-center mr-5">
             <div
               className={`w-36 flex justify-center items-center ${
                 passages.length === 1 ||
