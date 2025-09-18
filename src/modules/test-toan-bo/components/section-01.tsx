@@ -127,9 +127,6 @@ const FullTestSection: React.FC = () => {
         <div className="flex flex-col justify-between h-full">
           <div>
             <h3 className="font-medium text-xl lg:text-sm mb-1">{test.name}</h3>
-            <p className="text-gray-500 text-sm lg:text-xs mb-2">
-              20K lượt làm
-            </p>
           </div>
           <Link
             href={`${ROUTES.FULLTEST_DETAIL}/${test._id}`}
