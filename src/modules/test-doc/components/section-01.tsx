@@ -159,7 +159,7 @@ const ReadingSection: React.FC = () => {
             alt={test.name}
             width={1000}
             height={1000}
-            className="rounded-lg w-full object-contain border border-gray-200 px-2 h-60 lg:h-40"
+            className="rounded-lg w-full object-cover border border-gray-200 px-0 h-60 lg:h-40"
           />
         </div>
         <div className="flex flex-col justify-between h-full">
@@ -168,7 +168,6 @@ const ReadingSection: React.FC = () => {
               {test.name}
             </h3>
             <p className="text-gray-500 text-sm lg:text-xs mb-2">
-              20K lượt làm -{" "}
               <span className="text-gray-500 text-sm lg:text-xs">
                 {test.parts.length} phần
               </span>

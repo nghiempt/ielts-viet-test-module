@@ -45,8 +45,8 @@ const WritingSection: React.FC = () => {
   const [completedTests, setCompletedTests] = useState<string[]>([]);
   const [isFull, setIsFull] = useState<boolean>(false);
   const [selectedPartCount, setSelectedPartCount] = useState<
-      string | undefined
-    >(undefined);
+    string | undefined
+  >(undefined);
 
   const isLogin = Cookies.get("isLogin");
   const router = useRouter();
@@ -118,7 +118,7 @@ const WritingSection: React.FC = () => {
     }
   };
 
-   const filterByPartCount = (count: string | null) => {
+  const filterByPartCount = (count: string | null) => {
     if (!count) {
       render(writings);
       return;
@@ -144,7 +144,7 @@ const WritingSection: React.FC = () => {
             alt={test.name}
             width={280}
             height={180}
-            className="rounded-lg w-full object-contain border border-gray-200 px-2 h-60 lg:h-40"
+            className="rounded-lg w-full object-cover border border-gray-200 px-0 h-60 lg:h-40"
           />
         </div>
         <div className="flex flex-col justify-between h-full">
@@ -153,7 +153,6 @@ const WritingSection: React.FC = () => {
               {test.name}
             </h3>
             <p className="text-gray-500 text-sm lg:text-xs mb-2">
-              17K lượt làm -{" "}
               <span className="text-gray-500 text-sm lg:text-xs">
                 {test.parts.length} phần
               </span>
