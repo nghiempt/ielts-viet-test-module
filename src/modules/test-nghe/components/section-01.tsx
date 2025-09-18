@@ -47,14 +47,46 @@ const ListeningSection: React.FC = () => {
   const [selectedPartCount, setSelectedPartCount] = useState<
     string | undefined
   >(undefined);
-
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc" | "none">("asc");
   const isLogin = Cookies.get("isLogin");
   const router = useRouter();
 
-  const render = (data: ListeningTestItem[]) => {
-    setFilteredListenings(data);
-    setCurrenData(data);
+  const sortDataByName = (
+    data: ListeningTestItem[],
+    order: "asc" | "desc" | "none"
+  ) => {
+    if (order === "none") return data;
+
+    return [...data].sort((a, b) => {
+      // Trích xuất số cuối cùng từ tên bài test
+      const extractLastNumber = (name: string): number => {
+        const match = name.match(/(\d+)(?!.*\d)/);
+        return match ? parseInt(match[1], 10) : 0;
+      };
+
+      const numberA = extractLastNumber(a.name);
+      const numberB = extractLastNumber(b.name);
+
+      if (order === "asc") {
+        return numberA - numberB;
+      } else {
+        return numberB - numberA;
+      }
+    });
   };
+
+  const render = (data: ListeningTestItem[]) => {
+    const sortedData = sortDataByName(data, sortOrder);
+    setFilteredListenings(sortedData);
+    setCurrenData(sortedData);
+    // setFilteredReadings(data);
+    // setCurrentData(data);
+  };
+
+  // const render = (data: ListeningTestItem[]) => {
+  //   setFilteredListenings(data);
+  //   setCurrenData(data);
+  // };
 
   const init = async () => {
     setLoading(true);
@@ -217,9 +249,12 @@ const ListeningSection: React.FC = () => {
     <div className="max-w-7xl mx-auto px-5 lg:px-0">
       <section>
         <div className="flex flex-col gap-6">
-          <div className="flex flex-row items-center gap-2 justify-between w-full">
+          <div className="flex flex-col lg:flex-row items-center gap-2 justify-between w-full">
             <SearchBar onSearch={handleSearch} />
-            <div className="w-full lg:w-1/6">
+            <div className="w-full lg:w-2/6 flex flex-col lg:flex-row justify-between items-center gap-2">
+              <div className="w-48 hidden lg:flex justify-end items-center text-sm lg:text-base mr-2">
+                Số lượng: {currenData.length} bài
+              </div>
               <Select
                 value={selectedPartCount}
                 onValueChange={(value) => {
@@ -227,7 +262,7 @@ const ListeningSection: React.FC = () => {
                   filterByPartCount(value);
                 }}
               >
-                <SelectTrigger>
+                <SelectTrigger className="w-[213.33px] lg:w-56">
                   <SelectValue placeholder="Select Part" />
                 </SelectTrigger>
                 <SelectContent>
@@ -238,6 +273,9 @@ const ListeningSection: React.FC = () => {
                   <SelectItem value="4">4 Parts</SelectItem>
                 </SelectContent>
               </Select>
+              <div className="w-48 lg:hidden flex justify-center items-center text-sm lg:text-base mr-2 mt-1">
+                Số lượng: {currenData.length} bài
+              </div>
             </div>
           </div>
           <div className="flex-1">

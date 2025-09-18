@@ -186,7 +186,12 @@ const FullTestSection: React.FC = () => {
     <div className="max-w-7xl mx-auto px-5 lg:px-0">
       <section>
         <div className="flex flex-col gap-6">
-          <SearchBar onSearch={handleSearch} />
+          <div className="flex flex-row items-center gap-2 justify-between w-full">
+            <SearchBar onSearch={handleSearch} />
+            <div className="w-48 flex justify-end items-center text-sm lg:text-base mr-2">
+              Số lượng: {currentData.length} bài
+            </div>
+          </div>
           <div className="flex-1">
             {loading ? (
               <Skeleton />
