@@ -148,21 +148,21 @@ const FullTestSection: React.FC = () => {
             <div className="flex flex-row items-center gap-3 ml-0 lg:ml-5">
               <div
                 className={`border p-1.5 rounded-full ${
-                  isReadingCompleted
-                    ? "text-white border-white bg-[#58c558]"
-                    : "text-gray-500 border-gray-500"
-                }`}
-              >
-                <BookCheck size={15} />
-              </div>
-              <div
-                className={`border p-1.5 rounded-full ${
                   isListeningCompleted
                     ? "text-white border-white bg-[#58c558]"
                     : "text-gray-500 border-gray-500"
                 }`}
               >
                 <Headphones size={15} />
+              </div>
+              <div
+                className={`border p-1.5 rounded-full ${
+                  isReadingCompleted
+                    ? "text-white border-white bg-[#58c558]"
+                    : "text-gray-500 border-gray-500"
+                }`}
+              >
+                <BookCheck size={15} />
               </div>
               <div
                 className={`border p-1.5 rounded-full ${

@@ -238,8 +238,9 @@ export default function Section01() {
         <div className="mt-10 mb-8 w-full">
           <div className="hidden lg:grid lg:grid-cols-4 gap-4 mb-4 text-base lg:text-lg border-b border-gray-200 pb-2">
             <div className="font-bold text-gray-800 text-center">BÀI TEST</div>
-            <div className="font-bold text-gray-800 text-center">READING</div>
             <div className="font-bold text-gray-800 text-center">LISTENING</div>
+            <div className="font-bold text-gray-800 text-center">READING</div>
+
             <div className="font-bold text-gray-800 text-center">WRITING</div>
           </div>
 
@@ -249,119 +250,6 @@ export default function Section01() {
             </div>
 
             <div className="items-start w-full lg:col-span-3 flex overflow-x-auto lg:overflow-visible gap-4 lg:grid lg:grid-cols-3 pb-4 lg:pb-0 px-0 mx-0 snap-x snap-mandatory scrollbar scrollbar-thumb-gray-300 scrollbar-track-gray-100 scroll-bar-style">
-              {/* Reading */}
-              <div className="flex-shrink-0 flex justify-center items-center w-36 lg:w-auto">
-                {reading ? (
-                  <div className="flex flex-col justify-center items-center gap-1">
-                    <div className="border-4 border-gray-200 p-3 rounded-full">
-                      <BookOpenText />
-                    </div>
-                    {isMobile ? (
-                      isLogin && isReadingCompleted ? (
-                        <div className="grid grid-cols-12 items-center gap-3 mt-4">
-                          <Link
-                            href={`${ROUTES.READING_TEST}/${fullTestDetail?.r_id}?isRetake=true`}
-                            className="col-span-12 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
-                          >
-                            <RotateCw
-                              size={17}
-                              className="text-[#0D5293] group-hover:text-white transition-colors duration-200 ease-in-out"
-                            />
-                            <span className="text-sm mr-1 text-[#0D5293] group-hover:text-white">
-                              Làm lại
-                            </span>
-                          </Link>
-                          <div
-                            onClick={() =>
-                              handleViewReadingResult(
-                                fullTestDetail?.r_id || ""
-                              )
-                            }
-                            className="cursor-pointer col-span-12 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
-                          >
-                            <CircleCheckBig
-                              size={17}
-                              className="text-[#58c558] group-hover:text-white transition-colors duration-200 ease-in-out"
-                            />
-                            <span className="text-sm text-center mr-1 text-[#58c558] group-hover:text-white">
-                              Xem kết quả
-                            </span>
-                          </div>
-                        </div>
-                      ) : (
-                        <div
-                          onClick={() =>
-                            handleTestClick(
-                              `${ROUTES.READING_TEST}/${fullTestDetail?.r_id}`
-                            )
-                          }
-                          className="text-[#FA812F] mt-4 flex flex-row justify-center w-full items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
-                        >
-                          <div className="p-0.5 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
-                            <PlayIcon
-                              size={14}
-                              fill="#FA812F"
-                              className="group-hover:fill-white transition-colors duration-200 ease-in-out"
-                            />
-                          </div>
-                          <span className="mr-1 text-sm text-[#FA812F] group-hover:text-white">
-                            Làm bài
-                          </span>
-                        </div>
-                      )
-                    ) : isLogin && isReadingCompleted ? (
-                      <div className="grid grid-cols-12 items-center gap-3">
-                        <Link
-                          href={`${ROUTES.READING_TEST}/${fullTestDetail?.r_id}?isRetake=true`}
-                          className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-2 mt-4 group transition-all duration-200 ease-in-out"
-                        >
-                          <RotateCw
-                            size={17}
-                            className="text-[#0D5293] group-hover:text-white transition-colors duration-200 ease-in-out"
-                          />
-                          <span className="text-sm mr-1 text-[#0D5293] group-hover:text-white">
-                            Làm lại
-                          </span>
-                        </Link>
-                        <div
-                          onClick={() =>
-                            handleViewReadingResult(fullTestDetail?.r_id || "")
-                          }
-                          className="cursor-pointer col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-2 mt-4 group transition-all duration-200 ease-in-out"
-                        >
-                          <CircleCheckBig
-                            size={17}
-                            className="text-[#58c558] group-hover:text-white transition-colors duration-200 ease-in-out"
-                          />
-                          <span className="text-sm mr-1 text-[#58c558] group-hover:text-white">
-                            Xem kết quả
-                          </span>
-                        </div>
-                      </div>
-                    ) : (
-                      <Link
-                        href={`${ROUTES.READING_TEST}/${fullTestDetail?.r_id}`}
-                        target="_blank"
-                        className="text-[#FA812F] mt-4 flex flex-row justify-center w-full items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
-                      >
-                        <div className="p-0.5 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
-                          <PlayIcon
-                            size={14}
-                            fill="#FA812F"
-                            className="group-hover:fill-white transition-colors duration-200 ease-in-out"
-                          />
-                        </div>
-                        <span className="text-sm mr-1 text-[#FA812F] group-hover:text-white">
-                          Làm bài
-                        </span>
-                      </Link>
-                    )}
-                  </div>
-                ) : (
-                  <div className="h-[104px] lg:h-[120px]" />
-                )}
-              </div>
-
               {/* Listening */}
               <div className="flex-shrink-0 flex justify-center items-center w-36 lg:w-auto">
                 {listening ? (
@@ -467,6 +355,119 @@ export default function Section01() {
                           />
                         </div>
                         <span className="mr-1 text-sm text-[#FA812F] group-hover:text-white">
+                          Làm bài
+                        </span>
+                      </Link>
+                    )}
+                  </div>
+                ) : (
+                  <div className="h-[104px] lg:h-[120px]" />
+                )}
+              </div>
+
+              {/* Reading */}
+              <div className="flex-shrink-0 flex justify-center items-center w-36 lg:w-auto">
+                {reading ? (
+                  <div className="flex flex-col justify-center items-center gap-1">
+                    <div className="border-4 border-gray-200 p-3 rounded-full">
+                      <BookOpenText />
+                    </div>
+                    {isMobile ? (
+                      isLogin && isReadingCompleted ? (
+                        <div className="grid grid-cols-12 items-center gap-3 mt-4">
+                          <Link
+                            href={`${ROUTES.READING_TEST}/${fullTestDetail?.r_id}?isRetake=true`}
+                            className="col-span-12 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
+                          >
+                            <RotateCw
+                              size={17}
+                              className="text-[#0D5293] group-hover:text-white transition-colors duration-200 ease-in-out"
+                            />
+                            <span className="text-sm mr-1 text-[#0D5293] group-hover:text-white">
+                              Làm lại
+                            </span>
+                          </Link>
+                          <div
+                            onClick={() =>
+                              handleViewReadingResult(
+                                fullTestDetail?.r_id || ""
+                              )
+                            }
+                            className="cursor-pointer col-span-12 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
+                          >
+                            <CircleCheckBig
+                              size={17}
+                              className="text-[#58c558] group-hover:text-white transition-colors duration-200 ease-in-out"
+                            />
+                            <span className="text-sm text-center mr-1 text-[#58c558] group-hover:text-white">
+                              Xem kết quả
+                            </span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          onClick={() =>
+                            handleTestClick(
+                              `${ROUTES.READING_TEST}/${fullTestDetail?.r_id}`
+                            )
+                          }
+                          className="text-[#FA812F] mt-4 flex flex-row justify-center w-full items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
+                        >
+                          <div className="p-0.5 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
+                            <PlayIcon
+                              size={14}
+                              fill="#FA812F"
+                              className="group-hover:fill-white transition-colors duration-200 ease-in-out"
+                            />
+                          </div>
+                          <span className="mr-1 text-sm text-[#FA812F] group-hover:text-white">
+                            Làm bài
+                          </span>
+                        </div>
+                      )
+                    ) : isLogin && isReadingCompleted ? (
+                      <div className="grid grid-cols-12 items-center gap-3">
+                        <Link
+                          href={`${ROUTES.READING_TEST}/${fullTestDetail?.r_id}?isRetake=true`}
+                          className="col-span-5 flex flex-row justify-center items-center gap-2 border border-[#0D5293] hover:bg-[#0D5293] hover:text-white rounded-lg px-3 py-2 mt-4 group transition-all duration-200 ease-in-out"
+                        >
+                          <RotateCw
+                            size={17}
+                            className="text-[#0D5293] group-hover:text-white transition-colors duration-200 ease-in-out"
+                          />
+                          <span className="text-sm mr-1 text-[#0D5293] group-hover:text-white">
+                            Làm lại
+                          </span>
+                        </Link>
+                        <div
+                          onClick={() =>
+                            handleViewReadingResult(fullTestDetail?.r_id || "")
+                          }
+                          className="cursor-pointer col-span-7 flex flex-row justify-center items-center gap-2 border border-[#58c558] hover:bg-[#58c558] hover:text-white rounded-lg px-3 py-2 mt-4 group transition-all duration-200 ease-in-out"
+                        >
+                          <CircleCheckBig
+                            size={17}
+                            className="text-[#58c558] group-hover:text-white transition-colors duration-200 ease-in-out"
+                          />
+                          <span className="text-sm mr-1 text-[#58c558] group-hover:text-white">
+                            Xem kết quả
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <Link
+                        href={`${ROUTES.READING_TEST}/${fullTestDetail?.r_id}`}
+                        target="_blank"
+                        className="text-[#FA812F] mt-4 flex flex-row justify-center w-full items-center gap-2 border border-[#FA812F] hover:bg-[#FA812F] hover:text-white rounded-lg px-3 py-2 group transition-all duration-200 ease-in-out"
+                      >
+                        <div className="p-0.5 border border-[#FA812F] group-hover:border-white rounded-full transition-all duration-200 ease-in-out">
+                          <PlayIcon
+                            size={14}
+                            fill="#FA812F"
+                            className="group-hover:fill-white transition-colors duration-200 ease-in-out"
+                          />
+                        </div>
+                        <span className="text-sm mr-1 text-[#FA812F] group-hover:text-white">
                           Làm bài
                         </span>
                       </Link>
