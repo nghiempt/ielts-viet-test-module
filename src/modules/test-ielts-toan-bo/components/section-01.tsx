@@ -203,7 +203,7 @@ export default function Section01() {
               alt=""
               width={280}
               height={180}
-              className="rounded-lg object-contain px-2 h-full w-full"
+              className="rounded-lg object-cover px-0 h-full w-full"
             />
           </div>
           <div className="flex flex-col justify-between items-start">

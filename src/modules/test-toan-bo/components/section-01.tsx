@@ -121,7 +121,7 @@ const FullTestSection: React.FC = () => {
             alt={test.name}
             width={280}
             height={180}
-            className="rounded-lg w-full object-contain border border-gray-200 px-2 h-60 lg:h-40"
+            className="rounded-lg w-full object-cover border border-gray-200 px-0 h-60 lg:h-40"
           />
         </div>
         <div className="flex flex-col justify-between h-full">
