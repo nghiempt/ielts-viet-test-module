@@ -22,9 +22,9 @@ const Footer = () => {
               <span className="text-2xl font-bold">IELTS VIET CENTER</span>
             </div>
             <p className="text-gray-400">
-              Trung tâm đào tạo tiếng anh từ cơ bản đến nâng cao. Dẫn dắt bởi
-              các chuyên gia hàng đầu và đảm bảo đầu ra. Độ tuổi từ tiểu học,
-              trung học, phổ thông, đại học và thạc sĩ.
+              Trung tâm đào tạo tiếng Anh từ cơ bản đến nâng cao. Dẫn dắt bởi
+              Thầy Hậu IELTS có rất nhiều kinh nghiệm IELTS và giao tiếp. Độ
+              tuổi từ tiểu học, trung học, phổ thông, đại học và thạc sĩ.
             </p>
             <div className="flex gap-4">
               <a

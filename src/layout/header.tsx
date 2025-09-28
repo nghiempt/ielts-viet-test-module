@@ -70,18 +70,22 @@ const Header = () => {
 
   const navigationItems = [
     {
+      label: "Listening Test",
+      href: ROUTES.LISTENING_HOME || "/",
+      icon: Headphones,
+    },
+    {
       label: "Reading Test",
-      href: ROUTES.READING_HOME || "/",
+      href: ROUTES.READING_HOME,
       icon: BookOpenText,
     },
-    { label: "Listening Test", href: ROUTES.LISTENING_HOME, icon: Headphones },
     { label: "Writing Test", href: ROUTES.WRITING_HOME, icon: SquarePen },
     { label: "Full IELTS Test", href: ROUTES.FULLTEST_HOME, icon: BookCheck },
   ];
 
   const isActive = (item: any) => {
-    if (item.label === "Reading Test") {
-      return pathname === "/" || pathname === "/reading";
+    if (item.label === "Listening Test") {
+      return pathname === "/" || pathname === "/listening";
     }
     return item.href === pathname;
   };
