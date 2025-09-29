@@ -64,8 +64,20 @@ const FullTestSection: React.FC = () => {
         const filteredData = res.filter(
           (item: FullTestItem) => item.thumbnail != null
         );
-        setFullTests(filteredData);
-        render(filteredData);
+        const sortedData = filteredData.sort((a: any, b: any) => {
+          const getLastTwoDigits = (name: string): number => {
+            // Tìm 2 chữ số cuối trong tên
+            const match = name.match(/(\d{1,2})$/);
+            return match ? parseInt(match[1], 10) : 0;
+          };
+
+          const aLastDigits = getLastTwoDigits(a.name || "");
+          const bLastDigits = getLastTwoDigits(b.name || "");
+
+          return aLastDigits - bLastDigits;
+        });
+        setFullTests(sortedData);
+        render(sortedData);
 
         if (isLogin) {
           const completedRes = await UserService.getCompleteUserTestById(
