@@ -518,6 +518,7 @@ export default function ReadingTestClient() {
             {} as Record<string, PartAnswer>
           );
           const initialParts: PartAnswer[] = Object.values(groupedByPartId);
+          setIsDataLoading(false);
           return { parts: initialParts };
         });
       } else if (res && resP1 && resP2 && !resP3) {
@@ -569,6 +570,7 @@ export default function ReadingTestClient() {
             {} as Record<string, PartAnswer>
           );
           const initialParts: PartAnswer[] = Object.values(groupedByPartId);
+          setIsDataLoading(false);
           return { parts: initialParts };
         });
       } else if (res && resP1 && resP2 && resP3) {
@@ -621,7 +623,6 @@ export default function ReadingTestClient() {
           ]);
           setQuestions(passage1Questions);
         }
-
         setAnswers((prev) => {
           if (prev.parts.length > 0) return prev;
           const allQuestions = [
