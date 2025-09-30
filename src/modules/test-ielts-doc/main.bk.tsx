@@ -375,70 +375,70 @@ export default function ReadingTestClient() {
     });
 
     // Group questions by type for better arrangement
-    // const mpQuestions = mappedQuestions.filter((q) => q.q_type === "MP");
-    // const fbQuestions = mappedQuestions.filter((q) => q.q_type === "FB");
-    // const mhQuestions = mappedQuestions.filter((q) => q.q_type === "MH");
-    // const mfQuestions = mappedQuestions.filter((q) => q.q_type === "MF");
-    // const tfngQuestions = mappedQuestions.filter((q) => q.q_type === "TFNG");
+    const mpQuestions = mappedQuestions.filter((q) => q.q_type === "MP");
+    const fbQuestions = mappedQuestions.filter((q) => q.q_type === "FB");
+    const mhQuestions = mappedQuestions.filter((q) => q.q_type === "MH");
+    const mfQuestions = mappedQuestions.filter((q) => q.q_type === "MF");
+    const tfngQuestions = mappedQuestions.filter((q) => q.q_type === "TFNG");
 
-    // // Determine the first question type to maintain the original ordering logic
-    // const firstQuestionType = passage.question[0]?.q_type;
+    // Determine the first question type to maintain the original ordering logic
+    const firstQuestionType = passage.question[0]?.q_type;
 
-    // // Arrange questions based on the first question type and include new question types
-    // let arrangedQuestions = [];
+    // Arrange questions based on the first question type and include new question types
+    let arrangedQuestions = [];
 
-    // if (firstQuestionType === "MP") {
-    //   arrangedQuestions = [
-    //     ...mpQuestions,
-    //     ...fbQuestions,
-    //     ...mhQuestions,
-    //     ...mfQuestions,
-    //     ...tfngQuestions,
-    //   ];
-    // } else if (firstQuestionType === "FB") {
-    //   arrangedQuestions = [
-    //     ...fbQuestions,
-    //     ...mpQuestions,
-    //     ...mhQuestions,
-    //     ...mfQuestions,
-    //     ...tfngQuestions,
-    //   ];
-    // } else if (firstQuestionType === "MH") {
-    //   arrangedQuestions = [
-    //     ...mhQuestions,
-    //     ...mpQuestions,
-    //     ...fbQuestions,
-    //     ...mfQuestions,
-    //     ...tfngQuestions,
-    //   ];
-    // } else if (firstQuestionType === "MF") {
-    //   arrangedQuestions = [
-    //     ...mfQuestions,
-    //     ...mpQuestions,
-    //     ...fbQuestions,
-    //     ...mhQuestions,
-    //     ...tfngQuestions,
-    //   ];
-    // } else if (firstQuestionType === "TFNG") {
-    //   arrangedQuestions = [
-    //     ...tfngQuestions,
-    //     ...mpQuestions,
-    //     ...fbQuestions,
-    //     ...mhQuestions,
-    //     ...mfQuestions,
-    //   ];
-    // } else {
-    //   // Default arrangement if no recognized first question type
-    //   arrangedQuestions = [
-    //     ...mpQuestions,
-    //     ...fbQuestions,
-    //     ...mhQuestions,
-    //     ...mfQuestions,
-    //     ...tfngQuestions,
-    //   ];
-    // }
+    if (firstQuestionType === "MP") {
+      arrangedQuestions = [
+        ...mpQuestions,
+        ...fbQuestions,
+        ...mhQuestions,
+        ...mfQuestions,
+        ...tfngQuestions,
+      ];
+    } else if (firstQuestionType === "FB") {
+      arrangedQuestions = [
+        ...fbQuestions,
+        ...mpQuestions,
+        ...mhQuestions,
+        ...mfQuestions,
+        ...tfngQuestions,
+      ];
+    } else if (firstQuestionType === "MH") {
+      arrangedQuestions = [
+        ...mhQuestions,
+        ...mpQuestions,
+        ...fbQuestions,
+        ...mfQuestions,
+        ...tfngQuestions,
+      ];
+    } else if (firstQuestionType === "MF") {
+      arrangedQuestions = [
+        ...mfQuestions,
+        ...mpQuestions,
+        ...fbQuestions,
+        ...mhQuestions,
+        ...tfngQuestions,
+      ];
+    } else if (firstQuestionType === "TFNG") {
+      arrangedQuestions = [
+        ...tfngQuestions,
+        ...mpQuestions,
+        ...fbQuestions,
+        ...mhQuestions,
+        ...mfQuestions,
+      ];
+    } else {
+      // Default arrangement if no recognized first question type
+      arrangedQuestions = [
+        ...mpQuestions,
+        ...fbQuestions,
+        ...mhQuestions,
+        ...mfQuestions,
+        ...tfngQuestions,
+      ];
+    }
 
-    return mappedQuestions.map((q, index) => ({
+    return arrangedQuestions.map((q, index) => ({
       ...q,
       id: startId + index,
     }));
@@ -541,7 +541,6 @@ export default function ReadingTestClient() {
                     .reduce((a, b) => a + b, 0))
           )
         );
-
         setQuestions(allQs);
         setAllQuestions(allQs);
         setAnswers((prev) => {
@@ -602,8 +601,6 @@ export default function ReadingTestClient() {
             )
           );
 
-          console.log("check arrange: ", allQs);
-
           setQuestions(allQs);
           setAllQuestions(allQs);
         } else {
@@ -618,8 +615,6 @@ export default function ReadingTestClient() {
             resP3,
             passage1Questions.length + passage2Questions.length + 1
           );
-
-          console.log("check arrange: ", passage3Questions);
 
           setAllQuestions([
             ...passage1Questions,
@@ -1141,21 +1136,21 @@ export default function ReadingTestClient() {
       parts: answers.parts,
     };
 
-    // console.log("check body: ", JSON.stringify(body));
+    console.log("check body: ", JSON.stringify(body));
 
-    try {
-      const response = await (isRetake
-        ? SubmitService.updateSubmitTest(body)
-        : SubmitService.submitTest(body));
-      const jsonData = JSON.stringify(response, null, 2);
-      console.log("jsonData", jsonData);
-      localStorage.setItem("readingTestAnswers", jsonData);
-      const segments = pathname.split("/").filter(Boolean);
-      const testId = segments[segments.length - 1];
-      router.push(`${ROUTES.READING_STATISTIC}/${testId}`);
-    } catch (error) {
-      console.error("Error submitting test:", error);
-    }
+    // try {
+    //   const response = await (isRetake
+    //     ? SubmitService.updateSubmitTest(body)
+    //     : SubmitService.submitTest(body));
+    //   const jsonData = JSON.stringify(response, null, 2);
+    //   console.log("jsonData", jsonData);
+    //   localStorage.setItem("readingTestAnswers", jsonData);
+    //   const segments = pathname.split("/").filter(Boolean);
+    //   const testId = segments[segments.length - 1];
+    //   router.push(`${ROUTES.READING_STATISTIC}/${testId}`);
+    // } catch (error) {
+    //   console.error("Error submitting test:", error);
+    // }
   };
 
   const isDataReady = !isDataLoading && data && allQuestions.length > 0;
