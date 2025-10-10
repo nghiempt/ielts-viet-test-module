@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     url: "https://ieltsviet.edu.vn",
     images: [
       {
-        url: "https://res.cloudinary.com/farmcode/image/upload/v1736620702/ielts-viet/website-thumbnail_uqdu6b.png",
+        url: "https://res.cloudinary.com/farmcode/image/upload/v1760062630/ielts-viet/ielts-viet-thumbnail_ctzp33.jpg",
         width: 1200,
         height: 630,
         alt: "IELTS VIỆT",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     description:
       "Học IELTS cùng chuyên gia đầu ngành. Hỗ trợ toàn diện từ giáo viên bản ngữ, cựu giám khảo và chuyên gia IELTS Việt Nam.",
     images: [
-      "https://res.cloudinary.com/farmcode/image/upload/v1736620702/ielts-viet/website-thumbnail_uqdu6b.png",
+      "https://res.cloudinary.com/farmcode/image/upload/v1760062630/ielts-viet/ielts-viet-thumbnail_ctzp33.jpg",
     ],
   },
 };
