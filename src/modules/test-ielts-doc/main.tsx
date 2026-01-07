@@ -152,6 +152,7 @@ export default function ReadingTestClient() {
   const [isPassageProgressBarOpen, setIsPassageProgressBarOpen] =
     useState(false);
   const [isAutoSubmitted, setIsAutoSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Auto-submit function that handles submission when time is up
   const handleAutoSubmit = useCallback(async () => {
@@ -1171,6 +1172,7 @@ export default function ReadingTestClient() {
   };
 
   const handleSubmitTest = () => {
+    setIsSubmitting(true);
     handleSubmit();
   };
 
@@ -1282,10 +1284,11 @@ export default function ReadingTestClient() {
                   Hủy
                 </button>
                 <button
+                  disabled={isSubmitting}
                   onClick={handleSubmitTest}
                   className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
                 >
-                  Nộp bài
+                  {isSubmitting ? "Đang nộp bài..." : "Nộp bài"}
                 </button>
               </div>
             </motion.div>

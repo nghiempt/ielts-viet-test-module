@@ -182,6 +182,8 @@ const ListeningTestClient: React.FC = () => {
     useState(false);
   const [isAutoSubmitted, setIsAutoSubmitted] = useState(false);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   // ALERT ON PAGE RELOAD OR CLOSE
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -1057,6 +1059,7 @@ const ListeningTestClient: React.FC = () => {
   };
 
   const handleSubmitTest = () => {
+    setIsSubmitting(true);
     handleSubmit();
   };
 
@@ -1271,11 +1274,13 @@ const ListeningTestClient: React.FC = () => {
                 >
                   Hủy
                 </button>
+
                 <button
+                  disabled={isSubmitting}
                   onClick={handleSubmitTest}
                   className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
                 >
-                  Nộp bài
+                  {isSubmitting ? "Đang nộp bài..." : "Nộp bài"}
                 </button>
               </div>
             </motion.div>

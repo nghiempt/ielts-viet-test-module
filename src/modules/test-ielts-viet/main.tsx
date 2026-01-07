@@ -83,6 +83,7 @@ export default function WritingTestClient() {
   const [guestGmail, setGuestGmail] = useState("");
   const isLogin = Cookies.get("isLogin");
   const [isAutoSubmitted, setIsAutoSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPassageProgressBarOpen, setIsPassageProgressBarOpen] =
     useState(false);
 
@@ -297,6 +298,7 @@ export default function WritingTestClient() {
   };
 
   const handleSubmitTest = () => {
+    setIsSubmitting(true);
     handleSubmit();
   };
 
@@ -502,10 +504,11 @@ export default function WritingTestClient() {
                   Hủy
                 </button>
                 <button
+                  disabled={isSubmitting}
                   onClick={handleSubmitTest}
                   className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
                 >
-                  Nộp bài
+                  {isSubmitting ? "Đang nộp bài..." : "Nộp bài"}
                 </button>
               </div>
             </motion.div>
