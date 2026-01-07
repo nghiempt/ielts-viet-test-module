@@ -601,10 +601,11 @@ export default function WritingTestClient() {
                   Hủy
                 </button>
                 <button
+                  disabled={isSubmitting}
                   onClick={handleSubmitTest}
                   className="px-4 py-2 bg-[#FA812F] text-white rounded-md hover:bg-[#e06b1f] transition"
                 >
-                  Nộp bài
+                  {isSubmitting ? "Đang nộp bài..." : "Nộp bài"}
                 </button>
               </div>
             </motion.div>
