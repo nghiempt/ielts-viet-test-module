@@ -10,7 +10,12 @@ import Image from "next/image";
 import { IMAGES } from "@/utils/images";
 import PassageProgressBar from "./components/processing-bar";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Grid2x2Check } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Grid2x2Check,
+  FileText,
+} from "lucide-react";
 import PassageProgressBarMobile from "./components/processing-bar-mobile";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShortAnswerQuiz } from "./components/test-type/fil-in-the-blank/fill-in";
@@ -144,6 +149,7 @@ const ListeningTestClient: React.FC = () => {
   const searchParams = useSearchParams();
   const isRetake = searchParams.get("isRetake") === "true";
   const [data, setData] = useState<ListenDetail | null>(null);
+  const [switchReading, setSwitchReading] = useState(true);
   const [passage1, setPassage1] = useState<PassageSection | null>(null);
   const [passage2, setPassage2] = useState<PassageSection | null>(null);
   const [passage3, setPassage3] = useState<PassageSection | null>(null);
@@ -243,11 +249,11 @@ const ListeningTestClient: React.FC = () => {
 
       try {
         const durations = await Promise.all(
-          audioSources.map((src) => getAudioDuration(src))
+          audioSources.map((src) => getAudioDuration(src)),
         );
         const totalDuration = durations.reduce(
           (sum, duration) => sum + duration,
-          0
+          0,
         );
         const totalSeconds = Math.ceil(totalDuration) + 15; // Add 15 seconds
 
@@ -333,7 +339,7 @@ const ListeningTestClient: React.FC = () => {
     audio.play().catch((error) => {
       console.error(
         `Error playing audio ${audioSources[currentAudioIndex]}:`,
-        error
+        error,
       );
     });
 
@@ -361,7 +367,7 @@ const ListeningTestClient: React.FC = () => {
   const calculatePassages = (): PassageInfo[] => {
     const passagesInfo: PassageInfo[] = [];
     const passageData = [passage1, passage2, passage3, passage4].filter(
-      (p): p is PassageSection => p !== null
+      (p): p is PassageSection => p !== null,
     );
 
     let questionCounter = 1;
@@ -376,7 +382,7 @@ const ListeningTestClient: React.FC = () => {
           return (
             count +
             part.user_answers.filter(
-              (ua) => ua.answer.length > 0 && ua.answer[0] !== ""
+              (ua) => ua.answer.length > 0 && ua.answer[0] !== "",
             ).length
           );
         }, 0);
@@ -399,10 +405,10 @@ const ListeningTestClient: React.FC = () => {
   const mapAndArrangeQuestions = (passage: PassageSection, startId: number) => {
     const mappedQuestions = passage.question.map((q, index) => {
       const partAnswer = answers.parts.find(
-        (part) => part.part_id === q.part_id
+        (part) => part.part_id === q.part_id,
       );
       const userAnswer = partAnswer?.user_answers.find(
-        (ua) => ua.question_id === q._id
+        (ua) => ua.question_id === q._id,
       );
 
       // Improved handling of selectedOptions for different question types
@@ -438,20 +444,20 @@ const ListeningTestClient: React.FC = () => {
           q.q_type === "MP"
             ? q.question
             : q.q_type === "MH"
-            ? q.question
-            : q.q_type === "MF"
-            ? q.question
-            : q.q_type === "TFNG"
-            ? q.question
-            : "",
+              ? q.question
+              : q.q_type === "MF"
+                ? q.question
+                : q.q_type === "TFNG"
+                  ? q.question
+                  : "",
         options:
           q.q_type === "MP" && q.choices
             ? q.choices
             : q.q_type === "MH" && q.options
-            ? q.options
-            : q.q_type === "MF" && q.options
-            ? q.options
-            : [],
+              ? q.options
+              : q.q_type === "MF" && q.options
+                ? q.options
+                : [],
         isMultiple: q.q_type === "MP" ? q.isMultiple || false : false,
         selectedOptions,
         q_type: q.q_type,
@@ -477,7 +483,9 @@ const ListeningTestClient: React.FC = () => {
     // Log to debug arrangement
     console.log(
       `📊 Questions arrangement for passage (starting at ${startId}):`,
-      finalQuestions.map((q, idx) => `${idx + startId}: ${q.q_type}`).join(", ")
+      finalQuestions
+        .map((q, idx) => `${idx + startId}: ${q.q_type}`)
+        .join(", "),
     );
 
     // Group questions by type with their ranges
@@ -543,8 +551,8 @@ const ListeningTestClient: React.FC = () => {
       const partIds = res.parts || [];
       const questionResults = await Promise.all(
         partIds.map((partId: string) =>
-          QuestionsService.getQuestionsById(partId)
-        )
+          QuestionsService.getQuestionsById(partId),
+        ),
       );
 
       console.log("check listening: ", questionResults);
@@ -571,7 +579,7 @@ const ListeningTestClient: React.FC = () => {
           p.question.map((q: any) => ({
             part_id: q.part_id,
             question_id: q._id,
-          }))
+          })),
         );
         const groupedByPartId = allQuestions.reduce(
           (acc, { part_id, question_id }) => {
@@ -585,7 +593,7 @@ const ListeningTestClient: React.FC = () => {
             acc[part_id].user_answers.push({ question_id, answer: [] });
             return acc;
           },
-          {} as Record<string, PartAnswer>
+          {} as Record<string, PartAnswer>,
         );
         const initialParts: PartAnswer[] = Object.values(groupedByPartId);
         return { parts: initialParts };
@@ -593,7 +601,7 @@ const ListeningTestClient: React.FC = () => {
 
       const passageQuestionCounts = passageArr.map((p) => p.question.length);
       const passagesWithQuestions = passageQuestionCounts.filter(
-        (count) => count > 0
+        (count) => count > 0,
       ).length;
 
       if (passagesWithQuestions < 4) {
@@ -606,8 +614,8 @@ const ListeningTestClient: React.FC = () => {
                 ? 0
                 : passageQuestionCounts
                     .slice(0, idx)
-                    .reduce((a, b) => a + b, 0))
-          )
+                    .reduce((a, b) => a + b, 0)),
+          ),
         );
 
         console.log("check arrange: ", allQs);
@@ -619,18 +627,18 @@ const ListeningTestClient: React.FC = () => {
         const passage1Questions = mapAndArrangeQuestions(passageArr[0], 1);
         const passage2Questions = mapAndArrangeQuestions(
           passageArr[1],
-          passage1Questions.length + 1
+          passage1Questions.length + 1,
         );
         const passage3Questions = mapAndArrangeQuestions(
           passageArr[2],
-          passage1Questions.length + passage2Questions.length + 1
+          passage1Questions.length + passage2Questions.length + 1,
         );
         const passage4Questions = mapAndArrangeQuestions(
           passageArr[3],
           passage1Questions.length +
             passage2Questions.length +
             passage3Questions.length +
-            1
+            1,
         );
 
         setAllQuestions([
@@ -660,7 +668,7 @@ const ListeningTestClient: React.FC = () => {
         ...acc,
         [passage.id]: passage.startQuestion,
       }),
-      {} as { [key: number]: number }
+      {} as { [key: number]: number },
     );
 
     const passageData = { 1: passage1, 2: passage2, 3: passage3, 4: passage4 };
@@ -668,7 +676,7 @@ const ListeningTestClient: React.FC = () => {
     if (selectedPassageData) {
       const updatedQuestions = mapAndArrangeQuestions(
         selectedPassageData,
-        startIds[selectedPassage]
+        startIds[selectedPassage],
       );
       setQuestions(updatedQuestions);
     }
@@ -681,7 +689,7 @@ const ListeningTestClient: React.FC = () => {
 
   const handleQuestionSelect = (questionNum: number) => {
     const passage = passages.find(
-      (p) => questionNum >= p.startQuestion && questionNum <= p.endQuestion
+      (p) => questionNum >= p.startQuestion && questionNum <= p.endQuestion,
     );
     if (passage) {
       setSelectedPassage(passage.id);
@@ -711,7 +719,7 @@ const ListeningTestClient: React.FC = () => {
     {
       length: currentPassage.endQuestion - currentPassage.startQuestion + 1,
     },
-    (_, i) => currentPassage.startQuestion + i
+    (_, i) => currentPassage.startQuestion + i,
   );
 
   const getAnsweredStatus = (questionNum: number) => {
@@ -727,12 +735,12 @@ const ListeningTestClient: React.FC = () => {
     if (!questionData) return false;
 
     const partAnswer = answers.parts.find(
-      (part) => part.part_id === questionData.part_id
+      (part) => part.part_id === questionData.part_id,
     );
     if (!partAnswer) return false;
 
     const userAnswer = partAnswer.user_answers.find(
-      (ua) => ua.question_id === question.question_id
+      (ua) => ua.question_id === question.question_id,
     );
     if (!userAnswer) return false;
 
@@ -752,7 +760,7 @@ const ListeningTestClient: React.FC = () => {
       const updatedParts = prev.parts.map((part) => {
         if (part.part_id === partId) {
           const allAnswered = part.user_answers.every(
-            (ua) => ua.answer.length > 0 && ua.answer[0] !== ""
+            (ua) => ua.answer.length > 0 && ua.answer[0] !== "",
           );
           return { ...part, isComplete: allAnswered };
         }
@@ -775,10 +783,10 @@ const ListeningTestClient: React.FC = () => {
 
       if (questionData) {
         const partAnswer = answers.parts.find(
-          (part) => part.part_id === questionData.part_id
+          (part) => part.part_id === questionData.part_id,
         );
         const userAnswer = partAnswer?.user_answers.find(
-          (ua) => ua.question_id === q.question_id
+          (ua) => ua.question_id === q.question_id,
         );
 
         // Fixed TypeScript errors by safely checking for undefined values
@@ -833,7 +841,7 @@ const ListeningTestClient: React.FC = () => {
           let updatedUserAnswers = part.user_answers;
           if (
             !updatedUserAnswers.some(
-              (ua) => ua.question_id === question.question_id
+              (ua) => ua.question_id === question.question_id,
             )
           ) {
             updatedUserAnswers = [
@@ -931,8 +939,8 @@ const ListeningTestClient: React.FC = () => {
                   : [option]
                 : option,
             }
-          : q
-      )
+          : q,
+      ),
     );
 
     setAllQuestions((prevAllQuestions) =>
@@ -948,8 +956,8 @@ const ListeningTestClient: React.FC = () => {
                   : [option]
                 : option,
             }
-          : q
-      )
+          : q,
+      ),
     );
 
     updatePartCompletion(questionData.part_id);
@@ -973,7 +981,7 @@ const ListeningTestClient: React.FC = () => {
           const updatedUserAnswers = part.user_answers.map((ua) =>
             ua.question_id === question.question_id
               ? { ...ua, answer: [answer] }
-              : ua
+              : ua,
           );
           return { ...part, user_answers: updatedUserAnswers };
         }
@@ -984,8 +992,8 @@ const ListeningTestClient: React.FC = () => {
 
     setAllQuestions((prevAllQuestions) =>
       prevAllQuestions.map((q) =>
-        q.id === questionId ? { ...q, selectedOptions: answer } : q
-      )
+        q.id === questionId ? { ...q, selectedOptions: answer } : q,
+      ),
     );
 
     updatePartCompletion(questionData.part_id);
@@ -1162,6 +1170,235 @@ const ListeningTestClient: React.FC = () => {
 
     return () => clearInterval(timer);
   }, [timeLeft, isTimerRunning, handleAutoSubmit]);
+
+  const renderQuestionGroups = () => {
+    // Group consecutive questions of the same type
+    const questionGroups: Array<{
+      type: string;
+      questions: any[];
+      startIndex: number;
+    }> = [];
+
+    let currentGroup: any[] = [];
+    let currentType = questions[0]?.q_type;
+    let groupStartIndex = 0;
+
+    questions.forEach((q, index) => {
+      if (q.q_type === currentType) {
+        currentGroup.push(q);
+      } else {
+        // Save current group and start new one
+        if (currentGroup.length > 0) {
+          questionGroups.push({
+            type: currentType,
+            questions: [...currentGroup],
+            startIndex: groupStartIndex,
+          });
+        }
+        currentGroup = [q];
+        currentType = q.q_type;
+        groupStartIndex = index;
+      }
+
+      // Handle last group
+      if (index === questions.length - 1 && currentGroup.length > 0) {
+        questionGroups.push({
+          type: currentType,
+          questions: [...currentGroup],
+          startIndex: groupStartIndex,
+        });
+      }
+    });
+
+    // Render each group in the order they appear
+    return questionGroups.map((group, groupIndex) => {
+      if (group.type === "MP") {
+        const mpQuestions = group.questions.map((q) => ({
+          id: q.id,
+          question: q.question,
+          options: q.options,
+          isMultiple: q.isMultiple,
+          selectedOptions: q.selectedOptions,
+        }));
+
+        return (
+          <div key={`mp-${groupIndex}-${group.startIndex}`} className="mb-4">
+            <QuizHeader
+              title={`Questions ${mpQuestions[0].id} - ${
+                mpQuestions[mpQuestions.length - 1].id
+              }`}
+              subtitle="Choose the correct answer"
+            />
+            <div className="border border-gray-200 rounded-lg pt-6 pb-1 grid grid-cols-1 lg:grid-cols-2 gap-4 bg-white">
+              <div className="space-y-4">
+                {mpQuestions
+                  .slice(0, Math.ceil(mpQuestions.length / 2))
+                  .map((q) => (
+                    <QuizQuestion
+                      key={q.id}
+                      id={q.id}
+                      question={q.question}
+                      options={q.options}
+                      isMultiple={q.isMultiple}
+                      selectedOptions={q.selectedOptions}
+                      onSelectOption={(option) =>
+                        handleSelectOption(q.id, option)
+                      }
+                    />
+                  ))}
+              </div>
+              <div className="space-y-4">
+                {mpQuestions
+                  .slice(Math.ceil(mpQuestions.length / 2))
+                  .map((q) => (
+                    <QuizQuestion
+                      key={q.id}
+                      id={q.id}
+                      question={q.question}
+                      options={q.options}
+                      isMultiple={q.isMultiple}
+                      selectedOptions={q.selectedOptions}
+                      onSelectOption={(option) =>
+                        handleSelectOption(q.id, option)
+                      }
+                    />
+                  ))}
+              </div>
+            </div>
+          </div>
+        );
+      } else if (group.type === "FB") {
+        const fbQuestions = group.questions.map((q) => ({
+          id: q.id,
+          start_passage: q.start_passage || "",
+          end_passage: q.end_passage || "",
+          selectedAnswer: q.selectedOptions || "",
+        }));
+
+        return (
+          <div key={`fb-${groupIndex}-${group.startIndex}`} className="mb-6">
+            <ShortAnswerQuiz
+              title={`Questions ${fbQuestions[0].id} - ${
+                fbQuestions[fbQuestions.length - 1].id
+              }`}
+              subtitle=""
+              instructions="Write your answers in the boxes provided."
+              questions={fbQuestions.map((q) => ({
+                ...q,
+                selectedAnswer: Array.isArray(q.selectedAnswer)
+                  ? q.selectedAnswer.join(", ")
+                  : q.selectedAnswer,
+              }))}
+              onAnswerChange={handleFillInAnswer}
+            />
+          </div>
+        );
+      } else if (group.type === "MH") {
+        const mhQuestions = group.questions.map((q) => ({
+          q_type: "MH" as const,
+          part_id: parseInt(q.question_id),
+          heading: q.heading || "",
+          answer: "",
+          options: q.options,
+          paragraph_id: q.paragraph_id || "",
+          id: q.id,
+          question_id: q.question_id,
+        }));
+
+        const startQ = mhQuestions[0].id;
+        const endQ = mhQuestions[mhQuestions.length - 1].id;
+        const savedAnswers = getSavedAnswers(mhQuestions, "MH");
+
+        return (
+          <div key={`mh-${groupIndex}-${group.startIndex}`} className="mb-6">
+            <MatchingHeadings
+              questions={mhQuestions}
+              savedAnswers={savedAnswers}
+              handleSelectOption={(paragraphId, option) => {
+                const questionId = questions.find(
+                  (q) => q.paragraph_id === paragraphId,
+                )?.id;
+                if (questionId) {
+                  handleSelectOption(questionId, option);
+                }
+              }}
+              startQuestion={startQ}
+              endQuestion={endQ}
+            />
+          </div>
+        );
+      } else if (group.type === "MF") {
+        const mfQuestions = group.questions.map((q) => ({
+          q_type: "MF" as const,
+          part_id: parseInt(q.question_id),
+          feature: q.feature || "",
+          answer: "",
+          options: q.options,
+          id: q.id,
+          question_id: q.question_id,
+        }));
+
+        const startQ = mfQuestions[0].id;
+        const endQ = mfQuestions[mfQuestions.length - 1].id;
+        const savedAnswers = getSavedAnswers(mfQuestions, "MF");
+
+        return (
+          <div key={`mf-${groupIndex}-${group.startIndex}`} className="mb-6">
+            <MatchingFeatures
+              questions={mfQuestions}
+              savedAnswers={savedAnswers}
+              handleSelectOption={(statementId, option) => {
+                handleSelectOption(statementId, option);
+              }}
+              startQuestion={startQ}
+              endQuestion={endQ}
+            />
+          </div>
+        );
+      } else if (group.type === "TFNG") {
+        const tfngQuestions = group.questions.map((q) => ({
+          q_type: "TFNG" as const,
+          part_id: q.question_id,
+          sentence: q.sentence || "",
+          answer: "",
+          id: q.id,
+          question_id: q.question_id,
+        }));
+
+        const startQ = tfngQuestions[0].id;
+        const endQ = tfngQuestions[tfngQuestions.length - 1].id;
+        const savedAnswers = getSavedAnswers(tfngQuestions, "TFNG");
+
+        return (
+          <div key={`tfng-${groupIndex}-${group.startIndex}`} className="mb-6">
+            <TrueFalseNotGiven
+              questions={tfngQuestions as any}
+              savedAnswers={savedAnswers}
+              handleSelectOption={(statementId, option) => {
+                handleSelectOption(statementId, option);
+              }}
+              startQuestion={startQ}
+              endQuestion={endQ}
+            />
+          </div>
+        );
+      }
+
+      return null;
+    });
+  };
+
+  const currentPassageData = [passage1, passage2, passage3, passage4][
+    selectedPassage - 1
+  ];
+
+  console.log("currentPassageData", currentPassageData?.content);
+
+  const hasContent =
+    !!currentPassageData?.content &&
+    currentPassageData?.content !== "<p><br></p>";
+
+  console.log("hasContent", hasContent);
 
   return (
     <div className="relative bg-gray-100 min-h-screen w-full">
@@ -1410,7 +1647,7 @@ const ListeningTestClient: React.FC = () => {
                 Bạn đã trả lời{" "}
                 {passages.reduce(
                   (acc, passage) => acc + passage.answeredQuestions,
-                  0
+                  0,
                 )}{" "}
                 / {allQuestions.length} câu hỏi trong đoạn văn này. Vui lòng đảm
                 bảo bạn đã trả lời tất cả các câu hỏi trước khi nộp bài.
@@ -1462,7 +1699,7 @@ const ListeningTestClient: React.FC = () => {
                   isLogin &&
                   passages.reduce(
                     (acc, passage) => acc + passage.answeredQuestions,
-                    0
+                    0,
                   ) === allQuestions.length
                 ) {
                   setShowConfirmSubmitDialog(true);
@@ -1470,7 +1707,7 @@ const ListeningTestClient: React.FC = () => {
                   !isLogin &&
                   passages.reduce(
                     (acc, passage) => acc + passage.answeredQuestions,
-                    0
+                    0,
                   ) === allQuestions.length
                 ) {
                   setShowGetInfoDialog(true);
@@ -1495,7 +1732,7 @@ const ListeningTestClient: React.FC = () => {
             <div>
               {(() => {
                 const passage = passages.find(
-                  (passage) => selectedPassage === passage.id
+                  (passage) => selectedPassage === passage.id,
                 );
                 return (
                   passage && (
@@ -1517,7 +1754,7 @@ const ListeningTestClient: React.FC = () => {
                         choosenPassage={selectedPassage === passage.id}
                         onClick={() => {
                           setIsPassageProgressBarOpen(
-                            !isPassageProgressBarOpen
+                            !isPassageProgressBarOpen,
                           );
                         }}
                       />
@@ -1554,7 +1791,7 @@ const ListeningTestClient: React.FC = () => {
                   className={`${
                     passages.reduce(
                       (acc, passage) => acc + passage.answeredQuestions,
-                      0
+                      0,
                     ) === allQuestions.length
                       ? "text-[#FA812F]"
                       : ""
@@ -1562,7 +1799,7 @@ const ListeningTestClient: React.FC = () => {
                 >
                   {passages.reduce(
                     (acc, passage) => acc + passage.answeredQuestions,
-                    0
+                    0,
                   )}
                 </span>
                 <span className="text-[#FA812F]">/{allQuestions.length}</span>
@@ -1613,249 +1850,43 @@ const ListeningTestClient: React.FC = () => {
 
       {/* Main Content */}
       <div className="fixed top-[0] bottom-[0] left-0 right-0 overflow-y-auto mt-14 pb-16 lg:pb-5">
-        <div className=" mx-auto w-full lg:w-[65%] p-3 lg:p-4 pt-7 lg:pt-9 pb-5 lg:pb-0">
-          {(() => {
-            // Group consecutive questions of the same type
-            const questionGroups: Array<{
-              type: string;
-              questions: any[];
-              startIndex: number;
-            }> = [];
+        {!hasContent ? (
+          <div className=" mx-auto w-full lg:w-[65%] p-3 lg:p-4 pt-7 lg:pt-9 pb-5 lg:pb-0">
+            {renderQuestionGroups()}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-12 w-full h-full">
+            {/* Reading passage */}
+            <div
+              className={`lg:col-span-7 p-4 pt-8 overflow-y-auto scroll-bar-style border-r border-gray-200 bg-white ${
+                switchReading ? "" : "hidden lg:block"
+              }`}
+            >
+              <div>
+                <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
+                  Listening Part {selectedPassage}
+                </h1>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: (currentPassageData?.content || "").replace(
+                      /\\/g,
+                      "",
+                    ),
+                  }}
+                />
+              </div>
+            </div>
 
-            let currentGroup: any[] = [];
-            let currentType = questions[0]?.q_type;
-            let groupStartIndex = 0;
-
-            questions.forEach((q, index) => {
-              if (q.q_type === currentType) {
-                currentGroup.push(q);
-              } else {
-                // Save current group and start new one
-                if (currentGroup.length > 0) {
-                  questionGroups.push({
-                    type: currentType,
-                    questions: [...currentGroup],
-                    startIndex: groupStartIndex,
-                  });
-                }
-                currentGroup = [q];
-                currentType = q.q_type;
-                groupStartIndex = index;
-              }
-
-              // Handle last group
-              if (index === questions.length - 1 && currentGroup.length > 0) {
-                questionGroups.push({
-                  type: currentType,
-                  questions: [...currentGroup],
-                  startIndex: groupStartIndex,
-                });
-              }
-            });
-
-            console.log(
-              "🎯 Rendering question groups in order:",
-              questionGroups.map(
-                (g) =>
-                  `${g.type}: ${g.questions[0]?.id}-${
-                    g.questions[g.questions.length - 1]?.id
-                  }`
-              )
-            );
-
-            // Render each group in the order they appear
-            return questionGroups.map((group, groupIndex) => {
-              if (group.type === "MP") {
-                const mpQuestions = group.questions.map((q) => ({
-                  id: q.id,
-                  question: q.question,
-                  options: q.options,
-                  isMultiple: q.isMultiple,
-                  selectedOptions: q.selectedOptions,
-                }));
-
-                return (
-                  <div
-                    key={`mp-${groupIndex}-${group.startIndex}`}
-                    className="mb-4"
-                  >
-                    <QuizHeader
-                      title={`Questions ${mpQuestions[0].id} - ${
-                        mpQuestions[mpQuestions.length - 1].id
-                      }`}
-                      subtitle="Choose the correct answer"
-                    />
-                    <div className="border border-gray-200 rounded-lg pt-6 pb-1 grid grid-cols-1 lg:grid-cols-2 gap-4 bg-white">
-                      <div className="space-y-4">
-                        {mpQuestions
-                          .slice(0, Math.ceil(mpQuestions.length / 2))
-                          .map((q) => (
-                            <QuizQuestion
-                              key={q.id}
-                              id={q.id}
-                              question={q.question}
-                              options={q.options}
-                              isMultiple={q.isMultiple}
-                              selectedOptions={q.selectedOptions}
-                              onSelectOption={(option) =>
-                                handleSelectOption(q.id, option)
-                              }
-                            />
-                          ))}
-                      </div>
-                      <div className="space-y-4">
-                        {mpQuestions
-                          .slice(Math.ceil(mpQuestions.length / 2))
-                          .map((q) => (
-                            <QuizQuestion
-                              key={q.id}
-                              id={q.id}
-                              question={q.question}
-                              options={q.options}
-                              isMultiple={q.isMultiple}
-                              selectedOptions={q.selectedOptions}
-                              onSelectOption={(option) =>
-                                handleSelectOption(q.id, option)
-                              }
-                            />
-                          ))}
-                      </div>
-                    </div>
-                  </div>
-                );
-              } else if (group.type === "FB") {
-                const fbQuestions = group.questions.map((q) => ({
-                  id: q.id,
-                  start_passage: q.start_passage || "",
-                  end_passage: q.end_passage || "",
-                  selectedAnswer: q.selectedOptions || "",
-                }));
-
-                return (
-                  <div
-                    key={`fb-${groupIndex}-${group.startIndex}`}
-                    className="mb-6"
-                  >
-                    <ShortAnswerQuiz
-                      title={`Questions ${fbQuestions[0].id} - ${
-                        fbQuestions[fbQuestions.length - 1].id
-                      }`}
-                      subtitle=""
-                      instructions="Write your answers in the boxes provided."
-                      questions={fbQuestions.map((q) => ({
-                        ...q,
-                        selectedAnswer: Array.isArray(q.selectedAnswer)
-                          ? q.selectedAnswer.join(", ")
-                          : q.selectedAnswer,
-                      }))}
-                      onAnswerChange={handleFillInAnswer}
-                    />
-                  </div>
-                );
-              } else if (group.type === "MH") {
-                const mhQuestions = group.questions.map((q) => ({
-                  q_type: "MH" as const,
-                  part_id: parseInt(q.question_id),
-                  heading: q.heading || "",
-                  answer: "",
-                  options: q.options,
-                  paragraph_id: q.paragraph_id || "",
-                  id: q.id,
-                  question_id: q.question_id,
-                }));
-
-                const startQ = mhQuestions[0].id;
-                const endQ = mhQuestions[mhQuestions.length - 1].id;
-                const savedAnswers = getSavedAnswers(mhQuestions, "MH");
-
-                return (
-                  <div
-                    key={`mh-${groupIndex}-${group.startIndex}`}
-                    className="mb-6"
-                  >
-                    <MatchingHeadings
-                      questions={mhQuestions}
-                      savedAnswers={savedAnswers}
-                      handleSelectOption={(paragraphId, option) => {
-                        const questionId = questions.find(
-                          (q) => q.paragraph_id === paragraphId
-                        )?.id;
-                        if (questionId) {
-                          handleSelectOption(questionId, option);
-                        }
-                      }}
-                      startQuestion={startQ}
-                      endQuestion={endQ}
-                    />
-                  </div>
-                );
-              } else if (group.type === "MF") {
-                const mfQuestions = group.questions.map((q) => ({
-                  q_type: "MF" as const,
-                  part_id: parseInt(q.question_id),
-                  feature: q.feature || "",
-                  answer: "",
-                  options: q.options,
-                  id: q.id,
-                  question_id: q.question_id,
-                }));
-
-                const startQ = mfQuestions[0].id;
-                const endQ = mfQuestions[mfQuestions.length - 1].id;
-                const savedAnswers = getSavedAnswers(mfQuestions, "MF");
-
-                return (
-                  <div
-                    key={`mf-${groupIndex}-${group.startIndex}`}
-                    className="mb-6"
-                  >
-                    <MatchingFeatures
-                      questions={mfQuestions}
-                      savedAnswers={savedAnswers}
-                      handleSelectOption={(statementId, option) => {
-                        handleSelectOption(statementId, option);
-                      }}
-                      startQuestion={startQ}
-                      endQuestion={endQ}
-                    />
-                  </div>
-                );
-              } else if (group.type === "TFNG") {
-                const tfngQuestions = group.questions.map((q) => ({
-                  q_type: "TFNG" as const,
-                  part_id: q.question_id,
-                  sentence: q.sentence || "",
-                  answer: "",
-                  id: q.id,
-                  question_id: q.question_id,
-                }));
-
-                const startQ = tfngQuestions[0].id;
-                const endQ = tfngQuestions[tfngQuestions.length - 1].id;
-                const savedAnswers = getSavedAnswers(tfngQuestions, "TFNG");
-
-                return (
-                  <div
-                    key={`tfng-${groupIndex}-${group.startIndex}`}
-                    className="mb-6"
-                  >
-                    <TrueFalseNotGiven
-                      questions={tfngQuestions as any}
-                      savedAnswers={savedAnswers}
-                      handleSelectOption={(statementId, option) => {
-                        handleSelectOption(statementId, option);
-                      }}
-                      startQuestion={startQ}
-                      endQuestion={endQ}
-                    />
-                  </div>
-                );
-              }
-
-              return null;
-            });
-          })()}
-        </div>
+            {/* Questions */}
+            <div
+              className={`lg:col-span-5 bg-white p-4 pt-5 lg:pt-8 pb-0 overflow-y-auto scroll-bar-style h-full ${
+                switchReading ? "hidden lg:block" : ""
+              }`}
+            >
+              {renderQuestionGroups()}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Bottom Navigation */}
@@ -2020,18 +2051,20 @@ const ListeningTestClient: React.FC = () => {
             </div>
           </div>
 
-          {/* <div className="lg:hidden absolute bg-[#FA812F] rounded-full bottom-[0%] right-[5%] -translate-y-24 z-30">
-            <div
-              className="p-3.5"
-              onClick={() => setSwitchReading(!switchReading)}
-            >
-              {switchReading ? (
-                <Grid2x2Check color="white" />
-              ) : (
-                <FileText color="white" />
-              )}
+          {hasContent && (
+            <div className="lg:hidden absolute bg-[#FA812F] rounded-full bottom-[0%] right-[5%] -translate-y-24 z-30">
+              <div
+                className="p-3.5"
+                onClick={() => setSwitchReading(!switchReading)}
+              >
+                {switchReading ? (
+                  <Grid2x2Check color="white" />
+                ) : (
+                  <FileText color="white" />
+                )}
+              </div>
             </div>
-          </div> */}
+          )}
         </div>
       </div>
 

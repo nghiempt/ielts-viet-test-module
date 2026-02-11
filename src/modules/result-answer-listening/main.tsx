@@ -3,7 +3,12 @@ import Image from "next/image";
 import { IMAGES } from "@/utils/images";
 import PassageProgressBar from "./components/processing-bar";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Grid2x2Check } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Grid2x2Check,
+  FileText,
+} from "lucide-react";
 import PassageProgressBarMobile from "./components/processing-bar-mobile";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
@@ -128,6 +133,7 @@ interface ResultData {
 const ListeningTestClient: React.FC = () => {
   const pathname = usePathname();
   const [data, setData] = useState<ReadingDetail | null>(null);
+  const [switchReading, setSwitchReading] = useState(true);
   const [passage1, setPassage1] = useState<PassageSection | null>(null);
   const [passage2, setPassage2] = useState<PassageSection | null>(null);
   const [passage3, setPassage3] = useState<PassageSection | null>(null);
@@ -485,6 +491,231 @@ const ListeningTestClient: React.FC = () => {
     setSelectedQuestion(prevPassage.startQuestion);
   };
 
+  const renderQuestionGroups = () => {
+    // Group contiguous questions by type
+    const questionGroups: { type: string; questions: Question[] }[] = [];
+    let currentGroup: { type: string; questions: Question[] } | null = null;
+
+    questions?.forEach((question) => {
+      if (!currentGroup || currentGroup.type !== question.q_type) {
+        currentGroup = { type: question.q_type, questions: [question] };
+        questionGroups.push(currentGroup);
+      } else {
+        currentGroup.questions.push(question);
+      }
+    });
+
+    return questionGroups.map((group, groupIndex) => {
+      if (group.type === "MP") {
+        const mpQuestions = group.questions.map((q) => ({
+          id: q?.id,
+          question: q?.question,
+          options: q?.options,
+          isMultiple: q?.isMultiple,
+          selectedOptions: q?.selectedOptions,
+          correct_answer: q?.correct_answer,
+          is_correct: q?.is_correct,
+        }));
+        return (
+          <div key={`mp-${groupIndex}`} className="mb-0">
+            <ResultHeader
+              title={`Questions ${mpQuestions[0]?.id} - ${
+                mpQuestions[mpQuestions.length - 1]?.id
+              }`}
+              subtitle="Review your answers"
+            />
+            <div className="border border-gray-200 rounded-lg pt-6 pb-1 grid grid-cols-1 lg:grid-cols-2 gap-4 bg-white mb-4">
+              <div className="space-y-4">
+                {mpQuestions
+                  .slice(0, Math.ceil(mpQuestions.length / 2))
+                  .map((q) => (
+                    <ResultQuestion
+                      key={q.id}
+                      id={q.id}
+                      question={q.question}
+                      options={q.options}
+                      selectedOptions={q.selectedOptions}
+                      correctAnswer={q.correct_answer || []}
+                      isCorrect={q.is_correct ?? false}
+                    />
+                  ))}
+              </div>
+              <div className="space-y-4">
+                {mpQuestions
+                  .slice(Math.ceil(mpQuestions.length / 2))
+                  .map((q) => (
+                    <ResultQuestion
+                      key={q.id}
+                      id={q.id}
+                      question={q.question}
+                      options={q.options}
+                      selectedOptions={q.selectedOptions}
+                      correctAnswer={q.correct_answer || []}
+                      isCorrect={q.is_correct ?? false}
+                    />
+                  ))}
+              </div>
+            </div>
+          </div>
+        );
+      } else if (group.type === "FB") {
+        const fbQuestions = group.questions.map((q) => ({
+          id: q?.id,
+          start_passage: q?.start_passage || "",
+          end_passage: q?.end_passage || "",
+          selectedAnswer: q?.selectedOptions || "",
+          correct_answer: q?.correct_answer,
+          is_correct: q?.is_correct,
+        }));
+        return (
+          <div key={`fb-${groupIndex}`} className="mb-6">
+            <ResultHeader
+              title={`Questions ${fbQuestions[0].id} - ${
+                fbQuestions[fbQuestions.length - 1].id
+              }`}
+              subtitle="Review your answers"
+            />
+            <div className="">
+              {fbQuestions.map((q) => (
+                <ResultShortAnswerQuestion
+                  key={q?.id}
+                  id={q?.id}
+                  start_passage={q?.start_passage}
+                  end_passage={q?.end_passage}
+                  selectedAnswer={
+                    Array.isArray(q?.selectedAnswer)
+                      ? q?.selectedAnswer.join(", ")
+                      : q?.selectedAnswer || "No answer provided"
+                  }
+                  correctAnswer={
+                    Array.isArray(q?.correct_answer)
+                      ? q?.correct_answer.join(", ")
+                      : q?.correct_answer || ""
+                  }
+                  isCorrect={q?.is_correct ?? false}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      } else if (group.type === "MH") {
+        const mhQuestions = group.questions.map((q) => ({
+          id: q?.id,
+          paragraphId: q?.paragraphId || "",
+          selectedOption: Array.isArray(q?.selectedOptions)
+            ? q?.selectedOptions[0]
+            : (q?.selectedOptions as string) || "",
+          correctOption: Array.isArray(q?.correct_answer)
+            ? q?.correct_answer[0]
+            : (q?.correct_answer as string) || "",
+          isCorrect: q?.is_correct ?? false,
+        }));
+        const headings = group.questions[0]?.options || [];
+        const headingIds = [
+          "i",
+          "ii",
+          "iii",
+          "iv",
+          "v",
+          "vi",
+          "vii",
+          "viii",
+          "ix",
+          "x",
+          "xi",
+          "xii",
+          "xiii",
+          "xiv",
+          "xv",
+          "xvi",
+          "xvii",
+          "xviii",
+          "xix",
+          "xx",
+        ].slice(0, headings.length);
+
+        return (
+          <div key={`mh-${groupIndex}`} className="mb-6">
+            <ResultMatchingHeadings
+              questions={mhQuestions}
+              headings={headings}
+              headingIds={headingIds}
+              startQuestion={mhQuestions[0].id}
+              endQuestion={mhQuestions[mhQuestions.length - 1].id}
+            />
+          </div>
+        );
+      } else if (group.type === "MF") {
+        const mfQuestions = group.questions.map((q) => ({
+          id: q?.id,
+          text: q?.feature || "",
+          selectedOption: Array.isArray(q?.selectedOptions)
+            ? q?.selectedOptions[0]
+            : (q?.selectedOptions as string) || "",
+          correctOption: Array.isArray(q?.correct_answer)
+            ? q?.correct_answer[0]
+            : (q?.correct_answer as string) || "",
+          isCorrect: q?.is_correct ?? false,
+        }));
+        const countries = group.questions[0]?.options || [];
+        const countryIds = [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "I",
+          "J",
+        ].slice(0, countries.length);
+
+        return (
+          <div key={`mf-${groupIndex}`} className="mb-6">
+            <ResultMatchingFeatures
+              questions={mfQuestions}
+              countries={countries}
+              countryIds={countryIds}
+              startQuestion={mfQuestions[0].id}
+              endQuestion={mfQuestions[mfQuestions.length - 1].id}
+            />
+          </div>
+        );
+      } else if (group.type === "TFNG") {
+        const tfngQuestions = group.questions.map((q) => ({
+          id: q?.id,
+          text: q?.sentence || "",
+          selectedAnswer: (Array.isArray(q?.selectedOptions)
+            ? q?.selectedOptions[0]
+            : (q?.selectedOptions as string) || "") as any,
+          correctAnswer: (Array.isArray(q?.correct_answer)
+            ? q?.correct_answer[0]
+            : (q?.correct_answer as string) || "") as any,
+          isCorrect: q?.is_correct ?? false,
+        }));
+
+        return (
+          <div key={`tfng-${groupIndex}`} className="mb-6">
+            <ResultTrueFalseNotGiven
+              questions={tfngQuestions}
+              startQuestion={tfngQuestions[0].id}
+              endQuestion={tfngQuestions[tfngQuestions.length - 1].id}
+            />
+          </div>
+        );
+      }
+      return null;
+    });
+  };
+
+  const currentPassageData = [passage1, passage2, passage3, passage4][
+    selectedPassage - 1
+  ];
+  const hasContent =
+    !!currentPassageData?.content &&
+    currentPassageData?.content !== "<p><br></p>";
+
   return (
     <div className="relative bg-gray-100 min-h-screen w-full">
       {/* Header */}
@@ -529,227 +760,43 @@ const ListeningTestClient: React.FC = () => {
         </div>
       </header>
       <div className="fixed top-[0] bottom-[0] left-0 right-0 overflow-y-auto mt-14 pb-28">
-        <div className="mx-auto w-full lg:w-[65%] p-3 lg:p-4 pt-5 lg:pt-9 pb-3 lg:pb-0">
-          {(() => {
-            // Group contiguous questions by type
-            const questionGroups: { type: string; questions: Question[] }[] =
-              [];
-            let currentGroup: { type: string; questions: Question[] } | null =
-              null;
+        {!hasContent ? (
+          <div className="mx-auto w-full lg:w-[65%] p-3 lg:p-4 pt-5 lg:pt-9 pb-3 lg:pb-0">
+            {renderQuestionGroups()}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-12 w-full h-full">
+            {/* Reading passage */}
+            <div
+              className={`lg:col-span-7 p-4 pt-8 overflow-y-auto scroll-bar-style border-r border-gray-200 bg-white ${
+                switchReading ? "" : "hidden lg:block"
+              }`}
+            >
+              <div>
+                <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
+                  Listening Part {selectedPassage}
+                </h1>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: (currentPassageData?.content || "").replace(
+                      /\\/g,
+                      "",
+                    ),
+                  }}
+                />
+              </div>
+            </div>
 
-            questions?.forEach((question) => {
-              if (!currentGroup || currentGroup.type !== question.q_type) {
-                currentGroup = { type: question.q_type, questions: [question] };
-                questionGroups.push(currentGroup);
-              } else {
-                currentGroup.questions.push(question);
-              }
-            });
-
-            return questionGroups.map((group, groupIndex) => {
-              if (group.type === "MP") {
-                const mpQuestions = group.questions.map((q) => ({
-                  id: q?.id,
-                  question: q?.question,
-                  options: q?.options,
-                  isMultiple: q?.isMultiple,
-                  selectedOptions: q?.selectedOptions,
-                  correct_answer: q?.correct_answer,
-                  is_correct: q?.is_correct,
-                }));
-                return (
-                  <div key={`mp-${groupIndex}`} className="mb-0">
-                    <ResultHeader
-                      title={`Questions ${mpQuestions[0]?.id} - ${
-                        mpQuestions[mpQuestions.length - 1]?.id
-                      }`}
-                      subtitle="Review your answers"
-                    />
-                    <div className="border border-gray-200 rounded-lg pt-6 pb-1 grid grid-cols-1 lg:grid-cols-2 gap-4 bg-white mb-4">
-                      <div className="space-y-4">
-                        {mpQuestions
-                          .slice(0, Math.ceil(mpQuestions.length / 2))
-                          .map((q) => (
-                            <ResultQuestion
-                              key={q.id}
-                              id={q.id}
-                              question={q.question}
-                              options={q.options}
-                              selectedOptions={q.selectedOptions}
-                              correctAnswer={q.correct_answer || []}
-                              isCorrect={q.is_correct ?? false}
-                            />
-                          ))}
-                      </div>
-                      <div className="space-y-4">
-                        {mpQuestions
-                          .slice(Math.ceil(mpQuestions.length / 2))
-                          .map((q) => (
-                            <ResultQuestion
-                              key={q.id}
-                              id={q.id}
-                              question={q.question}
-                              options={q.options}
-                              selectedOptions={q.selectedOptions}
-                              correctAnswer={q.correct_answer || []}
-                              isCorrect={q.is_correct ?? false}
-                            />
-                          ))}
-                      </div>
-                    </div>
-                  </div>
-                );
-              } else if (group.type === "FB") {
-                const fbQuestions = group.questions.map((q) => ({
-                  id: q?.id,
-                  start_passage: q?.start_passage || "",
-                  end_passage: q?.end_passage || "",
-                  selectedAnswer: q?.selectedOptions || "",
-                  correct_answer: q?.correct_answer,
-                  is_correct: q?.is_correct,
-                }));
-                return (
-                  <div key={`fb-${groupIndex}`} className="mb-6">
-                    <ResultHeader
-                      title={`Questions ${fbQuestions[0].id} - ${
-                        fbQuestions[fbQuestions.length - 1].id
-                      }`}
-                      subtitle="Review your answers"
-                    />
-                    <div className="">
-                      {fbQuestions.map((q) => (
-                        <ResultShortAnswerQuestion
-                          key={q?.id}
-                          id={q?.id}
-                          start_passage={q?.start_passage}
-                          end_passage={q?.end_passage}
-                          selectedAnswer={
-                            Array.isArray(q?.selectedAnswer)
-                              ? q?.selectedAnswer.join(", ")
-                              : q?.selectedAnswer || "No answer provided"
-                          }
-                          correctAnswer={
-                            Array.isArray(q?.correct_answer)
-                              ? q?.correct_answer.join(", ")
-                              : q?.correct_answer || ""
-                          }
-                          isCorrect={q?.is_correct ?? false}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                );
-              } else if (group.type === "MH") {
-                const mhQuestions = group.questions.map((q) => ({
-                  id: q?.id,
-                  paragraphId: q?.paragraphId || "",
-                  selectedOption: Array.isArray(q?.selectedOptions)
-                    ? q?.selectedOptions[0]
-                    : (q?.selectedOptions as string) || "",
-                  correctOption: Array.isArray(q?.correct_answer)
-                    ? q?.correct_answer[0]
-                    : (q?.correct_answer as string) || "",
-                  isCorrect: q?.is_correct ?? false,
-                }));
-                const headings = group.questions[0]?.options || [];
-                const headingIds = [
-                  "i",
-                  "ii",
-                  "iii",
-                  "iv",
-                  "v",
-                  "vi",
-                  "vii",
-                  "viii",
-                  "ix",
-                  "x",
-                  "xi",
-                  "xii",
-                  "xiii",
-                  "xiv",
-                  "xv",
-                  "xvi",
-                  "xvii",
-                  "xviii",
-                  "xix",
-                  "xx",
-                ].slice(0, headings.length);
-
-                return (
-                  <div key={`mh-${groupIndex}`} className="mb-6">
-                    <ResultMatchingHeadings
-                      questions={mhQuestions}
-                      headings={headings}
-                      headingIds={headingIds}
-                      startQuestion={mhQuestions[0].id}
-                      endQuestion={mhQuestions[mhQuestions.length - 1].id}
-                    />
-                  </div>
-                );
-              } else if (group.type === "MF") {
-                const mfQuestions = group.questions.map((q) => ({
-                  id: q?.id,
-                  text: q?.feature || "",
-                  selectedOption: Array.isArray(q?.selectedOptions)
-                    ? q?.selectedOptions[0]
-                    : (q?.selectedOptions as string) || "",
-                  correctOption: Array.isArray(q?.correct_answer)
-                    ? q?.correct_answer[0]
-                    : (q?.correct_answer as string) || "",
-                  isCorrect: q?.is_correct ?? false,
-                }));
-                const countries = group.questions[0]?.options || [];
-                const countryIds = [
-                  "A",
-                  "B",
-                  "C",
-                  "D",
-                  "E",
-                  "F",
-                  "G",
-                  "H",
-                  "I",
-                  "J",
-                ].slice(0, countries.length);
-
-                return (
-                  <div key={`mf-${groupIndex}`} className="mb-6">
-                    <ResultMatchingFeatures
-                      questions={mfQuestions}
-                      countries={countries}
-                      countryIds={countryIds}
-                      startQuestion={mfQuestions[0].id}
-                      endQuestion={mfQuestions[mfQuestions.length - 1].id}
-                    />
-                  </div>
-                );
-              } else if (group.type === "TFNG") {
-                const tfngQuestions = group.questions.map((q) => ({
-                  id: q?.id,
-                  text: q?.sentence || "",
-                  selectedAnswer: (Array.isArray(q?.selectedOptions)
-                    ? q?.selectedOptions[0]
-                    : (q?.selectedOptions as string) || "") as any,
-                  correctAnswer: (Array.isArray(q?.correct_answer)
-                    ? q?.correct_answer[0]
-                    : (q?.correct_answer as string) || "") as any,
-                  isCorrect: q?.is_correct ?? false,
-                }));
-
-                return (
-                  <div key={`tfng-${groupIndex}`} className="mb-6">
-                    <ResultTrueFalseNotGiven
-                      questions={tfngQuestions}
-                      startQuestion={tfngQuestions[0].id}
-                      endQuestion={tfngQuestions[tfngQuestions.length - 1].id}
-                    />
-                  </div>
-                );
-              }
-              return null;
-            });
-          })()}
-        </div>
+            {/* Questions */}
+            <div
+              className={`lg:col-span-5 bg-white p-4 pt-5 lg:pt-8 pb-0 overflow-y-auto scroll-bar-style h-full ${
+                switchReading ? "hidden lg:block" : ""
+              }`}
+            >
+              {renderQuestionGroups()}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 bg-white pt-0 pb-2 lg:pt-0 lg:pb-2 z-10">
@@ -907,6 +954,21 @@ const ListeningTestClient: React.FC = () => {
               Reviews & Submit
             </div>
           </div>
+
+          {hasContent && (
+            <div className="lg:hidden absolute bg-[#FA812F] rounded-full bottom-[0%] right-[5%] -translate-y-24 z-30">
+              <div
+                className="p-3.5"
+                onClick={() => setSwitchReading(!switchReading)}
+              >
+                {switchReading ? (
+                  <Grid2x2Check color="white" />
+                ) : (
+                  <FileText color="white" />
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* <AnimatePresence>
