@@ -1,6 +1,6 @@
 // pages/ielts-test.tsx
 import { toast } from "@/hooks/use-toast";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { IMAGES } from "@/utils/images";
 import PassageProgressBar from "./components/processing-bar";
@@ -123,9 +123,7 @@ export default function ReadingTestClient() {
   const searchParams = useSearchParams();
   const isRetake = searchParams.get("isRetake") === "true";
   const [data, setData] = useState<ReadingDetail | null>(null);
-  const [passage1, setPassage1] = useState<PassageSection | null>(null);
-  const [passage2, setPassage2] = useState<PassageSection | null>(null);
-  const [passage3, setPassage3] = useState<PassageSection | null>(null);
+  const [passagesData, setPassagesData] = useState<PassageSection[]>([]);
   const [questions, setQuestions] = useState<Question[]>([]); // Current passage questions
   const [allQuestions, setAllQuestions] = useState<Question[]>([]); // All questions across passages
   const [selectedPassage, setSelectedPassage] = useState(1);
@@ -263,11 +261,9 @@ export default function ReadingTestClient() {
     };
   }, []);
 
-  const calculatePassages = (): PassageInfo[] => {
+  const passages = useMemo((): PassageInfo[] => {
     const passagesInfo: PassageInfo[] = [];
-    const passageData = [passage1, passage2, passage3].filter(
-      (p): p is PassageSection => p !== null
-    );
+    const passageData = passagesData;
 
     let questionCounter = 1;
 
@@ -281,7 +277,7 @@ export default function ReadingTestClient() {
           return (
             count +
             part.user_answers.filter(
-              (ua) => ua.answer.length > 0 && ua.answer[0] !== ""
+              (ua) => ua.answer.length > 0 && ua.answer[0] !== "",
             ).length
           );
         }, 0);
@@ -297,17 +293,15 @@ export default function ReadingTestClient() {
     });
 
     return passagesInfo;
-  };
-
-  const passages = calculatePassages();
+  }, [passagesData, answers]);
 
   const mapAndArrangeQuestions = (passage: PassageSection, startId: number) => {
     const mappedQuestions = passage.question.map((q, index) => {
       const partAnswer = answers.parts.find(
-        (part) => part.part_id === q.part_id
+        (part) => part.part_id === q.part_id,
       );
       const userAnswer = partAnswer?.user_answers.find(
-        (ua) => ua.question_id === q._id
+        (ua) => ua.question_id === q._id,
       );
 
       // For MH and MF types, we want to ensure we get the correct answer from the user's selections
@@ -347,20 +341,20 @@ export default function ReadingTestClient() {
           q.q_type === "MP"
             ? q.question
             : q.q_type === "MH"
-            ? q.question
-            : q.q_type === "MF"
-            ? q.question
-            : q.q_type === "TFNG"
-            ? q.question
-            : "",
+              ? q.question
+              : q.q_type === "MF"
+                ? q.question
+                : q.q_type === "TFNG"
+                  ? q.question
+                  : "",
         options:
           q.q_type === "MP" && q.choices
             ? q.choices
             : q.q_type === "MH" && q.options
-            ? q.options
-            : q.q_type === "MF" && q.options
-            ? q.options
-            : [],
+              ? q.options
+              : q.q_type === "MF" && q.options
+                ? q.options
+                : [],
         isMultiple: q.q_type === "MP" ? q.isMultiple || false : false,
         selectedOptions,
         q_type: q.q_type,
@@ -374,70 +368,6 @@ export default function ReadingTestClient() {
         sentence: q.q_type === "TFNG" ? q.sentence : undefined,
       };
     });
-
-    // Group questions by type for better arrangement
-    // const mpQuestions = mappedQuestions.filter((q) => q.q_type === "MP");
-    // const fbQuestions = mappedQuestions.filter((q) => q.q_type === "FB");
-    // const mhQuestions = mappedQuestions.filter((q) => q.q_type === "MH");
-    // const mfQuestions = mappedQuestions.filter((q) => q.q_type === "MF");
-    // const tfngQuestions = mappedQuestions.filter((q) => q.q_type === "TFNG");
-
-    // // Determine the first question type to maintain the original ordering logic
-    // const firstQuestionType = passage.question[0]?.q_type;
-
-    // // Arrange questions based on the first question type and include new question types
-    // let arrangedQuestions = [];
-
-    // if (firstQuestionType === "MP") {
-    //   arrangedQuestions = [
-    //     ...mpQuestions,
-    //     ...fbQuestions,
-    //     ...mhQuestions,
-    //     ...mfQuestions,
-    //     ...tfngQuestions,
-    //   ];
-    // } else if (firstQuestionType === "FB") {
-    //   arrangedQuestions = [
-    //     ...fbQuestions,
-    //     ...mpQuestions,
-    //     ...mhQuestions,
-    //     ...mfQuestions,
-    //     ...tfngQuestions,
-    //   ];
-    // } else if (firstQuestionType === "MH") {
-    //   arrangedQuestions = [
-    //     ...mhQuestions,
-    //     ...mpQuestions,
-    //     ...fbQuestions,
-    //     ...mfQuestions,
-    //     ...tfngQuestions,
-    //   ];
-    // } else if (firstQuestionType === "MF") {
-    //   arrangedQuestions = [
-    //     ...mfQuestions,
-    //     ...mpQuestions,
-    //     ...fbQuestions,
-    //     ...mhQuestions,
-    //     ...tfngQuestions,
-    //   ];
-    // } else if (firstQuestionType === "TFNG") {
-    //   arrangedQuestions = [
-    //     ...tfngQuestions,
-    //     ...mpQuestions,
-    //     ...fbQuestions,
-    //     ...mhQuestions,
-    //     ...mfQuestions,
-    //   ];
-    // } else {
-    //   // Default arrangement if no recognized first question type
-    //   arrangedQuestions = [
-    //     ...mpQuestions,
-    //     ...fbQuestions,
-    //     ...mhQuestions,
-    //     ...mfQuestions,
-    //     ...tfngQuestions,
-    //   ];
-    // }
 
     return mappedQuestions.map((q, index) => ({
       ...q,
@@ -472,180 +402,76 @@ export default function ReadingTestClient() {
       const partIds = res.parts || [];
       const questionResults = await Promise.all(
         partIds.map((partId: string) =>
-          QuestionsService.getQuestionsById(partId)
-        )
+          QuestionsService.getQuestionsById(partId),
+        ),
       );
 
-      // console.log("questionResults", questionResults);
+      const validPassages = questionResults.filter(
+        (p): p is PassageSection => !!p,
+      );
 
-      const [resP1, resP2, resP3] = questionResults;
-
-      if (!resP1) throw new Error("First passage not found");
-      if (partIds.length > 1 && !resP2)
-        throw new Error("Second passage not found");
-      if (partIds.length > 2 && !resP3)
-        throw new Error("Third passage not found");
-
-      if (res && resP1 && !resP2 && !resP3) {
-        // Only 1 part
-        setPassage1(resP1);
+      if (res && validPassages.length > 0) {
+        setPassagesData(validPassages);
         setData(res);
-        setIsSinglePartMode(true);
-        const allQs = mapAndArrangeQuestions(resP1, 1);
-        setQuestions(allQs);
 
-        setAllQuestions(allQs);
-        setAnswers((prev) => {
-          if (prev.parts.length > 0) return prev;
-          const allQuestions = resP1.question.map((q: any) => ({
-            part_id: q.part_id,
-            question_id: q._id,
-          }));
-          const groupedByPartId = allQuestions.reduce(
-            (
-              acc: Record<string, PartAnswer>,
-              { part_id, question_id }: { part_id: string; question_id: string }
-            ) => {
-              if (!acc[part_id]) {
-                acc[part_id] = {
-                  part_id,
-                  user_answers: [],
-                  isComplete: false,
-                };
-              }
-              acc[part_id].user_answers.push({ question_id, answer: [] });
-              return acc;
-            },
-            {} as Record<string, PartAnswer>
+        // Calculate all questions across all passages
+        let currentQuestionStartId = 1;
+        const allQs = validPassages.flatMap((passage) => {
+          const mapped = mapAndArrangeQuestions(
+            passage,
+            currentQuestionStartId,
           );
-          const initialParts: PartAnswer[] = Object.values(groupedByPartId);
-          setIsDataLoading(false);
-          return { parts: initialParts };
+          currentQuestionStartId += mapped.length;
+          return mapped;
         });
-      } else if (res && resP1 && resP2 && !resP3) {
-        // Only 2 parts
-        setPassage1(resP1);
-        setPassage2(resP2);
-        setData(res);
-        setIsSinglePartMode(true);
-        const passageQuestionCounts = [resP1, resP2].map(
-          (p) => p.question.length
-        );
-        const allQs = [resP1, resP2].flatMap((p, idx) =>
-          mapAndArrangeQuestions(
-            p,
-            1 +
-              (idx === 0
-                ? 0
-                : passageQuestionCounts
-                    .slice(0, idx)
-                    .reduce((a, b) => a + b, 0))
-          )
-        );
 
-        setQuestions(allQs);
-        setAllQuestions(allQs);
-        setAnswers((prev) => {
-          if (prev.parts.length > 0) return prev;
-          const allQuestions = [
-            ...resP1.question.map((q: any) => ({
-              part_id: q.part_id,
-              question_id: q._id,
-            })),
-            ...resP2.question.map((q: any) => ({
-              part_id: q.part_id,
-              question_id: q._id,
-            })),
-          ];
-          const groupedByPartId = allQuestions.reduce(
-            (acc, { part_id, question_id }) => {
-              if (!acc[part_id]) {
-                acc[part_id] = {
-                  part_id,
-                  user_answers: [],
-                  isComplete: false,
-                };
-              }
-              acc[part_id].user_answers.push({ question_id, answer: [] });
-              return acc;
-            },
-            {} as Record<string, PartAnswer>
-          );
-          const initialParts: PartAnswer[] = Object.values(groupedByPartId);
-          setIsDataLoading(false);
-          return { parts: initialParts };
-        });
-      } else if (res && resP1 && resP2 && resP3) {
-        setPassage1(resP1);
-        setPassage2(resP2);
-        setPassage3(resP3);
-        setData(res);
-
-        // Count how many passages have questions
-        const passageQuestionCounts = [resP1, resP2, resP3].map(
-          (p) => p.question.length
-        );
-        const passagesWithQuestions = passageQuestionCounts.filter(
-          (count) => count > 0
+        const passagesWithQuestions = validPassages.filter(
+          (p) => p.question.length > 0,
         ).length;
+
+        // If total number of passages with questions is small (<= 2 is what was logically inferred from old code,
+        // but 'isSinglePartMode' naming is confusing. It used to be true if <= 2 passages with questions?
+        // Actually, let's look at the old logic:
+        // if (passagesWithQuestions <= 2) { setIsSinglePartMode(true); ... }
+        // This logic seems to control whether questions are shown all at once or per passage?
+        // "SinglePartMode" likely means "Show all parts in one view/scroll" or something?
+        // Or maybe "Show all questions list for current passage"?
+        // Let's preserve the logic: if <= 2 passages have questions, we might treat it differently.
+        // BUT wait, the user wants UNLIMITED passages.
+        // The original code had:
+        // if (passagesWithQuestions <= 2) { setIsSinglePartMode(true); setQuestions(allQs); setAllQuestions(allQs); }
+        // else { setIsSinglePartMode(false); setAllQuestions(allQs); setQuestions(passage1Questions); }
+        // If isSinglePartMode is true, it renders ALL questions.
+        // If isSinglePartMode is false, it renders ONLY questions for selected passage.
+        // Let's assume for dynamic > 2 passages, we want pagination (per passage view).
+        // So setIsSinglePartMode(passagesWithQuestions <= 2) seems to be the logic key.
+        // For now, let's stick to that logic logic, or maybe just default to paged mode if many questions?
+        // Actually, `isSinglePartMode` name suggests "Single Part" mode, but logic was `<= 2`.
+        // Let's keep the logic: if <= 2 passages have questions, show all. else show paged.
+
         if (passagesWithQuestions <= 2) {
           setIsSinglePartMode(true);
-          // Gather all questions in order
-          const allQs = [resP1, resP2, resP3].flatMap((p, idx) =>
-            mapAndArrangeQuestions(
-              p,
-              1 +
-                (idx === 0
-                  ? 0
-                  : passageQuestionCounts
-                      .slice(0, idx)
-                      .reduce((a, b) => a + b, 0))
-            )
-          );
-
-          console.log("check arrange: ", allQs);
-
           setQuestions(allQs);
           setAllQuestions(allQs);
         } else {
           setIsSinglePartMode(false);
-          // Map all questions for all passages
-          const passage1Questions = mapAndArrangeQuestions(resP1, 1);
-          const passage2Questions = mapAndArrangeQuestions(
-            resP2,
-            passage1Questions.length + 1
-          );
-          const passage3Questions = mapAndArrangeQuestions(
-            resP3,
-            passage1Questions.length + passage2Questions.length + 1
-          );
-
-          console.log("check arrange: ", passage3Questions);
-
-          setAllQuestions([
-            ...passage1Questions,
-            ...passage2Questions,
-            ...passage3Questions,
-          ]);
-          setQuestions(passage1Questions);
+          setAllQuestions(allQs);
+          // Initial questions for passage 1
+          const firstPassageQs = mapAndArrangeQuestions(validPassages[0], 1);
+          setQuestions(firstPassageQs);
         }
+
         setAnswers((prev) => {
           if (prev.parts.length > 0) return prev;
-          const allQuestions = [
-            ...resP1.question.map((q: any) => ({
+
+          const allRawQuestions = validPassages.flatMap((p) =>
+            p.question.map((q: any) => ({
               part_id: q.part_id,
               question_id: q._id,
             })),
-            ...resP2.question.map((q: any) => ({
-              part_id: q.part_id,
-              question_id: q._id,
-            })),
-            ...resP3.question.map((q: any) => ({
-              part_id: q.part_id,
-              question_id: q._id,
-            })),
-          ];
-          const groupedByPartId = allQuestions.reduce(
+          );
+
+          const groupedByPartId = allRawQuestions.reduce(
             (acc, { part_id, question_id }) => {
               if (!acc[part_id]) {
                 acc[part_id] = {
@@ -657,7 +483,7 @@ export default function ReadingTestClient() {
               acc[part_id].user_answers.push({ question_id, answer: [] });
               return acc;
             },
-            {} as Record<string, PartAnswer>
+            {} as Record<string, PartAnswer>,
           );
           const initialParts: PartAnswer[] = Object.values(groupedByPartId);
           return { parts: initialParts };
@@ -684,24 +510,23 @@ export default function ReadingTestClient() {
         ...acc,
         [passage.id]: passage.startQuestion,
       }),
-      {} as { [key: number]: number }
+      {} as { [key: number]: number },
     );
 
-    const passageData = { 1: passage1, 2: passage2, 3: passage3 };
-    const selectedPassageData = passageData[selectedPassage as 1 | 2 | 3];
+    const selectedPassageData = passagesData[selectedPassage - 1];
 
     if (selectedPassageData) {
       // Map and arrange questions for the selected passage
       const updatedQuestions = mapAndArrangeQuestions(
         selectedPassageData,
-        startIds[selectedPassage]
+        startIds[selectedPassage] || 1, // Default to 1 if not found, though it should be
       );
 
       // Make sure we're preserving answers from allQuestions when switching passages
       const updatedQuestionsWithAnswers = updatedQuestions.map((q) => {
         // Try to find the question in allQuestions to get any existing answers
         const existingQuestion = allQuestions.find(
-          (aq) => aq.question_id === q.question_id
+          (aq) => aq.question_id === q.question_id,
         );
 
         if (
@@ -719,7 +544,7 @@ export default function ReadingTestClient() {
 
       setQuestions(updatedQuestionsWithAnswers);
     }
-  }, [selectedPassage, passage1, passage2, passage3, answers, allQuestions]);
+  }, [selectedPassage, passagesData, answers, allQuestions, passages]);
 
   const handlePassageSelect = (passageId: number) => {
     setSelectedPassage(passageId);
@@ -728,7 +553,7 @@ export default function ReadingTestClient() {
 
   const handleQuestionSelect = (questionNum: number) => {
     const passage = passages.find(
-      (p) => questionNum >= p.startQuestion && questionNum <= p.endQuestion
+      (p) => questionNum >= p.startQuestion && questionNum <= p.endQuestion,
     );
     if (passage) {
       setSelectedPassage(passage.id);
@@ -757,27 +582,20 @@ export default function ReadingTestClient() {
         if (questionType === "MH") {
           // For MH, we need to find the question by paragraph_id
           const relatedQuestion = allQuestions.find(
-            (aq) => aq.q_type === "MH" && aq.paragraph_id === q.paragraph_id
+            (aq) => aq.q_type === "MH" && aq.paragraph_id === q.paragraph_id,
           );
 
           if (relatedQuestion) {
-            const questionData =
-              passage1?.question.find(
-                (pq) => pq._id === relatedQuestion.question_id
-              ) ||
-              passage2?.question.find(
-                (pq) => pq._id === relatedQuestion.question_id
-              ) ||
-              passage3?.question.find(
-                (pq) => pq._id === relatedQuestion.question_id
-              );
+            const questionData = passagesData
+              .flatMap((p) => p.question)
+              .find((pq) => pq._id === relatedQuestion.question_id);
 
             if (questionData) {
               const partAnswer = answers.parts.find(
-                (part) => part.part_id === questionData.part_id
+                (part) => part.part_id === questionData.part_id,
               );
               const userAnswer = partAnswer?.user_answers.find(
-                (ua) => ua.question_id === relatedQuestion.question_id
+                (ua) => ua.question_id === relatedQuestion.question_id,
               );
 
               if (
@@ -795,27 +613,20 @@ export default function ReadingTestClient() {
         } else if (questionType === "MF" || questionType === "TFNG") {
           // For MF and TFNG, find the question in allQuestions
           const relatedQuestion = allQuestions.find(
-            (aq) => aq.q_type === questionType && aq.id === q.id
+            (aq) => aq.q_type === questionType && aq.id === q.id,
           );
 
           if (relatedQuestion) {
-            const questionData =
-              passage1?.question.find(
-                (pq) => pq._id === relatedQuestion.question_id
-              ) ||
-              passage2?.question.find(
-                (pq) => pq._id === relatedQuestion.question_id
-              ) ||
-              passage3?.question.find(
-                (pq) => pq._id === relatedQuestion.question_id
-              );
+            const questionData = passagesData
+              .flatMap((p) => p.question)
+              .find((pq) => pq._id === relatedQuestion.question_id);
 
             if (questionData) {
               const partAnswer = answers.parts.find(
-                (part) => part.part_id === questionData.part_id
+                (part) => part.part_id === questionData.part_id,
               );
               const userAnswer = partAnswer?.user_answers.find(
-                (ua) => ua.question_id === relatedQuestion.question_id
+                (ua) => ua.question_id === relatedQuestion.question_id,
               );
 
               if (
@@ -830,17 +641,16 @@ export default function ReadingTestClient() {
           }
         } else {
           // For other question types (MP, FB), use the original approach
-          const questionData =
-            passage1?.question.find((pq) => pq._id === q.question_id) ||
-            passage2?.question.find((pq) => pq._id === q.question_id) ||
-            passage3?.question.find((pq) => pq._id === q.question_id);
+          const questionData = passagesData
+            .flatMap((p) => p.question)
+            .find((pq) => pq._id === q.question_id);
 
           if (questionData) {
             const partAnswer = answers.parts.find(
-              (part) => part.part_id === questionData.part_id
+              (part) => part.part_id === questionData.part_id,
             );
             const userAnswer = partAnswer?.user_answers.find(
-              (ua) => ua.question_id === q.question_id
+              (ua) => ua.question_id === q.question_id,
             );
 
             if (
@@ -873,7 +683,7 @@ export default function ReadingTestClient() {
     {
       length: currentPassage.endQuestion - currentPassage.startQuestion + 1,
     },
-    (_, i) => currentPassage.startQuestion + i
+    (_, i) => currentPassage.startQuestion + i,
   );
 
   const getAnsweredStatus = (questionNum: number) => {
@@ -881,20 +691,19 @@ export default function ReadingTestClient() {
     const question = allQuestions.find((q) => q.id === questionNum);
     if (!question) return false;
 
-    const questionData =
-      passage1?.question.find((q) => q._id === question.question_id) ||
-      passage2?.question.find((q) => q._id === question.question_id) ||
-      passage3?.question.find((q) => q._id === question.question_id);
+    const questionData = passagesData
+      .flatMap((p) => p.question)
+      .find((q) => q._id === question.question_id);
 
     if (!questionData) return false;
 
     const partAnswer = answers.parts.find(
-      (part) => part.part_id === questionData.part_id
+      (part) => part.part_id === questionData.part_id,
     );
     if (!partAnswer) return false;
 
     const userAnswer = partAnswer.user_answers.find(
-      (ua) => ua.question_id === question.question_id
+      (ua) => ua.question_id === question.question_id,
     );
     if (!userAnswer) return false;
 
@@ -922,7 +731,7 @@ export default function ReadingTestClient() {
       const updatedParts = prev.parts.map((part) => {
         if (part.part_id === partId) {
           const allAnswered = part.user_answers.every(
-            (ua) => ua.answer.length > 0 && ua.answer[0] !== ""
+            (ua) => ua.answer.length > 0 && ua.answer[0] !== "",
           );
           return { ...part, isComplete: allAnswered };
         }
@@ -939,10 +748,9 @@ export default function ReadingTestClient() {
       return;
     }
 
-    const questionData =
-      passage1?.question.find((q) => q._id === question.question_id) ||
-      passage2?.question.find((q) => q._id === question.question_id) ||
-      passage3?.question.find((q) => q._id === question.question_id);
+    const questionData = passagesData
+      .flatMap((p) => p.question)
+      .find((q) => q._id === question.question_id);
 
     if (!questionData) {
       console.error("Question data not found for ID:", question.question_id);
@@ -956,7 +764,7 @@ export default function ReadingTestClient() {
           let updatedUserAnswers = part.user_answers;
           if (
             !updatedUserAnswers.some(
-              (ua) => ua.question_id === question.question_id
+              (ua) => ua.question_id === question.question_id,
             )
           ) {
             updatedUserAnswers = [
@@ -1007,13 +815,13 @@ export default function ReadingTestClient() {
                     : [...q.selectedOptions, option]
                   : [option]
                 : question.q_type === "MH" ||
-                  question.q_type === "MF" ||
-                  question.q_type === "TFNG"
-                ? option
-                : option,
+                    question.q_type === "MF" ||
+                    question.q_type === "TFNG"
+                  ? option
+                  : option,
             }
-          : q
-      )
+          : q,
+      ),
     );
 
     // Update allQuestions to reflect the selected option across all passages
@@ -1029,13 +837,13 @@ export default function ReadingTestClient() {
                     : [...q.selectedOptions, option]
                   : [option]
                 : question.q_type === "MH" ||
-                  question.q_type === "MF" ||
-                  question.q_type === "TFNG"
-                ? option
-                : option,
+                    question.q_type === "MF" ||
+                    question.q_type === "TFNG"
+                  ? option
+                  : option,
             }
-          : q
-      )
+          : q,
+      ),
     );
 
     updatePartCompletion(questionData.part_id);
@@ -1045,10 +853,9 @@ export default function ReadingTestClient() {
     const question = questions.find((q) => q.id === questionId);
     if (!question) return;
 
-    const questionData =
-      passage1?.question.find((q) => q._id === question.question_id) ||
-      passage2?.question.find((q) => q._id === question.question_id) ||
-      passage3?.question.find((q) => q._id === question.question_id);
+    const questionData = passagesData
+      .flatMap((p) => p.question)
+      .find((q) => q._id === question.question_id);
 
     if (!questionData) return;
 
@@ -1057,7 +864,7 @@ export default function ReadingTestClient() {
         if (part.part_id === questionData.part_id) {
           // Check if the question already exists in user_answers
           const questionExists = part.user_answers.some(
-            (ua) => ua.question_id === question.question_id
+            (ua) => ua.question_id === question.question_id,
           );
 
           let updatedUserAnswers = part.user_answers;
@@ -1074,7 +881,7 @@ export default function ReadingTestClient() {
           updatedUserAnswers = updatedUserAnswers.map((ua) =>
             ua.question_id === question.question_id
               ? { ...ua, answer: [answer] }
-              : ua
+              : ua,
           );
 
           return { ...part, user_answers: updatedUserAnswers };
@@ -1087,8 +894,8 @@ export default function ReadingTestClient() {
     // Update questions state to reflect the fill-in answer
     setQuestions((prevQuestions) =>
       prevQuestions.map((q) =>
-        q.id === questionId ? { ...q, selectedOptions: answer } : q
-      )
+        q.id === questionId ? { ...q, selectedOptions: answer } : q,
+      ),
     );
 
     // Update allQuestions to reflect the fill-in answer
@@ -1096,8 +903,8 @@ export default function ReadingTestClient() {
       prevAllQuestions.map((q) =>
         q.id === questionId || q.question_id === question.question_id
           ? { ...q, selectedOptions: answer }
-          : q
-      )
+          : q,
+      ),
     );
 
     updatePartCompletion(questionData.part_id);
@@ -1418,7 +1225,7 @@ export default function ReadingTestClient() {
                 Bạn đã trả lời{" "}
                 {passages.reduce(
                   (acc, passage) => acc + passage.answeredQuestions,
-                  0
+                  0,
                 )}{" "}
                 / {allQuestions.length} câu hỏi trong đoạn văn này. Vui lòng đảm
                 bảo bạn đã trả lời tất cả các câu hỏi trước khi nộp bài.
@@ -1458,9 +1265,7 @@ export default function ReadingTestClient() {
           <div className="relative hidden lg:flex flex-row items-center mr-5">
             <div
               className={`w-36 flex justify-center items-center ${
-                passages.length === 1 ||
-                (passages.length === 2 && selectedPassage === 2) ||
-                selectedPassage === 3
+                selectedPassage === passages.length
                   ? "border border-[#FA812F]"
                   : "hidden"
               } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
@@ -1469,7 +1274,7 @@ export default function ReadingTestClient() {
                   isLogin &&
                   passages.reduce(
                     (acc, passage) => acc + passage.answeredQuestions,
-                    0
+                    0,
                   ) === allQuestions.length
                 ) {
                   setShowConfirmSubmitDialog(true);
@@ -1477,7 +1282,7 @@ export default function ReadingTestClient() {
                   !isLogin &&
                   passages.reduce(
                     (acc, passage) => acc + passage.answeredQuestions,
-                    0
+                    0,
                   ) === allQuestions.length
                 ) {
                   setShowGetInfoDialog(true);
@@ -1488,11 +1293,7 @@ export default function ReadingTestClient() {
             >
               <div
                 className={`font-medium text-md justify-center items-center text-[16px] ${
-                  passages.length === 1 ||
-                  (passages.length === 2 && selectedPassage === 2) ||
-                  selectedPassage === 3
-                    ? "flex"
-                    : "hidden"
+                  selectedPassage === passages.length ? "flex" : "hidden"
                 }`}
               >
                 Nộp bài
@@ -1501,7 +1302,7 @@ export default function ReadingTestClient() {
             <div>
               {(() => {
                 const passage = passages.find(
-                  (passage) => selectedPassage === passage.id
+                  (passage) => selectedPassage === passage.id,
                 );
                 return (
                   passage && (
@@ -1523,7 +1324,7 @@ export default function ReadingTestClient() {
                         choosenPassage={selectedPassage === passage.id}
                         onClick={() => {
                           setIsPassageProgressBarOpen(
-                            !isPassageProgressBarOpen
+                            !isPassageProgressBarOpen,
                           );
                         }}
                       />
@@ -1560,7 +1361,7 @@ export default function ReadingTestClient() {
                   className={`${
                     passages.reduce(
                       (acc, passage) => acc + passage.answeredQuestions,
-                      0
+                      0,
                     ) === allQuestions.length
                       ? "text-[#FA812F]"
                       : ""
@@ -1568,7 +1369,7 @@ export default function ReadingTestClient() {
                 >
                   {passages.reduce(
                     (acc, passage) => acc + passage.answeredQuestions,
-                    0
+                    0,
                   )}
                 </span>
                 <span className="text-[#FA812F]">/{allQuestions.length}</span>
@@ -1618,49 +1419,25 @@ export default function ReadingTestClient() {
       <div className="fixed top-[0px] bottom-[0px] left-0 right-0 grid grid-cols-1 lg:grid-cols-12 w-full overflow-y-auto pb-16 lg:pb-0 pt-14">
         {/* Reading passage */}
         <div
-          className={`lg:col-span-7 p-4 pt-8 overflow-y-auto scroll-bar-style border-r border-gray-200 bg-white ${
+          className={`lg:col-span-7 p-4 pt-8 border-r border-gray-200 bg-white ${
             switchReading ? "" : "hidden lg:block"
           }`}
         >
-          {selectedPassage === 1 && (
-            <div className="">
+          {passagesData.map((passage, index) => (
+            <div
+              key={passage._id}
+              className={selectedPassage === index + 1 ? "block" : "hidden"}
+            >
               <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
-                Reading Part 1
+                Reading Part {index + 1}
               </h1>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: (passage1?.content || "").replace(/\\/g, ""),
+                  __html: (passage?.content || "").replace(/\\/g, ""),
                 }}
               />
-              {/* <p className="mb-4 text-base lg:text-lg">{passage1?.content}</p> */}
             </div>
-          )}
-          {selectedPassage === 2 && (
-            <div>
-              <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
-                Reading Part 2
-              </h1>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: (passage2?.content || "").replace(/\\/g, ""),
-                }}
-              />
-              {/* <p className="mb-4 text-base lg:text-lg">{passage2?.content}</p> */}
-            </div>
-          )}
-          {selectedPassage === 3 && (
-            <div>
-              <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
-                Reading Part 3
-              </h1>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: (passage3?.content || "").replace(/\\/g, ""),
-                }}
-              />
-              {/* <p className="mb-4 text-base lg:text-lg">{passage3?.content}</p> */}
-            </div>
-          )}
+          ))}
         </div>
 
         {/* Questions */}
@@ -1745,7 +1522,7 @@ export default function ReadingTestClient() {
                               ))}
                           </div>
                         </div>
-                      </div>
+                      </div>,
                     );
                   }
                 } else if (question.q_type === "FB") {
@@ -1778,7 +1555,7 @@ export default function ReadingTestClient() {
                           }))}
                           onAnswerChange={handleFillInAnswer}
                         />
-                      </div>
+                      </div>,
                     );
                   }
                 } else if (question.q_type === "MH") {
@@ -1817,7 +1594,7 @@ export default function ReadingTestClient() {
                             const questionObj = questions.find(
                               (q) =>
                                 q.q_type === "MH" &&
-                                q.paragraph_id === paragraphId
+                                q.paragraph_id === paragraphId,
                             );
                             if (questionObj) {
                               handleSelectOption(questionObj.id, option);
@@ -1830,7 +1607,7 @@ export default function ReadingTestClient() {
                           startQuestion={startingMhQuestionId}
                           endQuestion={endingMhQuestionId}
                         />
-                      </div>
+                      </div>,
                     );
                   }
                 } else if (question.q_type === "MF") {
@@ -1866,7 +1643,7 @@ export default function ReadingTestClient() {
                           handleSelectOption={(statementId, option) => {
                             // Find the corresponding question by ID
                             const questionObj = questions.find(
-                              (q) => q.q_type === "MF" && q.id === statementId
+                              (q) => q.q_type === "MF" && q.id === statementId,
                             );
                             if (questionObj) {
                               handleSelectOption(questionObj.id, option);
@@ -1875,7 +1652,7 @@ export default function ReadingTestClient() {
                           startQuestion={startingMfQuestionId}
                           endQuestion={endingMfQuestionId}
                         />
-                      </div>
+                      </div>,
                     );
                   }
                 } else if (question.q_type === "TFNG") {
@@ -1910,7 +1687,8 @@ export default function ReadingTestClient() {
                           handleSelectOption={(statementId, option) => {
                             // Find the corresponding question by ID
                             const questionObj = questions.find(
-                              (q) => q.q_type === "TFNG" && q.id === statementId
+                              (q) =>
+                                q.q_type === "TFNG" && q.id === statementId,
                             );
                             if (questionObj) {
                               handleSelectOption(questionObj.id, option);
@@ -1920,7 +1698,7 @@ export default function ReadingTestClient() {
                           endQuestion={endingTfngQuestionId}
                           passageNumber={selectedPassage}
                         />
-                      </div>
+                      </div>,
                     );
                   }
                 }
@@ -2015,7 +1793,7 @@ export default function ReadingTestClient() {
                             ))}
                         </div>
                       </div>
-                    </div>
+                    </div>,
                   );
                 }
               } else if (question.q_type === "FB") {
@@ -2048,7 +1826,7 @@ export default function ReadingTestClient() {
                         }))}
                         onAnswerChange={handleFillInAnswer}
                       />
-                    </div>
+                    </div>,
                   );
                 }
               } else if (question.q_type === "MH") {
@@ -2087,7 +1865,7 @@ export default function ReadingTestClient() {
                           const questionObj = questions.find(
                             (q) =>
                               q.q_type === "MH" &&
-                              q.paragraph_id === paragraphId
+                              q.paragraph_id === paragraphId,
                           );
                           if (questionObj) {
                             handleSelectOption(questionObj.id, option);
@@ -2100,7 +1878,7 @@ export default function ReadingTestClient() {
                         startQuestion={startingMhQuestionId}
                         endQuestion={endingMhQuestionId}
                       />
-                    </div>
+                    </div>,
                   );
                 }
               } else if (question.q_type === "MF") {
@@ -2136,7 +1914,7 @@ export default function ReadingTestClient() {
                         handleSelectOption={(statementId, option) => {
                           // Find the corresponding question by ID
                           const questionObj = questions.find(
-                            (q) => q.q_type === "MF" && q.id === statementId
+                            (q) => q.q_type === "MF" && q.id === statementId,
                           );
                           if (questionObj) {
                             handleSelectOption(questionObj.id, option);
@@ -2145,7 +1923,7 @@ export default function ReadingTestClient() {
                         startQuestion={startingMfQuestionId}
                         endQuestion={endingMfQuestionId}
                       />
-                    </div>
+                    </div>,
                   );
                 }
               } else if (question.q_type === "TFNG") {
@@ -2178,7 +1956,7 @@ export default function ReadingTestClient() {
                         handleSelectOption={(statementId, option) => {
                           // Find the corresponding question by ID
                           const questionObj = questions.find(
-                            (q) => q.q_type === "TFNG" && q.id === statementId
+                            (q) => q.q_type === "TFNG" && q.id === statementId,
                           );
                           if (questionObj) {
                             handleSelectOption(questionObj.id, option);
@@ -2188,7 +1966,7 @@ export default function ReadingTestClient() {
                         endQuestion={endingTfngQuestionId}
                         passageNumber={selectedPassage}
                       />
-                    </div>
+                    </div>,
                   );
                 }
               }
@@ -2383,7 +2161,7 @@ export default function ReadingTestClient() {
                     isLogin &&
                     passages.reduce(
                       (acc, passage) => acc + passage.answeredQuestions,
-                      0
+                      0,
                     ) === allQuestions.length
                   ) {
                     setShowConfirmSubmitDialog(true);
@@ -2391,7 +2169,7 @@ export default function ReadingTestClient() {
                     !isLogin &&
                     passages.reduce(
                       (acc, passage) => acc + passage.answeredQuestions,
-                      0
+                      0,
                     ) === allQuestions.length
                   ) {
                     setShowGetInfoDialog(true);

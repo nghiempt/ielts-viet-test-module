@@ -135,9 +135,7 @@ interface ResultData {
 export default function AnswerKeyReadingPage() {
   const pathname = usePathname();
   const [data, setData] = useState<ReadingDetail | null>(null);
-  const [passage1, setPassage1] = useState<PassageSection | null>(null);
-  const [passage2, setPassage2] = useState<PassageSection | null>(null);
-  const [passage3, setPassage3] = useState<PassageSection | null>(null);
+  const [passagesData, setPassagesData] = useState<PassageSection[]>([]);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [allQuestions, setAllQuestions] = useState<Question[]>([]);
   const [selectedPassage, setSelectedPassage] = useState(1);
@@ -154,45 +152,39 @@ export default function AnswerKeyReadingPage() {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const calculatePassages = useMemo(() => {
-    return (): PassageInfo[] => {
-      const passagesInfo: PassageInfo[] = [];
-      const passageData = [passage1, passage2, passage3].filter(
-        (p): p is PassageSection => p !== null,
-      );
+  const passages = useMemo((): PassageInfo[] => {
+    const passagesInfo: PassageInfo[] = [];
+    const passageData = passagesData;
 
-      let questionCounter = 1;
+    let questionCounter = 1;
 
-      passageData.forEach((passage: PassageSection, index) => {
-        const questionCount = passage.question.length;
-        const partId = passage._id;
+    passageData.forEach((passage: PassageSection, index) => {
+      const questionCount = passage.question.length;
+      const partId = passage._id;
 
-        const answeredQuestions = answers.parts
-          .filter((part) => part.part_id === partId)
-          .reduce((count, part) => {
-            return (
-              count +
-              part.user_answers.filter(
-                (ua) => ua.answer.length > 0 && ua.answer[0] !== "",
-              ).length
-            );
-          }, 0);
+      const answeredQuestions = answers.parts
+        .filter((part) => part.part_id === partId)
+        .reduce((count, part) => {
+          return (
+            count +
+            part.user_answers.filter(
+              (ua) => ua.answer.length > 0 && ua.answer[0] !== "",
+            ).length
+          );
+        }, 0);
 
-        passagesInfo.push({
-          id: index + 1,
-          startQuestion: questionCounter,
-          endQuestion: questionCounter + questionCount - 1,
-          answeredQuestions,
-        });
-
-        questionCounter += questionCount;
+      passagesInfo.push({
+        id: index + 1,
+        startQuestion: questionCounter,
+        endQuestion: questionCounter + questionCount - 1,
+        answeredQuestions,
       });
 
-      return passagesInfo;
-    };
-  }, [passage1, passage2, passage3, answers]);
+      questionCounter += questionCount;
+    });
 
-  const passages = calculatePassages();
+    return passagesInfo;
+  }, [passagesData, answers]);
 
   const mapAndArrangeQuestions = (passage: PassageSection, startId: number) => {
     // Extract options for MH and MF questions
@@ -204,8 +196,8 @@ export default function AnswerKeyReadingPage() {
     const mfQuestion = passage.question.find((q) => q.q_type === "MF");
     const mfOptions = mfQuestion?.options || [];
 
-    console.log("MH Options:", mhOptions);
-    console.log("MF Options:", mfOptions);
+    // console.log("MH Options:", mhOptions);
+    // console.log("MF Options:", mfOptions);
 
     const mappedQuestions = passage.question.map((q, index) => {
       const partAnswer = answers.parts.find(
@@ -292,55 +284,40 @@ export default function AnswerKeyReadingPage() {
           QuestionsService.getQuestionsById(partId),
         ),
       );
-      const [resP1, resP2, resP3] = questionResults;
 
-      if (res && resP1 && !resP2 && !resP3) {
-        setPassage1(resP1);
+      const validPassages = questionResults.filter(
+        (p): p is PassageSection => !!p,
+      );
+
+      if (res && validPassages.length > 0) {
+        setPassagesData(validPassages);
         setData(res);
-        setIsSinglePartMode(true);
-        const allQs = mapAndArrangeQuestions(resP1, 1);
-        setQuestions(allQs);
-        setAllQuestions(allQs);
-      } else if (res && resP1 && resP2 && !resP3) {
-        setPassage1(resP1);
-        setPassage2(resP2);
-        setData(res);
-        setIsSinglePartMode(true);
-        const passageQuestionCounts = [resP1, resP2].map(
-          (p) => p.question.length,
-        );
-        const allQs = [resP1, resP2].flatMap((p, idx) =>
-          mapAndArrangeQuestions(
-            p,
-            1 +
-              (idx === 0
-                ? 0
-                : passageQuestionCounts
-                    .slice(0, idx)
-                    .reduce((a, b) => a + b, 0)),
-          ),
-        );
-        setQuestions(allQs);
-        setAllQuestions(allQs);
-      } else if (res && resP1 && resP2 && resP3) {
-        setPassage1(resP1);
-        setPassage2(resP2);
-        setPassage3(resP3);
-        setData(res);
-        setIsSinglePartMode(false);
-        const passage1Questions = mapAndArrangeQuestions(resP1, 1);
-        setQuestions(passage1Questions);
-        setAllQuestions([
-          ...passage1Questions,
-          ...mapAndArrangeQuestions(resP2, passage1Questions.length + 1),
-          ...mapAndArrangeQuestions(
-            resP3,
-            passage1Questions.length +
-              mapAndArrangeQuestions(resP2, passage1Questions.length + 1)
-                .length +
-              1,
-          ),
-        ]);
+
+        // Calculate all questions across all passages
+        let currentQuestionStartId = 1;
+        const allQs = validPassages.flatMap((passage) => {
+          const mapped = mapAndArrangeQuestions(
+            passage,
+            currentQuestionStartId,
+          );
+          currentQuestionStartId += mapped.length;
+          return mapped;
+        });
+
+        const passagesWithQuestions = validPassages.filter(
+          (p) => p.question.length > 0,
+        ).length;
+
+        if (passagesWithQuestions <= 2) {
+          setIsSinglePartMode(true);
+          setQuestions(allQs);
+          setAllQuestions(allQs);
+        } else {
+          setIsSinglePartMode(false);
+          setAllQuestions(allQs);
+          const firstPassageQs = mapAndArrangeQuestions(validPassages[0], 1);
+          setQuestions(firstPassageQs);
+        }
       } else {
         setError("Failed to load reading test data.");
       }
@@ -364,46 +341,31 @@ export default function AnswerKeyReadingPage() {
       }),
       {} as { [key: number]: number },
     );
-    const passageData = { 1: passage1, 2: passage2, 3: passage3 };
-    const selectedPassageData = passageData[selectedPassage as 1 | 2 | 3];
+    const selectedPassageData = passagesData[selectedPassage - 1];
     if (selectedPassageData) {
       const updatedQuestions = mapAndArrangeQuestions(
         selectedPassageData,
-        startIds[selectedPassage],
+        startIds[selectedPassage] || 1,
       );
       setQuestions(updatedQuestions);
     }
-  }, [
-    selectedPassage,
-    passages,
-    passage1,
-    passage2,
-    passage3,
-    response,
-    isSinglePartMode,
-  ]);
+  }, [selectedPassage, passages, passagesData, response, isSinglePartMode]);
 
   useEffect(() => {
     if (!isSinglePartMode) return;
     // Re-map allQuestions when response or passages change
-    if (passage1 && !passage2 && !passage3) {
-      setAllQuestions(mapAndArrangeQuestions(passage1, 1));
-    } else if (passage1 && passage2 && !passage3) {
-      const passageQuestionCounts = [passage1, passage2].map(
-        (p) => p.question.length,
-      );
-      const allQs = [passage1, passage2].flatMap((p, idx) =>
-        mapAndArrangeQuestions(
-          p,
-          1 +
-            (idx === 0
-              ? 0
-              : passageQuestionCounts.slice(0, idx).reduce((a, b) => a + b, 0)),
-        ),
-      );
+    if (passagesData.length > 0) {
+      // Logic for single part mode (small number of passages)
+      // Just re-calculate all questions
+      let currentQuestionStartId = 1;
+      const allQs = passagesData.flatMap((passage) => {
+        const mapped = mapAndArrangeQuestions(passage, currentQuestionStartId);
+        currentQuestionStartId += mapped.length;
+        return mapped;
+      });
       setAllQuestions(allQs);
     }
-  }, [isSinglePartMode, passage1, passage2, passage3, response]);
+  }, [isSinglePartMode, passagesData, response]);
 
   const handlePassageSelect = (passageId: number) => {
     setSelectedPassage(passageId);
@@ -561,42 +523,21 @@ export default function AnswerKeyReadingPage() {
             switchReading ? "" : "hidden lg:block"
           }`}
         >
-          {selectedPassage === 1 && (
-            <div className="">
+          {passagesData.map((passage, index) => (
+            <div
+              key={passage._id}
+              className={selectedPassage === index + 1 ? "block" : "hidden"}
+            >
               <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
-                Reading Part 1
+                Reading Part {index + 1}
               </h1>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: (passage1?.content || "").replace(/\\/g, ""),
+                  __html: (passage?.content || "").replace(/\\/g, ""),
                 }}
               />
             </div>
-          )}
-          {selectedPassage === 2 && (
-            <div>
-              <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
-                Reading Part 2
-              </h1>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: (passage2?.content || "").replace(/\\/g, ""),
-                }}
-              />
-            </div>
-          )}
-          {selectedPassage === 3 && (
-            <div>
-              <h1 className="w-full text-xl lg:text-2xl font-bold mb-4">
-                Reading Part 3
-              </h1>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: (passage3?.content || "").replace(/\\/g, ""),
-                }}
-              />
-            </div>
-          )}
+          ))}
         </div>
         <div
           className={`lg:col-span-5 bg-white p-4 pt-8 pb-28 overflow-y-auto scroll-bar-style ${
@@ -841,9 +782,7 @@ export default function AnswerKeyReadingPage() {
           <div className="flex justify-center items-center">
             {passages?.map((passage: PassageInfo) => {
               // Get the questions for this passage directly
-              const passageData = [passage1, passage2, passage3].filter(
-                (p): p is PassageSection => p !== null,
-              )[passage.id - 1];
+              const passageData = passagesData[passage.id - 1];
               const passageQuestions = mapAndArrangeQuestions(
                 passageData,
                 passage.startQuestion,
@@ -892,7 +831,11 @@ export default function AnswerKeyReadingPage() {
                   ? "opacity-50"
                   : ""
               }`}
-              onClick={handlePreviousPassage}
+              onClick={() => {
+                if (selectedQuestion !== passages[0]?.startQuestion) {
+                  handlePreviousPassage();
+                }
+              }}
               role="button"
               aria-label="Previous Question"
               tabIndex={0}
@@ -926,44 +869,47 @@ export default function AnswerKeyReadingPage() {
         </div>
         <div className="lg:hidden relative flex justify-center items-center py-0 pt-2 border-t border-gray-200">
           <div className="flex justify-center text-sm">
-            {passages?.map((passage: PassageInfo) => (
-              <PassageProgressBarMobile
-                key={passage?.id}
-                passageNumber={passage?.id}
-                currentQuestion={selectedQuestion ?? 0}
-                totalQuestions={
-                  passage?.endQuestion - passage?.startQuestion + 1
-                }
-                startQuestion={passage?.startQuestion}
-                endQuestion={passage?.endQuestion}
-                choosenPassage={passage?.id === selectedPassage}
-                onClick={() => handlePassageSelect(passage?.id)}
-                onQuestionClick={handleQuestionSelect}
-                questionStatuses={(() => {
-                  const passageData = [passage1, passage2, passage3].filter(
-                    (p): p is PassageSection => p !== null,
-                  )[passage?.id - 1];
-                  const passageQuestions = mapAndArrangeQuestions(
-                    passageData,
-                    passage?.startQuestion,
-                  );
-                  return passageQuestions?.map((question: Question) => {
-                    const isAnswered =
-                      (Array.isArray(question?.selectedOptions) &&
-                        question?.selectedOptions.length > 0) ||
-                      (typeof question?.selectedOptions === "string" &&
-                        question?.selectedOptions !== "");
-                    return {
-                      questionId: question?.id,
-                      isAnswered,
-                      isCorrect: isAnswered
-                        ? (question?.is_correct ?? false)
-                        : null,
-                    };
-                  });
-                })()}
-              />
-            ))}
+            {passages?.map((passage: PassageInfo) => {
+              const passageData = passagesData[passage.id - 1];
+              const passageQuestions = mapAndArrangeQuestions(
+                passageData,
+                passage.startQuestion,
+              );
+              const questionStatuses = passageQuestions.map(
+                (question: Question) => {
+                  const isAnswered =
+                    (Array.isArray(question.selectedOptions) &&
+                      question.selectedOptions.length > 0) ||
+                    (typeof question.selectedOptions === "string" &&
+                      question.selectedOptions !== "");
+
+                  return {
+                    questionId: question.id,
+                    isAnswered,
+                    isCorrect: isAnswered
+                      ? (question.is_correct ?? false)
+                      : null,
+                  };
+                },
+              );
+
+              return (
+                <PassageProgressBarMobile
+                  key={passage?.id}
+                  passageNumber={passage?.id}
+                  currentQuestion={selectedQuestion ?? 0}
+                  totalQuestions={
+                    passage?.endQuestion - passage?.startQuestion + 1
+                  }
+                  startQuestion={passage?.startQuestion}
+                  endQuestion={passage?.endQuestion}
+                  choosenPassage={selectedPassage === passage?.id}
+                  onClick={() => handlePassageSelect(passage?.id)}
+                  onQuestionClick={handleQuestionSelect}
+                  questionStatuses={questionStatuses}
+                />
+              );
+            })}
           </div>
           <div className="flex flex-col justify-center -translate-y-[2px]">
             <div className="w-full flex justify-center">
@@ -1023,9 +969,7 @@ export default function AnswerKeyReadingPage() {
                   const statuses: { [passageId: number]: QuestionStatus[] } =
                     {};
                   passages.forEach((passage: PassageInfo) => {
-                    const passageData = [passage1, passage2, passage3].filter(
-                      (p): p is PassageSection => p !== null,
-                    )[passage.id - 1];
+                    const passageData = passagesData[passage.id - 1];
                     const passageQuestions = mapAndArrangeQuestions(
                       passageData,
                       passage.startQuestion,

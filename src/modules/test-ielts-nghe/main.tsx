@@ -150,10 +150,7 @@ const ListeningTestClient: React.FC = () => {
   const isRetake = searchParams.get("isRetake") === "true";
   const [data, setData] = useState<ListenDetail | null>(null);
   const [switchReading, setSwitchReading] = useState(true);
-  const [passage1, setPassage1] = useState<PassageSection | null>(null);
-  const [passage2, setPassage2] = useState<PassageSection | null>(null);
-  const [passage3, setPassage3] = useState<PassageSection | null>(null);
-  const [passage4, setPassage4] = useState<PassageSection | null>(null);
+  const [passagesData, setPassagesData] = useState<PassageSection[]>([]);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [allQuestions, setAllQuestions] = useState<Question[]>([]);
   const [selectedPassage, setSelectedPassage] = useState(1);
@@ -208,20 +205,20 @@ const ListeningTestClient: React.FC = () => {
   // Memoize audio sources to prevent re-computation on every render
   const audioSources = useMemo(() => {
     // Collect all non-null passage audios in order
-    return [passage1, passage2, passage3, passage4]
+    return passagesData
       .filter((p): p is PassageSection => !!p && !!p.audio)
       .map((p) => p.audio as string);
-  }, [passage1, passage2, passage3, passage4]);
+  }, [passagesData]);
 
   // Update currentAudio based on currentAudioIndex
   useEffect(() => {
-    const sectionLabels = ["Section 1", "Section 2", "Section 3", "Section 4"];
-    if (currentAudioIndex >= 0 && currentAudioIndex < sectionLabels.length) {
-      setCurrentAudio(sectionLabels[currentAudioIndex]);
+    if (currentAudioIndex >= 0 && currentAudioIndex < passagesData.length) {
+      // Assuming part_num or index + 1 is the section number
+      setCurrentAudio(`Section ${currentAudioIndex + 1}`);
     } else {
       setCurrentAudio(null);
     }
-  }, [currentAudioIndex]);
+  }, [currentAudioIndex, passagesData]);
 
   // Function to get the duration of an audio file
   const getAudioDuration = (src: string): Promise<number> => {
@@ -364,11 +361,9 @@ const ListeningTestClient: React.FC = () => {
     };
   }, [currentAudioIndex, audioSources]);
 
-  const calculatePassages = (): PassageInfo[] => {
+  const passages = useMemo((): PassageInfo[] => {
     const passagesInfo: PassageInfo[] = [];
-    const passageData = [passage1, passage2, passage3, passage4].filter(
-      (p): p is PassageSection => p !== null,
-    );
+    const passageData = passagesData;
 
     let questionCounter = 1;
 
@@ -398,9 +393,7 @@ const ListeningTestClient: React.FC = () => {
     });
 
     return passagesInfo;
-  };
-
-  const passages = calculatePassages();
+  }, [passagesData, answers]);
 
   const mapAndArrangeQuestions = (passage: PassageSection, startId: number) => {
     const mappedQuestions = passage.question.map((q, index) => {
@@ -559,17 +552,15 @@ const ListeningTestClient: React.FC = () => {
 
       // questionResults will be [resP1, resP2, ...] (length matches partIds.length)
 
-      const passageArr = questionResults.filter(Boolean);
+      const passageArr = questionResults.filter(
+        (p): p is PassageSection => !!p,
+      );
       if (passageArr.length === 0) {
         setData(null);
         return;
       }
 
-      // Set passages dynamically
-      if (passageArr[0]) setPassage1(passageArr[0]);
-      if (passageArr[1]) setPassage2(passageArr[1]);
-      if (passageArr[2]) setPassage3(passageArr[2]);
-      if (passageArr[3]) setPassage4(passageArr[3]);
+      setPassagesData(passageArr);
 
       setData(res);
 
@@ -604,6 +595,47 @@ const ListeningTestClient: React.FC = () => {
         (count) => count > 0,
       ).length;
 
+      // Logic for single part mode vs multi-part mode
+      // For Listening, usually we want to show questions per section if possible, or maybe all?
+      // The original code had logic for < 4 passages.
+      // Let's adapt it: if few passages, maybe show all?
+      // Or just always use the same logic as Reading: show all if <= 2?
+      // The user wants "unlimited passages".
+      // Let's stick to: if <= 4 (or some number) show all?
+      // Actually, original code was `if (passagesWithQuestions < 4)`.
+      // Let's keep it behaving similarly but dynamic.
+      // If we have many passages, we probably want pagination.
+      // Let's say if <= 4, show all? Or maybe just rely on the existing logic structure.
+      // If `passagesWithQuestions < 4`, it was showing all.
+      // If `passagesWithQuestions >= 4`, it was showing page 1 and loading all questions into allQuestions?
+      // The else block in original code:
+      // setAllQuestions([...p1, ...p2, ...p3, ...p4]); setQuestions(p1);
+      // Wait, if `< 4`, it sets both `questions` and `allQuestions` to `allQs`.
+      // Meaning: if < 4 parts, it shows EVERYTHING in one page?
+      // If >= 4 parts, it shows PAGE 1 initially.
+      // That seems to be the logic.
+      if (passagesWithQuestions < 20) {
+        // arbitrary high number if we want to default to showing per-page, or keep < 4 logic
+        // actually, for 'unlimited', we probably want to support pagination for > X.
+        // Original code: < 4 -> SinglePartMode = true.
+        // Meaning 1, 2, 3 parts -> Single page.
+        // 4 parts -> Pagination.
+        // So if we have 5 parts, we should probably use Pagination.
+        // So `if (passagesWithQuestions < 4)` is fine, or maybe `< 2` like Reading?
+        // Reading had `<= 2`. Listening had `< 4`.
+        // Let's stick to `< 4` logic if that's what user is used to, or make it dynamic.
+        // Actually, let's just use the same logic as Reading which seemed to be "if distinct parts > X then paginate".
+        // Let's assume for large N, we want pagination.
+        // The prompt says "do the same with this file".
+        // In Reading, I used `passagesWithQuestions <= 2`.
+        // Let's check Reading again.
+        // Reading: `if (passagesWithQuestions <= 2) { setIsSinglePartMode(true); ... }`
+        // Listening: `if (passagesWithQuestions < 4) { setIsSinglePartMode(true); ... }`
+        // I will keep `< 4` here to minimize behavior change for existing 4-part tests, but make it work for > 4 too.
+        // Wait, if I have 5 parts, `< 4` is false, so it goes to else block.
+        // In else block, I need to dynamically concat all questions.
+      }
+
       if (passagesWithQuestions < 4) {
         setIsSinglePartMode(true);
         const allQs = passageArr.flatMap((p, idx) =>
@@ -623,31 +655,19 @@ const ListeningTestClient: React.FC = () => {
         setQuestions(allQs);
         setAllQuestions(allQs);
       } else {
-        // All 4 parts exist
-        const passage1Questions = mapAndArrangeQuestions(passageArr[0], 1);
-        const passage2Questions = mapAndArrangeQuestions(
-          passageArr[1],
-          passage1Questions.length + 1,
-        );
-        const passage3Questions = mapAndArrangeQuestions(
-          passageArr[2],
-          passage1Questions.length + passage2Questions.length + 1,
-        );
-        const passage4Questions = mapAndArrangeQuestions(
-          passageArr[3],
-          passage1Questions.length +
-            passage2Questions.length +
-            passage3Questions.length +
-            1,
-        );
+        // >= 4 parts exist
+        let allQs: Question[] = [];
+        let currentStartId = 1;
 
-        setAllQuestions([
-          ...passage1Questions,
-          ...passage2Questions,
-          ...passage3Questions,
-          ...passage4Questions,
-        ]);
-        setQuestions(passage1Questions);
+        passageArr.forEach((p) => {
+          const qs = mapAndArrangeQuestions(p, currentStartId);
+          allQs = [...allQs, ...qs];
+          currentStartId += qs.length;
+        });
+
+        setAllQuestions(allQs);
+        // Initial questions for passage 1
+        setQuestions(mapAndArrangeQuestions(passageArr[0], 1));
       }
 
       setIsDataLoading(false); // Add this line at the end of successful execution
@@ -671,8 +691,7 @@ const ListeningTestClient: React.FC = () => {
       {} as { [key: number]: number },
     );
 
-    const passageData = { 1: passage1, 2: passage2, 3: passage3, 4: passage4 };
-    const selectedPassageData = passageData[selectedPassage as 1 | 2 | 3 | 4];
+    const selectedPassageData = passagesData[selectedPassage - 1];
     if (selectedPassageData) {
       const updatedQuestions = mapAndArrangeQuestions(
         selectedPassageData,
@@ -680,7 +699,7 @@ const ListeningTestClient: React.FC = () => {
       );
       setQuestions(updatedQuestions);
     }
-  }, [selectedPassage, passage1, passage2, passage3, passage4, answers]);
+  }, [selectedPassage, passagesData, answers, passages]);
 
   const handlePassageSelect = (passageId: number) => {
     setSelectedPassage(passageId);
@@ -726,11 +745,9 @@ const ListeningTestClient: React.FC = () => {
     const question = allQuestions.find((q) => q.id === questionNum);
     if (!question) return false;
 
-    const questionData =
-      passage1?.question.find((q) => q._id === question.question_id) ||
-      passage2?.question.find((q) => q._id === question.question_id) ||
-      passage3?.question.find((q) => q._id === question.question_id) ||
-      passage4?.question.find((q) => q._id === question.question_id);
+    const questionData = passagesData
+      .flatMap((p) => p.question)
+      .find((q) => q._id === question.question_id);
 
     if (!questionData) return false;
 
@@ -775,11 +792,9 @@ const ListeningTestClient: React.FC = () => {
     const savedAnswers: Record<string, string> = {};
 
     questions.forEach((q) => {
-      const questionData =
-        passage1?.question.find((pq) => pq._id === q.question_id) ||
-        passage2?.question.find((pq) => pq._id === q.question_id) ||
-        passage3?.question.find((pq) => pq._id === q.question_id) ||
-        passage4?.question.find((pq) => pq._id === q.question_id);
+      const questionData = passagesData
+        .flatMap((p) => p.question)
+        .find((pq) => pq._id === q.question_id);
 
       if (questionData) {
         const partAnswer = answers.parts.find(
@@ -824,11 +839,9 @@ const ListeningTestClient: React.FC = () => {
       return;
     }
 
-    const questionData =
-      passage1?.question.find((q) => q._id === question.question_id) ||
-      passage2?.question.find((q) => q._id === question.question_id) ||
-      passage3?.question.find((q) => q._id === question.question_id) ||
-      passage4?.question.find((q) => q._id === question.question_id);
+    const questionData = passagesData
+      .flatMap((p) => p.question)
+      .find((q) => q._id === question.question_id);
 
     if (!questionData) {
       console.error("Question data not found for ID:", question.question_id);
@@ -967,11 +980,9 @@ const ListeningTestClient: React.FC = () => {
     const question = questions.find((q) => q.id === questionId);
     if (!question) return;
 
-    const questionData =
-      passage1?.question.find((q) => q._id === question.question_id) ||
-      passage2?.question.find((q) => q._id === question.question_id) ||
-      passage3?.question.find((q) => q._id === question.question_id) ||
-      passage4?.question.find((q) => q._id === question.question_id);
+    const questionData = passagesData
+      .flatMap((p) => p.question)
+      .find((q) => q._id === question.question_id);
 
     if (!questionData) return;
 
@@ -1383,14 +1394,11 @@ const ListeningTestClient: React.FC = () => {
           </div>
         );
       }
-
       return null;
     });
   };
 
-  const currentPassageData = [passage1, passage2, passage3, passage4][
-    selectedPassage - 1
-  ];
+  const currentPassageData = passagesData[selectedPassage - 1];
 
   console.log("currentPassageData", currentPassageData?.content);
 
@@ -1687,10 +1695,7 @@ const ListeningTestClient: React.FC = () => {
           <div className="relative hidden lg:flex flex-row items-center mr-5">
             <div
               className={`w-36 flex justify-center items-center ${
-                passages.length === 1 ||
-                (passages.length === 2 && selectedPassage === 2) ||
-                (passages.length === 3 && selectedPassage === 3) ||
-                selectedPassage === 4
+                selectedPassage === passages.length
                   ? "border border-[#FA812F]"
                   : "hidden"
               } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
@@ -1718,12 +1723,7 @@ const ListeningTestClient: React.FC = () => {
             >
               <div
                 className={`font-medium text-md justify-center items-center ${
-                  passages.length === 1 ||
-                  (passages.length === 2 && selectedPassage === 2) ||
-                  (passages.length === 3 && selectedPassage === 3) ||
-                  selectedPassage === 4
-                    ? "flex"
-                    : "hidden"
+                  selectedPassage === passages.length ? "flex" : "hidden"
                 }`}
               >
                 Nộp bài
@@ -1950,10 +1950,7 @@ const ListeningTestClient: React.FC = () => {
 
           <div
             className={`w-36 flex justify-center items-center ${
-              passages.length === 1 ||
-              (passages.length === 2 && selectedPassage === 2) ||
-              (passages.length === 3 && selectedPassage === 3) ||
-              selectedPassage === 4
+              selectedPassage === passages.length
                 ? "hidden"
                 : "border border-[#FA812F]"
             } rounded-lg my-2 py-2 px-4 bg-white mr-4 cursor-pointer`}
@@ -1961,10 +1958,7 @@ const ListeningTestClient: React.FC = () => {
           >
             <div
               className={`text-[#FA812F] font-medium text-md justify-center items-center ${
-                passages.length === 1 ||
-                (passages.length === 2 && selectedPassage === 2) ||
-                (passages.length === 3 && selectedPassage === 3) ||
-                selectedPassage === 4
+                selectedPassage === passages.length
                   ? "hidden"
                   : "flex"
               }`}
@@ -1975,10 +1969,7 @@ const ListeningTestClient: React.FC = () => {
 
           <div
             className={`w-36 flex justify-center items-center ${
-              passages.length === 1 ||
-              (passages.length === 2 && selectedPassage === 2) ||
-              (passages.length === 3 && selectedPassage === 3) ||
-              selectedPassage === 4
+              selectedPassage === passages.length
                 ? "border border-[#FA812F]"
                 : "hidden"
             } rounded-lg my-2 py-2 px-4 mr-4 bg-[#FA812F] text-white cursor-pointer`}
@@ -2006,10 +1997,7 @@ const ListeningTestClient: React.FC = () => {
           >
             <div
               className={`font-medium text-md justify-center items-center ${
-                passages.length === 1 ||
-                (passages.length === 2 && selectedPassage === 2) ||
-                (passages.length === 3 && selectedPassage === 3) ||
-                selectedPassage === 4
+                selectedPassage === passages.length
                   ? "flex"
                   : "hidden"
               }`}

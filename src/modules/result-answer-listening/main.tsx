@@ -134,10 +134,7 @@ const ListeningTestClient: React.FC = () => {
   const pathname = usePathname();
   const [data, setData] = useState<ReadingDetail | null>(null);
   const [switchReading, setSwitchReading] = useState(true);
-  const [passage1, setPassage1] = useState<PassageSection | null>(null);
-  const [passage2, setPassage2] = useState<PassageSection | null>(null);
-  const [passage3, setPassage3] = useState<PassageSection | null>(null);
-  const [passage4, setPassage4] = useState<PassageSection | null>(null);
+  const [passagesData, setPassagesData] = useState<PassageSection[]>([]);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [selectedPassage, setSelectedPassage] = useState(1);
   const [answers, setAnswers] = useState<AnswerState>({ parts: [] });
@@ -157,9 +154,7 @@ const ListeningTestClient: React.FC = () => {
   const calculatePassages = useMemo(() => {
     return (): PassageInfo[] => {
       const passagesInfo: PassageInfo[] = [];
-      const passageData = [passage1, passage2, passage3, passage4].filter(
-        (p): p is PassageSection => p !== null,
-      );
+      const passageData = passagesData;
 
       let questionCounter = 1;
 
@@ -190,7 +185,7 @@ const ListeningTestClient: React.FC = () => {
 
       return passagesInfo;
     };
-  }, [passage1, passage2, passage3, passage4, answers]);
+  }, [passagesData, answers]);
 
   const passages = calculatePassages();
 
@@ -281,15 +276,15 @@ const ListeningTestClient: React.FC = () => {
 
     try {
       const res = await ListeningService.getListeningById(id);
-      const [resP1, resP2, resP3, resP4] = await Promise.all([
-        QuestionsService.getQuestionsById(res.parts[0]),
-        QuestionsService.getQuestionsById(res.parts[1]),
-        QuestionsService.getQuestionsById(res.parts[2]),
-        QuestionsService.getQuestionsById(res.parts[3]),
-      ]);
+      const partPromises = res.parts.map((partId: string) =>
+        QuestionsService.getQuestionsById(partId),
+      );
+      const questionResults = await Promise.all(partPromises);
 
       // Count how many passages have questions
-      const passageArr = [resP1, resP2, resP3, resP4].filter(Boolean);
+      const passageArr = questionResults.filter(
+        (p): p is PassageSection => !!p,
+      );
       const passageQuestionCounts = passageArr.map((p) => p.question.length);
       const passagesWithQuestions = passageQuestionCounts.filter(
         (count) => count > 0,
@@ -301,10 +296,7 @@ const ListeningTestClient: React.FC = () => {
         setIsSinglePartMode(false);
       }
 
-      if (res && resP1) setPassage1(resP1);
-      if (res && resP2) setPassage2(resP2);
-      if (res && resP3) setPassage3(resP3);
-      if (res && resP4) setPassage4(resP4);
+      setPassagesData(passageArr);
       setData(res);
 
       setAnswers((prev) => {
@@ -333,8 +325,10 @@ const ListeningTestClient: React.FC = () => {
         return { parts: initialParts };
       });
 
-      const passage1Questions = mapAndArrangeQuestions(resP1, 1);
-      setQuestions(passage1Questions);
+      if (passageArr.length > 0) {
+        const passage1Questions = mapAndArrangeQuestions(passageArr[0], 1);
+        setQuestions(passage1Questions);
+      }
     } catch (error) {
       console.error("Error initializing reading test:", error);
       setError("An error occurred while loading the test.");
@@ -354,8 +348,7 @@ const ListeningTestClient: React.FC = () => {
       {} as { [key: number]: number },
     );
 
-    const passageData = { 1: passage1, 2: passage2, 3: passage3, 4: passage4 };
-    const selectedPassageData = passageData[selectedPassage as 1 | 2 | 3 | 4];
+    const selectedPassageData = passagesData[selectedPassage - 1];
     if (selectedPassageData) {
       const updatedQuestions = mapAndArrangeQuestions(
         selectedPassageData,
@@ -365,15 +358,7 @@ const ListeningTestClient: React.FC = () => {
     } else {
       setQuestions([]); // Fallback to empty array if no passage data
     }
-  }, [
-    selectedPassage,
-    passages,
-    passage1,
-    passage2,
-    passage3,
-    passage4,
-    response,
-  ]);
+  }, [selectedPassage, passages, passagesData, response]);
 
   // const handlePassageSelect = (passageId: number) => {
   //   setSelectedPassage(passageId);
@@ -709,9 +694,7 @@ const ListeningTestClient: React.FC = () => {
     });
   };
 
-  const currentPassageData = [passage1, passage2, passage3, passage4][
-    selectedPassage - 1
-  ];
+  const currentPassageData = passagesData[selectedPassage - 1];
   const hasContent =
     !!currentPassageData?.content &&
     currentPassageData?.content !== "<p><br></p>";
@@ -804,12 +787,7 @@ const ListeningTestClient: React.FC = () => {
           <div className="flex justify-center items-center">
             {passages.map((passage: PassageInfo, index: number) => {
               // Get the questions for this passage directly
-              const passageData = [
-                passage1,
-                passage2,
-                passage3,
-                passage4,
-              ].filter((p): p is PassageSection => p !== null)[passage.id - 1];
+              const passageData = passagesData[passage.id - 1];
               const passageQuestions = mapAndArrangeQuestions(
                 passageData,
                 passage.startQuestion,
@@ -908,14 +886,7 @@ const ListeningTestClient: React.FC = () => {
                 onClick={() => handlePassageSelect(passage?.id)}
                 onQuestionClick={handleQuestionSelect}
                 questionStatuses={(() => {
-                  const passageData = [
-                    passage1,
-                    passage2,
-                    passage3,
-                    passage4,
-                  ].filter((p): p is PassageSection => p !== null)[
-                    passage?.id - 1
-                  ];
+                  const passageData = passagesData[passage.id - 1];
                   const passageQuestions = mapAndArrangeQuestions(
                     passageData,
                     passage?.startQuestion,
@@ -1009,9 +980,7 @@ const ListeningTestClient: React.FC = () => {
               questionStatuses={(() => {
                 const statuses: { [passageId: number]: QuestionStatus[] } = {};
                 passages.forEach((passage: PassageInfo) => {
-                  const passageData = [passage1, passage2, passage3].filter(
-                    (p): p is PassageSection => p !== null,
-                  )[passage.id - 1];
+                  const passageData = passagesData[passage.id - 1];
                   const passageQuestions = mapAndArrangeQuestions(
                     passageData,
                     passage.startQuestion,
